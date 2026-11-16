@@ -1,0 +1,27 @@
+dist/
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+coverage/
+test-results/
+playwright-report/
+*.blend1
+*.blend2
+.game-builder/nyc-build-meta.json
+.game-builder/state/
+.game-builder/covers/
+.game-builder/artifacts/
+.game-builder/reference/
+# Local review reports and generated bundles; source QA scripts remain tracked.
+.game-builder/qa/*-result.json
+.game-builder/qa/*-profile.json
+.game-builder/qa/*-world.mjs
+# Historical package-manager files kept locally; npm is canonical.
+pnpm-lock.yaml
+pnpm-workspace.yaml

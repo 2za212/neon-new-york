@@ -1,0 +1,20 @@
+import * as T from 'three';
+import canvasMock from './canvas-mock.cjs';
+import {createNYCScene} from '../../nyc-scene.js';
+import {createArchitectureBatch,randomSource} from '../../nyc-geometry.js';
+import {createMotor} from '../../nyc-motor.js';
+import {addStreetLife} from '../../nyc-street-life.js';
+canvasMock.installCanvasMock();
+const scene=new T.Scene(),world=await createNYCScene(scene,{capabilities:{getMaxAnisotropy:()=>1}}),batch=createArchitectureBatch(scene,world.materials,64),before=world.colliders.length;
+const life=addStreetLife(scene,{...batch,materials:world.materials,colliders:world.colliders,surface:(minX,maxX,minZ,maxZ,y)=>world.walkSurfaces.push({minX,maxX,minZ,maxZ,y}),sign:()=>{},rand:randomSource(841)});
+const fresh=world.colliders.slice(before),groundBlocked=(x,y,z)=>world.colliders.some(c=>c.min.y<y+1.69&&c.max.y>y+.07&&Math.hypot(x-T.MathUtils.clamp(x,c.min.x,c.max.x),z-T.MathUtils.clamp(z,c.min.z,c.max.z))<.31-.00001);
+const points=[[0,.18,22],[0,.18,-55],[0,.18,-70],[-113,.36,8.3],[8,.36,-129.7],[-8,.36,-139.5],[-96,6.51,-28.6],[8.8,.36,20],[-20,.36,-71.8],[25,.36,-73],[23.45,.36,-134.17]];
+const pointResults=points.map(([x,y,z])=>({position:[x,y,z],blocked:groundBlocked(x,y,z)}));
+function route(name,x,z,x2,z2,y){const m=createMotor(world,new T.Vector3(x,y,z));for(let i=0;i<1200;i++){const dx=x2-m.position.x,dz=z2-m.position.z,d=Math.hypot(dx,dz);if(d<.1)return{name,passed:true,final:m.position.toArray()};m.update(1/60,{moveX:dx/d,moveZ:-dz/d},0);}return{name,passed:false,final:m.position.toArray()};}
+const routes=[route('east sidewalk by deli',8.55,15,8.55,23,.36),route('west sidewalk by maintenance',-8.55,18,-8.55,24,.36),route('west wall cafe sidewalk',-8.55,-19,-8.55,-11,.36),route('bridge central route',-104,-28.6,-88,-28.6,6.51),route('midtown main entrance',0,-53,0,-79,.18),route('main street',0,23,0,-23,.18)];
+const minDeliX=Math.min(...fresh.filter(c=>c.userData?.streetLife==='deli-cart'&&c.min.z>0).map(c=>c.min.x));
+const centralIntrusions=fresh.filter(c=>c.min.x< -94&&c.max.x> -98&&c.min.y<8.2&&c.max.y>6.6&&c.min.z< -27.2&&c.max.z> -30);
+const result=batch.finish();let nonFinite=0;for(const mesh of result.meshes)for(const n of mesh.geometry.attributes.position.array)if(!Number.isFinite(n))nonFinite++;
+life.setNight(false);const daytime=life.lights.map(l=>l.intensity);life.setNight(true);
+console.log(JSON.stringify({stats:life.stats,nonFinite,pointResults,routes,deliPhysicalSidewalkWidth:minDeliX-6.5,bridgeCentralNewColliders:centralIntrusions.length,daytimeLights:daytime,nightLights:life.lights.map(l=>l.intensity),steamVents:life.steamVents}));
+if(nonFinite||routes.some(r=>!r.passed)||pointResults.slice(0,10).some(p=>p.blocked)||centralIntrusions.length)process.exitCode=1;

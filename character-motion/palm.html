@@ -1,0 +1,16 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>空手行者 · 动作预览</title><style>*{box-sizing:border-box}body{margin:0;background:#18252d;color:#eef6f6;font:15px system-ui}canvas{display:block;width:100vw;height:100dvh}h1{position:absolute;top:4%;left:5%;font-size:22px}nav{position:absolute;bottom:5%;left:50%;transform:translateX(-50%);display:flex;gap:6px}button{border:1px solid #799397;background:#193039;color:white;padding:8px 14px;border-radius:6px;white-space:nowrap}button[aria-pressed=true]{background:#96d7cd;color:#132b30}</style>
+<script type="importmap">{"imports":{"three":"/lib/build/three.module.js","three/addons/":"/lib/examples/jsm/"}}</script><canvas></canvas><h1>空手行者</h1><nav></nav>
+<script type="module">
+import * as T from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+const renderer=new T.WebGLRenderer({canvas:document.querySelector('canvas'),antialias:true});renderer.setClearColor(0x24333b);renderer.setPixelRatio(Math.min(2,devicePixelRatio));
+const scene=new T.Scene(),camera=new T.PerspectiveCamera(33,1,.05,50),orbit=new OrbitControls(camera,renderer.domElement);
+camera.position.set(2.3,1.7,4.6);orbit.target.set(0,1,0);orbit.update();
+scene.add(new T.HemisphereLight(0xf4fff8,0xaabed1,2));const sun=new T.DirectionalLight(0xffebd4,2.6);sun.position.set(2,4,3);scene.add(sun,new T.GridHelper(12,48,0x688489,0x3a515a));
+function size(){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix()}size();onresize=size;
+const model=await new GLTFLoader().loadAsync('/explorer.glb');scene.add(model.scene);
+const mixer=new T.AnimationMixer(model.scene);const labels={Attack:'云手发掌',Walking:'缓步',Running:'轻身疾行',Jump:'轻功跃起'};
+for(const [id,label] of Object.entries(labels)){const button=document.createElement('button');button.textContent=label;document.querySelector('nav').append(button);button.onclick=()=>{mixer.stopAllAction();mixer.clipAction(T.AnimationClip.findByName(model.animations,id)).reset().play();document.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b===button));document.body.dataset.clip=id;};}
+document.querySelector('button').click();let previous=performance.now();renderer.setAnimationLoop(now=>{mixer.update(Math.min(.1,(now-previous)/1000));previous=now;renderer.render(scene,camera);});
+</script></html>
+
+

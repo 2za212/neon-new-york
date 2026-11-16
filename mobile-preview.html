@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>纽约 · 移动端横屏试玩</title>
+<style>
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#10151c}
+iframe{position:absolute;left:50%;top:50%;width:1920px;height:1080px;border:0;transform:translate(-50%,-50%) scale(var(--zoom));}
+</style>
+<iframe title="1920×1080 横屏触控试玩" src="./index.html?mobilePreview=1" allowfullscreen></iframe>
+<script>
+function fit(){document.documentElement.style.setProperty('--zoom',Math.min(innerWidth/1920,innerHeight/1080));}
+fit();addEventListener('resize',fit);
+</script>
+</html>

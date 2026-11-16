@@ -1,0 +1,20 @@
+{
+  "name": "cyberpunk-voxel-greybox",
+  "version": "0.1.0",
+  "private": true,
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node scripts/dev.cjs",
+    "start": "npm run dev",
+    "preview": "node scripts/dev.cjs --no-build",
+    "check": "npm test && npm run build",
+    "build": "node build.cjs",
+    "build:legacy": "node build-legacy.cjs",
+    "test": "node --test nyc-motor.test.mjs nyc-flight.test.mjs"
+  },
+  "dependencies": {
+    "esbuild": "^0.28.2",
+    "three": "^0.187.0",
+    "zaohua-platform-sdk": "file:./vendor/zaohua-platform-sdk"
+  }
+}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#172b37">
+  <link rel="icon" href="data:,">
+  <title>纽约 · 霓虹环城</title>
+  <link rel="stylesheet" href="nyc.css">
+  <link rel="stylesheet" href="nyc-map.css">
+  <link rel="stylesheet" href="nyc-roam.css">
+</head>
+<body>
+  <main id="viewport" aria-label="纽约赛博体素街区"></main>
+  <button id="building-action" hidden></button>
+  <div id="lift-ride" role="status" hidden></div>
+  <div id="hud">
+    <header class="district">
+      <div id="compass" aria-label="街区方向">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="circle"><circle cx="50" cy="50" r="45"/></clipPath></defs><g clip-path="url(#circle)"><rect width="100" height="100" fill="#263b43"/><path d="M0 48H100M48 0V100" stroke="#81979a" stroke-width="15"/><path d="M0 48H100M48 0V100" stroke="#b5b5a0" stroke-width="1" stroke-dasharray="2 4"/><path d="M18 9H35V33H9V16ZM64 9H88V34H64ZM11 65H34V88H11ZM65 65H92V90H65" fill="#52636a"/><path d="M65 36H92" stroke="#77a27a" stroke-width="6"/><path d="M32 9V35" stroke="#77a27a" stroke-width="5"/></g><circle cx="50" cy="50" r="45" fill="none" stroke="#e0d8bf" stroke-width="1.3"/><g id="map-player"><path d="M50 42 55 56 50 53 45 56Z" fill="#d5faf1" stroke="#183a3b" stroke-width="1"/></g></svg>
+        <span class="north">N</span>
+      </div>
+      <div><p class="eyebrow">NEW YORK · AFTER THE RAIN</p><h1>霓虹纽约</h1><p id="area">老城街区</p></div>
+    </header>
+    <div class="top-actions">
+      <button id="roam" aria-label="切换自由漫游" aria-pressed="false" title="自由漫游 · F"><svg viewBox="0 0 24 24"><path d="m12 3 8 17-8-5-8 5Zm0 12V3"/></svg></button>
+      <button id="map" aria-label="打开区域地图" title="区域地图 · M"><svg viewBox="0 0 24 24"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Zm6-2v16m6-14v16"/></svg></button>
+      <button id="photo" aria-label="切换拍照模式" title="拍照模式 · H"><svg viewBox="0 0 24 24"><path d="M4 7h4l2-3h4l2 3h4v13H4Z"/><path d="M9 10h6v6H9z"/></svg></button>
+      <button id="menu" aria-label="打开暂停菜单" title="暂停 · Esc"><svg viewBox="0 0 24 24"><path d="M6 7h12M6 12h12M6 17h12"/></svg></button>
+    </div>
+    <aside class="route"><span class="route-icon">◇</span><div><p>沿街探索</p><span id="destination">探索老城、滨水与中城</span></div><span id="progress">0 / —</span></aside>
+    <p id="roam-status" hidden>自由漫游 · F 返回角色</p>
+    <div id="toast" role="status" aria-live="polite" hidden></div>
+    <div class="bottom-hud"><div class="avatar-badge">N</div><div><strong id="mode-name">城市漫游者</strong><span>纽约 · 黄昏</span></div></div>
+    <p class="controls"><kbd>W A S D</kbd> 移动 <i></i><kbd>拖动</kbd> 环绕 <i></i><kbd>滚轮</kbd> 缩放 <i></i><kbd>Shift</kbd> 奔跑 <i></i><kbd>空格</kbd> 跳跃 <i></i><kbd>J</kbd> 发掌</p>
+    <span class="build-label">纽约 · 全城漫游</span>
+  </div>
+  <button id="exit-photo" hidden>退出拍照 <span>H</span></button>
+  <section id="pause" class="overlay" hidden aria-label="暂停菜单">
+    <div class="menu-card"><p class="eyebrow">NEON NEW YORK</p><h2>在城市里，慢一点。</h2><p class="menu-subtitle">纽约 · 雨后黄昏</p><button id="resume" class="primary">继续漫游 <span>→</span></button><button id="roam-menu">开启自由漫游</button><button id="replay-home">重看公寓序章</button><button id="reset">回到街口</button><button id="district-label" aria-pressed="true">隐藏地名</button><button id="light">切换到夜景</button><label>画面质量<select id="quality"><option value="balanced">均衡</option><option value="high">精细</option><option value="low">流畅</option></select></label><p class="menu-help">拖动观察，滚轮调整距离。F 开启自由飞行。<br>飞行时 WASD 移动，Q 下降 / E 上升，Shift 加速。<br>触屏使用摇杆、右侧观察和升降按钮。</p></div>
+  </section>
+  <div id="loading"><svg class="load-mark" aria-hidden="true" width="72" height="72" viewBox="0 0 64 64"><path fill="#32485c" d="M4 32l28-14 28 14-28 14z"/><path fill="#263544" d="M4 32l28 14v11L4 43z"/><path fill="#182734" d="M32 46l28-14v11L32 57z"/><path fill="#84babb" d="M16 21l10-5 10 5-10 5z"/><path fill="#466779" d="M16 21l10 5v13l-10-5z"/><path fill="#304959" d="M26 26l10-5v13l-10 5z"/><path fill="#edbf80" d="M31 11l9-5 10 5-10 5z"/><path fill="#98714c" d="M31 11l9 5v20l-9-5z"/><path fill="#59453b" d="M40 16l10-5v20l-10 5z"/></svg><p>纽约 · 雨后霓虹</p><span id="load-detail">正在准备街区…</span><div class="load-line"></div></div>
+  <section id="home-opening" hidden tabindex="-1" aria-label="富尔顿公寓">
+    <svg class="wake-lids" aria-hidden="true" focusable="false" viewBox="0 0 200 100" preserveAspectRatio="none">
+      <defs><filter id="wake-feather" filterUnits="userSpaceOnUse" x="-24" y="-22" width="248" height="144"><feGaussianBlur stdDeviation="2.4 2.2"/></filter></defs>
+      <g fill="#090d10" filter="url(#wake-feather)">
+        <path class="wake-upper" d="M-20 -20H220V63H-20Z"/>
+        <path class="wake-lower" d="M-20 120H220V54H-20Z"/>
+      </g>
+    </svg>
+    <div class="home-caption"></div><button class="home-action" hidden></button><div class="home-paper" hidden role="dialog" aria-modal="true" aria-labelledby="home-page-title"><article><h2 id="home-page-title"></h2><p></p><button></button></article></div>
+  </section>
+  <script type="module" src="nyc-game.js"></script>
+</body>
+</html>
+
