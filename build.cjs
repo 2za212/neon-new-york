@@ -10,6 +10,21 @@ async function main(){
   for(const file of ['index.html','mobile-preview.html','nyc.css','nyc-map.css','nyc-roam.css'])fs.copyFileSync(path.join(__dirname,file),path.join(output,file));
   fs.copyFileSync(path.join(__dirname,'character-motion','explorer-palm.glb'),path.join(output,'explorer-palm.glb'));
   fs.copyFileSync(path.join(__dirname,'blender','relay-home.glb'),path.join(output,'relay-home.glb'));
+  const clips = [
+    'idle', 'walk', 'run', 'jump', 'attack', 'punch', 'charged-punch',
+    'dodge-forward', 'dodge-left', 'dodge-right', 'dodge-back',
+    'hurt', 'death', 'skill-1', 'skill-2', 'skill-3',
+    'meditate-enter', 'meditate-rise', 'meditate-idle',
+  ];
+  for(const clip of clips){
+    const file = `${clip}.glb`;
+    const source = path.join(__dirname,'character-motion','ue-voxel',file);
+    const target = path.join(output,'ue-voxel',file);
+    if(fs.existsSync(source)){
+      fs.mkdirSync(path.dirname(target),{recursive:true});
+      fs.copyFileSync(source,target);
+    }else fs.rmSync(target,{force:true});
+  }
   fs.cpSync(path.join(__dirname,'city-surfaces'),path.join(output,'city-surfaces'),{recursive:true});
   console.log('NYC third-person map built in dist/');
 }

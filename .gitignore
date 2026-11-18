@@ -1,5 +1,7 @@
 dist/
 node_modules/
+# Licensed animation exports shared directly with project collaborators.
+character-motion/ue-voxel/
 .env
 .env.*
 !.env.example

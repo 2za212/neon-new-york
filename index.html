@@ -30,9 +30,15 @@
     </div>
     <aside class="route"><span class="route-icon">◇</span><div><p>沿街探索</p><span id="destination">探索老城、滨水与中城</span></div><span id="progress">0 / —</span></aside>
     <p id="roam-status" hidden>自由漫游 · F 返回角色</p>
+    <section id="combat-hud" class="combat-hud" aria-label="战斗演练" hidden>
+      <div><label for="player-hp">体力</label><progress id="player-hp" max="100" value="100"></progress><span id="player-hp-text">100 / 100</span></div>
+      <div><label for="dummy-hp">练习傀儡</label><progress id="dummy-hp" max="200" value="200"></progress><span id="dummy-hp-text">200 / 200</span></div>
+      <p id="combat-hint"></p>
+      <button id="combat-reset" type="button" hidden>重置演练</button>
+    </section>
     <div id="toast" role="status" aria-live="polite" hidden></div>
     <div class="bottom-hud"><div class="avatar-badge">N</div><div><strong id="mode-name">城市漫游者</strong><span>纽约 · 黄昏</span></div></div>
-    <p class="controls"><kbd>W A S D</kbd> 移动 <i></i><kbd>拖动</kbd> 环绕 <i></i><kbd>滚轮</kbd> 缩放 <i></i><kbd>Shift</kbd> 奔跑 <i></i><kbd>空格</kbd> 跳跃 <i></i><kbd>J</kbd> 发掌</p>
+    <p class="controls"><kbd>W A S D</kbd> 移动 <i></i><kbd id="orbit-label">拖动</kbd> 环绕 <i></i><kbd>滚轮</kbd> 缩放 <i></i><kbd>Shift</kbd> 奔跑 <i></i><kbd>空格</kbd> 跳跃 <i data-punch-control hidden></i><kbd data-punch-control hidden>左键</kbd> <span data-punch-control hidden>冲拳 / 再按接二段</span> <i data-combat-control hidden></i><kbd data-combat-control hidden>Ctrl + 方向</kbd> <span data-combat-control hidden>闪避</span> <i data-combat-control hidden></i><kbd data-combat-control hidden>Q E R</kbd> <span data-combat-control hidden>施法</span> <i data-attack-control></i><kbd data-attack-control>J</kbd> <span data-attack-control id="attack-label">发掌</span></p>
     <span class="build-label">纽约 · 全城漫游</span>
   </div>
   <button id="exit-photo" hidden>退出拍照 <span>H</span></button>
