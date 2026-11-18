@@ -2,7 +2,7 @@
 
 本次从 UE 5.7 的 ZaoHua 工程直接导出 GLB。角色使用 `SKM_Reference_UniformVoxel` 和它的骨架。网页按以下文件名识别动作。
 
-项目成员通过团队共享获取导出的 GLB，把它们放到本地检出的 `character-motion/ue-voxel/`。公开仓库提供动作接入代码和导出说明。待机、四向闪避、二段拳、受击、死亡与打坐使用 wemakethegame 的 [Monk AnimSet](https://www.fab.com/listings/451f071f-fe87-48ee-99db-2f8321ae717b)，奔跑使用其 [DarkSorceress Animset](https://www.fab.com/listings/04de140e-d47e-44b1-b793-71c05557fda2)。三个施法片段来自《元素特效沙盒》随附的 Mixamo 导出。素材分别适用 [Fab 许可](https://www.fab.com/eula) 和 [Adobe Mixamo 使用说明](https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html)。
+导出的 GLB 位于 `character-motion/ue-voxel/`，使用 Git LFS 跟踪。待机、四向闪避、二段拳、受击、死亡与打坐使用 wemakethegame 的 [Monk AnimSet](https://www.fab.com/listings/451f071f-fe87-48ee-99db-2f8321ae717b)，奔跑使用其 [DarkSorceress Animset](https://www.fab.com/listings/04de140e-d47e-44b1-b793-71c05557fda2)。三个施法片段来自《元素特效沙盒》随附的 Mixamo 导出。素材分别适用 [Fab 许可](https://www.fab.com/eula) 和 [Adobe Mixamo 使用说明](https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html)。
 
 | 文件 | 本次使用的 UE Animation Sequence | 触发方式 |
 | --- | --- | --- |
