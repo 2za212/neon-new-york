@@ -2,7 +2,7 @@
  * Input only: movement is camera-relative, +X right and +Z forward.
  * Read state every frame, then consume() once for look/zoom/jump edges.
  */
-export function createInputs(canvas) {
+export function createInputs(canvas, {attackLabel = '发掌', punchEnabled = false, combatEnabled = false} = {}) {
   if (!canvas || typeof canvas.addEventListener !== 'function') {
     throw new TypeError('createInputs requires the game canvas.');
   }
@@ -11,7 +11,8 @@ export function createInputs(canvas) {
   const win = doc.defaultView;
   const state = {
     moveX: 0, moveZ: 0, moveY: 0, lookX: 0, lookY: 0,
-    zoom: 0, jump: false, attack: false, sprint: false,
+    zoom: 0, jump: false, attack: false, punch: false, sprint: false,
+    dodge: null, skill: 0, meditate: false,
   };
   const keys = new Set();
   const cleanup = [];
@@ -33,6 +34,7 @@ export function createInputs(canvas) {
   const style = doc.createElement('style');
   style.textContent = `
     .nyc-touch {position:absolute;inset:0;z-index:40;pointer-events:none;
+      --combat-row-bottom:108px;
       display:none;user-select:none;-webkit-user-select:none;}
     .nyc-touch[data-visible="true"] {display:block;}
     .nyc-touch__stick {position:absolute;left:calc(env(safe-area-inset-left,0px) + 18px);
@@ -54,6 +56,17 @@ export function createInputs(canvas) {
       border-color:rgba(198,249,255,.85);}
     .nyc-touch__button--jump {width:72px;height:72px;margin-bottom:28px;}
     .nyc-touch__button--fall {margin-bottom:0;}
+    .nyc-touch__combat {position:absolute;right:calc(env(safe-area-inset-right,0px) + 20px);
+      bottom:calc(env(safe-area-inset-bottom,0px) + var(--combat-row-bottom));display:flex;gap:8px;pointer-events:none;}
+    .nyc-touch__combat[hidden] {display:none;}
+    .nyc-touch__combat .nyc-touch__button {width:46px;height:46px;font-size:11px;}
+    .nyc-touch__button--punch {position:absolute;right:calc(env(safe-area-inset-right,0px) + 20px);
+      bottom:calc(env(safe-area-inset-bottom,0px) + var(--combat-row-bottom) + 54px);}
+    @media (max-width:420px) {
+      .nyc-touch {--combat-row-bottom:144px;}
+      .nyc-touch[data-combat="true"]:not([data-flight="true"]) .nyc-touch__actions {gap:8px;}
+      .nyc-touch[data-combat="true"]:not([data-flight="true"]) .nyc-touch__actions .nyc-touch__button {width:54px;height:54px;}
+    }
     @media(max-width:370px){.nyc-touch[data-flight="true"] .nyc-touch__actions{gap:7px}.nyc-touch[data-flight="true"] .nyc-touch__button{width:46px;height:46px;font-size:11px}.nyc-touch[data-flight="true"] .nyc-touch__button--jump{width:54px;height:54px}}
     .nyc-touch__button:focus-visible {outline:2px solid #c6f9ff;outline-offset:3px;}
     @media (max-height:420px) {
@@ -67,6 +80,7 @@ export function createInputs(canvas) {
 
   const layer = doc.createElement('div');
   layer.className = 'nyc-touch';
+  layer.dataset.combat = String(combatEnabled);
   const stick = doc.createElement('div');
   stick.className = 'nyc-touch__stick';
   stick.setAttribute('role', 'group');
@@ -77,12 +91,23 @@ export function createInputs(canvas) {
   const actions = doc.createElement('div');
   actions.className = 'nyc-touch__actions';
   const sprintButton = makeButton('疾跑', '按住疾跑');
-  const palmButton = makeButton('发掌','发掌');
+  const palmButton = makeButton(attackLabel || '发掌', attackLabel || '发掌');
+  palmButton.hidden = !attackLabel;
+  const punchButton = makeButton('冲拳', '踏步右冲拳');
+  punchButton.classList.add('nyc-touch__button--punch');
+  punchButton.hidden = !punchEnabled;
   const jumpButton = makeButton('跳跃', '跳跃');
   const fallButton=makeButton('下降','按住下降');fallButton.classList.add('nyc-touch__button--fall');fallButton.hidden=true;
   jumpButton.classList.add('nyc-touch__button--jump');
   actions.append(palmButton,sprintButton,fallButton,jumpButton);
-  layer.append(stick, actions);
+  const combatButtons = doc.createElement('div');
+  combatButtons.className = 'nyc-touch__combat';
+  combatButtons.hidden = !combatEnabled;
+  const dodgeButton = makeButton('闪避', '向摇杆方向闪避');
+  const meditateButton = makeButton('打坐', '开始或结束打坐');
+  const skillButtons = ['破冰', '引雷', '落火'].map(label => makeButton(label, label));
+  combatButtons.append(dodgeButton, ...skillButtons, meditateButton);
+  layer.append(stick, actions, combatButtons, punchButton);
   (canvas.parentElement || doc.body).appendChild(layer);
   canvas.style.touchAction = 'none';
 
@@ -134,22 +159,50 @@ export function createInputs(canvas) {
     } catch { /* Pointer capture can already be lost during blur. */ }
   }
 
-  listen(palmButton,'click',()=>{if(!flightMode) state.attack=true;});
+  listen(palmButton,'click',()=>{if(attackLabel && !flightMode) state.attack=true;});
+  listen(punchButton,'click',()=>{if(punchEnabled && !flightMode) state.punch=true;});
+  const directions = new Map([
+    ['KeyW','forward'],['ArrowUp','forward'],['KeyS','back'],['ArrowDown','back'],
+    ['KeyA','left'],['ArrowLeft','left'],['KeyD','right'],['ArrowRight','right'],
+  ]);
+  const skillKeys = new Map([['KeyQ',1], ['KeyE',2], ['KeyR',3]]);
+  const controlKeys = new Set(['ControlLeft','ControlRight']);
+  function movementDirection() {
+    if (!state.moveX && !state.moveZ) return null;
+    if (Math.abs(state.moveX) > Math.abs(state.moveZ)) return state.moveX > 0 ? 'right' : 'left';
+    return state.moveZ > 0 ? 'forward' : 'back';
+  }
+  listen(dodgeButton,'click',()=>{if(combatEnabled&&!flightMode) state.dodge=movementDirection() || 'forward';});
+  listen(meditateButton,'click',()=>{if(combatEnabled&&!flightMode) state.meditate=true;});
+  skillButtons.forEach((button,i)=>listen(button,'click',()=>{if(combatEnabled&&!flightMode) state.skill=i+1;}));
   const movementKeys = new Set([
     'KeyW', 'KeyA', 'KeyS', 'KeyD',
     'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight',
-    'ShiftLeft', 'ShiftRight', 'Space','KeyJ','KeyQ','KeyE',
+    'ShiftLeft', 'ShiftRight', 'Space','KeyJ','KeyQ','KeyE','KeyR',...controlKeys,
   ]);
   listen(win, 'keydown', (event) => {
-    if(!flightMode&&(event.code==='KeyQ'||event.code==='KeyE'))return;
+    if(event.code==='KeyJ' && (!attackLabel || flightMode))return;
+    const dodgeControl=combatEnabled&&!flightMode&&controlKeys.has(event.code);
+    const dodgeDirection=combatEnabled&&!flightMode&&event.ctrlKey&&directions.get(event.code);
+    const skill=skillKeys.get(event.code);
+    if (skill && (flightMode ? event.code==='KeyR' : !combatEnabled)) return;
+    if (controlKeys.has(event.code) && !dodgeControl) return;
     if (!movementKeys.has(event.code) || event.isComposing
-      || event.ctrlKey || event.metaKey || event.altKey
+      || (event.ctrlKey && !dodgeControl && !dodgeDirection) || event.metaKey || event.altKey
       || interactive(event.target) || interactive(doc.activeElement)) return;
     event.preventDefault();
+    if (!flightMode && skill) {
+      if (!event.repeat) state.skill=skill;
+      return;
+    }
+    if (!event.repeat) {
+      if (dodgeControl) state.dodge=movementDirection();
+      else if (dodgeDirection) state.dodge=dodgeDirection;
+    }
     if (event.code === 'Space') {
       if (!event.repeat && !keys.has('Space')) state.jump = true;
     }
-    if(event.code==='KeyJ' && !event.repeat && !flightMode) state.attack=true;
+    if(event.code==='KeyJ' && !event.repeat) state.attack=true;
     keys.add(event.code);
     updateMove();
   });
@@ -167,6 +220,12 @@ export function createInputs(canvas) {
 
   listen(canvas, 'pointerdown', (event) => {
     showTouch(event);
+    if (punchEnabled && !flightMode && event.pointerType === 'mouse' && event.button === 0) {
+      event.preventDefault();
+      canvas.focus({ preventScroll: true });
+      state.punch = true;
+      return;
+    }
     if (lookPointer !== null) return;
     const bounds = canvas.getBoundingClientRect();
     if (event.pointerType === 'touch') {
@@ -336,10 +395,14 @@ export function createInputs(canvas) {
   function consume() {
     const delta = {
       lookX: state.lookX, lookY: state.lookY,
-      zoom: state.zoom, jump: state.jump, attack: state.attack,
+      zoom: state.zoom, jump: state.jump, attack: state.attack, punch: state.punch,
+      dodge: state.dodge, skill: state.skill, meditate: state.meditate,
     };
     state.lookX = state.lookY = state.zoom = 0;
-    state.attack = state.jump = false;
+    state.attack = state.punch = state.jump = false;
+    state.dodge = null;
+    state.skill = 0;
+    state.meditate = false;
     return delta;
   }
 
@@ -352,7 +415,10 @@ export function createInputs(canvas) {
     touchSprint = false;
     touchRise=touchFall=false;
     state.moveX = state.moveZ = state.moveY = state.lookX = state.lookY = state.zoom = 0;
-    state.attack = state.jump = state.sprint = false;
+    state.attack = state.punch = state.jump = state.sprint = false;
+    state.dodge = null;
+    state.skill = 0;
+    state.meditate = false;
     knob.style.transform = '';
     sprintButton.dataset.held = jumpButton.dataset.held = fallButton.dataset.held='false';
     [canvas, stick, sprintButton, jumpButton,fallButton].forEach((element, i) => release(element, previous[i]));
@@ -376,7 +442,6 @@ export function createInputs(canvas) {
     if (canvas.style.touchAction === 'none') canvas.style.touchAction = previousTouchAction;
   }
 
-  function setFlightMode(value){clear();flightMode=Boolean(value);layer.dataset.flight=String(flightMode);jumpButton.textContent=flightMode?'上升':'跳跃';jumpButton.setAttribute('aria-label',flightMode?'按住上升':'跳跃');sprintButton.textContent=flightMode?'加速':'疾跑';fallButton.hidden=!flightMode;palmButton.hidden=flightMode;}
+  function setFlightMode(value){clear();flightMode=Boolean(value);layer.dataset.flight=String(flightMode);jumpButton.textContent=flightMode?'上升':'跳跃';jumpButton.setAttribute('aria-label',flightMode?'按住上升':'跳跃');sprintButton.textContent=flightMode?'加速':'疾跑';fallButton.hidden=!flightMode;palmButton.hidden=flightMode||!attackLabel;punchButton.hidden=flightMode||!punchEnabled;combatButtons.hidden=flightMode||!combatEnabled;}
   return { state, consume, clear, dispose,setFlightMode };
 }
-

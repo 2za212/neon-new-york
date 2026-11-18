@@ -4,7 +4,7 @@ const clamp = T.MathUtils.clamp;
 
 // Feet coordinates are used throughout. Vertical ranges are checked as well as
 // XZ, so the player can walk under the elevated greenway without an air wall.
-export function createMotor(world, spawn) {
+export function createMotor(world, spawn, walkingSpeed = 3.4) {
   const position = spawn.clone();
   const velocity = new T.Vector3();
   const radius = .31, height = 1.75, stepHeight = .36;
@@ -68,17 +68,25 @@ export function createMotor(world, spawn) {
 
   function update(dt, input, yaw) {
     dt = Math.min(dt, .05);
-    const length = Math.max(1, Math.hypot(input.moveX, input.moveZ));
-    const strafe = input.moveX / length, forward = input.moveZ / length;
-    const walkSpeed = input.sprint ? 6.6 : 3.4;
-    const tx = (Math.cos(yaw) * strafe - Math.sin(yaw) * forward) * walkSpeed;
-    const tz = (-Math.sin(yaw) * strafe - Math.cos(yaw) * forward) * walkSpeed;
-    const blend = 1 - Math.exp(-dt * (grounded ? 15 : 5));
-    velocity.x = T.MathUtils.lerp(velocity.x, tx, blend);
-    velocity.z = T.MathUtils.lerp(velocity.z, tz, blend);
-    if (input.jump && grounded) { velocity.y = 6.25; grounded = false; }
-
-    horizontal(velocity.x * dt, velocity.z * dt);
+    if (input.actionMove) {
+      // Choreographed steps still use the same swept collision as walking.
+      velocity.x = velocity.z = 0;
+      heading = input.actionMove.heading;
+      if (grounded) horizontal(input.actionMove.x, input.actionMove.z);
+    } else if (grounded && input.punching) {
+      velocity.x = velocity.z = 0;
+    } else {
+      const length = Math.max(1, Math.hypot(input.moveX, input.moveZ));
+      const strafe = input.moveX / length, forward = input.moveZ / length;
+      const moveSpeed = input.sprint ? 6.6 : walkingSpeed;
+      const tx = (Math.cos(yaw) * strafe - Math.sin(yaw) * forward) * moveSpeed;
+      const tz = (-Math.sin(yaw) * strafe - Math.cos(yaw) * forward) * moveSpeed;
+      const blend = 1 - Math.exp(-dt * (grounded ? 15 : 5));
+      velocity.x = T.MathUtils.lerp(velocity.x, tx, blend);
+      velocity.z = T.MathUtils.lerp(velocity.z, tz, blend);
+      if (input.jump && grounded) { velocity.y = 6.25; grounded = false; }
+      horizontal(velocity.x * dt, velocity.z * dt);
+    }
     const oldY = position.y;
     velocity.y -= 18 * dt;
     position.y += velocity.y * dt;

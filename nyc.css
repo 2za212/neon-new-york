@@ -28,3 +28,43 @@
 body.home-walk .nyc-touch{visibility:visible}
 body.home-walk .nyc-touch__actions{display:none}
 body.home-walk .home-caption{bottom:auto;top:4%}
+
+.combat-hud {
+  position: absolute;
+  top: 222px;
+  left: max(32px, env(safe-area-inset-left));
+  width: min(248px, calc(100vw - 48px));
+  padding: 10px 13px;
+  border: 1px solid #98c3cc44;
+  border-radius: 8px;
+  background: #101f2bd9;
+  color: #eaf3f2;
+  font-size: 12px;
+  pointer-events: none;
+}
+.combat-hud > div {
+  display: grid;
+  grid-template-columns: 58px 1fr 57px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.combat-hud progress {width: 100%; height: 8px; accent-color: #6de0c1;}
+#dummy-hp {accent-color: #de8c74;}
+#combat-hint {margin: 6px 0 0; min-height: 1.35em; color: #e5d9b4;}
+#combat-reset {margin-top: 8px; padding: 5px 9px; border: 1px solid #a5b5ae66;
+  border-radius: 4px; background: #25414e; color: #f2efe3; pointer-events: auto;}
+.free-flying .combat-hud, .photo .combat-hud, .in-lift .combat-hud,
+.in-home .nyc-touch__combat, .in-home .nyc-touch__button--punch,
+.in-lift .nyc-touch__combat, .in-lift .nyc-touch__button--punch {display: none;}
+@media (max-width: 680px) {
+  .combat-hud {top: 149px; left: 20px;}
+}
+@media (max-height: 520px) {
+  .combat-hud {top: 145px; padding: 5px 9px;}
+}
+@media (min-width: 681px) and (max-width: 880px) and (pointer: fine) {
+  #hud:has(#combat-hud:not([hidden])) .controls {left: 18px; right: 18px; bottom: 8px;
+    margin: 0; justify-content: flex-end; flex-wrap: wrap;}
+  #hud:has(#combat-hud:not([hidden])) .bottom-hud {bottom: 47px;}
+}

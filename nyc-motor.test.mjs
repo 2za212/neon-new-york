@@ -48,6 +48,32 @@ test('diagonal movement does not exceed straight-line speed', () => {
   assert.ok(Math.abs(straight.position.length() - diagonal.position.length()) < 1e-7);
 });
 
+test('an avatar walk speed applies to walking while sprint uses the scene speed', () => {
+  const motor = createMotor(makeWorld(), new Vector3(), 1.35);
+  const walking = advance(motor, 90, { ...still, moveZ: 1 });
+  assert.ok(Math.abs(walking.speed - 1.35) < 1e-6);
+  assert.equal(walking.sprinting, false);
+  const sprinting = advance(motor, 90, { ...still, moveZ: 1, sprint: true });
+  assert.ok(Math.abs(sprinting.speed - 6.6) < 1e-6);
+  assert.equal(sprinting.sprinting, true);
+});
+
+test('a grounded punch holds position and heading until normal movement resumes', () => {
+  const motor = createMotor(makeWorld(), new Vector3());
+  const walking = advance(motor, 20, { ...still, moveZ: 1 });
+  const before = motor.position.clone();
+  const intent = { ...still, moveX: 1, sprint: true, jump: true, punching: true };
+  const result = advance(motor, 25, intent, Math.PI / 2);
+  assert.ok(motor.position.distanceToSquared(before) < 1e-10);
+  assert.equal(result.grounded, true);
+  assert.equal(result.sprinting, false);
+  assert.equal(result.heading, walking.heading);
+  assert.equal(result.speed, 0);
+  const resumed = advance(motor, 60, { ...still, moveX: 1, sprint: true });
+  assert.ok(resumed.speed > 6.59 && resumed.sprinting);
+  assert.ok(motor.position.x > before.x + 5);
+});
+
 test('walking and sprinting stop at a wall', () => {
   const wall = box(0, 0, -5, .15, 8, 5);
   for (const sprint of [false, true]) {
