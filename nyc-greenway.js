@@ -10,8 +10,10 @@ export function openGreenway(scene, { box, beam, materials, colliders, surface, 
   const stats = { boxes: 0, beams: 0, colliders: 0, surfaces: 0, signs: 0, stairs: 2, steps: 56, extensionLength: 90.5, triangles: 0 };
   const B = (...args) => { box(...args); stats.boxes++; };
   const L = (...args) => { beam(...args); stats.beams++; };
-  function C(x, y, z, w, h, d) {
-    colliders.push(new T.Box3(new T.Vector3(x - w / 2, y - h / 2, z - d / 2), new T.Vector3(x + w / 2, y + h / 2, z + d / 2)));
+  function C(x, y, z, w, h, d, cameraPadding) {
+    const bounds=new T.Box3(new T.Vector3(x - w / 2, y - h / 2, z - d / 2),new T.Vector3(x + w / 2, y + h / 2, z + d / 2));
+    if(cameraPadding!==undefined)bounds.userData={cameraPadding};
+    colliders.push(bounds);
     stats.colliders++;
   }
   function S(x0, x1, z0, z1, y = FLOOR) { surface(x0, x1, z0, z1, y); stats.surfaces++; }
@@ -28,6 +30,47 @@ export function openGreenway(scene, { box, beam, materials, colliders, surface, 
   }
   const inside = (x, gaps) => gaps.some(([lo, hi]) => x > lo && x < hi);
 
+  // Occupied floors open onto the railway cutting. Rolling shutters at
+  // either end, projecting slab and deeply inset working benches give these
+  // masonry backs real section at the height of the elevated public walk.
+  for(const [cx,back,face,span,nightShift] of [[18.24,-33.85,1,12.80,true],
+    [-18.24,-33.85,1,12.80,false],[17.0,-24.65,-1,8.64,false],
+    [27,-24.65,-1,8.64,true],[-17,-24.65,-1,8.64,true],[-27,-24.65,-1,8.64,false]]){
+    const depth=face>0?1.60:1.12,edge=back+face*depth,len=Math.round(span/2.56);
+    const glass='harborBeacon',steel='harborHullBlue',stone='harborPlate';
+    B(steel,cx,6.45,back+face*depth/2,span,.64,depth+.32);
+    B(stone,cx,6.88,back+face*depth/2,span+.32,.32,depth+.48);
+    B(steel,cx,9.78,back+face*depth/2,span+.32,.32,depth+.64);
+    for(let n=0;n<len;n++){
+      const w=span/len,x=cx+(n-(len-1)/2)*w,closed=(n+(nightShift?2:0))%5===0;
+      if(closed){
+        for(let k=0;k<5;k++)B(k%2?steel:'harborRust',x,7.30+k*.48,edge-.08*face,w-.16,.48,.40,0xaaa793);
+      }else{
+        const lum=nightShift?(n%3===0?0xb29c82:0xe4c099):(n%3===0?0x8daba8:0xb2cec1);
+        B(glass,x,8.31,back+face*.08,w-.08,2.40,.16,lum);
+        // Cabinets and product trays sit inside the open aperture; daylight
+        // remains between the roof, piers and the outer guard rails.
+        B(steel,x+.25,7.53,back+face*.51,w*.55,.96,.80);
+        B(stone,x+.25,8.06,back+face*.54,w*.65,.16,.96,0xa1b6ac);
+        B('harborOchre',x-.29,8.34,back+face*.48,.48,.40+.24*(n%2),.48);
+        B(steel,x-w*.39,8.40,back+face*.40,.21,2.56,.64);
+      }
+      B(steel,x-w/2,8.23,edge,.32,2.72,.48);
+      B(stone,x-w/2,9.40,edge-face*.16,.64,.48,.80,0xb4bcae);
+      B('harborRust',x,7.67,edge+face*.08,w,.16,.24);
+    }
+    for(let i=0;i<3;i++)B(i===1?stone:steel,cx,10.04+i*.32,back+face*(depth*.54+i*.08),
+      span+.32+i*.32,.32,depth+.64-i*.16,0xb4bbaf);
+    for(const side of [-1,1])B(steel,cx+side*(span/2-.16),8.26,back+face*depth/2,.32,2.56,depth+.32);
+    C(cx,6.60,back+face*depth/2,span+.32,.86,depth+.42);
+    // The gallery is private. Its glazed railing and enclosed benches also
+    // bound the shoulder camera when the player looks across the viaduct.
+    C(cx,8.30,back+face*(depth/2+.04),span+.32,2.76,depth+.50);
+    C(cx,10.14,back+face*.68,span+.64,1.01,depth+.48);
+    if(face>0)label(cx,9.54,edge+face*.26,4.48,.56,nightShift?'净水检验':'夜班调度','轨道内勤 / 凭证进入',
+      nightShift?'#dabf95':'#a5cec0',0);
+  }
+
   // The slab is solid from the original steel underside through its paver top.
   // ground(x,z,limit) chooses its surface only when a character can reach it.
   C(0, (5.73 + FLOOR) / 2, Z, 89, FLOOR - 5.73, 4.4);
@@ -35,7 +78,7 @@ export function openGreenway(scene, { box, beam, materials, colliders, surface, 
   const eastGap = [[-42.35, -39.65]];
   for (const zz of [-30.7, -26.5]) {
     const gaps = zz < Z ? eastGap : [];
-    for (const [a, b] of clippedSegments(-44.5, 44.5, gaps)) C((a + b) / 2, FLOOR + .51, zz, b - a, 1.02, .10);
+    for (const [a, b] of clippedSegments(-44.5, 44.5, gaps)) C((a + b) / 2, FLOOR + .51, zz, b - a, 1.02, .10,.06);
   }
   // Existing planter shells acquire matching solids, leaving the entry clear.
   for (const zz of [-30.7, -26.5]) for (let x = -41; x < 44; x += 8) {
@@ -83,7 +126,7 @@ export function openGreenway(scene, { box, beam, materials, colliders, surface, 
   function railX(a, b, z, gaps = [], art = true) {
     for (const [lo, hi] of clippedSegments(a, b, gaps)) {
       const x = (lo + hi) / 2;
-      C(x, FLOOR + .51, z, hi - lo, 1.02, .10);
+      C(x, FLOOR + .51, z, hi - lo, 1.02, .10,.06);
       if (art) {
         B('metal', x, FLOOR + .99, z, hi - lo, .075, .075, 0x9cae9e);
         B('metal', x, FLOOR + .36, z, hi - lo, .05, .05, 0x8fa28f);
@@ -101,7 +144,7 @@ export function openGreenway(scene, { box, beam, materials, colliders, surface, 
     }
   }
   function railZ(x, a, b) {
-    C(x, FLOOR + .51, (a + b) / 2, .10, 1.02, b - a);
+    C(x, FLOOR + .51, (a + b) / 2, .10, 1.02, b - a,.06);
     B('metal', x, FLOOR + .99, (a + b) / 2, .075, .075, b - a, 0x9cae9e);
     B('metal', x, FLOOR + .08, (a + b) / 2, .09, .11, b - a, 0x758e82);
     for (let z = a; z <= b + .01; z += .55) B('metal', x, FLOOR + .53, z, .045, 1.04, .045, 0x92a68f);
@@ -199,7 +242,7 @@ export function openGreenway(scene, { box, beam, materials, colliders, surface, 
         const xx = x + side * 1.31;
         B('metal', xx, top + .49, z, .065, .98, .065, 0x90a38e);
         B('metal', xx, top + 1.00, z, .10, .065, tread + .012, 0xb4baa0);
-        C(xx, top + .50, z, .10, 1.00, tread + .003);
+        C(xx, top + .50, z, .10, 1.00, tread + .003,.06);
       }
       treads.push({ minZ: near, maxZ: far, top, rise, depth: tread });
     }
@@ -218,7 +261,7 @@ export function openGreenway(scene, { box, beam, materials, colliders, surface, 
     for (const side of [-1, 1]) {
       const xx = x + side * 1.31;
       B('metal', xx, FLOOR + .99, endZ + landingLength / 2, .075, .075, landingLength + .10, 0xa3b19b);
-      C(xx, FLOOR + .50, endZ + landingLength / 2, .10, 1.0, landingLength + .01);
+      C(xx, FLOOR + .50, endZ + landingLength / 2, .10, 1.0, landingLength + .01,.06);
       B('metal', xx, FLOOR - .14, endZ - .12, .24, .27, .25, 0x9bae98);
     }
     // A sign post outside the stair clear width never blocks the entry.

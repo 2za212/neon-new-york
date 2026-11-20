@@ -1,4 +1,5 @@
 import * as T from 'three';
+import {finishPavement} from './nyc-pavement-finish.js';
 
 const interiors=['records','repair','deli','flowers'];
 export function shopInterior(title,variant=0){
@@ -13,9 +14,11 @@ export function shopInterior(title,variant=0){
 export async function applyCitySurfaces(materials,renderer){
   const names=['brick','concrete','asphalt','iron',...interiors];
   const loader=new T.TextureLoader();
+  for(const key of ['paver','curbStone','asphalt'])
+    finishPavement(materials[key],key==='asphalt',renderer.capabilities.getMaxAnisotropy());
   const assets=await Promise.all(names.map(async name=>{
-    if(typeof Image==='undefined')return null;
-    try{return await loader.loadAsync('./city-surfaces/'+name+'.jpg');}
+    if(typeof Image==='undefined'||name==='asphalt')return null;
+    try{return await loader.loadAsync(name==='brick'?'./city-surfaces/fulton/bonded-brick.png':'./city-surfaces/'+name+'.jpg');}
     catch(error){console.warn('City surface unavailable:',name,error);return null;}
   }));
   for(let i=0;i<names.length;i++){
@@ -36,14 +39,7 @@ export async function applyCitySurfaces(materials,renderer){
       const keys=name==='brick'?['brick','brickBrown']:name==='iron'?['metal']:[name];
       for(const key of keys){
         const mat=materials[key];mat.map=texture;
-        if(key==='asphalt'){
-          // Compress high-frequency aggregate contrast before mipmapping.
-          const tile=document.createElement('canvas');tile.width=tile.height=512;
-          const g=tile.getContext('2d');g.drawImage(texture.image,0,0,512,512);
-          g.fillStyle='rgba(68,72,76,.64)';g.fillRect(0,0,512,512);
-          texture.image=tile;texture.needsUpdate=true;mat.userData.textureMeters=1.6;
-        }
-        if(name==='brick'){mat.bumpMap=null;mat.userData.textureMeters=1.35;}
+        if(name==='brick'){mat.bumpMap=null;mat.userData.textureMeters=2.56;mat.userData.bondedBrick=true;}
         if(key==='brickBrown')mat.color.set('#ab928a');
       }
     }

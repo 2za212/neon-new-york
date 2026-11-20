@@ -1,4 +1,5 @@
 import {coatStreetVehicle} from './nyc-wet-emitters.js';
+import {installBuildingSkins} from './nyc-building-skins.js';
 import * as T from 'three';
 import {randomSource} from './nyc-geometry.js';
 
@@ -7,7 +8,8 @@ export function createNYCMaterials(renderer) {
   const random=randomSource(9213), mats={};
   const anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
   function canvas(size=512){const c=document.createElement('canvas');c.width=c.height=size;return c;}
-  function texture(c,color=true){const t=new T.CanvasTexture(c);if(color)t.colorSpace=T.SRGBColorSpace;t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=anisotropy;t.minFilter=T.LinearMipmapLinearFilter;t.magFilter=T.NearestFilter;return t;}
+  // Three enables anisotropic sampling of the world textures only with a linear magnification filter.
+  function texture(c,color=true){const t=new T.CanvasTexture(c);if(color)t.colorSpace=T.SRGBColorSpace;t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=anisotropy;t.minFilter=T.LinearMipmapLinearFilter;t.magFilter=T.LinearFilter;return t;}
   function rgba(color,f=1){const h=new T.Color(color).getHex();return `rgb(${Math.min(255,Math.round((h>>16&255)*f))},${Math.min(255,Math.round((h>>8&255)*f))},${Math.min(255,Math.round((h&255)*f))})`;}
   function material(name,opts={}){const m=new T.MeshStandardMaterial({vertexColors:true,roughness:.83,...opts});m.name=name;return m;}
   function noise(g,size,count,alpha=.1){for(let i=0;i<count;i++){const v=random()>.5?255:0;g.fillStyle=`rgba(${v},${v},${v},${alpha*random()})`;g.fillRect(Math.floor(random()*size),Math.floor(random()*size),1+Math.floor(random()*3),1+Math.floor(random()*3));}}
@@ -144,27 +146,32 @@ export function createNYCMaterials(renderer) {
   mats.freightTimber=material('NYC sawn packing boards',{map:texture(grain),roughness:.88});
   mats.freightTimber.userData.grainAlongLength=true;
   mats.freightTimber.userData.textureMeters=.85;
+  installBuildingSkins(mats,anisotropy);
   return mats;
 }
 
-export function createSignTexture(title,subtitle,color='#66e4e9',vertical=false) {
-  const c=document.createElement('canvas');c.width=vertical?256:1024;c.height=vertical?1024:256;const g=c.getContext('2d');
-  g.fillStyle='#0b1720';g.fillRect(0,0,c.width,c.height);
+export function createSignTexture(title,subtitle,color='#66e4e9',vertical=false,aspect=4) {
+  const width=vertical?256:Math.round(256*aspect),height=vertical?1024:256;
+  const scale=Math.min(1,Math.sqrt(262144/(width*height)));
+  const c=document.createElement('canvas');c.width=Math.round(width*scale);c.height=Math.round(height*scale);
+  const g=c.getContext('2d');
+  if(scale<1)g.scale?.(c.width/width,c.height/height);
+  g.fillStyle='#0b1720';g.fillRect(0,0,width,height);
   const storefront=!vertical && /DELI|COFFEE|RECORD|BOOK|FLOWER|CAFE|TAILOR|FABRIC/i.test(title);
   if(storefront){
     const record=/RECORD|BOOK/i.test(title);
-    g.fillStyle=record?'#48312d':'#164344';g.fillRect(0,0,c.width,c.height);
-    g.fillStyle=color;g.fillRect(22,32,7,c.height-64);
-    g.textAlign='left';g.textBaseline='middle';g.font=record?'bold 96px Georgia':'bold 88px sans-serif';
-    g.fillText(title,58,105,c.width-98);g.font='28px monospace';g.fillText(subtitle,60,196,c.width-108);
+    g.fillStyle=record?'#48312d':'#164344';g.fillRect(0,0,width,height);
+    g.fillStyle=color;g.fillRect(22,32,7,height-64);
+    g.textAlign='left';g.textBaseline='middle';g.font=record?'bold 112px Georgia':'bold 108px sans-serif';
+    g.fillText(title,58,105,width-98);g.font='28px monospace';g.fillText(subtitle,60,196,width-108);
     const sign=new T.CanvasTexture(c);sign.colorSpace=T.SRGBColorSpace;sign.anisotropy=4;return sign;
   }
-  g.fillStyle=color;g.fillRect(12,12,c.width-24,5);g.fillRect(12,c.height-17,c.width-24,5);
-  g.textAlign='center';g.textBaseline='middle';g.font=`700 ${vertical?95:94}px monospace`;
-  if(vertical){Array.from(title).forEach((char,i)=>g.fillText(char,c.width/2,125+i*120,220));}
-  else g.fillText(title,c.width/2,106,c.width-68);
-  g.globalAlpha=.76;g.font=`500 ${vertical?22:30}px monospace`;g.fillText(subtitle,c.width/2,c.height-55,c.width-45);
-  g.globalAlpha=.1;g.fillStyle='#fff';for(let y=0;y<c.height;y+=5)g.fillRect(0,y,c.width,1);
+  g.fillStyle=color;g.fillRect(12,12,width-24,5);g.fillRect(12,height-17,width-24,5);
+  g.textAlign='center';g.textBaseline='middle';g.font=`700 ${vertical?95:112}px monospace`;
+  if(vertical){Array.from(title).forEach((char,i)=>g.fillText(char,width/2,125+i*120,220));}
+  else g.fillText(title,width/2,106,width-68);
+  g.globalAlpha=.76;g.font=`500 ${vertical?22:30}px monospace`;g.fillText(subtitle,width/2,height-55,width-45);
+  g.globalAlpha=.1;g.fillStyle='#fff';for(let y=0;y<height;y+=5)g.fillRect(0,y,width,1);
   const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;t.anisotropy=4;t.magFilter=T.LinearFilter;
   return t;
 }

@@ -1,3 +1,4 @@
+import {voxelCrown} from './nyc-field-voxels.js';
 import * as T from 'three';
 
 /** Fine street props for the existing static architectural batch.
@@ -5,7 +6,7 @@ import * as T from 'three';
  * The subway is a closed descending well. The caller must cut its road and
  * sidewalk base at local u=+-1.16, v=+-1.72; no walk surface is added here.
  */
-export function createDetailedStreetProps({ box, beam, materials, colliders, sign, surface, rand = Math.random }) {
+export function createDetailedStreetProps({ box, panel, beam, materials, colliders, sign, surface, rand = Math.random }) {
   const stats = { trees: 0, subways: 0, treeBoxes: 0, subwayBoxes: 0, signs: 0, treeBoxCounts: [], subwayBoxCounts: [], materials: [] };
   const SIDE = 0.36;
   function register(key, options, meters = 1) {
@@ -151,31 +152,10 @@ export function createDetailedStreetProps({ box, beam, materials, colliders, sig
         rx: .53 + random() * .13, ry: .43 + random() * .12, rz: .50 + random() * .15, shade: random() });
     }
     lobes.push({ x: sway / scale, y: 3.87, z: -.08, rx: .58, ry: .57, rz: .55, shade: .7 });
-    // Join overlapping boughs on the same local grid. Each contiguous run
-    // is one solid, so large crowns do not need hundreds of detached leaves.
-    const cell=.32, rows=new Map();
-    for(const lobe of lobes){
-      const cx=Math.round(lobe.x*scale/cell),cy=Math.round(lobe.y*scale/cell),cz=Math.round(lobe.z*scale/cell);
-      const radius=Math.max(1,Math.round((lobe.rx*scale+.16)/cell));
-      for(let dy=-1;dy<=1;dy++){
-        const span=dy===0?radius:Math.max(1,radius-1);
-        for(let dz=-span;dz<=span;dz++){
-          const zIndex=cz+dz,yIndex=cy+dy,key=yIndex+','+zIndex;
-          if(!rows.has(key))rows.set(key,{yIndex,zIndex,occupied:new Set()});
-          const half=Math.max(0,span-(Math.abs(dz)===span?1:0));
-          for(let dx=-half;dx<=half;dx++)rows.get(key).occupied.add(cx+dx);
-        }
-      }
-    }
-    for(const {yIndex,zIndex,occupied} of rows.values()){
-      const xs=[...occupied].sort((a,b)=>a-b);
-      for(let i=0;i<xs.length;){
-        const first=xs[i++];let last=first;
-        while(i<xs.length&&xs[i]===last+1)last=xs[i++];
-        const color=yIndex*cell>3.85*scale?0x859970:0x5e7959;
-        B('streetV2Leaf',x+(first+last)*cell/2,base+yIndex*cell,z+zIndex*cell,(last-first+1)*cell,cell,cell,color);
-      }
-    }
+    const crown=voxelCrown({panel,box:B},'streetV2Leaf',[x,base,z],lobes.map(l=>[
+      l.x*scale,l.y*scale,l.z*scale,(l.rx+.32)*scale,(l.ry+.21)*scale,(l.rz+.28)*scale
+    ]),Math.round(x+z),[0x748b77,0x859b79,0x9cb58c,0xb2c598,0xc9d2a2]);
+    stats.treeSurfaceQuads=(stats.treeSurfaceQuads??0)+crown.quads;
     // Roots are exposed briefly above the soil and disappear under the grate.
     for (let i = 0; i < 7; i++) {
       const angle = phase + i * Math.PI * 2 / 7;
@@ -216,7 +196,7 @@ export function createDetailedStreetProps({ box, beam, materials, colliders, sig
     }
     stats.trees++;
     stats.treeBoxCounts.push(stats.treeBoxes - before);
-    return { boxes: stats.treeBoxes - before, leaves: [...rows.values()].reduce((sum,row)=>sum+row.occupied.size,0), voxelSize: cell, height: 4.5 * scale };
+    return { boxes: stats.treeBoxes - before, leaves: crown.exposed, voxelSize: .32, height: 4.5 * scale };
   }
 
   function subway(x, z, rot = 0) {

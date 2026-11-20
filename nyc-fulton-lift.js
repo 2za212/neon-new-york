@@ -1,4 +1,5 @@
 import * as T from 'three';
+import {applyBlockFinish} from './nyc-block-finish.js';
 import {fulton} from './nyc-fulton-house.js';
 
 const smooth=(t,a,b)=>T.MathUtils.smoothstep(t,a,b);
@@ -14,6 +15,10 @@ export function createFultonLift(scene,materials){
     new T.MeshLambertMaterial({color,emissive:color,emissiveIntensity:name==='lamp'?.92:.16,
       map:name==='oak'?materials.districtOak.map:null})]));
   const cube=new T.BoxGeometry(1,1,1),matrix=new T.Matrix4();
+  for(const [name,mat] of Object.entries(finishes))if(name!=='lamp'){
+    mat.userData.coursesFollowRig=true;
+    applyBlockFinish(mat,name==='oak'?'timber':'alloy');
+  }
   function assembly(name,parts){
     const group=new T.Group();group.name=name;
     for(const [finish,mat] of Object.entries(finishes)){
@@ -39,6 +44,11 @@ export function createFultonLift(scene,materials){
     ['enamel',-24.55,1.28,centerZ,.09,2.56,2.23],['iron',-23.5,2.56,centerZ,2.19,.12,2.26],
     ['zinc',-23.54,2.46,centerZ,.87,.09,.48],['lamp',-23.54,2.40,centerZ,.75,.05,.38]
   ];
+  // Set the cabin's tread into a real basket of square end-grain blocks.
+  for(let row=0;row<6;row++)for(let col=0;col<6;col++)
+    interior.push([row===0||col===5?'zinc':'oak',-24.32+col*.32,.023+(col+row)%3*.003,centerZ-.8+row*.32,.309,.026,.309]);
+  for(let row=0;row<5;row++)for(let col=0;col<6;col++)
+    interior.push([row===3?'zinc':'enamel',-24.48+((row+col)%3)*.016, .44+row*.32,centerZ-.8+col*.32,.096,.31,.31]);
   for(const s of [-1,1]){
     const z=centerZ+s*1.08;
     interior.push(['enamel',-23.51,1.24,z,2.18,2.48,.08],['brass',-23.54,.98,z-s*.095,1.70,.055,.07]);

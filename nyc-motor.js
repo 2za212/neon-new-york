@@ -9,6 +9,7 @@ export function createMotor(world, spawn, walkingSpeed = 3.4) {
   const velocity = new T.Vector3();
   const radius = .31, height = 1.75, stepHeight = .36;
   const solids = world.colliders || [];
+  const solidsNear = world.solidsNear || (() => solids);
   let grounded = true, heading = Math.PI, speed = 0;
 
   function groundAt(x, z, limit = Infinity) {
@@ -26,7 +27,7 @@ export function createMotor(world, spawn, walkingSpeed = 3.4) {
   }
 
   function overlaps(x, z, foot) {
-    for (const b of solids) {
+    for (const b of solidsNear(x,z)) {
       if (foot + height - .06 <= b.min.y || foot + .07 >= b.max.y) continue;
       if (touchesFootprint(b,x,z)) return true;
     }
@@ -59,7 +60,7 @@ export function createMotor(world, spawn, walkingSpeed = 3.4) {
     if (!grounded) return y;
     // Probe the capsule's leading edge, before its centre crosses the curb.
     // overlaps() still checks headroom at this candidate step height.
-    for (const b of solids) {
+    for (const b of solidsNear(x,z)) {
       if (b.max.y <= position.y + .01 || b.max.y > position.y + stepHeight) continue;
       if (touchesFootprint(b,x,z)) y = Math.max(y, b.max.y);
     }
@@ -93,7 +94,7 @@ export function createMotor(world, spawn, walkingSpeed = 3.4) {
 
     // Cancel upward movement at the underside of an elevated platform.
     if (velocity.y > 0) {
-      for (const b of solids) {
+      for (const b of solidsNear(position.x,position.z)) {
         if (position.x + radius <= b.min.x || position.x - radius >= b.max.x || position.z + radius <= b.min.z || position.z - radius >= b.max.z) continue;
         if (oldY + height <= b.min.y + .03 && position.y + height >= b.min.y) {
           position.y = b.min.y - height - .01; velocity.y = 0;
@@ -105,7 +106,7 @@ export function createMotor(world, spawn, walkingSpeed = 3.4) {
     // A collider's top is also a landing surface, but only when crossed from
     // above; this cannot snap a walking character onto a building roof.
     if (velocity.y <= 0) {
-      for (const b of solids) {
+      for (const b of solidsNear(position.x,position.z)) {
         if (b.max.y > oldY + .04 || b.max.y < position.y - .04) continue;
         // Keep the support that horizontal stepping just found at the leading
         // capsule edge. A narrower landing probe drops the player back into
@@ -145,8 +146,17 @@ export function cameraClearance(target, desired, colliders, padding = .24) {
   let nearest = distance;
   for (const b of colliders) {
     let lo = 0, hi = distance;
+    const preferred=b.userData?.cameraPadding;
+    let margin=Number.isFinite(preferred)?Math.max(0,Math.min(padding,preferred)):padding;
+    if(preferred>padding){
+      // Keep the camera target outside the extra shoulder margin when a
+      // pedestrian brushes the rack, so looking away can extend the boom.
+      const outside=Math.max(b.min.x-target.x,target.x-b.max.x,
+        b.min.y-target.y,target.y-b.max.y,b.min.z-target.z,target.z-b.max.z);
+      margin=Math.max(padding,Math.min(preferred,outside-.015));
+    }
     for (const axis of ['x', 'y', 'z']) {
-      const min = b.min[axis] - padding, max = b.max[axis] + padding;
+      const min = b.min[axis] - margin, max = b.max[axis] + margin;
       if (Math.abs(delta[axis]) < 1e-7) {
         if (target[axis] < min || target[axis] > max) { hi = -1; break; }
       } else {

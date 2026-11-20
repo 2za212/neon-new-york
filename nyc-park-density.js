@@ -1,3 +1,4 @@
+import {voxelCrown} from './nyc-field-voxels.js';
 import * as T from 'three';
 
 /** Mid-scale planted rooms: canopy groups, enclosing flower beds, an actual
@@ -48,13 +49,13 @@ export function addParkDensity(scene,api){
   const terrainLevel=(x,z)=>{let level=.36;for(const p of hill.parts)if(x>=p.minX&&x<=p.maxX&&z>=p.minZ&&z<=p.maxZ)level=p.top;return level;};
 
   // The canopy positions are groups rather than a regular grid. Dense lower
-  // shrubs provide the eye-level enclosure; leaves remain 23–25cm cubes.
+  // shrubs provide the eye-level enclosure; leaves share the 32 cm grid.
   const treeDefs=[
     [77.8,25.8,2],[77.1,32,1],[77.8,39.7,2],[77.2,47.2,1],[77.3,53.8,2],
     [77.1,60.7,2],[78.4,65.7,1],[83.5,65.2,2],[92.2,65.4,1],[100.7,65.3,2],
     [81.3,33.6,0],[82.8,38.6,1],[84.8,40.8,2],[88.9,35.3,0],
     [90.8,54.8,1],[95.1,55.2,2],[99.6,56.8,0],[103.3,58.7,2],[96.5,63.4,1],
-    [106.5,32.0,2],[108.1,37.5,0],[115.7,35.6,1],[117.3,40.8,2],
+    [106.5,32.0,2],[108.1,37.5,0],[115.7,35.6,1],[117.3,39.9,2],
     [75.7,-39.2,1],[83.5,-40,2],[95,-39,0],[104.5,-38.6,2],[121.4,-31.4,1],[121,-39.6,2],[75.9,-27.8,0]
   ];
   function groveTree(x,z,kind,index){
@@ -66,30 +67,16 @@ export function addParkDensity(scene,api){
     const crown=kind===0?4.3:kind===1?5.8:7.2,trunkTop=base+crown-.08;
     for(let y=base;y<trunkTop;y+=.42)B('bark',x+(Math.floor(y*3)%2)*.025,y+.21,z,.30,.43,.30,tint(.12));
     C(x,(base+trunkTop)/2,z,.36,trunkTop-base,.36,'grove-trunk-'+index);
-    const cell=.29+kind*.025,clumps=[[-.92,.12,.08],[.84,.29,.28],[.05,-.84,.55],[.02,.02,.92]],nx=kind===2?5:4,ny=3,nz=4;
-    for(const [dx,dz,dy]of clumps){
-      const angle=index*2.40,spread=1.28+.12*(index%4);
-      const branchX=(dx*Math.cos(angle)-dz*Math.sin(angle))*spread,branchZ=(dx*Math.sin(angle)+dz*Math.cos(angle))*spread;
-      L('bark',[x,base+crown-1.0,z],[x+branchX,base+crown+dy-.17,z+branchZ],.14,.14);
-      for(let ix=0;ix<nx;ix++)for(let iy=0;iy<ny;iy++)for(let iz=0;iz<nz;iz++){
-        if(ix>0&&ix<nx-1&&iy>0&&iy<ny-1&&iz>0&&iz<nz-1)continue;
-        if((ix===0||ix===nx-1)&&(iz===0||iz===nz-1)&&iy===ny-1)continue;
-        const xx=x+branchX+(ix-(nx-1)/2)*cell,yy=base+crown+dy+(iy-1)*cell,zz=z+branchZ+(iz-1.5)*cell;
-        B(iy===2?litLeaf:(ix+index)%3?leaf:shadeLeaf,xx,yy,zz,cell*.97,cell*.97,cell*.97,tint(.065));stats.canopyCubes++;
-      }
+    const lobes=[],angle=index*2.40,spread=1.18+.12*(index%4);
+    const canopyReach=index<10?1.82:1.22;
+    for(const [dx,dz,dy] of [[-.92,.12,.08],[.84,.29,.28],[.05,-.84,.55],[.02,.02,.92],[-.2,.81,-.12]]){
+      const bx=(dx*Math.cos(angle)-dz*Math.sin(angle))*spread,bz=(dx*Math.sin(angle)+dz*Math.cos(angle))*spread;
+      L('bark',[x,base+crown-1,z],[x+bx,base+crown+dy-.17,z+bz],.16,.16);
+      lobes.push([bx,dy,bz,canopyReach*(1+.12*dx),.76+.16*kind,canopyReach*(1+.14*dz)]);
     }
-    if(index<10){
-      // The avenue of trees has overlapping upper boughs and open trunks.
-      // Two offset lobes retain a stepped outline above the pedestrian clearway.
-      const span=kind===2?5.8:4.9;
-      for(const side of [-1,1]){
-        const bx=x+side*.72,bz=z+side*.94,by=base+crown-.25;
-        L('bark',[x,by-1.6,z],[bx,by,bz],.21,.18);
-        B(shadeLeaf,bx,by,bz,span*.66,.70,span*.77);
-        B(leaf,bx,by+.59,bz,span,.54,span*.85);
-        B(litLeaf,bx+.35*side,by+1.02,bz,span*.65,.38,span*.62);
-      }
-    }
+    const canopy=voxelCrown({box:B,panel:api.panel},leaf,[x,base+crown,z],lobes,index,
+      [0x8e9e96,0xaebba4,0xc8cfaf,0xdbdfb5,0xe6e4b6]);
+    stats.canopyCubes+=canopy.exposed;stats.triangles+=canopy.quads*2;
     for(const a of [.3,2.4,4.5])L('bark',[x,base+.22,z],[x+Math.cos(a)*.56,base+.045,z+Math.sin(a)*.56],.08,.09,tint(.14));
     stats.trees++;trees.push({x,z,base,height:crown+1.0,kind,colliderId:'grove-trunk-'+index});
   }
@@ -177,20 +164,34 @@ export function addParkDensity(scene,api){
     B(iron,94.5,3.55,z,12.12,.16,.14);
     if(south){B(iron,94.5,3.16,z,1.90,.12,.16);C(94.5,3.16,z,1.90,.12,.16,'greenhouse-door-header');}
   }
-  // Ten glass strips make a stepped gable. Their real roof metadata is emitted
-  // by the same batch API and each pane has its own physical thin solid.
-  for(let i=0;i<10;i++){
-    const z=-30.1+(i+.5)*.58,y=3.57+(1-Math.abs(z+27.2)/2.9)*.88;
-    B(glass,94.5,y,z,12.5,.06,.59);C(94.5,y,z,12.5,.06,.59,'greenhouse-roof-pane');
-    for(const x of [88.3,90.35,92.42,94.5,96.58,98.65,100.7])B(iron,x,y+.045,z,.065,.065,.62);
-    if(i<9){const nextZ=z+.58,nextY=3.57+(1-Math.abs(nextZ+27.2)/2.9)*.88;
-      B(glass,94.5,(y+nextY)/2,z+.29,12.5,Math.abs(nextY-y)+.04,.025);
+  // Two separately pressurised growth chambers straddle the entrance aisle.
+  // Their stepped shells differ in height and length. A lower strip of real
+  // roof closes the joint while daylight is admitted through a full clerestory.
+  const casing='ceramicShell',chassis='titaniumSkin';
+  for(const [x,z,width,depth,rise] of [[90.76,-27.52,5.12,6.40,4],[98.08,-27.04,5.76,5.44,3]]){
+    for(let tier=0;tier<rise;tier++){
+      const y=3.72+tier*.64,w=width-tier*.64,d=depth-tier*.32;
+      B(casing,x,y,z,w,.32,d,0xadcec1);
+      C(x,y,z,w,.32,d,'aeroponics-pressure-head');
+      for(const side of [-1,1]){
+        const front=z+side*d*.5;
+        B(chassis,x,y+.32,front,w-.32,.32,.64,0x8aabb8);
+        B(tier===1?warm:cyan,x+.12,y+.32,front+side*.33,w*.65,.19,.08,0xabc5b4);
+      }
+      if(tier<rise-1)B(glass,x,y+.32,z,w-.64,.34,d-.96);
+    }
+    const y=3.72+rise*.64;
+    B(chassis,x,y,z,width-rise*.64+.32,.32,depth-rise*.32+.32,0x91b5b5);
+    B(casing,x,y+.26,z,width-rise*.64-.32,.20,depth-rise*.32-.32,0xc5d7cc);
+    for(const side of [-1,1])for(let j=0;j<3;j++){
+      const xx=x+side*(width/2-.24),zz=z+(j-1)*1.60;
+      B(chassis,xx,3.22,zz,.56,.64,.96,0x829aa1);
+      B(casing,xx-side*.32,3.53,zz,1.28,.24,1.28,0xc7d2ca);
     }
   }
-  for(const z of [-29.98,-24.42])for(let i=0;i<8;i++){
-    const x=88.5+(i+.5)*1.5;B(iron,x,3.53,z,1.42,.065,.10);
-  }
-  B(iron,94.5,4.49,-27.2,12.65,.10,.14);B(cyan,94.5,4.425,-27.2,10.8,.022,.055);
+  B(chassis,94.34,3.66,-27.2,2.50,.26,5.90,0x86a7ae);
+  C(94.34,3.66,-27.2,2.50,.26,5.90,'aeroponics-aisle-roof');
+  B(warm,94.34,3.49,-26.1,1.28,.08,2.56);
   // Knee-high working benches and full nursery trays fill the greenhouse's
   // sides; the central x93.3..95.7 aisle is kept free all the way to the back.
   function nurseryBed(id,x,z,w,d,top=.94){
@@ -209,7 +210,7 @@ export function addParkDensity(scene,api){
   for(const x of [90.55,98.45]){
     B(iron,x,3.35,-27.3,.04,.35,.04);B(warm,x,3.13,-27.3,1.1,.045,.26);
   }
-  label(94.5,3.50,-24.35,3.3,.38,'COMMONS / GROW HOUSE','CITY GARDENERS  /  PUBLIC NURSERY',0);
+  label(94.5,3.50,-24.35,3.3,.38,'雾培接种室','东园苗圃 / 双舱育苗',0);
   point(94.5,3.20,-26.3,'#ffd0a2',14,9,'greenhouse work lamps');
 
   // A real open-front neighbourhood coffee room fills the south garden edge,

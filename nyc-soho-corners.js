@@ -17,6 +17,7 @@ export function addGreeneCorners({B,C,label,surface,materials,marketLights,scene
   }
   // Short, stepped curb extensions retain the entire central crossing.
   terrace(-1,75.55,6.5,2.55);
+  terrace(-1,64.50,4.48,2.32);
   terrace(1,91.95,5.6,2.45);
   terrace(-1,120.25,5.3,1.95);
   terrace(1,135.7,5.2,1.9);
@@ -38,28 +39,28 @@ export function addGreeneCorners({B,C,label,surface,materials,marketLights,scene
     const mat=new T.MeshStandardMaterial({map,emissiveMap:map,emissive:0xffdfba,emissiveIntensity:.24,roughness:.9});
     mat.name='Greene newsprint / '+title;mat.userData={unitUV:true,frontImage:true};materials['greeneCover'+i]=mat;
   }
-  // Newsstand: glazed Manhattan kiosk with a recessed counter facing the avenue.
-  const x=-5.55,z=75.6;
+  // The newsstand fits between two parked vehicles on its own curb bay. The
+  // corner outside Fulton 7 remains a clear forecourt onto the cross street.
+  const x=-5.55,z=64.50;
   B('districtIron',x,.55,z,1.38,.38,3.06);
   B('districtOak',x,1.04,z,1.34,.65,2.98);
-  C(x,1.04,z,1.4,1.36,3.08,'greene-newsstand');
-  B('districtIron',x-.63,1.97,z,.11,1.69,3.04);
+  C(x,.91,z,1.44,1.10,3.10,'greene-newsstand-counter');
   for(const e of [-1,1]){
     B('districtIron',x,1.96,z+e*1.46,1.36,1.67,.12);
     B('districtZinc',x+.62,1.98,z+e*1.34,.095,1.70,.085);
+    B('districtZinc',x-.60,2.14,z+e*1.34,.11,1.49,.11);
+    C(x,2.05,z+e*1.40,1.38,1.75,.32,'greene-newsstand-rack');
   }
   B('districtOak',x+.12,1.39,z,1.50,.09,2.95);
-  for(let r=0;r<3;r++){
-    B('districtOak',x-.38,1.49+r*.38,z,.40,.06,2.8);
-    for(let n=0;n<8;n++){
-      const ink=[0xe49b60,0x72adac,0xc1879c,0xdbc6a2][(r+n)%4],pz=z-1.17+n*.33;
-      B('white',x-.29,1.68+r*.38,pz,.08,.31,.27,ink);
-      B('greeneCover'+((r+n)%4),x-.242,1.68+r*.38,pz,.014,.30,.26);
-    }
+  for(const e of [-1,1])for(let r=0;r<3;r++){
+    const zz=z+e*(1.13-r*.04),y=1.62+r*.40;
+    B('districtOak',x,y-.13,zz,.94,.08,.44);
+    B('greeneCover'+(r+(e>0?1:0))%4,x,y+.03,zz-e*.13,.64,.29,.08);
   }
   B('districtIron',x,2.94,z,1.95,.29,3.56);
   C(x,2.94,z,1.95,.29,3.56,'newsstand-eave');
   B('districtWarm',x+.84,2.776,z,.09,.035,3.19);
+  B('districtCool',x-.84,2.776,z,.09,.046,2.78);
   label(x+.97,2.95,z,3.13,.43,'CANAL EDITIONS','PRESS   /   CITY WIRE','#ffce8d',Math.PI/2);
   for(const e of [-1,1])label(x,2.99,z+e*1.82,1.60,.55,'PRESS','24 HOUR EDITION','#ffbf80',e>0?0:Math.PI);
   // Double-sided end racks read on both approaches to the crossing.

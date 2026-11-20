@@ -1,4 +1,5 @@
 import {coatStreetVehicle} from './nyc-wet-emitters.js';
+import {coachwork,coatParkedBlockPaint} from './nyc-night-traffic-model.js';
 import * as T from 'three';
 
 // Mid-scale street occupation: parked traffic, loading bicycles and small
@@ -15,6 +16,7 @@ export function addCityOccupation(scene,api){
   const glass=material('trafficGlazing','trim',{map:null,color:new T.Color('#618897'),roughness:.15,metalness:.14,transparent:true,opacity:.43,depthWrite:false});
   const paints=[['trafficBlue','#759aa8'],['trafficCream','#c7c1a9'],['trafficTeal','#69968a'],['trafficOchre','#bfa163'],['trafficBurgundy','#97696c']].map(([key,color])=>material(key,'taxi',{color:new T.Color(color),roughness:.33,metalness:.38}));
   for(const key of [...paints,zinc,glass])coatStreetVehicle(materials[key]);
+  for(const key of paints)coatParkedBlockPaint(materials[key]);
   // A small procedural environment for coated traffic. Its upper hemisphere
   // carries dusk skylight, its lower walls carry broken shop and window bands.
   // All parked paint and glazing share the same six textures.
@@ -49,7 +51,13 @@ export function addCityOccupation(scene,api){
   protect([[0,.18,22],[-5.8,.18,12.8]]);
   const crosses=[0,-64,-86,-118,-175,84,128,150];
   function around(x,y,z,w,h,d,id){const b=new T.Box3(new T.Vector3(x-w/2,y-h/2,z-d/2),new T.Vector3(x+w/2,y+h/2,z+d/2));b.userData={cityOccupation:id};colliders.push(b);fixtures.push({id,min:b.min.toArray(),max:b.max.toArray()});stats.colliders++;return b;}
-  function frame(x,z,rot){const c=Math.cos(rot),s=Math.sin(rot),P=(u,y,v)=>[x+u*c+v*s,y,z-u*s+v*c];return{P,B:(m,u,y,v,w,h,d,col=0xffffff)=>B(m,...P(u,y,v),w,h,d,col,rot),L:(m,a,b,w=.04)=>L(m,P(...a),P(...b),w,w)};}
+  function frame(x,z,rot){
+    const c=Math.cos(rot),s=Math.sin(rot),P=(u,y,v)=>[x+u*c+v*s,y,z-u*s+v*c];
+    const skin=(mat,style,u,y,v,w,h,d,tint=0xffffff)=>coachwork(null,style,tint,u,y,v,w,h,d,tint,(corners,shade)=>{
+      api.panel(mat,corners.map(p=>P(...p)),shade);stats.triangles+=2;
+    });
+    return {P,skin,B:(m,u,y,v,w,h,d,col=0xffffff)=>B(m,...P(u,y,v),w,h,d,col,rot),L:(m,a,b,w=.04)=>L(m,P(...a),P(...b),w,w)};
+  }
   const intersects=(a,b,pad=.10)=>a.min.x<b.max.x+pad&&a.max.x>b.min.x-pad&&a.min.z<b.max.z+pad&&a.max.z>b.min.z-pad&&a.min.y<b.max.y&&a.max.y>b.min.y;
   function parkingClear(x,z,w,d,rot){
     const c=Math.abs(Math.cos(rot)),s=Math.abs(Math.sin(rot)),ww=c*w+s*d,dd=s*w+c*d;
@@ -112,7 +120,7 @@ export function addCityOccupation(scene,api){
     const shoulder=width/2-.11, nose=van?2.40:2.00;
     const bonnetLength=(nose-front)/2;
     for(let tier=0;tier<2;tier++){
-      f.B(paint,0,1.12+tier*.08,nose-(tier+.5)*bonnetLength,
+      f.skin(paint,'bonnet',0,1.12+tier*.08,nose-(tier+.5)*bonnetLength,
         Math.round(2*shoulder/.08)*.08+tier*.08,.16,bonnetLength, tier?0xf4f6f2:0xcad3d5);
     }
     for(const side of [-1,1])
@@ -122,15 +130,18 @@ export function addCityOccupation(scene,api){
     const width=van?2.03:1.88,length=van?4.90:4.08,solidWidth=width+.36;
     if((Math.abs(x)<7&&crosses.some(q=>Math.abs(q-z)<10))||!parkingClear(x,z,solidWidth,length+.18,rot)){stats.rejectedParking++;parkingRejected.push({x,z,rot,van});return;}
     const f=frame(x,z,rot),paint=paints[index%paints.length],F=f.B;
+    // This car now pulls out of its original SoHo bay. Keep the municipal
+    // markings, and let the traffic simulation own its body and collision.
+    if(x===-51&&z===113){markBay(F,length);return;}
     const shadeX=width*.64,shadeZ=length*.59;
     api.panel('trafficContact',[[-shadeX,shadeZ],[shadeX,shadeZ],[shadeX,-shadeZ],[-shadeX,-shadeZ]].map(([u,v])=>f.P(u,.197,v)));
     stats.triangles+=2;
     const half=length/2,axle=length*.31;
     F('rubber',0,.61,0,width-.46,.26,length-.38);
-    F(paint,0,.98,0,width-.24,.42,length-.15);
+    f.skin(paint,'chassis',0,.98,0,width-.24,.42,length-.15);
     for(const end of [-1,1]){
       // Taper both bumpers at the corners, leaving a distinct front valance.
-      F(paint,0,.91,end*(half-.11),width-.40,.29,.24);
+      f.skin(paint,'bonnet',0,.91,end*(half-.11),width-.40,.29,.24);
       F(zinc,0,.73,end*(half-.07),width-.47,.08,.16);
       for(const side of [-1,1]){
         const x=side*(width/2-.045),wheelZ=end*axle;
@@ -149,7 +160,8 @@ export function addCityOccupation(scene,api){
         }
         for(let band=-3;band<=3;band++){
           const offset=band*.124,lip=.575+Math.sqrt(.458**2-offset**2);
-          F(paint,x,(lip+1.20)/2,wheelZ+offset,.185,1.20-lip,.126);
+          const returnKey=(band===-2||band===1)?.08:0;
+          F(paint,x-side*returnKey/2,(lip+1.20)/2,wheelZ+offset,.185-returnKey,1.20-lip,.124);
         }
         F(paint,x,.92,end*(axle+.53),.16,.46,.18);
         F(end>0?'coolWindow':'tailLight',side*(width*.34),1.015,end*(half+.015),.50,.075,.048);
@@ -159,15 +171,11 @@ export function addCityOccupation(scene,api){
     F('rubber',0,.936,half+.014,.74,.19,.030);
     for(const height of [.89,.96])F(zinc,0,height,half+.035,.68,.018,.020);
     for(const side of [-1,1]){
-      // Pressed door skin between the wheel arches. Three different
-      // outward normals pick up sky, windows and wet pavement in turn.
+      // Separate cast doors return into the B-pillar; both hinge edges and
+      // the inside of the projecting sill remain visible from the kerb.
       const doorEnds=axle-.44;
-      const doorSkin=[[.63,width/2-.045],[.74,width/2+.040],[.97,width/2+.055],[1.19,width/2-.03]];
-      for(let j=1;j<doorSkin.length;j++){
-        const [lo,r0]=doorSkin[j-1],[hi,r1]=doorSkin[j];
-        const pts=[[side*r0,lo,doorEnds],[side*r0,lo,-doorEnds],[side*r1,hi,-doorEnds],[side*r1,hi,doorEnds]];
-        if(side<0)pts.reverse();
-        api.panel(paint,pts.map(p=>f.P(...p)),[0,0x949ba4,0xd7dcde,0xf4f2ed][j]);stats.triangles+=2;
+      for(const hand of [-1,1]){
+        f.skin(paint,'body',side*(width/2-.10),.91,hand*doorEnds/2,.32,.56,doorEnds);
       }
       F(zinc,side*width/2,.70,0,.032,.055,axle*2-.89);
 
@@ -175,7 +183,7 @@ export function addCityOccupation(scene,api){
     if(van){
       // Parcel pod with a stepped shoulder, hinged rear doors and roof rails.
       for(const [y,w,h,d] of [[1.68,width-.045,.98,2.96],[2.26,width-.12,.18,2.88],[2.42,width-.24,.15,2.73]])
-        F(paint,0,y,-.73,w,h,d);
+        f.skin(paint,'body',0,y,-.73,w,h,d);
       cabin(f,paint,width,true,false);
       for(const side of [-1,1]){
         F(zinc,side*.66,2.535,-.70,.075,.085,2.48);
@@ -200,23 +208,26 @@ export function addCityOccupation(scene,api){
     const c=Math.abs(Math.cos(rot)),s=Math.abs(Math.sin(rot)),id='parked-'+stats.vehicles;
     const solid=around(x,van?1.465:1.13,z,c*solidWidth+s*(length+.18),van?2.39:1.70,s*solidWidth+c*(length+.18),id);
     // Parking bay ends, wheel stops and a broken curb side line anchor the car.
+    markBay(F,length);
+    vehicles.push({id,kind:van?'delivery-van':'compact-car',x,z,rotation:rot,min:solid.min.toArray(),max:solid.max.toArray()});stats.vehicles++;
+  }
+  function markBay(F,length){
     for(const v of [-length/2-.36,length/2+.36])F('white',0,.198,v,2.32,.012,.075,0x919d96);
     F('white',1.16,.198,0,.065,.012,length+.78,0x929f98);
-    vehicles.push({id,kind:van?'delivery-van':'compact-car',x,z,rotation:rot,min:solid.min.toArray(),max:solid.max.toArray()});stats.vehicles++;
   }
   // Staggered slots leave junctions and real shop crossings empty. Every
   // candidate is additionally checked against final district furniture.
   const slots=[
-    [4.9,-42,0],[-4.9,-42,Math.PI],[4.9,-16,Math.PI],[-4.9,-10,0],
-    [4.9,42,0],[-4.9,43,Math.PI],[4.9,58,Math.PI],[-4.9,60,0],[-4.9,69,0],[4.9,65,Math.PI],
-    [4.9,101,0],[-4.9,105,Math.PI],[4.9,111,0],[-4.9,115,Math.PI],[4.9,138,Math.PI],[-4.9,138,0],
+    [4.9,-42,0],[-4.9,-42,Math.PI],[4.9,-16,Math.PI],[-4.9,-53,0],
+    [4.9,50,0],[-4.9,43,Math.PI],[4.9,58,Math.PI],[-4.9,60,0],[-4.9,69,0],[4.9,65,Math.PI],
+    [4.9,134,0],[-4.9,130,Math.PI],[4.9,146,0],[-4.9,115,Math.PI],[4.9,138,Math.PI],[-4.9,138,0],
     [-32.9,-101,0],[-39.1,-104,Math.PI],[54.7,-74,Math.PI],[61.3,-75,0],
     [61.35,-145,0],[54.65,-145,Math.PI],[61.35,-101,0],[54.65,-103,Math.PI],
     [61.35,31,0],[54.65,37,Math.PI],[61.35,55,0],[54.65,61,Math.PI],
     [135.05,32,0],[128.95,43,Math.PI],[135.05,66,0],
     [-45.0,60,0],[-51,68,Math.PI],[-45,106,0],[-51,113,Math.PI],
-    [72,3.95,Math.PI/2],[100,-4.65,-Math.PI/2],[-38,4.9,Math.PI/2],[-91,-4.65,-Math.PI/2],
-    [4.9,24.8,Math.PI],[-4.9,35.7,0],[-4.9,19.9,Math.PI]
+    [72,3.95,Math.PI/2],[100,-4.65,-Math.PI/2],[-38,4.9,Math.PI/2],[-64,-4.65,-Math.PI/2],
+    [4.9,24.8,Math.PI],[-4.9,-32,0],[-4.9,-63,Math.PI]
   ];
   for(let i=0;i<slots.length;i++)vehicle(...slots[i],i%6===0,i);
 
@@ -240,7 +251,7 @@ export function addCityOccupation(scene,api){
   const crowdPaths=[
     {id:'exchange_stop_reader',a:[-4.35,-123.72],level:.36,look:3,phone:true,heading:Math.PI},
     {id:'exchange_stop_passenger',a:[-6.92,-123.30],level:.36,look:0,heading:.28},
-    {id:'exchange_stop_approach',a:[-10.8,-126.6],b:[-5.2,-126.6],level:.36,look:2,speed:.66},
+    {id:'exchange_stop_approach',a:[-7.5,-126.6],b:[-3.0,-126.6],level:.385,look:2,speed:.66},
     {id:'hudson_receiving_clerk',a:[-108.7,-7.64],level:.36,look:1,phone:true,dockCrew:true,heading:.2},
     {id:'hudson_dock_runner',a:[-115.5,-8.18],b:[-110.2,-8.18],level:.36,look:2,dockCrew:true,carryParcel:true,speed:.64},
     {id:'density_core_reader',a:[-9.2,36.8],level:.36,look:2,phone:true,heading:1.4},
@@ -256,7 +267,7 @@ export function addCityOccupation(scene,api){
     {id:'density_midtown_pair_a',a:[19.2,-132],level:.36,look:2,heading:.8},
     {id:'density_midtown_pair_b',a:[20.4,-132.2],level:.36,look:3,phone:true,heading:-.8},
     {id:'density_west_dockwalker',a:[-130,16],b:[-130,30],level:.36,look:1,speed:.57},
-    {id:'density_north_commuter',a:[64.2,-146],b:[64.2,-134],level:.36,look:0,speed:.73},
+    {id:'density_north_commuter',a:[65.2,-146],b:[65.2,-134],level:.36,look:0,speed:.73},
   ];
   stats.triangles+=(stats.boxes+stats.beams)*12;stats.requestedPeople=crowdPaths.length;
   function setNight(night){for(const m of signs)m.material.emissiveIntensity=night?.8:.3;}

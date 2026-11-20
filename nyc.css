@@ -16,13 +16,12 @@
 .home-paper{position:absolute;inset:0;display:grid;place-items:center;background:#11192391;padding:12px}
 .home-paper article{box-sizing:border-box;width:min(450px,90vw);max-height:92vh;overflow:auto;padding:clamp(16px,4vh,32px);background:#e7d8ba;color:#292b29;border-top:5px solid #916044}
 .home-paper h2{margin:0;font-size:24px}.home-paper p{font-size:16px;line-height:1.7;margin:12px 0 18px}
-.wake-lids{display:none;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.wake-lids{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 #building-action{position:fixed;z-index:42;right:4%;bottom:26%;min-height:46px;padding:8px 16px;border:1px solid #cba777;background:#233841;color:#ffefcf;font:600 15px system-ui;cursor:pointer}
 #lift-ride{position:fixed;top:6%;left:50%;transform:translateX(-50%);z-index:45;padding:.4em .8em;background:#17242ce6;color:#e4c596;font:600 16px system-ui;pointer-events:none}.in-lift .top-actions,.in-lift .nyc-touch,.in-lift #compass{pointer-events:none}
 #building-action[hidden],#lift-ride[hidden],.in-home #building-action,.is-paused #building-action,.photo #building-action,.free-flying #building-action{display:none}
-#home-opening[data-phase="wake"] .wake-lids{display:block}
-
 #home-opening .home-action{left:auto;right:4%;top:auto;bottom:6%;transform:none}
+#home-opening .home-rest{bottom:calc(6% + 56px)}
 #home-opening[data-phase="calendar"],#home-opening[data-phase="door"],#home-opening[data-phase="visit"]{pointer-events:none}
 #home-opening .home-action{pointer-events:auto}
 body.home-walk .nyc-touch{visibility:visible}

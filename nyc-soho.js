@@ -1,9 +1,15 @@
 import {addGreeneCorners} from './nyc-soho-corners.js';
+import {upperStreetKit,buildSohoAirRights} from './nyc-tenement-air-rights.js';
 import * as T from 'three';
-import {createDistrictKit} from './nyc-district-kit.js';
+import {createDistrictKit,subtractRect} from './nyc-district-kit.js';
 import {addSoHoDetail} from './nyc-soho-detail.js';
 import {addSoHoInfill} from './nyc-soho-infill.js';
+import {buildBoilerMarket} from './nyc-soho-boiler-market.js';
+import {buildMarketColdChain} from './nyc-suspended-delivery.js';
+import {buildMarketLaneHomes} from './nyc-market-lane-homes.js';
 import {buildFultonHouse,fulton} from './nyc-fulton-house.js';
+import {housingBond} from './nyc-housing-bond.js';
+import {voxelBay} from './nyc-fulton-modules.js';
 
 /** South batch: continuous cast-iron street walls, two open shops and courts.
  * Ground ownership deliberately excludes the park's x>=44 / z<96 rectangle.
@@ -13,13 +19,19 @@ export function addSoHo(scene,api){
   const k=createDistrictKit(scene,api),before=colliders.length;
   const own={boxes:0,beams:0,signs:0,treeBoxes:0,trees:0},marketLights=[],buildingResults=[];
   const B=(...a)=>{own.boxes++;box(...a);};const L=(...a)=>{own.beams++;beam(...a);};
-  const C=(x,y,z,w,h,d,id)=>{const b=new T.Box3(new T.Vector3(x-w/2,y-h/2,z-d/2),new T.Vector3(x+w/2,y+h/2,z+d/2));b.userData={district:'soho',id};colliders.push(b);};
+  const C=(x,y,z,w,h,d,id)=>{const b=new T.Box3(new T.Vector3(x-w/2,y-h/2,z-d/2),new T.Vector3(x+w/2,y+h/2,z+d/2));b.userData={district:'soho',id};colliders.push(b);return b;};
   const tint=(spread=.12)=>{const v=1-spread*.5+rand()*spread;return new T.Color(v,v,v);};
   const label=(...a)=>{if(sign){sign(...a);own.signs++;}};
   if(!materials.sohoCanvas){const m=(materials.lifeCanvas||materials.trim).clone();m.name='SoHo / muted market canvas';m.color=new T.Color(0x708168);m.roughness=.96;m.userData={...(materials.lifeCanvas||materials.trim).userData};materials.sohoCanvas=m;}
   const bounds={minX:-64,maxX:84,minZ:52,maxZ:160};
   const pavingExclusions=api.roadRegistry.pavingExclusions||(api.roadRegistry.pavingExclusions=[]);
-  const paved=(x1,x2,z1,z2)=>{k.ground(x1,x2,z1,z2,'paver',.36);pavingExclusions.push({minX:x1,maxX:x2,minZ:z1,maxZ:z2});};
+  function paved(minX,maxX,minZ,maxZ){
+    const patch={minX,maxX,minZ,maxZ};
+    let pieces=[patch];
+    for(const existing of pavingExclusions)pieces=pieces.flatMap(p=>subtractRect(p,existing));
+    for(const p of pieces)k.ground(p.minX,p.maxX,p.minZ,p.maxZ,'paver',.36);
+    pavingExclusions.push(patch);
+  }
   k.ground(-64,44,52,96,'asphalt',.18);
   k.ground(-64,84,96,160,'asphalt',.18);
   // Shared registry is flushed by the parent after both southern and park roads
@@ -27,14 +39,20 @@ export function addSoHo(scene,api){
   // Low paired market awnings set a broken cornice along the block. Their
   // gaps keep storefront entries and the cross-street view clear.
   for(const side of [-1,1])for(const [z,length] of [[59,12.2],[71.1,11.8],[98,12.0],[110.3,12.4]]){
-
+    const shift=side===1&&z>90?(z===98?-2.80:-2.48):0;
     // Three terraced courses expose the 16 cm construction step from across the street.
     for(let course=0;course<3;course++){
-      B('sohoCanvas',side*(7.52+1.28*course),3.84+.16*course,z,1.28,.32,length,0xb5c4be);
+      B('sohoCanvas',side*(7.52+1.28*course)+shift,3.84+.16*course,z,1.28,.32,length,0xb5c4be);
     }
-    B('brickBrown',side*6.88,3.60,z,.15,.36,length,0x904839);
-    B('lamp',side*9.85,3.96,z,.10,.055,length-.36,0xd99164);
-    for(let course=0;course<3;course++)C(side*(7.52+1.28*course),3.84+.16*course,z,1.28,.32,length,'market-awning');
+    for(let bay=0;bay<5;bay++)
+      voxelBay(scene,'awning',[side*6.91+shift,3.54,z+(bay-2)*length/5],-side*Math.PI/2,length/5,1.38,.58);
+    // Projecting shop lanterns face pedestrians approaching along the canopy.
+    const end=z-length/2+.42;
+    for(const dir of [-1,1])
+      voxelBay(scene,'lantern',[side*7.83+shift,3.30,end+dir*.14],dir>0?0:Math.PI,1.52,1.18,.46);
+    C(side*7.83+shift,3.30,end,1.52,1.18,1.02,'market-lantern');
+    B('lamp',side*9.85+shift,3.96,z,.10,.055,length-.36,0xd99164);
+    for(let course=0;course<3;course++)C(side*(7.52+1.28*course)+shift,3.84+.16*course,z,1.28,.32,length,'market-awning');
   }
   k.roadZ(0,52,160,12.8,2.8);
   k.roadZ(-48,52,160,8.8,2.8);
@@ -86,20 +104,21 @@ export function addSoHo(scene,api){
   const definitions=[
     {id:'soho_lafayette',x:-10.65,z:58.8,width:10.4,depth:12.5,floors:4,rot:Math.PI/2,title:'LAFAYETTE / TAILOR',subtitle:'CAST IRON / SOHO',brick:'brickBrown',accent:'warm'},
     {id:'soho_broome',x:10.65,z:58.8,width:10.4,depth:12.8,floors:3,rot:-Math.PI/2,title:'BROOME / CAFE',subtitle:'COFFEE / DAILY',brick:'brick',accent:'warm'},
-    {id:'soho_mercer_grocer',x:10.65,z:70.3,width:10.8,depth:13,floors:4,rot:-Math.PI/2,title:'MERCER / GROCER',subtitle:'PRODUCE / PANTRY',brick:'brickBrown',accent:'warm',open:true,furniture:'grocer'},
-    {id:'soho_greene_books',x:-10.65,z:98.7,width:12,depth:14,floors:4,rot:Math.PI/2,title:'GREENE / BOOKS',subtitle:'BOOKS / PRINT / READING',brick:'brickBrown',accent:'warm',open:true,furniture:'books'},
-    {id:'soho_sullivan',x:10.65,z:98.7,width:12,depth:13.8,floors:3,rot:-Math.PI/2,title:'SULLIVAN / DESIGN',subtitle:'OBJECTS / STUDIO',brick:'stone',accent:'cool'},
+    {id:'soho_mercer_grocer',frontage:'display',x:10.65,z:70.3,width:10.8,depth:13,floors:4,rot:-Math.PI/2,title:'MERCER / GROCER',subtitle:'PRODUCE / PANTRY',brick:'brickBrown',accent:'warm',open:true,furniture:'grocer'},
+    {id:'soho_greene_books',frontage:'display',x:-10.65,z:98.7,width:12,depth:14,floors:4,rot:Math.PI/2,title:'GREENE / BOOKS',subtitle:'BOOKS / PRINT / READING',brick:'brickBrown',accent:'warm',open:true,furniture:'books'},
+    {id:'soho_sullivan',x:7.85,z:98.7,width:12,depth:13.8,floors:3,rot:-Math.PI/2,title:'七街沸社',subtitle:'鲜切肉铺 / 夜班开放',brick:'stone',accent:'warm',open:true,furniture:'grocer'},
     {id:'soho_wooster',x:-10.65,z:112,width:12,depth:13.2,floors:3,rot:Math.PI/2,title:'WOOSTER / ARCHIVE',subtitle:'PRINT / EDITIONS',brick:'stone',accent:'warm'},
-    {id:'soho_spring',x:10.65,z:112,width:12,depth:14.2,floors:5,rot:-Math.PI/2,title:'SPRING / STUDIO',subtitle:'AUDIO / AFTER HOURS',brick:'brick',accent:'cool'},
+    {id:'soho_spring',x:8.17,z:112,width:12,depth:14.2,floors:5,rot:-Math.PI/2,title:'SPRING / STUDIO',subtitle:'AUDIO / AFTER HOURS',brick:'brick',accent:'cool'},
     {id:'soho_residential',x:-10.65,z:139.2,width:6,depth:11.6,floors:4,rot:Math.PI/2,title:'',subtitle:'',brick:'brickBrown',accent:'warm'},
     {id:'soho_canal',x:10.65,z:139.2,width:6,depth:12,floors:4,rot:-Math.PI/2,title:'CANAL / WORKS',subtitle:'LOCAL / REPAIR',brick:'brickBrown',accent:'warm'},
     {id:'soho_press',x:-39.6,z:107.7,width:20,depth:9.6,floors:3,rot:-Math.PI/2,title:'SOHO / PRESS',subtitle:'LOADING / LOCAL EDITIONS',brick:'brickBrown',accent:'warm'},
     {id:'soho_crosby',x:66.8,z:108,width:20,depth:15,floors:4,rot:-Math.PI/2,title:'CROSBY / LOFTS',subtitle:'STUDIOS / EAST BLOCK',brick:'brick',accent:'cool'}
   ];
-  buildFultonHouse({B,C,label,surface,hallLight(x,y,z){
-    const lamp=new T.PointLight(0xffce91,18,6,2);
-    lamp.position.set(x,y,z);lamp.userData.nightPower=18;scene.add(lamp);marketLights.push(lamp);
+  buildFultonHouse({scene,B,bond:housingBond(materials,B,api.panel),panel:api.panel,C,label,surface,hallLight(x,y,z,hue,power){
+    const lamp=new T.PointLight(hue,power,5.4,2);
+    lamp.position.set(x,y,z);lamp.userData.nightPower=power;scene.add(lamp);marketLights.push(lamp);
   }});
+  paved(3.84,6.4,91.2,119.2);
   for(const d of definitions){
     buildingResults.push(k.building(d));
     // Generous cast-iron frontage aprons bridge the small setback behind the
@@ -161,7 +180,7 @@ export function addSoHo(scene,api){
     C(x,.89,z,1.57,1.06,1.10,'loading-pallet');
   }
   // The east back lane stays clear at x31, with seating / planting on its edge.
-  if(bench){bench(37,98.4,0);bench(37,115.5,Math.PI);bench(-34.2,139,0);}
+  if(bench){bench(40.0,98.0,0);bench(37,115.5,Math.PI);bench(-34.2,139,0);}
   if(planter){planter(43.7,96.7,5.5,1.1);planter(43.7,117.8,5.5,1.1);planter(-36.4,73.4,3.2,.9);}
 
   // Low neighbourhood stage, four exact .18m risers, no jump or opaque ramp.
@@ -182,8 +201,13 @@ export function addSoHo(scene,api){
   for(const x of [27.8,37.2]){B('metal',x,1.55,135.95,.05,.90,.05,0x8aa087);B('districtWarm',x,2.03,135.95,.10,.075,.10,0x82906a);}
 
   // Three fine-leaf court trees keep a safe geometry margin for the full city.
-  for(const [x,z,size]of [[-38.5,73.7,.85],[37,109.3,.88],[40,139.0,.86]])if(tree){const t=tree(x,z,size,true);own.treeBoxes+=t?.boxes||0;own.trees++;}
-  if(lamp){for(const z of [58,72,97,114,138]){lamp(-8.1,z,1);lamp(8.1,z,-1);}for(const z of [60,104,138])lamp(-54.0,z,1);for(const z of [101,138])lamp(64.5,z,-1);}
+  for(const [x,z,size]of [[-38.5,73.7,.85],[39.6,111.7,.88],[40,139.0,.86]])if(tree){const t=tree(x,z,size,true);own.treeBoxes+=t?.boxes||0;own.trees++;}
+  if(lamp){
+    for(const z of [58,72,97,114,138]){lamp(-8.1,z,1);lamp(z===97||z===114?4.06:8.1,z,-1);}
+    for(const z of [60,104,138])lamp(-54.0,z,1);
+    lamp(64.5,101,-1);
+    lamp(64.9,144.2,-1);
+  }
   // The new west street wall occupies the former broad edge planting strips.
   // Keep a planted slot between its two middle blocks; no original C/S lived
   // in these decorative strips, and no grass is left coplanar inside shops.
@@ -233,13 +257,21 @@ export function addSoHo(scene,api){
   };
   const crowdPaths=[
     {id:'soho_west_shopper',a:[-7.3,57],b:[-7.3,74.4],level:.36,look:1,speed:.72},
-    {id:'soho_east_reader',a:[7.3,94],b:[7.3,116],level:.36,look:2,speed:.66},
+    {id:'soho_east_reader',a:[5.18,94],b:[5.18,116],level:.36,look:2,speed:.66},
     {id:'soho_back_court',a:[31,98],b:[31,114],level:.36,look:0,speed:.61}
   ];
   const detail=addSoHoDetail(scene,api,buildingResults);
   const infill=addSoHoInfill(scene,api);
+  const laneHomes=buildMarketLaneHomes({B,C,materials,panel:api.panel});
+  buildSohoAirRights(upperStreetKit(scene,materials,B,C,marketLights),[...definitions,...infill.definitions],surface);
+  const boilerMarket=buildBoilerMarket(scene,{B,C,L,surface,label,marketLights});
+  const updateColdChain=buildMarketColdChain({scene,box:B,collider:C,sign:label,lights:marketLights});
+  Object.assign(paths,boilerMarket.routes);
+  crowdPaths.push(...boilerMarket.crowdPaths);
+  detail.steamSources.push(...boilerMarket.vents);
+  landmarks.push(boilerMarket.landmark);
   const kitStats=k.stats;
-  const stats={...kitStats,kit:kitStats,district:'soho',buildings:1+definitions.length+infill.stats.buildings,openShops:2,ownBoxes:own.boxes,ownBeams:own.beams,trees:own.trees,treeBoxes:own.treeBoxes,ownSigns:own.signs,signs:(kitStats.signs||0)+own.signs,colliders:colliders.length-before,
+  const stats={...kitStats,kit:kitStats,district:'soho',buildings:2+definitions.length+infill.stats.buildings+laneHomes,openShops:entries.length,ownBoxes:own.boxes,ownBeams:own.beams,trees:own.trees,treeBoxes:own.treeBoxes,ownSigns:own.signs,signs:(kitStats.signs||0)+own.signs,colliders:colliders.length-before,
     treeTriangles:own.treeBoxes*12,lights:kitStats.lights+marketLights.length+detail.stats.pointLights+infill.stats.pointLights,pointLights:kitStats.lights+marketLights.length+detail.stats.pointLights+infill.stats.pointLights,detail:detail.stats,infill:infill.stats,independentDrawCalls:0};
   Object.defineProperty(stats,'triangles',{enumerable:true,get:()=>kitStats.triangles+(own.boxes+own.beams)*12+detail.stats.triangles+infill.stats.triangles});
   Object.defineProperty(stats,'boxes',{enumerable:true,get:()=>kitStats.boxes+own.boxes+detail.stats.boxes+infill.stats.boxes});
@@ -247,7 +279,7 @@ export function addSoHo(scene,api){
   stats.triangleScope='Kit plus composed court/stage pieces; treeTriangles are reported separately. Parent batch counts injected street furniture.';
   function setNight(night){k.setNight?.(night);detail.setNight(night);infill.setNight(night);for(const l of marketLights)l.intensity=l.userData.nightPower*(night?1:.16);}
   function setQuality(level){k.setQuality?.(level);detail.setQuality(level);infill.setQuality(level);}
-  function update(dt,time,camera){k.update?.(dt,time,camera);}
+  function update(dt,time,camera){k.update?.(dt,time,camera);updateColdChain(dt,time);}
   setNight(true);
   return {bounds,stats,landmarks,entries,paths,crowdPaths,buildingResults,definitions,streetMarker,detail,infill,setNight,setQuality,update};
 }

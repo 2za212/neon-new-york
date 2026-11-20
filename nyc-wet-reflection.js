@@ -193,7 +193,7 @@ void main(){
     object:surface,
     update(time){surface.material.uniforms.time.value=time;},
     setNight(night){surface.material.uniforms.strength.value=night?1.08:.72;},
-    setQuality(level){enabled=level!=='low';surface.visible=enabled;},
+    setQuality(level){enabled=level==='high';surface.visible=enabled;},
     dispose(){scene.remove(surface);surface.geometry.dispose();surface.dispose();}
   };
 }

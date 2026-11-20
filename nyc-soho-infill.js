@@ -15,14 +15,14 @@ export function addSoHoInfill(scene,api){
   const iron='districtIron',zinc='districtZinc',oak='districtOak',cool='sohoDetailCyan',warm='sohoDetailAmber',pink='sohoDetailMagenta';
   const tint=(s=.08)=>new T.Color().setScalar(1-s/2+rand()*s);
   const definitions=[
-    {id:'soho_infill_west_battery',x:-55.7,z:58.5,width:10,depth:7.3,floors:3,rot:Math.PI/2,title:'BATTERY / FIX',subtitle:'LOCAL DEVICES / WEST STREET',brick:'brickBrown',accent:'cool'},
+    {id:'soho_infill_west_battery',x:-58.26,z:58.5,width:10,depth:5.38,floors:3,rot:Math.PI/2,title:'BATTERY / FIX',subtitle:'LOCAL DEVICES / WEST STREET',brick:'brickBrown',accent:'cool'},
     {id:'soho_infill_west_cloth',x:-55.7,z:69.3,width:10,depth:7.8,floors:4,rot:Math.PI/2,title:'THREAD / COMMONS',subtitle:'TAILOR / LOFTS',brick:'stone',accent:'warm'},
-    {id:'soho_infill_west_electrics',x:-55.7,z:98.3,width:12,depth:7.8,floors:4,rot:Math.PI/2,title:'BOWERY / ELECTRIC',subtitle:'REPAIR / NEURAL PARTS',brick:'brick',accent:'cool'},
+    {id:'soho_infill_west_electrics',frontage:'loading',x:-55.7,z:98.3,width:12,depth:7.8,floors:4,rot:Math.PI/2,title:'BOWERY / ELECTRIC',subtitle:'REPAIR / NEURAL PARTS',brick:'brick',accent:'cool'},
     {id:'soho_infill_west_habitat',x:-55.7,z:112.0,width:13.2,depth:7.3,floors:5,rot:Math.PI/2,title:'WEST / HABITAT',subtitle:'RESIDENTIAL / 18—26',brick:'brickBrown',accent:'warm'},
-    {id:'soho_infill_west_paper',x:-55.7,z:141.5,width:10.8,depth:7.8,floors:3,rot:Math.PI/2,title:'PAPER / WORKSHOP',subtitle:'PRINT / SMALL EDITIONS',brick:'stone',accent:'warm'},
-    {id:'soho_infill_west_laundry',x:-55.7,z:153.1,width:10,depth:7.3,floors:4,rot:Math.PI/2,title:'AFTER / LAUNDRY',subtitle:'WASH / RESTORE / ALL NIGHT',brick:'brick',accent:'cool'},
+    {id:'soho_infill_west_paper',frontage:'workroom',x:-55.7,z:141.5,width:10.8,depth:7.8,floors:3,rot:Math.PI/2,title:'PAPER / WORKSHOP',subtitle:'PRINT / SMALL EDITIONS',brick:'stone',accent:'warm'},
+    {id:'soho_infill_west_laundry',x:-57.62,z:153.1,width:10,depth:5.70,floors:4,rot:Math.PI/2,title:'AFTER / LAUNDRY',subtitle:'WASH / RESTORE / ALL NIGHT',brick:'brick',accent:'cool'},
     {id:'soho_infill_east_noodle',x:66.8,z:140.6,width:8.4,depth:15,floors:4,rot:-Math.PI/2,title:'CANAL / NOODLE',subtitle:'KITCHEN / EAST LOOP',brick:'brickBrown',accent:'warm'},
-    {id:'soho_infill_east_fabric',x:66.8,z:153.6,width:9.6,depth:15,floors:3,rot:-Math.PI/2,title:'FIBER / EXCHANGE',subtitle:'MATERIALS / CITY CO-OP',brick:'stone',accent:'cool'},
+    {id:'soho_infill_east_fabric',x:69.36,z:153.6,width:9.6,depth:12.44,floors:3,rot:-Math.PI/2,title:'FIBER / EXCHANGE',subtitle:'MATERIALS / CITY CO-OP',brick:'stone',accent:'cool'},
   ];
   const buildings=[];
   const exclusions=api.roadRegistry.pavingExclusions||(api.roadRegistry.pavingExclusions=[]);
@@ -32,18 +32,24 @@ export function addSoHoInfill(scene,api){
     // sidewalks: one paving owner per square, including the side-street fronts.
     const p=b.front.P(0,.36,.65),w=Math.abs(c)*(d.width-.1)+Math.abs(s)*1.30,dep=Math.abs(s)*(d.width-.1)+Math.abs(c)*1.30;
     exclusions.push({minX:p[0]-w/2,maxX:p[0]+w/2,minZ:p[2]-dep/2,maxZ:p[2]+dep/2});
+    const extra=d.x < -55.71 ? -55.7-d.x : d.x>66.81 ? d.x-66.8 : 0;
+    if(extra){
+      const center=b.front.P(0,.27,1.30+extra/2),w=d.width-.10;
+      B('districtSlab',center[0],.27,center[2],extra,.18,w,0xafc3bb);
+      S(center[0]-extra/2,center[0]+extra/2,center[2]-w/2,center[2]+w/2,.36);
+      exclusions.push({minX:center[0]-extra/2,maxX:center[0]+extra/2,minZ:center[2]-w/2,maxZ:center[2]+w/2});
+    }
     const centre=b.front.P(0,0,-d.depth/2),ww=Math.abs(c)*d.width+Math.abs(s)*d.depth,dd=Math.abs(s)*d.width+Math.abs(c)*d.depth;
     buildings.push({id:d.id,bounds:{minX:centre[0]-ww/2,maxX:centre[0]+ww/2,minZ:centre[2]-dd/2,maxZ:centre[2]+dd/2},top:b.top,result:b});
     // Rooftop plant/air machinery and a raised parapet change the roofline at
     // middle distance, instead of spending this pass on more surface screws.
-    const f=b.front,roof=b.top+.98,offset=d.width*.22;
+    const f=b.front,roof=b.top+.25,offset=d.width*.22;
     f.B('metal',offset,roof+.52,-d.depth*.54,1.62,.94,1.72,0xc1c8bc);
     f.C(offset,roof+.52,-d.depth*.54,1.62,.94,1.72,'roof-air-plant');
     for(let j=0;j<6;j++)f.B('rubber',offset-.61+j*.244,roof+.53,-d.depth*.54+.88,.055,.70,.035);
     if(d.floors>=4){
-      // A substantial three-metre rooftop service cabin, staggered between
-      // roofs, retains the local brick and cast-iron construction vocabulary.
-      f.B(d.brick,-d.width*.23,roof+1.18,-d.depth*.68,2.8,2.36,2.25,tint());
+      // Service cabins sit on the rear third of the new roof terraces.
+      f.B('titaniumSkin',-d.width*.23,roof+1.18,-d.depth*.68,2.8,2.36,2.25,tint());
       f.C(-d.width*.23,roof+1.18,-d.depth*.68,2.8,2.36,2.25,'roof-service-cabin');
       f.B(zinc,-d.width*.23,roof+2.42,-d.depth*.68,3.04,.15,2.49,0xb9c4b9);
     }
@@ -124,7 +130,7 @@ export function addSoHoInfill(scene,api){
   const southReturns=[];
   for(const e of [-1,1]){
     const x=e*17.325,z=157,w=13.35,d=4.4,top=e<0?7.8:8.7,id=e<0?'south-print-return':'south-fabric-return';
-    B(e<0?'brickBrown':'brick',x,(.36+top)/2,z,w,top-.36,d,tint());C(x,(.36+top)/2,z,w,top-.36,d,id+'-core');
+    B(e<0?'titaniumSkin':'ceramicShell',x,(.36+top)/2,z,w,top-.36,d,tint());C(x,(.36+top)/2,z,w,top-.36,d,id+'-core');
     B(zinc,x,top+.12,z,w+.20,.24,d+.20,0xc2c9bd);C(x,top+.12,z,w+.20,.24,d+.20,id+'-roof');
     for(let xx=x-w/2+.9;xx<x+w/2-.5;xx+=2.2){
       for(const yy of [2.05,5.6]){B(iron,xx,yy,154.74,1.5,2.12,.14);B(yy<3?'warmWindow':'glass',xx,yy,154.65,1.26,1.88,.035);B('trim',xx,yy-1.1,154.61,1.66,.15,.28,0xd0ccba);}
@@ -146,7 +152,7 @@ export function addSoHoInfill(scene,api){
   }
   for(const side of [-1,1]){
     const x=side*15.5,base=southReturns[side<0?0:1].height+.24;
-    structural('brickBrown',x,(base+22)/2,7.3,22-base,4.1,'pylon');
+    structural('basaltShell',x,(base+22)/2,7.3,22-base,4.1,'pylon');
     for(const dx of [-2.95,0,2.95]){
       B(zinc,x+dx,(base+22)/2,154.88,.31,22-base,.32);
       B('coolWindow',x+dx+.65,15.4,154.90,.40,9,.20);

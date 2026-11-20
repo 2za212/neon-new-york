@@ -1,5 +1,10 @@
+import {buildSkylineProperty} from './nyc-skyline-buildings.js';
+import {exchangeApproach} from './nyc-civic-hall.js';
+import {waterworksResidences} from './nyc-east-waterworks-housing.js';
 import * as T from 'three';
 import {mapPlan} from './nyc-map-plan.js';
+import {freightWell} from './nyc-future-core-layout.js';
+import {createTerminusMaterials, sohoLoadingHall, sohoPressAnnex, midtownWorksTower} from './nyc-west-termini.js';
 
 /** Occupied architecture, added to the parent's box/beam batch before finish().
  * No meshes, lights, animation loops or new walk surfaces are created here.
@@ -30,6 +35,7 @@ export function addCityDetail(scene,{box,beam,materials,colliders,sign,rand=Math
   const trim=materials.midtownSteel?'midtownSteel':'metal';
   const stone=materials.midtownLimestone?'midtownLimestone':'stone';
   const tint=(spread=.12)=>new T.Color().setScalar(1-spread/2+rand()*spread);
+  createTerminusMaterials(materials);
 
   // A face's origin sits on the actual wall, with +out pointing into the air.
   function face(x,z,rotation=0){
@@ -112,8 +118,8 @@ export function addCityDetail(scene,{box,beam,materials,colliders,sign,rand=Math
 
   const towers=[
     {id:'west_terracotta',x:-53,z:-102.5,w:18,d:15,top:66.36,scale:.58},
-    {id:'west_slim',x:-20,z:-102,w:14,d:14,top:82.36,scale:.56},
-    {id:'east_exchange',x:29,z:-101.5,w:26,d:13,top:79.36,scale:.62},
+    {id:'west_slim',x:exchangeApproach.westX,z:-102,w:14,d:14,top:82.36,scale:.56},
+    {id:'east_exchange',x:exchangeApproach.eastX,z:-101.5,w:26,d:13,top:79.36,scale:.62},
     {id:'east_sentinel',x:74,z:-102.5,w:16,d:15,top:96.36,scale:.52},
     {id:'plaza_east',x:38,z:-150,w:20,d:20,top:105.36,scale:.64},
     {id:'civic_hero',x:-8,z:-157,w:20,d:20,top:120.36,scale:.26},
@@ -131,7 +137,7 @@ export function addCityDetail(scene,{box,beam,materials,colliders,sign,rand=Math
 
   // Screens remain the focal point. Services frame their sides and occupy the
   // floors below, rather than covering the authored display textures.
-  const slim=face(-20,-95),exchange=face(29,-94);
+  const slim=face(exchangeApproach.westX,-95),exchange=face(exchangeApproach.eastX,-94);
   for(const [f,width] of [[slim,14],[exchange,34]]){
     const edge=width/2-.72;
     for(const e of [-1,1]){
@@ -176,7 +182,7 @@ export function addCityDetail(scene,{box,beam,materials,colliders,sign,rand=Math
   B(zinc,0,25.25,-32,24.4,.4,4.6);
   B('coolWindow',0,24.35,-29.82,22,.55,.12);
   // Two short maintenance balconies leave the northward tower sightline open.
-  for(const [x,direction] of [[-13,1],[12,-1]]){
+  for(const [x,direction] of [[exchangeApproach.westX+7,1],[exchangeApproach.eastX-17,-1]]){
     const cx=x+direction*1.2;
     B('metal',cx,9.82,-108.1,2.8,.28,2.2);
     B(zinc,cx,11.0,-107.05,2.8,.12,.09);
@@ -207,9 +213,9 @@ export function addCityDetail(scene,{box,beam,materials,colliders,sign,rand=Math
   B('metal',fin.x+1.5,mastY-1.6,fin.z,.35,.50,.65,0x8eaaa0);
 
   const exchangeTop=towers[2];
-  for(const x of [22.8,35.2])for(const z of [-103.5,-99.8])coolingUnit(x,exchangeTop.top+.82,z,1.5,1.25);
-  for(const z of [-104.5,-98.5])B('metal',29,exchangeTop.top+.85,z,13.6,.15,.15,0x8b9c91);
-  for(const x of [22.4,35.6])for(const z of [-104.5,-98.5])B('metal',x,exchangeTop.top+1.35,z,.06,1.1,.06,0x94a598);
+  for(const dx of [-6.2,6.2])for(const z of [-103.5,-99.8])coolingUnit(exchangeTop.x+dx,exchangeTop.top+.82,z,1.5,1.25);
+  for(const z of [-104.5,-98.5])B('metal',exchangeTop.x,exchangeTop.top+.85,z,13.6,.15,.15,0x8b9c91);
+  for(const dx of [-6.6,6.6])for(const z of [-104.5,-98.5])B('metal',exchangeTop.x+dx,exchangeTop.top+1.35,z,.06,1.1,.06,0x94a598);
 
   const sentinel=towers[3];
   for(let x=-1;x<=1;x++)for(let z=0;z<2;z++){
@@ -240,7 +246,7 @@ export function addCityDetail(scene,{box,beam,materials,colliders,sign,rand=Math
     {f:face(-10.65,-39,Math.PI/2),u:0},
     {f:face(10.65,-39,-Math.PI/2),u:0},
     {f:face(-10.65,44,Math.PI/2),u:0},
-    {f:face(10.65,44,-Math.PI/2),u:0},
+    {f:face(10.65,-50,-Math.PI/2),u:0},
     {f:face(-27,-10.65),u:0},
     {f:face(27,-10.65),u:0},
   ];
@@ -268,7 +274,7 @@ export function addCityDetail(scene,{box,beam,materials,colliders,sign,rand=Math
   const backgrounds=[
     [-77,-89,14,14,26,0],[-92,-112,14,18,42,1],[-76,-146,14,20,33,2],[-92,-176,14,18,58,3],
     [96,-106,14,18,28,2],[115,-130,16,17,47,0],[96,-158,14,20,36,3],[116,-177,16,16,64,1],
-    [16,-214,22,22,54,2],[-15,-243,26,24,76,1],[52,-221,24,22,67,0],[-48,-216,23,20,43,3],
+    [16,-214,22,22,54,2],[-15,-243,26,24,76,1],[52,-221,24,22,67,0],[-48,-216,23.2,20,39.3,3,midtownWorksTower],
     // Lower second-row blocks close the east-to-north diagonal sightlines from
     // the cafe and southern avenue, behind the taller first-row silhouettes.
     [146,-108,24,24,20,0],[150,-148,24,26,24,0],[145,-190,26,24,24,0],
@@ -276,11 +282,9 @@ export function addCityDetail(scene,{box,beam,materials,colliders,sign,rand=Math
     [17,-257,24,18,12,0],
     // Low brick blocks behind the SoHo end fence close the south avenue view.
     // All plinths stand on the existing outside-city asphalt, beyond z=170.
-    [-48,189,20,18,22,1],[-18,207,22,22,30,3],[14,184,18,18,18,1],
+    [-48,189,20.4,18,15.1,1,sohoLoadingHall],[-18,207,22.8,22,20.6,3,sohoPressAnnex],[14,184,18,18,18,1],
     [48,212,24,20,36,1],[78,191,18,18,25,3],
-    // Four-sided eastern blocks replace the old single-face park proxies.
-    [166,18,16,22,40,0],[183,-6,16,20,32,1],[200,-30,16,22,48,2],
-    [217,-54,16,20,34,0],[234,-78,16,20,46,3],
+    ...waterworksResidences,
   ];
   B('concrete',-82.1,-.65,-132.5,35.8,1.1,105,0x576a71);
   B('concrete',104.6,-.65,-132.5,40.8,1.1,105,0x576a71);
@@ -288,48 +292,22 @@ export function addCityDetail(scene,{box,beam,materials,colliders,sign,rand=Math
   // original four north blocks also gain real supporting background ground.
   // All three rectangles stay outside the playable union.
   B('concrete',151.5,-.65,-174,53,1.1,188,0x576a71); // x[125,178], z[-268,-80]
-  B('concrete',12.5,-.65,-226.5,225,1.1,83,0x576a71); // x[-100,125], z[-268,-185]
+  // Keep the old service foundations outside the open sunken freight street.
+  const {minX,maxX,minZ,maxZ}=freightWell;
+  for(const [x1,x2,z1,z2] of [[-100,minX,-268,-185],[maxX,125,-268,-185],
+    [minX,maxX,-268,minZ],[minX,maxX,maxZ,-185]]){
+    B('concrete',(x1+x2)/2,-.65,(z1+z2)/2,x2-x1,1.1,z2-z1,0x576a71);
+  }
   B('concrete',10,-.65,-182.6,148,1.1,4.8,0x576a71); // joins north edge at -180.2
-  function background(x,z,w,d,height,variant){
+  function background(x,z,w,d,height,variant,terminus){
     const footprint={minX:x-w/2,maxX:x+w/2,minZ:z-d/2,maxZ:z+d/2};
     if(touchesPlayable(footprint,mapPlan.currentOutline.points))return;
     stats.backgroundBuildings++;stats.backgroundFootprints.push({...footprint,height,outsidePlayable:true});
-    B('stone',x,.07,z,w+.40,.36,d+.40,0x6d8184);
-    const source=variant%2?'brickBrown':'stone';
-    const lower=height*(variant===3?.61:.76),upper=height-lower,scale=variant===2?.74:.84;
-    const tiers=[[w,d,lower,.24],[w*scale,d*scale,upper,.24+lower]];
-    for(let tier=0;tier<tiers.length;tier++){
-      const [ww,dd,hh,base]=tiers[tier];
-      B(source,x,base+hh/2,z,ww,hh,dd,variant%2?0x7e8d8c:0x839698);
-      B(zinc,x,base+hh+.09,z,ww+.30,.18,dd+.30,0x8a9c97);
-      for(const rot of [0,Math.PI/2,Math.PI,-Math.PI/2]){
-        const alongZ=Math.abs(Math.sin(rot))>.5,width=alongZ?dd:ww,depth=alongZ?ww:dd;
-        const f=face(x+Math.sin(rot)*depth/2,z+Math.cos(rot)*depth/2,rot);
-        const cols=Math.max(3,Math.floor(width/(variant===1?3.0:3.5))),gap=width/cols,rows=Math.floor((hh-.8)/(variant===3?4.4:4.9));
-        for(let i=0;i<=cols;i++)f.B('metal',-width/2+i*gap,base+hh/2,.055,.08,hh,.12,0x7e9497);
-        for(let row=0;row<rows;row++)for(let col=0;col<cols;col++){
-          const yy=base+2.4+row*(variant===3?4.4:4.9),u=-width/2+(col+.5)*gap;
-          const code=(row*13+col*7+tier*5+variant*3)%19;
-          f.B('metal',u,yy,.07,gap-.35,2.30,.09,0x516a76);
-          f.B(code===0?'routeHome':code===4?'routeStudio':code===7&&row%3===0?'routeBlinds':'glass',u,yy,.13,gap-.57,2.08,.025,0x8b9ea4);
-          if(variant===2)f.B(zinc,u,yy-1.24,.17,gap-.24,.10,.26,0x7e9397);
-        }
-        for(let y=base+4.9;y<base+hh;y+=4.9)f.B('metal',0,y,.08,width,.08,.16,0x809497);
-      }
+    if(terminus){
+      terminus({box:B,beam:L,collider:C},x,z);
+      return;
     }
-    const roof=.24+height;
-    if(variant%2){
-      B(oxide,x-w*.16,roof+.7,z,2.9,1.2,2.3,0x82928e);
-      for(let i=0;i<4;i++)B('metal',x-w*.16,roof+1.4+i*.20,z,3.1-i*.24,.09,2.5-i*.18,0x91a198);
-      B('metal',x+w*.18,roof+2.0,z+d*.10,.12,3.1,.12,0x879e96);
-    }else{
-      B(zinc,x,roof+.6,z,4.2,.9,2.4,0x8c9b94);
-      for(const e of [-1,1])B('metal',x+e*1.25,roof+1.35,z,.55,1.2,.55,0x91a297);
-      L('metal',[x-1.3,roof+1.7,z],[x+1.3,roof+1.7,z],.09,.09,0x91a297);
-    }
-    // Camera flight should recognise this background mass as well; ground
-    // movement cannot reach it because its footprint lies outside the union.
-    C(x,height/2+.24,z,w,height,d);
+    buildSkylineProperty(B,x,z,w,d,height,variant,Math.abs(x)>Math.abs(z)*.55,C);
   }
   for(const args of backgrounds)background(...args);
   stats.triangles=(stats.boxes+stats.beams)*12;
@@ -343,8 +321,18 @@ function touchesPlayable(rect,polygon){
   for(const p of polygon)if(p[0]>=rect.minX&&p[0]<=rect.maxX&&p[1]>=rect.minZ&&p[1]<=rect.maxZ)return true;
   for(let i=0;i<polygon.length;i++){
     const a=polygon[i],b=polygon[(i+1)%polygon.length];
-    if(a[0]===b[0]&&a[0]>=rect.minX&&a[0]<=rect.maxX&&Math.max(a[1],b[1])>=rect.minZ&&Math.min(a[1],b[1])<=rect.maxZ)return true;
-    if(a[1]===b[1]&&a[1]>=rect.minZ&&a[1]<=rect.maxZ&&Math.max(a[0],b[0])>=rect.minX&&Math.min(a[0],b[0])<=rect.maxX)return true;
+    // Clip each boundary segment against both slabs, including diagonal streets.
+    let enter=0,leave=1;
+    for(const [axis,min,max] of [[0,rect.minX,rect.maxX],[1,rect.minZ,rect.maxZ]]){
+      const delta=b[axis]-a[axis];
+      if(delta===0){
+        if(a[axis]<min||a[axis]>max){leave=-1;break;}
+      }else{
+        const lo=(min-a[axis])/delta,hi=(max-a[axis])/delta;
+        enter=Math.max(enter,Math.min(lo,hi));leave=Math.min(leave,Math.max(lo,hi));
+      }
+    }
+    if(enter<=leave)return true;
   }
   return false;
 }

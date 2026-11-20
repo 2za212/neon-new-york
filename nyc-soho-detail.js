@@ -50,7 +50,7 @@ export function addSoHoDetail(scene,api,buildings){
   const byID=new Map(buildings.map(b=>[b.id,b]));
   // Shopfronts now tell different stories at the same hand-sized grain as the
   // sample deli/record shop. Every display is behind its existing window C.
-  for(const [id,kind]of [['soho_lafayette','tailor'],['soho_broome','coffee'],['soho_mercer_grocer','grocer'],['soho_greene_books','books'],['soho_sullivan','design'],['soho_spring','audio']]){
+  for(const [id,kind]of [['soho_lafayette','tailor'],['soho_broome','coffee'],['soho_mercer_grocer','grocer'],['soho_greene_books','books'],['soho_sullivan','fresh-cut'],['soho_spring','audio']]){
     const b=byID.get(id);if(!b)continue;const d=b.bounds,f=frame(d.x,d.z,d.rot),w=d.width;
     stats.windowStories++;
     // Lower dado reeds, cast-iron fasteners and a narrow brass sill. The door
@@ -107,9 +107,16 @@ export function addSoHoDetail(scene,api,buildings){
         for(const y of [1.44,1.86]){f.B('rubber',u,y,-.210,.43,.32,.026);f.B(zinc,u,y,-.186,.15,.12,.018);}
       }
       f.B(cyan,-w*.22,2.42,-.24,w*.42,.045,.065);f.label(-w*.23,2.82,-.13,3.5,.35,'AFTER / FREQUENCY','ANALOG  ×  NEURAL AUDIO','#a6e1e1');
-    }else{
-      for(let j=0;j<6;j++){const u=-w*.43+j*.76;f.B(oak,u,1.32,-.44,.55,.29,.45);f.B(j%2?teal:cream,u,1.73+(j%3)*.12,-.44,.27,.50,.27);f.B(zinc,u,1.98+(j%3)*.12,-.44,.43,.05,.40);}
-      f.label(-w*.23,2.64,-.13,3.8,.39,'FORM / FUTURE','LOCAL OBJECTS / SYNTHETIC CRAFT','#b5d8d4');
+    }else if(kind==='fresh-cut'){
+      for(let j=0;j<5;j++){
+        const u=-w*.40+j*.84;
+        f.B(zinc,u,1.28,-.43,.73,.10,.50);
+        for(let n=0;n<3;n++){
+          f.B(coral,u-.19+n*.18,1.37+n*.018,-.43,.22,.082,.36);
+          f.B(cream,u-.17+n*.18,1.415+n*.018,-.43,.045,.02,.32);
+        }
+      }
+      f.label(-w*.23,2.64,-.13,3.8,.42,'今日鲜切','吊龙 / 胸口油 / 肥牛','#ffc08a');
     }
     // Street side small notices and utilities fit inside .55m of the wall.
     // On the main avenue they stay at |x| >= 10.10, away from both umbrella lanes.

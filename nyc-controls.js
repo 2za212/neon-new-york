@@ -1,3 +1,12 @@
+const combatIcons = new Map([
+  ['冲拳', ['punch', '<path d="M8 18V9a2 2 0 0 1 4 0V6a2 2 0 0 1 4 0v1a2 2 0 0 1 4 0v2a2 2 0 0 1 4 0v7l1-2a2 2 0 0 1 4 2l-4 7-4 4H12z" fill="currentColor"/><path d="M12 10v4m4-6v6m4-4v4" stroke="var(--ink)" stroke-width="1.5"/><path d="M2 12h3m-4 5h4m-2 5h4"/>']],
+  ['闪避', ['dodge', '<circle cx="22" cy="7" r="3" fill="currentColor"/><path d="m6 25 7-5 4-7 4 4 6-1M9 13l6-3 5 2m-5 8 5 2-3 6" stroke-width="3"/><path d="M2 10h5m-6 6h7"/>']],
+  ['破冰', ['ice', '<path d="m10 20 2-12 6-5 3 9-7 10zm9 0 5-8 4-1-2 9-6 3z" fill="currentColor"/><path d="m12 25-5 2m10-2 2 4m3-5 6 2M7 17l-3-3"/>']],
+  ['引雷', ['thunder', '<path d="M17 3h9l-9 11h7L9 30l4-13H6z" fill="currentColor" stroke="none"/>']],
+  ['落火', ['fire', '<path d="M17 2c2 7 8 9 6 15 2-1 3-3 3-5 5 10-1 17-10 17C7 29 3 22 6 16c1-2 3-4 5-6 0 4 1 5 2 6 3-4 5-8 4-14Z" fill="currentColor" stroke="none"/><path d="M16 26c-4-1-5-4-3-7l2 2 3-6c4 5 4 9-2 11Z" fill="var(--ink)" stroke="none"/>']],
+  ['打坐', ['meditate', '<circle cx="16" cy="7" r="3" fill="currentColor"/><path d="m5 20 5-2 3-6h6l3 6 5 2M7 22c-6 3-2 6 4 5l11-4m3-1c6 3 2 6-4 5l-11-4" stroke-width="2.4"/>']],
+]);
+
 /**
  * Input only: movement is camera-relative, +X right and +Z forward.
  * Read state every frame, then consume() once for look/zoom/jump edges.
@@ -115,7 +124,15 @@ export function createInputs(canvas, {attackLabel = '发掌', punchEnabled = fal
     const button = doc.createElement('button');
     button.type = 'button';
     button.className = 'nyc-touch__button';
-    button.textContent = text;
+    const icon = combatIcons.get(text);
+    if (icon) {
+      const [name, paths] = icon;
+      button.dataset.icon = name;
+      button.title = label;
+      button.innerHTML = `<svg aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">${paths}</svg>`;
+    } else {
+      button.textContent = text;
+    }
     button.setAttribute('aria-label', label);
     return button;
   }

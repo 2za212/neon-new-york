@@ -27,7 +27,7 @@ export function addSampleFrontages(scene,{box,beam,castColumn,weatherOccluders,m
   const glass=new T.MeshStandardMaterial({color:0xadc2be,vertexColors:true,transparent:true,opacity:.12,roughness:.18,metalness:.04,depthWrite:false,envMapIntensity:.35});glass.name='NYC sample / clear real-room glazing';glass.userData.castShadow=false;materials.sampleClearGlass=glass;
   const tile=document.createElement('canvas');tile.width=tile.height=256;const g=tile.getContext('2d');g.fillStyle='#65716a';g.fillRect(0,0,256,256);
   for(let y=0;y<4;y++)for(let x=0;x<4;x++){g.fillStyle=(x+y)%2?'#a5a38c':'#667970';g.fillRect(x*64+2,y*64+2,60,60);for(let i=0;i<32;i++){g.fillStyle=i%2?'rgba(20,35,25,.09)':'rgba(226,221,190,.1)';g.fillRect(x*64+4+rand()*55,y*64+4+rand()*55,1,2);}}
-  const tileMap=new T.CanvasTexture(tile);tileMap.colorSpace=T.SRGBColorSpace;tileMap.wrapS=tileMap.wrapT=T.RepeatWrapping;tileMap.anisotropy=4;tileMap.magFilter=T.NearestFilter;
+  const tileMap=new T.CanvasTexture(tile);tileMap.colorSpace=T.SRGBColorSpace;tileMap.wrapS=tileMap.wrapT=T.RepeatWrapping;tileMap.anisotropy=4;
   const tileMat=material('sampleDinerTile',materials.trim,{map:tileMap,color:new T.Color(0xffffff),roughness:.66,metalness:.02});tileMat.userData.textureMeters=1.2;tileMat.userData.unitUV=false;
   function frame(def){
     const c=Math.cos(def.rot),s=Math.sin(def.rot),P=(u,y,out)=>[def.x+u*c+out*s,y,def.z-u*s+out*c];
@@ -58,7 +58,17 @@ export function addSampleFrontages(scene,{box,beam,castColumn,weatherOccluders,m
   function window(f,u1,u2,id){
     const w=u2-u1,u=(u1+u2)/2;
     f.B('sampleTeal',u,.67,.075,w,.62,.24);
-    for(let x=u1+.12;x<u2;x+=.16)f.B('sampleIron',x,.67,.213,.027,.48,.024,0x8d9e88);
+    // Salt-glazed stall risers. Laid in running bond, with a projecting
+    // toe course and returned ends that read when walking along the glass.
+    for(let row=0;row<3;row++){
+      for(let left=u1-(row%2)*.16;left<u2;left+=.32){
+        const lo=Math.max(u1,left),hi=Math.min(left+.32,u2);
+        if(hi-lo<.04)continue;
+        const accent=id.startsWith('records')?'sampleTeal':'sampleSleeve';
+        f.B(row===0?'sampleIron':accent,(lo+hi)/2,.45+row*.16,.18,
+          hi-lo-.012,.148,row===0?.24:.16, row===1?0xc6d4c5:0xaabbb1);
+      }
+    }
     f.B('sampleClearGlass',u,2.11,-.03,w-.12,2.16,.035,0xb3c7bd);
     for(const e of [-1,1])f.B('sampleIron',u+e*(w/2-.025),2.08,.01,.075,2.40,.17,0x91a18d);
     f.B('sampleIron',u,.99,.06,w,.10,.27,0x9aaa95);f.B('sampleIron',u,3.25,.055,w,.13,.24,0x9aaa95);
@@ -104,17 +114,30 @@ export function addSampleFrontages(scene,{box,beam,castColumn,weatherOccluders,m
   window(east,.25,1.80,'repair-display-window');doorway(east,2.60,1.28,'repair');
   for(const u of [-5.04,1.25,5.04])pier(west,u,.22);
   window(west,-4.88,-1.03,'records-display-window');doorway(west,-.25,1.35,'records');window(west,.55,1.10,'records-right-window');
-  // Deep iron sign fascia, segmented oak cornice and high canvas rain visor.
+  // Glazed shop signs sit between the stepped street visor and ceramic heads.
   for(const f of [east,west]){
+    for(let bay=0;bay<3;bay++){
+      const w=f.def.width/3,u=(bay-1)*w;
+      f.B('basaltShell',u,3.95,.48,w-.09,.32,.96);
+      f.B('ceramicShell',u,4.13,.44,w-.40,.16,.96,0xc2d4ce);
+      f.B('titaniumSkin',u-w*.41,3.71,.58,.32,.32,1.16,0xb4c6c1);
+    }
     f.B('sampleIron',0,3.62,.15,f.def.width-.18,.37,.41,0x9cae96);
-    f.B('sampleOak',0,3.84,.21,f.def.width+.10,.12,.53,0xa99f7e);
+    // The shop ends turn into the street as terraced masonry brackets.
+    // Leave the projecting centre clear for the illuminated sign and canopy.
+    for(const end of [-1,1])for(let course=0;course<4;course++){
+      const reach=.32+course*.16;
+      f.B(f===west?'basaltShell':'titaniumSkin',end*(f.def.width/2-reach/2),
+        3.44+course*.16,.24+course*.08,reach,.16,.48+course*.16);
+    }
+    f.B('titaniumSkin',0,3.84,.21,f.def.width+.10,.12,.53,0xa99f7e);
     for(let u=-f.def.width/2+.13;u<f.def.width/2;u+=.26)f.B('sampleIron',u,3.78,.40,.12,.12,.22,0x93a68c);
     if(f===west)continue;
     f.B('sampleTeal',0,3.28,.47,f.def.width-.12,.16,1.08,0x97b09a);
     f.B('sampleIron',0,3.18,.98,f.def.width,.07,.10,0x94aa93);
     for(let u=-f.def.width/2+.12;u<f.def.width/2;u+=.30)f.B('sampleCream',u,3.22,1.025,.09,.12,.025,0xb1b99b);
   }
-  const canopy=addRecordShopCanopy(scene,west);
+  const canopy=addRecordShopCanopy(west);
   weatherOccluders.push(canopy.bounds);
   west.B('sampleIron',3.18,3.28,.49,3.74,.14,.98);
   east.sign(-1.88,3.63,.382,3.14,.42,'MONROE DELI','FRESH / SINCE 2086','#dbc595');
@@ -298,7 +321,7 @@ export function addSampleFrontages(scene,{box,beam,castColumn,weatherOccluders,m
   function setNight(night){for(const l of lights)l.intensity=l.userData.nightPower*(night?1:.65);warm.emissiveIntensity=night?.28:.14;cool.emissiveIntensity=night?.30:.15;}
   function setQuality(level){}
   stats.colliders=colliders.length-before;stats.pointLights=lights.length;stats.triangles+=(stats.boxes+stats.beams)*12;stats.furniture=furniture;stats.frontBarriers=frontBarriers;
-  stats.clearCeilingY=CEILING;stats.addedProjectionMax=.50;stats.triangles+=canopy.triangles;stats.independentDrawCalls++;stats.overheadVisorProjection=1.62;
+  stats.clearCeilingY=CEILING;stats.addedProjectionMax=.50;stats.overheadVisorProjection=1.62;
   setNight(true);
   return {stats,entries,closedEntry,lights,setNight,setQuality,furniture,frontBarriers,fixturePosition};
 }

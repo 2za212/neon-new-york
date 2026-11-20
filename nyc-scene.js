@@ -1,12 +1,32 @@
+import {keyedCasting,voxelCrown} from './nyc-field-voxels.js';
+import {buildSkylineProperty} from './nyc-skyline-buildings.js';
+import {buildGreenwayBlocks} from './nyc-greenway-blocks.js';
 import * as T from 'three';
+import {finishVoxelBays} from './nyc-fulton-modules.js';
+import {buildRadioStation} from './nyc-radio-station.js';
 import {routeWindow,createRouteWindows} from './nyc-route-windows.js';
-import {applyCitySurfaces,shopInterior,addServiceBalcony} from './nyc-city-surfaces.js';
+import {buildHabitatStack,buildExchangeApron} from './nyc-habitat-stacks.js';
+import {housingBond} from './nyc-housing-bond.js';
+import {applyCitySurfaces,shopInterior} from './nyc-city-surfaces.js';
 import {createNYCMaterials,createSignTexture} from './nyc-materials.js';
 import {createArchitectureBatch,randomSource} from './nyc-geometry.js';
 import {createDetailedStreetProps} from './nyc-street-props-v2.js';
 import {addCyberLayer} from './nyc-cyber-layer.js';
+import {buildCivicLink} from './nyc-civic-link.js';
+import {buildStreetConnections,buildSignalRoof} from './nyc-street-connections.js';
+import {createNightShifts} from './nyc-night-shifts.js';
+import {connectStreetPower} from './nyc-street-power.js';
+import {buildRegionalGrid} from './nyc-regional-grid.js';
+import {buildOldNightPost} from './nyc-suspended-delivery.js';
+import {createNightTraffic} from './nyc-night-traffic.js';
+import {addFutureCore} from './nyc-future-core.js';
+import {addStreetAdvertising} from './nyc-street-advertising.js';
+import {buildFutureCoreStreets} from './nyc-future-core-streets.js';
+import {freightWell} from './nyc-future-core-layout.js';
+import {buildTramPower} from './nyc-tram-power.js';
+import {buildStreetSections} from './nyc-street-sections.js';
 import {createAtmosphere} from './nyc-atmosphere.js';
-import {addWaterfront} from './nyc-waterfront.js';
+import {addWaterfront,onDryQuay} from './nyc-waterfront.js';
 import {openGreenway} from './nyc-greenway.js';
 import {mapPlan} from './nyc-map-plan.js';
 import {addDistrictFrontiers} from './nyc-frontiers.js';
@@ -18,9 +38,11 @@ import {addCityDetail} from './nyc-city-detail.js';
 import {createCityCrowd} from './nyc-city-crowd.js';
 import {SAMPLE_FRONTAGES,addSampleFrontages} from './nyc-sample-frontages.js';
 import {addSampleStreet} from './nyc-sample-street.js';
+import {buildRepairQuarter,repairPortalWidth} from './nyc-repair-quarter.js';
 import {addCityOccupation} from './nyc-city-occupation.js';
 import {addSoHo} from './nyc-soho.js';
 import {addEastPark} from './nyc-east-park.js';
+import {buildSchool} from './nyc-school.js';
 import {flushDistrictRoads} from './nyc-district-kit.js';
 
 /**
@@ -29,22 +51,25 @@ import {flushDistrictRoads} from './nyc-district-kit.js';
  * Four districts share one street network, world boundary, ground and map.
  * The Hudson greenway, SoHo courts and East Commons remain continuous.
  */
-export async function createNYCScene(scene,renderer) {
+export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}) {
   const materials=createNYCMaterials(renderer);
   await applyCitySurfaces(materials,renderer);
   createRouteWindows(materials);
   const batch=createArchitectureBatch(scene,materials,64);
   const {box,beam}=batch, rand=randomSource(20261112);
   const colliders=[],walkSurfaces=[],signMeshes=[],moving=[],localLights=[];
+  const lampPosts=[];
+  let floorCells=null;
   let buildings=0,trees=0,fireEscapes=0,waterTanks=0;
   const ROAD=.18,SIDE=.36;
   const bounds={...mapPlan.currentBounds};
-  const isPlayable=createPlayableArea(mapPlan.currentOutline);
+  const inOutline=createPlayableArea(mapPlan.currentOutline);
+  const isPlayable=(x,z,r=0)=>inOutline(x,z,r)&&onDryQuay(x,z,r);
   function collider(x,y,z,w,h,d){colliders.push(new T.Box3(new T.Vector3(x-w/2,y-h/2,z-d/2),new T.Vector3(x+w/2,y+h/2,z+d/2)));}
   function surface(minX,maxX,minZ,maxZ,y=SIDE){walkSurfaces.push({minX,maxX,minZ,maxZ,y});}
   function tint(spread=.08){const v=1-spread/2+rand()*spread;return new T.Color(v,v,v);}
   function windowMaterial(){const r=rand();return r<.32?'warmWindow':r<.42?'coolWindow':'glass';}
-  const detailedProps=createDetailedStreetProps({box,beam,materials,colliders,sign,surface,rand});
+  const detailedProps=createDetailedStreetProps({box,beam,panel:batch.panel,materials,colliders,sign,surface,rand});
 
   // The subway well is a real opening. Split the solid ground around it while
   // its existing closed-entry collider keeps players on the street network.
@@ -56,27 +81,36 @@ export async function createNYCScene(scene,renderer) {
   }
   // Non-playable city ground ties the skyline to the same shore. It remains
   // below the authored roads and never grants access past the construction.
-  box('asphalt',81,-.55,0,438,1,1400,0x819291);
-  // The closed construction frontiers retain a short visual apron for the
-  // orbit camera; gameplay bounds and walk surfaces still end at z=±52.
-  groundAround('asphalt',-44,64,-52,70,.01,.34);
+  const channel=freightWell;
+  for(const [left,right,near,far] of [
+    [-138,300,-700,channel.minZ],[-138,300,channel.maxZ,700],
+    [-138,channel.minX,channel.minZ,channel.maxZ],[channel.maxX,300,channel.minZ,channel.maxZ]
+  ])box('asphalt',(left+right)/2,-.55,(near+far)/2,right-left,1,far-near,0x819291);
+  // SoHo and East Park now own the ground beyond the original construction
+  // frontier. Their asphalt meets this slab edge to edge at z=52 and x=44.
+  groundAround('asphalt',-44,44,-52,52,.01,.34);
   surface(-44,44,-52,52,ROAD);
-  // Four continuous sidewalks keep a simple, fully connected movement network.
+  // Stop footways at the crossings. Their kerb returns meet on each corner,
+  // while feet, tyres and headlights cross at the same level as the road.
   for(const x of [-8.55,8.55]){
-    if(x<0)groundAround('concrete',x-2.05,x+2.05,-52,52,.27,.18);
-    else box('concrete',x,.27,0,4.1,.18,104);
-    surface(x-2.05,x+2.05,-52,52);
+    for(const [a,b] of [[-52,-6.5],[6.5,52]]){
+      if(x<0&&a<well.minZ&&b>well.maxZ)groundAround('paver',x-2.05,x+2.05,a,b,.27,.18);
+      else groundRect('paver',x-2.05,x+2.05,a,b,.27,.18);
+      surface(x-2.05,x+2.05,a,b);
+    }
   }
   for(const z of [-8.55,8.55]){
-    box('concrete',0,.27,z,88,.18,4.1);
-    surface(-44,44,z-2.05,z+2.05);
+    for(const [a,b] of [[-44,-10.6],[10.6,44]]){
+      groundRect('paver',a,b,z-2.05,z+2.05,.27,.18);
+      surface(a,b,z-2.05,z+2.05);
+    }
   }
   // Individual curb stones articulate the real quarter-metre stepped edge.
-  for(let z=-51.75;z<52;z+=.5)for(const x of [-6.64,6.64]){
+  for(let z=-51.75;z<52;z+=.5)for(const x of [-6.58,6.58]){
     if(Math.abs(z)<6.9)continue;
     box('curbStone',x,.285,z,.28,.21,.48,tint(.12));
   }
-  for(let x=-43.75;x<44;x+=.5)for(const z of [-6.64,6.64]){
+  for(let x=-43.75;x<44;x+=.5)for(const z of [-6.58,6.58]){
     if(Math.abs(x)<6.9)continue;
     box('curbStone',x,.285,z,.48,.21,.28,tint(.12));
   }
@@ -120,7 +154,7 @@ export async function createNYCScene(scene,renderer) {
 
   function sign(x,y,z,w,h,title,subtitle,color='#62e2e8',rot=0,vertical=false) {
     box('metal',x,y,z,w+.2,h+.2,.2,0x68757b,rot);
-    const material=new T.MeshStandardMaterial({map:createSignTexture(title,subtitle,color,vertical),emissiveMap:null,emissive:0xffffff,emissiveIntensity:1.05,roughness:.52});
+    const material=new T.MeshStandardMaterial({map:createSignTexture(title,subtitle,color,vertical,w/h),emissiveMap:null,emissive:0xffffff,emissiveIntensity:1.05,roughness:.52});
     material.emissiveMap=material.map;
     const mesh=new T.Mesh(new T.PlaneGeometry(w,h),material);
     mesh.position.set(x+Math.sin(rot)*.112,y,z+Math.cos(rot)*.112);mesh.rotation.y=rot;
@@ -129,116 +163,88 @@ export async function createNYCScene(scene,renderer) {
 
   function building(x,z,width,depth,floors,rot=0,variant=0,store='') {
     buildings++;
-    const floor=3.2,height=3.75+floors*floor, brick=variant%3===0?'brickBrown':'brick';
+    const floor=3.2,height=3.75+floors*floor,cut=4.10,base=.36;
+    const brick=variant%4===0?'titaniumSkin':'basaltShell';
     const refit=SAMPLE_FRONTAGES.find(f=>Math.abs(f.x-x)<.01&&Math.abs(f.z-z)<.01&&Math.abs(f.rot-rot)<.01);
+    const passage=repairPortalWidth(x,z);
     const c=Math.cos(rot),s=Math.sin(rot);
     const world=(u,v,out)=>[x+u*c+out*s,v,z-u*s+out*c];
-    const B=(mat,u,v,out,w,h,d,col=0xffffff)=>{const p=world(u,v,out);box(mat,...p,w,h,d,col,rot);};
+    const B=(mat,u,v,out,w,h,d,col=0xffffff)=>{
+      if(passage&&out>-.5&&v<3.96){
+        // Cut the same opening through every old layer, including the
+        // shutter, glazing, sill and stone band on the inherited frontage.
+        // One former shop bay opens into the gallery; the outside party pier
+        // remains. The opposite wing still carries its original shop front.
+        for(const [a,b] of [[u-w/2,Math.min(u+w/2,-width/2+.48)],[Math.max(u-w/2,passage/2),u+w/2]]){
+          if(b>a+.006)box(mat,...world((a+b)/2,v,out),b-a,h,d,col,rot);
+        }
+      }else box(mat,...world(u,v,out),w,h,d,col,rot);
+    };
+    const bond=housingBond(materials,B,batch.panel,world);
     const line=(mat,a,b,size=.07,col=0xffffff)=>beam(mat,world(...a),world(...b),size,size,col);
     function solid(u,y,out,w,h,d){const p=world(u,y,out);collider(...p,Math.abs(c)*w+Math.abs(s)*d,h,Math.abs(s)*w+Math.abs(c)*d);}
-    if(refit){
-      // Preserve the New York upper masonry while making a real void below.
-      // An opaque full-height building box would hide the authored shop rooms.
-      const cut=4.10,top=height+.36,lower=cut-.36,back=depth-refit.recessDepth;
-      B(brick,0,(top+cut)/2,-depth/2,width,top-cut,depth,tint(.13));
-      solid(0,(top+cut)/2,-depth/2,width,top-cut,depth);
-      B(brick,0,.36+lower/2,-refit.recessDepth-back/2,width,lower,back,tint(.13));
-      solid(0,.36+lower/2,-refit.recessDepth-back/2,width,lower,back);
-      for(const edge of [-1,1]){
-        B(brick,edge*(width/2-.13),.36+lower/2,-refit.recessDepth/2,.26,lower,refit.recessDepth,tint(.12));
-        solid(edge*(width/2-.13),.36+lower/2,-refit.recessDepth/2,.26,lower,refit.recessDepth);
+    const walkIn=!refit&&!passage&&variant%3!==1;
+    const setback=walkIn?(variant%3===0?2.56:1.60):0;
+    const solidBlock=(u,y,v,w,h,d)=>{
+      B(brick,u,y,v,w,h,d);solid(u,y,v,w,h,d);
+    };
+    const shopDepth=refit?refit.recessDepth:setback;
+    const lower=cut-base;
+    if(passage){
+      const wing=(width-passage)/2;
+      for(const side of [-1,1]){
+        const u=side*(passage+wing)/2;
+        const booth=side===-1?4.48:0;
+        solidBlock(u,(base+cut)/2,-(depth+booth)/2,wing,lower,depth-booth);
+        if(booth)solidBlock(-width/2+.24,(base+cut)/2,-booth/2,.48,lower,booth);
       }
     }else{
-      B(brick,0,height/2+.36,-depth/2,width,height,depth,tint(.13));
-      solid(0,height/2+.36,-depth/2,width,height,depth);
-      B('stone',0,1.95,-.02,width+.08,3.2,.22);
-      B('trim',0,.68,.08,width+.2,.45,.25);
+      solidBlock(0,(base+cut)/2,-(depth+shopDepth)/2,width,lower,depth-shopDepth);
+      if(shopDepth)for(const side of [-1,1])
+        solidBlock(side*(width/2-.13),(base+cut)/2,-shopDepth/2,.26,lower,shopDepth);
     }
-    B('metal',0,height+.52,-depth/2,width-.4,.18,depth-.4,0x7c8485);
-    B('roof',0,height+.4,-depth/2,width-.25,.14,depth-.25);
-    // A stepped parapet and dentil cornice are true quarter-voxel geometry.
-    for(let i=0;i<3;i++)B('trim',0,height+.23+i*.16,-depth/2,width+.2+i*.18,.16,depth+.2+i*.18,tint(.08));
-    B(brick,0,height+1.02,-depth/2,width,.85,depth);
-    B('roof',0,height+1.03,-depth/2,width-.48,.88,depth-.48);
-    for(let u=-width/2+.24;u<width/2;u+=.38)B('trim',u,height-.02,.25,.22,.26,.34);
-    for(const edge of [-1,1]){
-      // Chunked corner quoins make the visible silhouette genuinely block-stepped.
-      for(let y=refit?4.38:1;y<height-.6;y+=.42)B('stone',edge*(width/2-.18),y,.08,.48,.38,.24,tint(.12));
-      for(let zz=-depth+.4;zz<0;zz+=.5)B('trim',edge*(width/2+.035),height+.7,zz,.16,.2,.44);
+    if(walkIn){
+      buildExchangeApron(B,solid,width,setback,bond);
+      B('titaniumSkin',0,.29,-setback/2,width,.14,setback);
+      const p=world(0,base,-setback/2),w=Math.abs(c)*width+Math.abs(s)*setback,d=Math.abs(c)*setback+Math.abs(s)*width;
+      surface(p[0]-w/2,p[0]+w/2,p[2]-d/2,p[2]+d/2,base);
     }
-    const routeProfile=z>=28 && z<=45 && Math.abs(x)===10.65 ? (x>0?'workroom':'home') : null;
+    if(!refit){
+      B('basaltShell',0,1.95,-setback-.02,width+.08,3.2,.22);
+      B('titaniumSkin',0,.68,-setback+.08,width+.2,.45,.25);
+    }
+    const profile=z>=28&&z<=45?(x>0?'workroom':'home'):['home','tailor','workroom','pantry'][variant%4];
+    buildHabitatStack({box:B,bond,solid,streetSite:[x,z],width,depth,bottom:cut,top:height+.36,pitch:floor,seed:variant,
+      glass:(level,bay)=>routeWindow(profile,level,bay,4)});
+    if(z===-39||z===44)buildSignalRoof(B,line,width,depth,height,variant);
     const cols=Math.max(2,Math.floor(width/2.1)),gap=width/cols;
-    for(let f=0;f<floors;f++){
-      const yy=5.3+f*floor;
-      if((f===0&&!refit)||f===floors-1)B('trim',0,yy-1.38,.08,width+.14,.19,.28);
-      for(let i=0;i<cols;i++){
-        const u=-width/2+gap*(i+.5),ww=1.18+(variant%2)*.1;
-        B('metal',u,yy,.092,ww+.18,1.95,.16,0x5a6464);
-        const original=windowMaterial();
-        const wm=routeProfile?routeWindow(routeProfile,f,i,cols):original==='warmWindow'?'routeHome':original==='coolWindow'?'routeStudio':original;
-        B(wm,u,yy,.185,ww,1.78,.04,tint(.14));
-        B('metal',u,yy,.235,.07,1.82,.055,0xb1aca0);B('metal',u,yy+.16,.235,ww,.065,.055,0xb1aca0);
-        // Slightly projecting lintels and double-step stone sills.
-        B('trim',u,yy+1.02,.15,ww+.38,.19,.36,tint(.09));
-        B('trim',u,yy-.99,.21,ww+.32,.15,.45,tint(.1));
-        B('trim',u,yy-1.08,.13,ww+.16,.08,.27);
-        if((f+i+variant)%6===0){B('metal',u,yy-.67,.55,.76,.44,.65,0xa2aaa5);for(let j=0;j<4;j++)B('rubber',u-.28+j*.18,yy-.65,.895,.045,.28,.018);}
-      }
-    }
-    // Side walls have real window relief, including views down alleys.
-    for(const edge of [-1,1])for(let f=0;f<floors;f++)for(let j=0;j<Math.floor(depth/2.8);j++){
-      const yy=5.3+f*floor,zz=-1.6-j*2.8;
-      B('metal',edge*(width/2+.015),yy,zz,.12,1.93,1.24,0x49575b);
-      B(windowMaterial(),edge*(width/2+.09),yy,zz,.04,1.72,1.08);
-      B('trim',edge*(width/2+.15),yy-.98,zz,.36,.14,1.48);
-    }
-    if(!refit)for(const e of [-1,1]){
-      const p=world(e*(width/2-.31),.36,.44);
-      batch.castColumn(...p,2.95,.18,variant);
-    }
+    const shop=(m,u,y,v,w,h,d,col)=>B(m,u,y,v-setback,w,h,d,col);
     // Ground floor storefronts and recessed doorways sized to an adult character.
     if(!refit)for(let i=0;i<cols;i++){
       const u=-width/2+gap*(i+.5),w=gap-.34;
-      B('metal',u,1.8,.15,w,2.45,.2,0x3e514f);
+      shop('metal',u,1.8,.15,w,2.45,.2,0x3e514f);
       const glazing=i===Math.floor(cols/2)?shopInterior(store,variant):windowMaterial();
-      B(glazing,u,1.8,.265,w-.16,2.24,.035,0xffffff);
-      B('metal',u,1.8,.30,.075,2.25,.035,0x7e928f);
-      B('metal',u,2.22,.30,w-.18,.08,.04,0x7e928f);
-      B('trim',u,.55,.38,w+.1,.18,.65);
+      shop(glazing,u,1.8,.265,w-.16,2.24,.035,0xffffff);
+      shop('metal',u,1.8,.30,.075,2.25,.035,0x7e928f);
+      shop('metal',u,2.22,.30,w-.18,.08,.04,0x7e928f);
+      shop('titaniumSkin',u,.55,.38,w+.1,.18,.65);
       // Layered shop jambs and transom caps provide a real shadow reveal.
       for(const e of [-1,1]){
-        B('stone',u+e*(w/2+.05),1.86,.31,.20,2.75,.43,0xaaa697);
-        B('trim',u+e*(w/2+.05),.64,.4,.28,.28,.53,0xb3af9b);
-        B('trim',u+e*(w/2+.05),3.05,.38,.30,.19,.48,0xb4ae9b);
+        shop('ceramicShell',u+e*(w/2+.05),1.86,.31,.20,2.75,.43,0xaaa697);
+        shop('titaniumSkin',u+e*(w/2+.05),.64,.4,.28,.28,.53,0xb3af9b);
+        shop('titaniumSkin',u+e*(w/2+.05),3.05,.38,.30,.19,.48,0xb4ae9b);
       }
-      B('metal',u,2.89,.39,w-.12,.13,.13,0x8e9d92);
+      shop('metal',u,2.89,.39,w-.12,.13,.13,0x8e9d92);
       // Selected closed shutters break up the ribbon of identical shop windows.
       if((i+variant)%5===1){
-        B('metal',u,1.68,.33,w-.22,1.98,.08,0x7d8b7c);
-        for(let sl=0;sl<15;sl++)B('rubber',u,.77+sl*.13,.382,w-.22,.023,.025,0x6a7469);
+        shop('metal',u,1.68,.33,w-.22,1.98,.08,0x7d8b7c);
+        for(let sl=0;sl<15;sl++)shop('rubber',u,.77+sl*.13,.382,w-.22,.023,.025,0x6a7469);
       }
-      B('metal',u,3.34,.47,w+.12,.20,1.0,variant%2?0x426d64:0x8c5d47);
-      for(let k=0;k<Math.ceil(w/.3);k++)B('metal',u-w/2+k*.3,3.23,.91,.15,.16,.16,variant%2?0x375c55:0x73533f);
+      shop('metal',u,3.34,.47,w+.12,.20,1.0,variant%2?0x426d64:0x8c5d47);
+      for(let k=0;k<Math.ceil(w/.3);k++)shop('metal',u-w/2+k*.3,3.23,.91,.15,.16,.16,variant%2?0x375c55:0x73533f);
     }
-    // Exposed brick clusters catch side light instead of relying on a flat grid.
-    if(!refit)for(const edge of [-1,1])for(let row=0;row<15;row++)for(let col=0;col<3;col++){
-      const u=edge*(width/2-.75-col*.36+(row%2)*.15);
-      B(brick,u,.95+row*.19,.154,.33,.16,.10,tint(.2));
-    }
-    // Masonry clusters around first-floor lintels and damaged wall edges.
-    if(!refit)for(let patch=0;patch<3;patch++){
-      const anchor=-width/2+1+patch*(width-2)/2;
-      for(let row=0;row<6;row++)for(let col=0;col<4;col++){
-        if((row+col+variant)%5===0)continue;
-        B(brick,anchor+(col-1.5)*.34+(row%2)*.16,3.7+row*.18,.17,.31,.15,.14,tint(.2));
-      }
-    }
-    // A dark rain band and segmented plinth keep the base in contact with paving.
-    if(!refit){
-      B('metal',0,.435,.18,width+.08,.12,.25,0x536357);
-      for(let u=-width/2+.28;u<width/2;u+=.56)B('stone',u,.58,.22,.53,.22,.33,tint(.16));
-    }
-    if(variant%2===0 || floors>6){
+    if(!refit)shop('basaltShell',0,.44,.18,width+.08,.16,.25);
+    if(variant%5===1){
       fireEscapes++;
       const fu=width*.12;
       for(let f=0;f<Math.min(floors,5);f++){
@@ -256,19 +262,8 @@ export async function createNYCScene(scene,renderer) {
         }
       }
     }
-    // Roof equipment is clustered in one place, allowing a quiet roof silhouette.
-    addServiceBalcony(B,width,depth,variant%2?1:-1,variant%3===0);
-    const roofY=height+1.3;
-    for(let j=0;j<2;j++){
-      const u=-width*.25+j*1.35,zz=-depth*.6;
-      B('metal',u,roofY+.55,zz,1.15,1.05,1.55,0xafb3a8);
-      for(let sl=0;sl<5;sl++)B('rubber',u-.4+sl*.2,roofY+.52,zz+.79,.05,.7,.02);
-      B('metal',u,roofY+1.15,zz,.72,.13,1.2,0x89958c);
-    }
-    B('metal',width*.32,roofY+.9,-depth*.62,.4,1.8,.4,0x6c7d7d);
-    B('metal',width*.32,roofY+1.83,-depth*.62,.65,.12,.65,0x99a19b);
-    if(variant%3!==1)waterTower(...world(-width*.22,roofY,-depth*.34),1.35+(variant%2)*.18);
-    if(store&&!refit){const p=world(0,3.04,.54);sign(...p,Math.min(width-1.2,7.1),.63,store,'NEIGHBORHOOD / EST. 2086',variant%2?'#f2bc81':'#62d9df',rot);}
+    if(variant===3||variant===13)waterTower(...world(-width*.22,height+.64,-depth*.60),1.35);
+    if(store&&!refit&&!passage){const p=world(0,3.04,.54-setback);sign(...p,Math.min(width-1.2,7.1),.63,store,'NEIGHBORHOOD / EST. 2086',variant%2?'#f2bc81':'#62d9df',rot);}
     // A few vertical displays give future technology a legible local accent.
     if(variant%3===0){const p=world(-width/2+1.2,9.9,.5);sign(...p,1.20,5.5,'NEXUS','LINK / 24H','#ef69b4',rot,true);}
     if(variant%4===1){const p=world(width/2-.9,7.8,.43);sign(...p,.9,4.1,'SYNC','NY / 6G','#5bdce4',rot,true);}
@@ -305,12 +300,20 @@ export async function createNYCScene(scene,renderer) {
   }
   for(const z of [32,44,-39,-50]){
     building(-10.65,z,10.3,15,5+(index%3),Math.PI/2,index,names[index%names.length]);index++;
-    if(z<0||z>36){building(10.65,z,10.3,15,5+(index%3),-Math.PI/2,index,names[index%names.length]);index++;}
+    if(z<0){building(10.65,z,10.3,15,5+(index%3),-Math.PI/2,index,names[index%names.length]);index++;}
+    if(z===44){buildings++;index++;}
   }
   // A lower corner building lets afternoon light and the park breathe in the SE.
   building(10.65,29.8,7.4,12.4,3,-Math.PI/2,21,'PARKSIDE / 24');
+  const radio=buildRadioStation(scene,collider);
+  await radio.ready();
+  for(const [x,y,z,power,color] of [[10.96,2.72,42.1,30,0xffbe80],[11.15,4.35,46.9,17,0x70c6cc]]){
+    const light=new T.PointLight(color,power,7,2);
+    light.position.set(x,y,z);light.userData.nightPower=power;scene.add(light);localLights.push(light);
+  }
 
   function lamp(x,z,side=1,green=false){
+    lampPosts.push({x:x+side*.72,y:4.4,z,glow:green?0xd1ceaa:0xffc08d,reach:14,gain:.95});
     box(green?'green':'metal',x,.55,z,.43,.38,.43,0xc4c7b6);
     box(green?'green':'metal',x,2.55,z,.13,3.7,.13,0x859088);
     for(let i=0;i<3;i++)box(green?'green':'metal',x,4.35+i*.1,z,.22-i*.035,.12,.22-i*.035,0x9fac9d);
@@ -330,25 +333,36 @@ export async function createNYCScene(scene,renderer) {
   for(const x of [-39,-23,22,39])tree(x,-8.2,.78);
 
   function bench(x,z,rot=0){
-    box('metal',x,.66,z,1.8,.1,.55,0x95a395,rot);
     const c=Math.cos(rot),s=Math.sin(rot);
-    for(const u of [-.62,.62])box('metal',x+u*c,.55,z-u*s,.12,.55,.48,0x839281,rot);
-    for(let i=0;i<4;i++)box('wood',x,.79,z-.23+i*.145,1.94,.11,.12,0xc2b096,rot);
-    for(let i=0;i<3;i++)box('wood',x,1.0+i*.16,z-.35,1.94,.12,.11,0xbba790,rot);
+    const seat=(mat,u,v,y,w,h,d,t)=>box(mat,x+u*c+v*s,y,z-u*s+v*c,w,h,d,t,rot);
+    for(const side of [-1,1]){
+      seat('metal',side*.64,0,.47,.32,.24,.64,0x718784);
+      seat('metal',side*.64,-.08,.65,.16,.16,.48,0x83989b);
+      seat('metal',side*.64,-.24,.84,.16,.54,.16,0x96a69c);
+    }
+    for(let row=0;row<3;row++)for(let plank=0;plank<3;plank++){
+      const tone=[0xc2ad8c,0xd2b794,0xbca88b][(row+plank)%3];
+      seat('wood',(plank-1)*.64,(row-1)*.16,.77,.637,.16,.157,tone);
+      if(row<2)seat('wood',(plank-1)*.64,-.32,.98+row*.16,.637,.157,.16,tone);
+    }
   }
   function planter(x,z,w=2.4,d=.8){
-    box('stone',x,.61,z,w,.52,d,0xb7b6a1);box('grass',x,.89,z,w-.2,.08,d-.2);
-    for(let i=0;i<Math.floor(w*8);i++){
-      const xx=x+(rand()-.5)*(w-.2),zz=z+(rand()-.5)*(d-.2);
-      box('leaf',xx,1.03+rand()*.12,zz,.22,.27,.22,tint(.23));
-      if(i%3===0)box('magenta',xx,1.2,zz,.055,.06,.055,0x8d7067);
-    }
+    keyedCasting({box,panel:batch.panel},'stone',x,.60,z,w,.48,d,0xbfc2ac,2);
+    box('grass',x,.855,z,w-.32,.07,d-.32);
+    const count=Math.max(2,Math.round(Math.max(w,d)/.52)),alongX=w>d;
+    const lobes=Array.from({length:count},(_,i)=>{
+      const along=((i+.5)/count-.5)*(Math.max(w,d)-.32),across=(i%2-.5)*.16;
+      return [alongX?along:across,(i%3)*.065,alongX?across:along,alongX?.53:.31,.32,alongX?.31:.53];
+    });
+    voxelCrown({box,panel:batch.panel},'leaf',[x,1.05,z],lobes,Math.round(x-z),
+      [0x73998c,0x93af8c,0xa7bc8d,0xc2cd97,0xd6d69d]);
   }
   // Ground-level park forms a reachable break in the street wall.
   box('grass',38.2,.29,30.5,12.3,.14,39);
   surface(32.05,44.3,11,50);
   box('paver',35.1,.365,30.5,3.0,.035,39);
-  box('paver',38,.365,17,12,.035,3.0);
+  groundRect('paver',32,33.6,15.5,18.5,.365,.035);
+  groundRect('paver',36.6,44,15.5,18.5,.365,.035);
   for(const z of [15,23,32,43])tree(40.7,z,.92+rand()*.17,true);
   for(const z of [21,32,43]){bench(37,z,-Math.PI/2);planter(32.9,z,1.2,2.2);lamp(33,z+3,1,true);}
   for(let z=11.3;z<50;z+=.5)box('trim',44.1,.49,z,.32,.28,.48,0xa0afa0);
@@ -387,6 +401,8 @@ export async function createNYCScene(scene,renderer) {
       if(zz>deckZ)for(let j=0;j<8;j++)box('leaf',x-1+j*.25,6.7-rand()*.55,zz+.13,.28,.6,.24,tint(.25));
     }
   }
+
+  buildCivicLink({box,beam,collider});
 
   function subway(x,z,rot=0){
     return detailedProps.subway(x,z,rot);
@@ -505,44 +521,22 @@ export async function createNYCScene(scene,renderer) {
       box('cyan',x+w*.38,height*.69,z+d/2+.3,.18,height*.24,.1,0x679b9a);
     }
   }
-  // Midtown now owns the former skyline: every nearby tower has a real podium
-  // and collider. River/east background buildings remain outside the district.
+  // The Hudson's far shore remains a lower, staggered silhouette behind the crane.
   box('stone',-340,-.95,0,180,1.8,1400,0x485968);
-  for(const side of [-1])for(let i=0;i<5;i++){
-    const x=side<0?-260-i*17:166+i*17,z=18-i*24,h=30+rand()*27+(side<0?[0,13,-5,19,4][i]:0);
-    box('brickBrown',x,h/2,z,14,h,20,0x879393);
-    for(let y=3;y<h;y+=3.8)for(let u=-5;u<6;u+=2.3)box(windowMaterial(),x+u,y,z+10.05,.95,1.55,.05,0xa4b0aa);
-    box('metal',x,h+.2,z,14.3,.35,20.3,0x7f9293);
-    if(side<0){
-      // River-facing east side: iron sash bays and ribs, rather than a blank box.
-      for(let col=0;col<8;col++){
-        const zz=z-8.3+col*2.35;
-        box('metal',x+7.10,h/2,zz,.20,h-.6,.13,0x80989b);
-        for(let row=0;row<Math.floor((h-2)/3.8);row++){
-          const yy=2.8+row*3.8,code=(row*13+col*7+i*3)%19;
-          box('metal',x+7.075,yy,zz+.65,.09,2.18,1.36,0x59737b);
-          box(code<2?'warmWindow':code===4?'coolWindow':'glass',x+7.135,yy,zz+.65,.035,1.95,1.15,0x98abb0);
-          box('metal',x+7.17,yy,zz+.65,.04,.06,1.17,0x8c9f9d);
-        }
-      }
-      for(const zz of [z-10,z+10])box('stone',x+7.12,h/2,zz,.32,h,.28,0x91a5a5);
-      for(let yy=1.5;yy<h;yy+=3.8)box('metal',x+7.16,yy,z,.14,.13,20.1,0x819b9d);
-      // Keep the opposite face populated when the skyline is seen obliquely.
-      for(let row=0;row<Math.floor((h-2)/3.8);row++)for(let col=0;col<5;col++){
-        const yy=2.8+row*3.8,code=(row*11+col*7+i)%17;
-        box(code===0?'warmWindow':'glass',x-4.8+col*2.35,yy,z-10.055,1.05,1.8,.04,0x91a5aa);
-      }
-      // A few setbacks and rooftop machines create five distinct silhouettes.
-      for(let step=0;step<3;step++){
-        const scale=[.84,.62,.38][step],yy=h+.5+step*2.05;
-        box('brickBrown',x,yy+.92,z,14*scale,1.85,20*scale,0x859a9b);
-        box('metal',x,yy+1.9,z,14*scale+.35,.18,20*scale+.35,0x95aaa7);
-      }
-      box('metal',x-1.8,h+7.7,z-1.6,1.35,2.1,1.4,0x8b9f9a);
-      box('metal',x-1.8,h+8.85,z-1.6,1.7,.16,1.7,0xa2b2a7);
-      box('metal',x+1.6,h+9.2,z+1.5,.10,4.6,.10,0x93aaa7);
-      if(i%2===0)box('cyan',x+5.99,h+1.24,z+1.2,.06,.13,3.6,0x789d99);
-    }
+  box('stone',-253,-.57,-1,6,1.14,148,0x85949a);
+  box('paver',-254.4,.11,-1,5.1,.22,148,0x939d97);
+  for(let z=-67;z<=65;z+=11){
+    box('trim',-250.10,-.10,z,.32,1.05,.39,0x8f9a95);
+    box('metal',-252.75,.31,z,.13,.62,.13,0xa5aba0);
+    box('lamp',-252.75,.66,z,.19,.11,.19,0xb7aaa0);
+  }
+  const oppositeShore=[
+    [-261,29,13,19,20,0],[-276,2,15,22,29,1],[-267,-29,12,20,23,2],
+    [-292,-58,17,23,41,1],[-304,38,18,23,42,2],[-319,-11,18,21,54,0],
+    [-328,64,22,24,34,1]
+  ];
+  for(const [x,z,w,d,h,style] of oppositeShore){
+    buildSkylineProperty(box,x,z,w,d,h,style,true);
   }
 
   // Small warm stair lights and park rail endpoints reward exploring the edges.
@@ -558,40 +552,69 @@ export async function createNYCScene(scene,renderer) {
   const cityDetail=addCityDetail(scene,{box,beam,materials,colliders,sign,rand});
   const sampleFrontages=addSampleFrontages(scene,{box,beam,weatherOccluders:batch.roofOccluders,castColumn:batch.castColumn,materials,colliders,surface,sign,rand:randomSource(882041)});
   const sampleStreet=addSampleStreet(scene,{box,beam,materials,colliders,surface,sign,rand:randomSource(882042)});
-  // The service court terminates against an actual masonry return, behind its
-  // closed door, rather than exposing an unbuilt gap between the two buildings.
-  box('brickBrown',20.0,2.22,24.375,.40,3.72,3.45,0xa2a99b);
-  box('trim',20.0,4.18,24.375,.52,.22,3.58,0xa5b0a0);
-  collider(20.0,2.22,24.375,.40,3.72,3.45);
+  const repairQuarter=buildRepairQuarter(scene,{box,beam,materials,surface,collider,sign,localLights});
   const sample={bounds:{minX:-20,maxX:20,minZ:2,maxZ:42},area:1600,frontages:sampleFrontages,street:sampleStreet,entries:sampleFrontages.entries};
   const roadRegistry=[];
-  const districtApi={box,beam,castColumn:batch.castColumn,materials,colliders,surface,sign,tree,lamp,bench,planter,roadRegistry};
+  const districtApi={box,beam,panel:batch.panel,castColumn:batch.castColumn,registerPaving:batch.registerPaving,materials,colliders,collider,surface,sign,tree,lamp,bench,planter,roadRegistry};
   const soho=addSoHo(scene,{...districtApi,rand:randomSource(611203)});
   const eastPark=addEastPark(scene,{...districtApi,rand:randomSource(611204)});
-  // Distant built frontage closes long street axes and views across the park.
-  // Rooftop shapes stay well outside navigation and preserve the Hudson channel.
-  const skylineRand=randomSource(80711);
-  function outerBlock(x,z){
-    const w=11+skylineRand()*12,d=12+skylineRand()*10,h=16+skylineRand()*34;
-    const skin=materials.midtownCurtain;
-    const tint=new T.Color().setHSL(.54+skylineRand()*.05,.10,.53+skylineRand()*.21);
-    box(skin,x,h/2-.2,z,w,h,d,tint);
-    box('metal',x,h,z,w+.4,.45,d+.4,0x889b9e);
-    const upper=5+skylineRand()*9;
-    box(skin,x+1,h+upper/2,z,w*.67,upper,d*.72,tint);
-    box('roof',x+1,h+upper,z,w*.68,.46,d*.73);
-    if(skylineRand()>.62){
-      box('metal',x+1,h+upper+2.8,z,.33,5.6,.33);
-      box('lamp',x+1,h+upper+5.7,z,.45,.42,.45);
-    }
+  const schoolLandmark=buildSchool(districtApi,scene,localLights);
+  const coreStreets=buildFutureCoreStreets(scene,districtApi);
+  const futureCore=addFutureCore(scene,districtApi);
+  buildGreenwayBlocks(districtApi);
+  for(const light of [...coreStreets.lights,...futureCore.lights]){
+    light.userData.nightPower??=light.intensity;localLights.push(light);
   }
-  for(const z of [-215,209])for(let x=-134;x<190;x+=29)outerBlock(x,z+skylineRand()*12);
-  for(let z=-177;z<=177;z+=32)outerBlock(202+skylineRand()*18,z);
+  // Bring the neighbouring blocks up to the edge streets. Service courts
+  // sit between the two rows; the long axes keep an offset break in the wall.
+  const perimeterLots=[
+    // Southern fabric market boundary; step down at the two road ends.
+    [-83,180,21,22,38,2],[-59,176,24,19,51,1],[-35,183,21,22,33,2],
+    [-15,174,18,18,48,1],[13,171,20,18,39,2],[37,180,24,23,58,0],
+    [64,174,24,20,47,1],[87,188,19,22,41,2],[-43,207,20,23,71,0],
+    [78,210,24,25,80,1],
+    // Northern end of the city; the relay occupies the gap at x=31.
+    [-91,-431,28,25,60,0],[-62,-422,23,23,71,1],[-31,-426,30,23,83,1],
+    [0,-438,22,24,54,2],[64,-426,24,23,93,0],[90,-429,25,26,73,1],
+    [117,-423,23,21,82,1],[149,-432,31,26,64,2],[89,-462,27,26,109,0],
+    // Beyond the park wall and market, set back from the reservoir and yard.
+    [168,9,22,22,57,1],[178,77,25,24,49,2],[179,109,21,24,64,1],
+    [171,146,24,27,49,0],[202,166,30,23,69,1],
+    [185,-164,24,23,64,0],[188,-102,25,24,52,1],[207,-83,22,18,66,2],
+    [-82,-88,24,24,46,2],[-85,-148,27,26,68,1]
+  ];
+  // The skyline kit already supplies the end headers and stepped shoulders.
+  // Keep its bonded surface shell, skip a second run of sub-metre cornice
+  // fittings on every distant floor.
+  const perimeterBox=(mat,x,y,z,w,h,d,tint)=>box(mat,x,y,z,w,h,d,tint,0,null,true);
+  for(const [x,z,w,d,h,kind] of perimeterLots){
+    buildSkylineProperty(perimeterBox,x,z,w,d,h,kind,Math.abs(z)<200,collider);
+  }
+  // East river exchange: ceramic service piers carry an inhabited
+  // transfer deck. The full-height void below the deck survives at phone size.
+  const exchangeX=198;
+  for(const [z,h] of [[-19,29],[22,36]]){
+    box('basaltShell',exchangeX,6,z,24,12,17,0xbecacf);
+    box('ceramicShell',exchangeX,15,z,19,8,14,0xa6baba);
+    box('titaniumSkin',exchangeX,(18+h)/2,z,14,h-18,11,0x9da9ab);
+    box('trim',exchangeX,h+.6,z,18,1.2,15,0xa2aaa7);
+    for(const offset of [-4,4])box('metal',exchangeX-7.8,h*.55,z+offset,2,h*.86,1.6,0x77888d);
+  }
+  box('metal',exchangeX,30,2.5,17,4,56,0x657881);
+  box(materials.midtownCurtain,exchangeX,33.8,2.5,15,3.6,54,0xa1babd);
+  box('metal',exchangeX,36.16,2.5,18,1.12,57,0x8f9ba3);
+  for(let z=-20;z<28;z+=6){
+    beam('metal',[exchangeX-8.7,28,z],[exchangeX-8.7,36,z+5.5],.95,.95,0xb6b4a8);
+    box('warmWindow',exchangeX-7.6,33.7,z, .18,1.65,3.3,0xc4a882);
+  }
+  for(let tier=0;tier<4;tier++){
+    box('metal',exchangeX+tier*1.2,38.5+tier*4.2,22,14-tier*2.5,4.3,18-tier*2.3,0x8c9ea4);
+  }
   // The south-facing park edge overlooks a raised railway cutting and the
   // backs of occupied workshops. All of this lies outside the walkable outline.
   for(const x of [90,105,120,135,150]){
-    box('brickBrown',x,2.4,108,4.5,5.1,6);
-    box('stone',x,5.15,108,5.3,.6,6.6);
+    box('basaltShell',x,2.4,108,4.5,5.1,6);
+    box('ceramicShell',x,5.15,108,5.3,.6,6.6);
     box('metal',x,5.83,108,15.05,.78,6.2);
     for(const z of [105.2,110.8]){
       box('metal',x,6.96,z,15,.12,.13);
@@ -599,23 +622,42 @@ export async function createNYCScene(scene,renderer) {
     }
     for(const z of [107.1,108.9])box('metal',x,6.30,z,15,.15,.14);
   }
-  for(const [x,z,w,h,d] of [[94,119,14,11,9],[111,123,17,15,12],[130,119,19,9,8],[147,126,14,18,15]]){
-    box('brickBrown',x,h/2,z,w,h,d);
-    box('stone',x,h+.18,z,w+.5,.36,d+.5);
-    for(let y=2.4;y<h-1;y+=3.1)for(let dx=-w/2+1.5;dx<w/2-1;dx+=2.55){
-      box('metal',x+dx,y,z-d/2-.04,1.72,2.18,.16);
-      box((Math.round(dx+y)%3===0)?'warmWindow':'glass',x+dx,y,z-d/2-.15,1.48,1.92,.06);
-    }
-    box('metal',x+w*.22,h+.74,z,2.8,1.2,1.3);
+  for(const [x,z,w,h,d,k] of [[94,119,14,11,9,2],[111,123,17,15,12,1],[130,119,19,9,8,2],[147,126,14,18,15,0]]){
+    buildSkylineProperty(box,x,z,w,d,h,k);
   }
   sign(111,8.6,116.68,8.5,1.62,'EAST LINE','POWER / SWITCHING YARD','#83dad2',Math.PI);
   const districtRoadStats=flushDistrictRoads(roadRegistry);
+  buildStreetConnections({box,beam,collider,surface,sign});
+  buildTramPower({box,beam,collider});
+  buildStreetSections({box,beam,panel:batch.panel,collider,surface,materials,sign,scene,localLights});
   const occupation=addCityOccupation(scene,{box,beam,panel:batch.panel,materials,colliders,walkSurfaces,sign,sample,soho,eastPark});
   const frontiers=addDistrictFrontiers(scene,{box,beam,materials,colliders,sign});
-  const extraVents=[...streetLife.steamSources.map(s=>[s.position.x,s.position.z,s.kind==='food-cart'?'#d7c0a0':'#99b7b3',s.position.y]),...(soho.detail?.steamSources||[])];
+  const extraVents=[...streetLife.steamSources.map(s=>[s.position.x,s.position.z,s.kind==='food-cart'?'#d7c0a0':'#99b7b3',s.position.y]),...(soho.detail?.steamSources||[]),
+    [46.55,-194.82,'#d6ad87',1.73],[35.4,-209.83,'#cba47c',1.73],[71.12,-215.72,'#a79a85',-5.76]];
   const atmosphere=createAtmosphere(scene,{renderer,bounds,extraVents});
+  const nightShifts=createNightShifts(scene,{box,collider,ground,buildings:futureCore.buildings,localLights,materials,sign});
+  const streetAds=addStreetAdvertising(scene,renderer,futureCore.buildings,localLights,{ground,collider,colliders,isPlayable,signMeshes,rift});
+  moving.push((dt,time)=>streetAds.update(time));
+  const streetPower=connectStreetPower({routes:mapPlan.roads,box,collider,colliders,ground,isPlayable,
+    posts:lampPosts,sites:streetAds.sites,scene,materials});
+  buildRegionalGrid(scene);
+  moving.push(buildOldNightPost({scene,box,collider,sign,lights:localLights}));
   const stats=batch.finish();
-  const crowd=createCityCrowd(scene,{materials,bounds,isPlayable,colliders,ground,extraCrowdPaths:[...(soho.crowdPaths||[]),...(eastPark.crowdPaths||[]),...occupation.crowdPaths]});
+  floorCells=new Map();
+  for(const s of walkSurfaces){
+    for(let ix=Math.floor(s.minX/6);ix<=Math.floor(s.maxX/6);ix++)
+      for(let iz=Math.floor(s.minZ/6);iz<=Math.floor(s.maxZ/6);iz++){
+        const key=ix*2048+iz;
+        if(!floorCells.has(key))floorCells.set(key,[]);
+        floorCells.get(key).push(s);
+      }
+  }
+  const voxelBays=finishVoxelBays(scene);
+  let lowDetail=false;
+  stats.fultonBays=voxelBays.instances;
+  const traffic=createNightTraffic(scene,{ground,colliders});
+  stats.traffic=traffic.stats;stats.nightShifts=nightShifts.stats;
+  const crowd=createCityCrowd(scene,{materials,bounds,isPlayable,colliders,ground,extraCrowdPaths:[...(soho.crowdPaths||[]),...(eastPark.crowdPaths||[]),...(midtown.crowdPaths||[]),...occupation.crowdPaths,...coreStreets.crowdPaths,...nightShifts.crowdPaths,...repairQuarter.crowdPaths]});
   stats.buildings=buildings+waterfront.stats.warehouses+midtown.stats.towers+midtown.stats.podiums+(soho.stats.buildings||0)+(eastPark.stats.buildings||0);stats.trees=trees+(eastPark.stats.authoredTrees||0);stats.fireEscapes=fireEscapes;stats.waterTanks=waterTanks;
   stats.signs=signMeshes.length;stats.drawCalls+=signMeshes.length;stats.colliders=colliders.length;
   stats.textureSource='Original local generated albedo and display textures with procedural trim';
@@ -627,29 +669,66 @@ export async function createNYCScene(scene,renderer) {
   stats.sample={bounds:sample.bounds,area:sample.area,frontages:sampleFrontages.stats,street:sampleStreet.stats};
   stats.soho=soho.stats;stats.eastPark=eastPark.stats;stats.districtRoads=districtRoadStats;stats.playableArea=mapPlan.currentArea;
   stats.occupation=occupation.stats;
+  stats.futureCore=futureCore.stats;stats.buildings+=futureCore.stats.buildings;
+  stats.streetAds=streetAds.stats;
   stats.drawCalls+=cyber.stats.independentDrawCalls+atmosphere.stats.drawCalls+waterfront.stats.independentDrawCalls+midtownCyber.stats.independentDrawCalls+crowd.stats.drawCalls+(soho.stats.independentDrawCalls||0)+(eastPark.stats.independentDrawCalls||0);
   const landmarks=[
+    schoolLandmark,
     {id:'subway',title:'地铁街角',position:new T.Vector3(-5.8,ROAD,12.8)},
     {id:'neon',title:'霓虹街区',position:new T.Vector3(6.0,ROAD,-5.7)},
+    {id:'bridge_repair_market',title:'桥下夜修里',position:new T.Vector3(-17.0,SIDE,-25.46)},
     {id:'greenway',title:'街心花园',position:new T.Vector3(35.1,SIDE,23.0)},
     ...waterfront.landmarks,...greenway.landmarks,...midtown.landmarks,
     {id:'midtown_data_commons',title:'数据中庭',position:new T.Vector3(8,SIDE,-129.7)},
-    ...soho.landmarks,...eastPark.landmarks,
+    ...soho.landmarks,...eastPark.landmarks,...futureCore.landmarks,
   ];
   // Highest applicable ground patch; geometry and .18m curb steps agree.
   function ground(x,z,limit=Infinity){
-    let y=ROAD;
-    for(const p of walkSurfaces)if(p.y<=limit+.001&&x>=p.minX&&x<=p.maxX&&z>=p.minZ&&z<=p.maxZ)y=Math.max(y,p.y);
+    let y=(x>channel.minX&&x<channel.maxX&&z>channel.minZ&&z<channel.maxZ)?-5.82:ROAD;
+    const patches=floorCells?(floorCells.get(Math.floor(x/6)*2048+Math.floor(z/6))||[]):walkSurfaces;
+    for(const p of patches)if(p.y<=limit+.001&&x>=p.minX&&x<=p.maxX&&z>=p.minZ&&z<=p.maxZ)y=Math.max(y,p.y);
     return y;
   }
   scene.userData.nyc={stats,landmarks,bounds};
-  return {colliders,walkSurfaces,spawn:new T.Vector3(0,ROAD,22),bounds,landmarks,ground,isPlayable,stats,
-    materials,signMeshes,greenway,midtown,crowd,sample,soho,eastPark,occupation,weatherOccluders:batch.roofOccluders,mapOutline:mapPlan.currentOutline,
+  // Candidate lists preserve collider insertion order. A cell includes the
+  // player's full footprint even when their centre is just over its boundary.
+  const colliderColumns=new Map(),empty=[];
+  for(const solid of colliders){
+    for(let ix=Math.floor((solid.min.x-.32)/6);ix<=Math.floor((solid.max.x+.32)/6);ix++){
+      if(!colliderColumns.has(ix))colliderColumns.set(ix,new Map());
+      const column=colliderColumns.get(ix);
+      for(let iz=Math.floor((solid.min.z-.32)/6);iz<=Math.floor((solid.max.z+.32)/6);iz++){
+        if(!column.has(iz))column.set(iz,[]);
+        column.get(iz).push(solid);
+      }
+    }
+  }
+  const solidsNear=(x,z)=>traffic.withBodies(colliderColumns.get(Math.floor(x/6))?.get(Math.floor(z/6))||empty,x,z);
+  const cameraMargin=colliders.reduce((max,b)=>Math.max(max,b.userData?.cameraPadding||0),.24);
+  const cameraSet=new Set();
+  let oldLeft,oldRight,oldFront,oldBack;
+  function cameraSolidsBetween(a,b){
+    const left=Math.floor((Math.min(a.x,b.x)-cameraMargin)/6),right=Math.floor((Math.max(a.x,b.x)+cameraMargin)/6);
+    const front=Math.floor((Math.min(a.z,b.z)-cameraMargin)/6),back=Math.floor((Math.max(a.z,b.z)+cameraMargin)/6);
+    if(left!==oldLeft||right!==oldRight||front!==oldFront||back!==oldBack){
+      cameraSet.clear();
+      for(let ix=left;ix<=right;ix++)for(let iz=front;iz<=back;iz++){
+        for(const box of colliderColumns.get(ix)?.get(iz)||empty)cameraSet.add(box);
+      }
+      oldLeft=left;oldRight=right;oldFront=front;oldBack=back;
+    }
+    return traffic.withCameraBodies(cameraSet,a,b);
+  }
+  return {colliders,solidsNear,cameraSolidsBetween,walkSurfaces,spawn:new T.Vector3(0,ROAD,22),bounds,landmarks,ground,isPlayable,stats,
+    prepareStreetView:batch.prepareStreetView,finishStreetView:batch.finishStreetView,
+    materials,signMeshes,greenway,midtown,crowd,sample,soho,eastPark,futureCore,streetAds,streetPower,occupation,nightShifts,traffic,weatherOccluders:batch.roofOccluders,mapOutline:mapPlan.currentOutline,
     mapFeatures:[...mapPlan.features,...(eastPark.mapFeatures||[]),
       {id:'soho-market-court',name:'街坊市集',fill:'#7e8772',shape:{type:'polygon',points:[[-40.8,56],[-26,56],[-26,76.2],[-40.8,76.2]]}},
       {id:'soho-canal-court',name:'运河街庭院',fill:'#788278',shape:{type:'polygon',points:[[24,135.9],[48.5,135.9],[48.5,142.8],[24,142.8]]}}],
-    setQuality(level){batch.setQuality(level);crowd.setQuality(level);sampleFrontages.setQuality?.(level);sampleStreet.setQuality?.(level);soho.setQuality?.(level);eastPark.setQuality?.(level);},
+    setQuality(level){lowDetail=level==="low";batch.setQuality(level);crowd.setQuality(level);sampleFrontages.setQuality?.(level);sampleStreet.setQuality?.(level);soho.setQuality?.(level);eastPark.setQuality?.(level);},
     setNight(night){
+      futureCore.setNight(night);
+      streetAds.setNight(night);
       cyber.setNight(night);atmosphere.setNight(night);waterfront.setNight?.(night);midtown.setNight(night);midtownCyber.setNight(night);
       streetLife.setNight(night);crowd.setNight(night);
       sampleFrontages.setNight(night);sampleStreet.setNight?.(night);
@@ -659,5 +738,5 @@ export async function createNYCScene(scene,renderer) {
       materials.warmWindow.emissiveIntensity=night?1.05:.72;materials.coolWindow.emissiveIntensity=night?.64:.35;
       materials.cyan.emissiveIntensity=night?2.65:1.5;materials.magenta.emissiveIntensity=night?2.2:1.3;materials.lamp.emissiveIntensity=night?1.25:.8;
     },
-    update(dt,time,camera){batch.updateVisibility(camera?.position);for(const f of moving)f(dt,time);cyber.update(dt,time);waterfront.update?.(dt,time);midtown.update?.(dt,time,camera);midtownCyber.update(dt,time);crowd.update(dt,time);streetLife.update?.(dt,time);soho.update?.(dt,time,camera);eastPark.update?.(dt,time,camera);atmosphere.update(dt,time,camera);}};
+    update(dt,time,camera,player=null){futureCore.update?.(dt,time,camera);radio.update(camera?.position,lowDetail);voxelBays.update(camera?.position,lowDetail);batch.updateVisibility(camera?.position);for(const f of moving)f(dt,time);cyber.update(dt,time);waterfront.update?.(dt,time);midtown.update?.(dt,time,camera);midtownCyber.update(dt,time);crowd.update(dt,time,camera);traffic.update(dt,player,crowd.actors,camera?.position);streetLife.update?.(dt,time);soho.update?.(dt,time,camera);eastPark.update?.(dt,time,camera);atmosphere.update(dt,time,camera);}};
 }

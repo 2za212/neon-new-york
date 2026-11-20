@@ -264,13 +264,12 @@ async function loadUEAvatar(scene) {
 }
 
 export async function loadPlayerAvatar(scene) {
-  try {
-    return await loadUEAvatar(scene);
-  } catch (error) {
-    console.warn('[NYC] UE character unavailable, using the original character', error);
-    const avatar = await loadPalmAvatar(scene);
-    avatar.group.userData.avatar = {source: 'original'};
-    return {...avatar, getActionDuration: () => null, getActionProgress: () => null,
-      playAction: () => false, clearAction() {}, activeAction: null};
+  if(typeof __NYC_HAS_UE_IDLE__==='undefined'||__NYC_HAS_UE_IDLE__){
+    try{return await loadUEAvatar(scene);}
+    catch(error){console.warn('[NYC] Unable to load the bundled UE avatar',error);}
   }
+  const avatar = await loadPalmAvatar(scene);
+  avatar.group.userData.avatar = {source: 'original'};
+  return {...avatar, getActionDuration: () => null, getActionProgress: () => null,
+    playAction: () => false, clearAction() {}, activeAction: null};
 }

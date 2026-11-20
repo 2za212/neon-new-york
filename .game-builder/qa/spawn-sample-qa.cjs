@@ -40,7 +40,7 @@ async function main(){
   const closed=sample.frontages.closedEntry,residential=sequence('closed_residential_stoop_reached',closed.street,[closed.landing]);const stoopStart=residential.position.clone();for(let i=0;i<160;i++)residential.update(1/60,{...still,moveX:-1},0);record('residential_door_remains_closed',residential.position.x>stoopStart.x-1.0&&blocking(residential.position.toArray()).length===0,{start:stoopStart.toArray(),final:residential.position.toArray(),obstruction:near(residential.position)});
   const alleyPoints=sample.street.paths.alley.waypoints.map(v);
   sequence('authored_alley_entry_to_end',alleyPoints[0],alleyPoints.slice(1));sequence('authored_alley_end_to_sidewalk',alleyPoints.at(-1),alleyPoints.slice(0,-1).reverse());
-  const end=createMotor(world,new T.Vector3(...alleyPoints.at(-1)));for(let i=0;i<150;i++)end.update(1/60,{...still,moveX:1,sprint:true},0);record('alley_end_gate_is_solid',end.position.x<19.25&&blocking(end.position.toArray()).length===0,{final:end.position.toArray(),obstruction:near(end.position)});
+  sequence('alley_through_laundry_yard_to_cross_street',alleyPoints.at(-1),[[26,.38,20],[26,.38,12],[26,.36,8.1]]);
   sequence('east_sidewalk_south_of_cart',[8.85,ground(8.85,3),3],[[8.85,ground(8.85,16),16]]);
   sequence('east_sidewalk_north_of_cart',[8.85,ground(8.85,23),23],[[8.85,ground(8.85,40),40]]);
   sequence('west_sidewalk_north_of_subway',[-8.85,ground(-8.85,15.5),15.5],[[-8.85,ground(-8.85,40),40]]);

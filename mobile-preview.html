@@ -2,14 +2,61 @@
 <html lang="zh-CN">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>纽约 · 移动端横屏试玩</title>
+<link rel="icon" href="data:,">
+<title>长夜街区 · 移动端横屏试玩</title>
 <style>
 html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#10151c}
-iframe{position:absolute;left:50%;top:50%;width:1920px;height:1080px;border:0;transform:translate(-50%,-50%) scale(var(--zoom));}
+#screen{position:fixed;inset:0;overflow:clip;contain:strict}
+iframe{position:absolute;width:1920px;height:1080px;border:0;transform-origin:top left}
+#districts{position:absolute;inset:0;overflow:auto;background:#10171c;color:#e3e9e5;font-family:system-ui,sans-serif;padding:clamp(14px,5vh,60px) max(5vw,calc((100vw - 840px)/2));box-sizing:border-box}
+#districts[hidden],#back[hidden]{display:none}
+h1{font-size:clamp(21px,4vw,34px);margin:0 0 8px}p{font-size:14px;color:#b5c0c1;margin:0 0 18px}
+nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+nav a{display:flex;flex-direction:column;gap:4px;background:#1a272d;color:#eef5ee;text-decoration:none;padding:13px 15px;border:1px solid #405154;border-left:3px solid #88cbb8;border-radius:3px}
+nav a:hover,nav a:focus-visible{background:#2b4041}nav small{color:#b8c8c4}
+#back{position:fixed;top:4px;left:50%;transform:translateX(-50%);font:12px system-ui;color:#dcebe6;background:#132328df;border:1px solid #637b74;border-radius:20px;padding:5px 12px;text-decoration:none}
 </style>
-<iframe title="1920×1080 横屏触控试玩" src="./index.html?mobilePreview=1" allowfullscreen></iframe>
+<div id="screen"><iframe data-nyc-simulator title="1920×1080 横屏触控试玩" allowfullscreen></iframe></div>
+<section id="districts" hidden><h1>长夜巡街</h1><p>选择街区进入 1920 × 1080 横屏试玩。左侧摇杆步行，拖动右侧环顾。</p><nav aria-label="试玩地点"></nav></section>
+<a id="back" hidden href="?districts=1">切换街区</a>
 <script>
-function fit(){document.documentElement.style.setProperty('--zoom',Math.min(innerWidth/1920,innerHeight/1080));}
-fit();addEventListener('resize',fit);
+const game=new URL('./index.html?mobilePreview=1',location.href);
+const options=new URLSearchParams(location.search);
+const districts=[
+  ['school','东衡中学','旧交易所东口 · 物理社观测场'],['shuffle','随机街道','随机位置和朝向，落地后自由步行'],
+  ['old-town','老城','地铁口与旧街商铺'],['freight','西部仓储','货运侧巷与夜班装卸口'],
+  ['quay','滨水','码头吊机与作业船'],['greenway','高架绿廊','桥上步道与供电门架'],
+  ['old-exchange','旧交易所','交易所前街与支巷'],['soho','SoHo 商业街','雨棚与夜间店铺'],
+  ['east-park','东园','公园步道与养护站'],['north-core','北部核心区','企业中轴与换乘层']
+];
+const choosing=options.has('districts')&&!options.has('start');
+const menu=document.querySelector('#districts'),back=document.querySelector('#back');
+menu.hidden=!choosing;back.hidden=choosing||!options.has('districts');
+if(choosing)for(const [id,title,note] of districts){
+  const link=document.createElement('a'),name=document.createElement('strong'),description=document.createElement('small');
+  name.textContent=title;description.textContent=note;link.href='?districts=1&start='+id;
+  link.append(name,description);menu.querySelector('nav').append(link);
+}
+if(options.get('intro')==='relay')game.searchParams.set('intro','relay');
+else if(['street','blood-sky','exchange','core','core-window','core-transfer','night-market','ad-viaduct','boiler-market','produce-hall','repair-lane','tea-exchange',...districts.map(d=>d[0])].includes(options.get('start')))game.searchParams.set('start',options.get('start'));
+if(options.get('start')==='shuffle'){
+  const seed=options.get('seed');
+  const value=seed&&/^\d{1,10}$/.test(seed)?Number(seed)>>>0:crypto.getRandomValues(new Uint32Array(1))[0];
+  game.searchParams.set('seed',String(value));
+  const here=new URL(location.href);here.searchParams.set('seed',String(value));history.replaceState(null,'',here);
+  back.hidden=false;back.textContent='再换一处';back.href='?districts=1&start=shuffle';
+}
+const frame=document.querySelector('iframe');
+const screenBox=document.querySelector('#screen');
+if(!choosing)frame.src=game.href;
+function fit(){
+  const width=screenBox.clientWidth,height=screenBox.clientHeight;
+  const zoom=Math.min(width/1920,height/1080);
+  frame.style.left=(width-1920*zoom)/2+'px';
+  frame.style.top=(height-1080*zoom)/2+'px';
+  frame.style.transform='scale('+zoom+')';
+  frame.contentWindow?.dispatchEvent(new Event('nyc-preview-resize'));
+}
+fit();new ResizeObserver(fit).observe(screenBox);
 </script>
 </html>

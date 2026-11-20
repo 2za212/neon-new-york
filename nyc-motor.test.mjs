@@ -2,11 +2,48 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Vector3, Box3 } from 'three';
 import { createMotor, cameraClearance } from './nyc-motor.js';
+import { createTrafficShoulder } from './nyc-traffic-shoulder.js';
 
 const still = { moveX: 0, moveZ: 0, sprint: false, jump: false };
 const box = (x0, y0, z0, x1, y1, z1) => new Box3(
   new Vector3(x0, y0, z0), new Vector3(x1, y1, z1),
 );
+
+test('a moving van leaves a visible shoulder and restores the requested orbit after passing', () => {
+  const body=box(0,0,0,1,1,1),car={x:1.72,y:.18,z:-25,fx:0,fz:-1,speed:4.35,bodies:[body]};
+  const target=new Vector3(0,1.43,-32),orbit=target.clone().add(new Vector3(5.36,.20,-.604));
+  const desired=new Vector3(),adjust=createTrafficShoulder([car],()=>[body]);
+  let nearFrames=0,returned;
+  for(let frame=0;frame<360;frame++){
+    car.z=-25-frame*car.speed/60;
+    body.min.set(.79,.28,car.z-2.1);body.max.set(2.65,2.35,car.z+2.1);
+    desired.copy(orbit);adjust(target,desired,1/60);
+    if(cameraClearance(target,orbit,[body])<.62){
+      nearFrames++;
+      assert.ok(cameraClearance(target,desired,[body])>1.25);
+    }
+    returned=desired.distanceTo(orbit)<.00001;
+  }
+  assert.ok(nearFrames>30);
+  assert.ok(returned);
+});
+
+test('vehicle avoidance respects a low canopy and cannot bypass a wall blocking the original view', () => {
+  const body=box(.79,.28,-34.1,2.65,2.35,-29.9),car={x:1.72,y:.18,z:-32,fx:0,fz:-1,speed:0,bodies:[body]};
+  const target=new Vector3(0,1.43,-32),orbit=target.clone().add(new Vector3(5.36,.20,-.604));
+  const roof=box(-5,2.65,-42,7,3,-22),side=box(-1.4,-1,-42,-.85,4,-22);
+  const solids=[body,roof,side],adjust=createTrafficShoulder([car],()=>solids);
+  const desired=orbit.clone();assert.ok(adjust(target,desired,1/60,true));
+  const free=cameraClearance(target,desired,solids);
+  assert.ok(free>1.25);
+  const camera=desired.clone().sub(target).setLength(free).add(target);
+  assert.ok(camera.y<roof.min.y-.20);
+  assert.ok(camera.x>side.max.x+.20);
+  const wall=box(.31,-1,-42,.54,4,-22);
+  const behindWall=createTrafficShoulder([car],()=>[wall,body]);desired.copy(orbit);
+  for(let i=0;i<30;i++)assert.equal(behindWall(target,desired,1/60),false);
+  assert.ok(desired.equals(orbit));
+});
 function makeWorld(colliders = [], walkSurfaces = []) {
   return {
     bounds: { minX: -30, maxX: 30, minZ: -30, maxZ: 30 },
@@ -218,6 +255,35 @@ test('camera distance stops before an ordinary wall', () => {
   const desired = new Vector3(7, 1.3, 0);
   const distance = cameraClearance(target, desired, [wall]);
   assert.ok(distance > 1 && distance < 2 - .24);
+});
+
+test('a wide opaque street fixture clears the shoulder frame at its end', () => {
+  const rack = box(-6.25, .36, 74.01, -4.85, 2.78, 77.19);
+  const target = new Vector3(-6, 1.43, 80);
+  const desired = new Vector3(-7.02, 1.92, 74.72);
+  rack.userData = {cameraPadding: .56};
+  assert.ok(cameraClearance(target, desired, [rack]) < 3);
+  const passing=new Vector3(-6.58,1.43,76);
+  assert.equal(cameraClearance(passing,new Vector3(-9.58,1.43,76),[rack]),3);
+});
+
+test('the greenway camera clears the handrail while the runner and opaque walls still collide', () => {
+  const floor=6.51;
+  const rail=box(-10,floor,-.54,10,floor+1.02,-.44);
+  const target=new Vector3(0,floor+1.25,0);
+  const boom=new Vector3(-.451,.035,-.892).normalize().multiplyScalar(5.4);
+  const desired=target.clone().add(boom);
+  assert.ok(cameraClearance(target,desired,[rail])<.3);
+  rail.userData={cameraPadding:.06};
+  assert.equal(cameraClearance(target,desired,[rail]),target.distanceTo(desired));
+  const wall=box(-10,floor,-2.9,10,floor+3,-2.8);
+  assert.equal(cameraClearance(target,desired,[rail,wall]),cameraClearance(target,desired,[wall]));
+  assert.ok(cameraClearance(target,desired,[wall])<3);
+  const world={...makeWorld([rail]),baseHeight:floor};
+  const motor=createMotor(world,new Vector3(0,floor,0));
+  advance(motor,120,{...still,moveZ:1,sprint:true});
+  assertOutside(motor,rail);
+  assert.ok(motor.position.z>=rail.max.z+motor.radius-.001);
 });
 
 test('an unrelated wall outside the camera segment does not shorten it', () => {

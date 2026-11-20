@@ -1,195 +1,114 @@
 import * as T from 'three';
+import {gridStations} from './nyc-regional-grid.js';
+import {riftShader} from './nyc-blood-rift.js';
 
-/**
- * Soft, layered after-rain sky. Colours enter the shader in linear space through
- * THREE.Color; tone mapping / output colour space are applied exactly once.
- * Max quality uses 12 value-noise calls per fragment, low quality uses 9.
- */
-export function createCitySky() {
-  const palette={
-    night:{
-      top:'#11203c',mid:'#344d74',horizon:'#97a5b6',below:'#30445c',
-      cloudShadow:'#26364c',cloudLight:'#8995aa',warm:'#e59e80',
-      fog:'#283b55',hemi:'#91b2ce',ground:'#373e52',sun:'#91b5d6',fill:'#758fac',
-      exposure:1.08
-    },
-    dusk:{
-      top:'#263a78',mid:'#505e9c',horizon:'#aa91ad',below:'#616b83',
-      cloudShadow:'#465a90',cloudLight:'#b5b2cf',warm:'#dd9d88',
-      fog:'#aaa8c0',hemi:'#c3cdee',ground:'#807268',sun:'#f1d0ad',fill:'#a6bed2',
-      exposure:1.02
-    },
-    // Lighting from the west-southwest grazes the old masonry; the sky only
-    // includes diffuse residual glow, never a visible moon or large sun disc.
-    lightDirection:new T.Vector3(-.87,.36,.46).normalize(),
-    suggestedNightSunIntensity:.48,
-    suggestedNightHemiIntensity:.72,
-    suggestedNightFillIntensity:.24,
-    suggestedDuskSunIntensity:1.4,
-    suggestedDuskHemiIntensity:.96
-  };
-  const colorNames=['top','mid','horizon','below','cloudShadow','cloudLight','warm'];
-  const uniforms={
-    uTime:{value:0},uNight:{value:1},uQuality:{value:1},
-    uLightDirection:{value:palette.lightDirection.clone()}
-  };
-  for(const name of colorNames){
-    const suffix=name[0].toUpperCase()+name.slice(1);
-    uniforms['uNight'+suffix]={value:new T.Color(palette.night[name])};
-    uniforms['uDusk'+suffix]={value:new T.Color(palette.dusk[name])};
-  }
-  const vertexShader=`
-    varying vec3 vSkyDirection;
-    void main(){
-      // A sky is infinitely distant: keep its field in local directional space
-      // and centre it on the camera used for THIS draw. This also handles the
-      // Reflector camera and every PMREM cubemap face without a JS camera hook.
-      vec3 direction=mat3(modelMatrix)*position;
-      vSkyDirection=direction;
-      vec4 world=vec4(direction+cameraPosition,1.0);
-      gl_Position=projectionMatrix*viewMatrix*world;
-      // The reflected camera has an oblique clip plane. A background sky stays
-      // at far depth rather than being sliced by that plane or the world bounds.
-      gl_Position.z=gl_Position.w;
-    }
-  `;
-  const fragmentShader=`
-    uniform float uTime;
-    uniform float uNight;
-    uniform float uQuality;
-    uniform vec3 uLightDirection;
-    uniform vec3 uNightTop,uNightMid,uNightHorizon,uNightBelow;
-    uniform vec3 uNightCloudShadow,uNightCloudLight,uNightWarm;
-    uniform vec3 uDuskTop,uDuskMid,uDuskHorizon,uDuskBelow;
-    uniform vec3 uDuskCloudShadow,uDuskCloudLight,uDuskWarm;
-    varying vec3 vSkyDirection;
-
-    float hash31(vec3 p){
-      p=fract(p*vec3(.1031,.1030,.0973));
-      p+=dot(p,p.yzx+33.33);
-      return fract((p.x+p.y)*p.z);
-    }
-    float noise3(vec3 p){
-      vec3 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);
-      return mix(
-        mix(mix(hash31(i),hash31(i+vec3(1,0,0)),f.x),
-            mix(hash31(i+vec3(0,1,0)),hash31(i+vec3(1,1,0)),f.x),f.y),
-        mix(mix(hash31(i+vec3(0,0,1)),hash31(i+vec3(1,0,1)),f.x),
-            mix(hash31(i+vec3(0,1,1)),hash31(i+vec3(1,1,1)),f.x),f.y),f.z);
-    }
-    float broadCloud(vec3 p){
-      float value=0.0,amplitude=.55,total=0.0;
-      for(int i=0;i<4;i++){
-        if(i>2 && uQuality<.5)break;
-        value+=noise3(p)*amplitude;total+=amplitude;
-        p=p*2.03+vec3(13.1,7.7,4.2);amplitude*=.48;
+// Cloud light is projected from the powered city into a world-space ceiling.
+// The reflected camera sees the same cloud deck as the walking camera.
+export function createCitySky(){
+  const unlit=new T.DataTexture(new Uint8Array([0,0,0,255]),1,1);
+  unlit.needsUpdate=true;
+  const uniforms={uTime:{value:0},uRain:{value:0},uDetail:{value:1},uRift:{value:new T.Vector3()},
+    uGrid:{value:unlit},uGridBounds:{value:new T.Vector4(0,0,1,1)},
+    uPlants:{value:gridStations.map(s=>new T.Vector4(s.x,s.h*.67,s.z,s.h*.62))},
+    uPlantColor:{value:gridStations.map(s=>new T.Color(s.c))}};
+  const material=new T.ShaderMaterial({
+    name:'长夜 / 工业云底',uniforms,side:T.BackSide,depthWrite:false,
+    vertexShader:`
+      varying vec3 vRay;
+      void main(){
+        vRay=mat3(modelMatrix)*position;
+        gl_Position=projectionMatrix*viewMatrix*vec4(cameraPosition+vRay,1.);
+        gl_Position.z=gl_Position.w;
+      }`,
+    fragmentShader:`
+      varying vec3 vRay;
+      uniform float uTime,uRain,uDetail;
+      uniform sampler2D uGrid;
+      uniform vec4 uGridBounds;
+      uniform vec4 uPlants[${gridStations.length}];
+      uniform vec3 uPlantColor[${gridStations.length}];
+      float hash(vec2 p){
+        vec3 q=fract(vec3(p.xyx)*.1031);
+        q+=dot(q,q.yzx+33.33);
+        return fract((q.x+q.y)*q.z);
       }
-      return value/total;
-    }
-    float softDetail(vec3 p){
-      float value=0.0,amplitude=.6,total=0.0;
-      for(int i=0;i<3;i++){
-        if(i>1 && uQuality<.5)break;
-        value+=noise3(p)*amplitude;total+=amplitude;
-        p=p*2.07+vec3(7.1,11.7,3.4);amplitude*=.43;
+      float noise(vec2 p){
+        vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+        return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),
+                   mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);
       }
-      return value/total;
-    }
-    void main(){
-      vec3 d=normalize(vSkyDirection);
-      float h=d.y,n=clamp(uNight,0.0,1.0);
-      vec3 top=mix(uDuskTop,uNightTop,n);
-      vec3 mid=mix(uDuskMid,uNightMid,n);
-      vec3 horizon=mix(uDuskHorizon,uNightHorizon,n);
-      vec3 below=mix(uDuskBelow,uNightBelow,n);
-      vec3 cloudShadow=mix(uDuskCloudShadow,uNightCloudShadow,n);
-      vec3 cloudLight=mix(uDuskCloudLight,uNightCloudLight,n);
-      vec3 warm=mix(uDuskWarm,uNightWarm,n);
-
-      // Most of the low sky is softly neutral steel blue, never a solid purple
-      // wall. The narrow horizon blend provides a clear target for distance fog.
-      vec3 sky=mix(horizon,mid,smoothstep(.0,.30,h));
-      sky=mix(sky,top,smoothstep(.24,.91,h));
-      sky=mix(below,sky,smoothstep(-.23,.025,h));
-      float azimuth=dot(normalize(d.xz+vec2(.0001)),normalize(uLightDirection.xz));
-      float residual=pow(max(azimuth,0.0),6.0)*exp(-pow((h-.045)*5.2,2.0));
-      sky=mix(sky,warm,residual*mix(.25,.52,n));
-
-      // An upper, broad layer and a thinner offset layer share a slow wind. The
-      // projected plane expands toward the horizon while cloud opacity fades
-      // into the same neutral horizon, avoiding a hard cloud/fog seam.
-      vec2 uv=d.xz/(.26+max(h,0.0));
-      float drift=uTime*.004;
-      // The vertical angular scale intentionally crosses several low-frequency
-      // cells between h=.1 and .6. A single broad cell here looks like a plain
-      // gradient through the avenue, even when its hemisphere has cloud detail.
-      vec3 p=vec3(uv.x*.82+uv.y*.36+drift,uv.y*2.4+drift*.34,2.47);
-      vec2 warp=vec2(noise3(p*.44+3.7),noise3(p*.44+17.2))-.5;
-      p.xy+=warp*.56;
-      vec2 grid=vec2(92.,64.);
-      p.xy=mix(p.xy,(floor(p.xy*grid)+.5)/grid,.85);
-      float body=broadCloud(p);
-      float detail=softDetail(vec3(uv.x*1.45-drift*.6,uv.y*.91+1.72,6.4));
-      float density=body*.84+detail*.16;
-      float coverage=smoothstep(.46,.565,density);
-      float altitude=smoothstep(-.01,.085,h)*(1.0-.24*smoothstep(.63,.98,h));
-      coverage*=altitude;
-
-      // A displaced density estimate gives the soft volume a directional lit
-      // edge. There is no sharp normal map or dark opaque cumulus block.
-      vec3 offset=vec3(uLightDirection.x*.18,uLightDirection.z*.18,.045);
-      float displaced=noise3(p+offset);
-      float volume=clamp(.56+(displaced-body)*2.5,.21,.88);
-      float edge=exp(-abs(density-.50)*15.0);
-      float forwardGlow=pow(max(dot(d,uLightDirection),0.0),3.0);
-      vec3 cloud=mix(cloudShadow,cloudLight,clamp(volume*.69+edge*(.08+.24*forwardGlow)+.06,0.0,.92));
-      cloud=mix(cloud,warm,forwardGlow*edge*mix(.24,.07,n));
-      float opacity=coverage*mix(.76,.79,n);
-      sky=mix(sky,cloud,opacity);
-
-      float wisps=smoothstep(.52,.70,detail)*altitude*(1.0-coverage*.58);
-      sky=mix(sky,mix(cloudLight,mid,.45),wisps*.24);
-      // Atmospheric integration near the skyline is intentionally haze-led.
-      float horizonHaze=exp(-max(h,0.0)*21.0)*smoothstep(-.06,.015,h);
-      sky=mix(sky,horizon,horizonHaze*.23);
-      gl_FragColor=vec4(max(sky,vec3(.001)),1.0);
-      #include <tonemapping_fragment>
-      #include <colorspace_fragment>
-    }
-  `;
-  const material=new T.ShaderMaterial({uniforms,vertexShader,fragmentShader,
-    side:T.BackSide,depthWrite:false,depthTest:true,toneMapped:true});
-  material.name='NYC soft layered rain-cleared sky';
-  const geometry=new T.SphereGeometry(490,48,32);
-  const object=new T.Mesh(geometry,material);object.name='NYC procedural cloud sky';
-  object.frustumCulled=false;object.renderOrder=-1000;
-  object.userData.excludeFromAO=true;
-
-  // Both copies use the same local directional field. Scaling this PMREM-only
-  // sphere keeps its geometry near the cubemap camera; camera-relative shader
-  // placement does not copy street meshes or change the shared cloud appearance.
-  const environmentScene=new T.Scene();
-  const environmentMaterial=material.clone();
-  environmentMaterial.name='NYC sky / PMREM source';
-  const environmentObject=new T.Mesh(geometry,environmentMaterial);
-  environmentObject.scale.setScalar(.02);environmentObject.frustumCulled=false;
-  environmentObject.name='NYC cloud sky environment only';
-  environmentScene.add(environmentObject);
-  let targetNight=1;
-  function setNight(night){
-    targetNight=night?1:0;
-    environmentMaterial.uniforms.uNight.value=targetNight;
-  }
-  function update(dt,time){
-    const t=Number.isFinite(time)?time:0;
-    const delta=Math.min(.1,Math.max(0,Number.isFinite(dt)?dt:.016));
-    uniforms.uTime.value=t;environmentMaterial.uniforms.uTime.value=t;
-    uniforms.uNight.value=T.MathUtils.damp(uniforms.uNight.value,targetNight,3.0,delta);
-  }
-  function setQuality(high=true){
-    const value=high===false||high==='low'?0:1;
-    uniforms.uQuality.value=value;environmentMaterial.uniforms.uQuality.value=value;
-  }
-  return {object,setNight,update,setQuality,palette,environmentScene,
-    getEnvironmentScene:()=>environmentScene};
+      float glow(vec2 p,vec2 centre,vec2 radius){
+        vec2 q=(p-centre)/radius;
+        return exp(-dot(q,q));
+      }
+      ${riftShader}
+      void main(){
+        vec3 d=normalize(vRay);
+        float above=smoothstep(-.09,.09,d.y);
+        // Below the deck the ray meets the cloud underside. From above it,
+        // an aerial view gradually loses the glow instead of following the camera.
+        float deck=mix(225.,204.,uRain);
+        vec2 hit=cameraPosition.xz+d.xz*max(1.,deck-cameraPosition.y)/max(d.y,.035);
+        vec2 p=hit*vec2(.008,.014)+vec2(uTime*.006,-uTime*.002);
+        float mass=.68*noise(p)+.32*noise(p*2.03+19.);
+        if(uDetail>.5)mass+=.10*(noise(p*4.09-7.)-.5);
+        float altitude=smoothstep(-.02,.72,d.y);
+        vec3 blackSky=mix(vec3(.011,.016,.026),vec3(.005,.0075,.013),altitude);
+        vec3 sky=blackSky*(.58+.70*smoothstep(.24,.74,mass)*above);
+        // The exchange crown and the interchange are actual light sources
+        // at these XZ coordinates. Unpowered horizon sectors stay uncoloured.
+        float crown=glow(hit,vec2(88.,-351.),vec2(112.,93.));
+        float station=glow(hit,vec2(48.,-257.),vec2(54.,47.));
+        float docks=glow(hit,vec2(-149.,4.),vec2(59.,52.));
+        float seam=smoothstep(.26,.54,mass)*(1.-.65*smoothstep(.55,.78,mass));
+        // Suspended industrial haze silhouettes the regional grid. Compute
+        // the angular size from the plant itself, so turning and crossing a
+        // district reveal the same source from a different side.
+        float folds=.47+.53*smoothstep(.22,.71,mass);
+        for(int i=0;i<${gridStations.length};i++){
+          vec3 toPlant=uPlants[i].xyz-cameraPosition;
+          float along=dot(d,toPlant);
+          vec3 offset=d*along-toPlant;
+          offset.y*=1.8;
+          float radius=uPlants[i].w;
+          float air=exp(-dot(offset,offset)/(radius*radius))*smoothstep(0.,34.,along);
+          sky+=air*folds*(.085+.024*uRain)*uPlantColor[i]*above;
+        }
+        float underside=above*(1.-smoothstep(deck-8.,deck+45.,cameraPosition.y));
+        sky+=underside*(.28+.72*seam)*(crown*vec3(.022,.009,.028)
+             +station*vec3(.005,.015,.021)+docks*vec3(.015,.007,.002));
+        // Lower banks catch spill from the working city. Across open water
+        // and past the last substations the cloud shelf falls back into black.
+        float ceiling=mix(46.,35.,uRain);
+        vec2 shelf=cameraPosition.xz+d.xz*(ceiling-cameraPosition.y)/max(d.y,.045);
+        vec2 uv=(shelf-uGridBounds.xy)/uGridBounds.zw;
+        vec2 edge=smoothstep(vec2(0.),vec2(.13),min(uv,1.-uv));
+        float belts=noise(shelf*vec2(.016,.042)+vec2(uTime*.011,0.));
+        float veil=smoothstep(.18,.56,belts+.20*(mass-.5));
+        float bottom=smoothstep(.025,.14,d.y)*(1.-smoothstep(ceiling-5.,ceiling+12.,cameraPosition.y));
+        sky+=texture2D(uGrid,uv).rgb*edge.x*edge.y*bottom*veil*(.022+.054*seam);
+        sky*=mix(1.,.82,uRain);
+        gl_FragColor=vec4(bloodSky(sky,d,mass),1.);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`
+  });
+  const geometry=new T.SphereGeometry(490,32,24);
+  const object=new T.Mesh(geometry,material);object.name='城市 / 长夜云幕';
+  object.frustumCulled=false;object.renderOrder=-1000;object.userData.excludeFromAO=true;
+  const environmentScene=new T.Scene(),environmentMaterial=material.clone();
+  const dome=new T.Mesh(geometry,environmentMaterial);dome.scale.setScalar(.02);dome.frustumCulled=false;environmentScene.add(dome);
+  let rain=0,powerRevision=0;
+  return {object,rift:uniforms.uRift,environmentScene,getEnvironmentScene:()=>environmentScene,
+    get powerRevision(){return powerRevision;},
+    setCityPowerMap(map,bounds){
+      for(const u of [uniforms,environmentMaterial.uniforms]){
+        u.uGrid.value=map;u.uGridBounds.value.copy(bounds);
+      }
+      powerRevision++;
+    },
+    setNight(clear){rain=clear?0:1;environmentMaterial.uniforms.uRain.value=rain;},
+    setQuality(level){uniforms.uDetail.value=level==='low'||level===false?0:1;environmentMaterial.uniforms.uDetail.value=uniforms.uDetail.value;},
+    update(dt,time){uniforms.uTime.value=time;uniforms.uRain.value=T.MathUtils.damp(uniforms.uRain.value,rain,3,dt);}
+  };
 }

@@ -16,7 +16,7 @@ export function createMapUI(world,{onOpen,onClose,onSelect}={}){
   compass.innerHTML='<span class="north">N</span>';
   compass.setAttribute('role','button');compass.setAttribute('tabindex','0');compass.setAttribute('aria-label','打开区域地图');
   const panel=document.createElement('section');panel.id='city-map';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-labelledby','map-heading');
-  panel.innerHTML=`<div class="city-map-card"><header><div><p class="eyebrow">NEW YORK / AFTER THE RAIN</p><h2 id="map-heading">纽约城区地图</h2><p>南行逛 SoHo 市集，东行游公园；沿环线返回中城与滨水。</p></div><button class="map-close" aria-label="关闭地图">×</button></header><div class="city-map-surface"></div><div class="map-legend"><span><i class="map-road"></i>街道</span><span><i class="map-greenway"></i>高架步道</span><span><i class="map-stair"></i>楼梯</span><span><i style="background:#d9b77e"></i>城市边界</span><span>◇ 地标</span></div><nav class="map-places" aria-label="选择导航地标"></nav><footer>老城、中城、SoHo 与公园已连通<span><kbd>M</kbd> 地图 · <kbd>Esc</kbd> 返回</span></footer></div>`;
+  panel.innerHTML=`<div class="city-map-card"><header><div><p class="eyebrow">NEW YORK / AFTER THE RAIN</p><h2 id="map-heading">纽约城区地图</h2><p>放大街区可查看穿楼小巷、架空街与货场入口。</p></div><button class="map-close" aria-label="关闭地图">×</button></header><div class="city-map-surface"></div><div class="map-legend"><span><i class="map-road"></i>街道</span><span><i style="background:#f1b86c"></i>街坊通道</span><span><i class="map-greenway"></i>架空步道</span><span><i class="map-stair"></i>楼梯</span><span><i style="background:#d9b77e"></i>城市边界</span><span>◇ 地标</span></div><nav class="map-places" aria-label="选择导航地标"></nav><footer>北侧两处街口连通核心区与旧交易所街<span><kbd>M</kbd> 地图 · <kbd>Esc</kbd> 返回</span></footer></div>`;
   document.body.append(panel);
 
   const b=world.bounds||mapPlan.currentBounds;
@@ -29,6 +29,10 @@ export function createMapUI(world,{onOpen,onClose,onSelect}={}){
   const fullView=`${b.minX-5} ${b.minZ-7} ${b.maxX-b.minX+10} ${b.maxZ-b.minZ+14}`;
   const serial=++mapSerial;
   const mapSurface=panel.querySelector('.city-map-surface');
+  const scopeButton=document.createElement('button');
+  scopeButton.type='button';scopeButton.className='map-scope';scopeButton.textContent='放大所在街区';
+  scopeButton.setAttribute('aria-pressed','false');mapSurface.append(scopeButton);
+  let localScope=false,playerX=world.spawn?.x||0,playerZ=world.spawn?.z||0;
   // Override the old wide-map aspect ratio without changing the shared CSS.
   // The SVG viewport may have any aspect; meet keeps world metres undistorted.
   Object.assign(mapSurface.style,{height:'clamp(180px,52dvh,560px)',position:'relative'});
@@ -45,6 +49,7 @@ export function createMapUI(world,{onOpen,onClose,onSelect}={}){
     drawShape(outline,{fill:'#273e47'},contents);
     for(const region of regions){
       if(region.status==='planned'||region.layer==='elevated')continue;
+      if(region.id==='future-core')drawShape(region.shape,{fill:'#354354'},contents);
       if(region.id==='midtown')drawShape(region.shape,{fill:'#2e4650'},contents);
     }
     for(const water of mapPlan.water||[])drawShape(water.shape,{fill:'#183c50'},contents);
@@ -64,6 +69,13 @@ export function createMapUI(world,{onOpen,onClose,onSelect}={}){
     }
     for(const road of roadData){
       if(road.status!=='planned'&&road.kind==='elevated-walk')drawShape(road.shape,{fill:'none',stroke:'#77c9ad','stroke-width':2.9},contents);
+    }
+    for(const way of mapPlan.passages){
+      const points=pointsText(way),upper=way.level==='raised';
+      svgNode('polyline',{points,fill:'none',stroke:'#233236','stroke-width':way.width+.65,'stroke-linejoin':'round'},contents);
+      const path=svgNode('polyline',{points,fill:'none',stroke:upper?'#92e0c4':'#f1b86c',
+        'stroke-width':way.width,'stroke-linejoin':'round',...(upper?{'stroke-dasharray':'2.2 .85'}:{})},contents);
+      if(!mini)svgNode('title',{},path).textContent=way.name;
     }
     svgNode('rect',{x:-124,y:-33.2,width:8,height:9.2,fill:'#77b6a0'},contents);
     for(const[x,z]of [[-41,-42],[-127,-44]]){
@@ -95,6 +107,12 @@ export function createMapUI(world,{onOpen,onClose,onSelect}={}){
     return{svg,player,pins};
   }
   const mini=drawMap(compass,true),full=drawMap(mapSurface);
+  function updateScope(){
+    full.svg.setAttribute('viewBox',localScope?`${playerX-74} ${playerZ-50} 148 100`:fullView);
+    scopeButton.setAttribute('aria-pressed',String(localScope));
+    scopeButton.textContent=localScope?'返回全城':'放大所在街区';
+  }
+  scopeButton.onclick=()=>{localScope=!localScope;updateScope();};
   const buttons=new Map();
   for(const landmark of landmarks){
     const btn=document.createElement('button');btn.type='button';btn.textContent='◇ '+landmark.title;
@@ -102,13 +120,14 @@ export function createMapUI(world,{onOpen,onClose,onSelect}={}){
     panel.querySelector('.map-places').append(btn);buttons.set(landmark.id,btn);
   }
   let returnFocus;
-  function open(){if(!panel.hidden)return;returnFocus=document.activeElement;onOpen?.();panel.hidden=false;panel.querySelector('.map-close').focus();}
+  function open(){if(!panel.hidden)return;returnFocus=document.activeElement;onOpen?.();updateScope();panel.hidden=false;panel.querySelector('.map-close').focus();}
   function close(){if(panel.hidden)return;panel.hidden=true;const restoreFocus=onClose?.();if(restoreFocus!==false)returnFocus?.focus?.({preventScroll:true});}
   panel.querySelector('.map-close').onclick=close;panel.onclick=e=>{if(e.target===panel)close();};
   panel.addEventListener('keydown',e=>{if(e.key!=='Tab')return;const focusables=[...panel.querySelectorAll('button')],first=focusables[0],last=focusables.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}});
   compass.onclick=open;compass.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}};
   document.querySelector('#map').onclick=()=>panel.hidden?open():close();
   function update(position,heading,seen=new Set(),selectedId){
+    playerX=position.x;playerZ=position.z;
     mini.svg.setAttribute('viewBox',`${position.x-32} ${position.z-32} 64 64`);
     const transform=`translate(${position.x} ${position.z}) rotate(${180-heading*180/Math.PI})`;
     for(const map of [mini,full]){

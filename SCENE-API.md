@@ -75,8 +75,12 @@ opaque window-map facade hiding the shop. `world.sample` exposes a 40x40m
 rectangle x[-20,20], z[2,42], the three actual customer entries, frontage
 furniture/collision metadata, and the service-court paths.
 `nyc-sample-street.js` adds .38m sidewalk slabs and a .39m service court, while
-retaining clear x=+/-8.85m pedestrian paths. The 3.45m-wide court terminates
-against a real masonry wall and closed service door. Local shop/service lights
+retaining clear x=+/-8.85m pedestrian paths. The 3.45m-wide service alley
+continues through the old laundry gate into the shared yard at (26,24.4).
+A 4.48m ground-floor passage leads to the cross street, a cart gate opens
+east to the park, and 16 steps reach the drying balcony at y=2.95m.
+At x=-17 a second 4.80m passage connects the cross street to the working
+market under the railway. Local shop/service lights
 switch with the existing night/dusk preset. Wet patches share the existing
 single road reflection capture. The initial/reset view faces the new shops.
 `nyc-motor.js` uses the same rounded capsule footprint for step acquisition and

@@ -1,3 +1,4 @@
+import {exchangeApproach} from './nyc-civic-hall.js';
 import * as T from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
@@ -115,8 +116,8 @@ export function addMidtownCyber(scene, { box, beam, materials, colliders, sign, 
   // A single street-facing campaign belongs to the upper substation pier;
   // its portrait is legible down the block, above the human-scale shop signs.
   display('human',-15,16.1,95.15,8,9.5,Math.PI,.42,'magenta');
-  display('network',-20,16,-94.55,9,6,0,.7,'cyan');
-  display('human',29,16.5,-93.65,15,7.2,0,1.4,'magenta');
+  display('network',exchangeApproach.westX,16,-94.55,9,6,0,.7,'cyan');
+  display('human',exchangeApproach.eastX,16.5,-93.65,15,7.2,0,1.4,'magenta');
   display('axiom',1,20.2,-145.22,9.4,5.7,0,.4,'cyan');
 
   // Large, readable identities sit on the true first-tier south walls. Their
@@ -141,7 +142,7 @@ export function addMidtownCyber(scene, { box, beam, materials, colliders, sign, 
   corporateIdentity(78.5,38,-94.75,2.6,17,'ORBIT','NY / CORPORATE','#e58fbd');
 
   // Localized active floor/belt fragments, not a neon outline of every tower.
-  for(const [x,z,rot,kind]of [[-12.65,-102,Math.PI/2,'cyan'],[15.65,-102,-Math.PI/2,'magenta']]){
+  for(const [x,z,rot,kind]of [[exchangeApproach.westX+7.35,-102,Math.PI/2,'cyan'],[exchangeApproach.eastX-13.35,-102,-Math.PI/2,'magenta']]){
     const f=front(x,z,rot);
     for(const u of [-2.1,2.1]){
       f.B('metal',u,17.7,.18,.27,14.6,.30,0x7f9994);
@@ -210,7 +211,7 @@ export function addMidtownCyber(scene, { box, beam, materials, colliders, sign, 
     group.position.set(x,y,z);group.rotation.y=rot;group.name='Midtown slow commuter / original voxel craft';scene.add(group);crafts.push({group,x,y,z,phase,rot});
   }
   aircraft(-1.8,24,-77,.7,Math.PI,0xa0afa2);aircraft(6.1,31,-121,3.2,.3,0x798d99);
-  for(const [x,y,z,color,power,reach]of [[-20,14,-93.3,0x66dcd8,50,13],[29,14.5,-92.1,0xe584b2,62,15],[-8,6.4,-142.2,0x9ccfc4,42,13],[8,3.3,-134,0x64d6ce,28,8]]){
+  for(const [x,y,z,color,power,reach]of [[exchangeApproach.westX,14,-93.3,0x66dcd8,50,13],[exchangeApproach.eastX,14.5,-92.1,0xe584b2,62,15],[-8,6.4,-142.2,0x9ccfc4,42,13],[8,3.3,-134,0x64d6ce,28,8]]){
     const light=new T.PointLight(color,power,reach,2);light.castShadow=false;light.position.set(x,y,z);light.userData.nightPower=power;scene.add(light);lights.push(light);
   }
   stats.lights=lights.length;

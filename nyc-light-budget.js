@@ -8,7 +8,7 @@ export function createLightBudget(scene){
   function update(dt,observer,force=false){
     elapsed+=dt;if(!force&&elapsed<.35)return;elapsed=0;
     const p=observer.position||observer;
-    const ranked=points.map(light=>({light,d:(light.position.x-p.x)**2+(light.position.z-p.z)**2})).sort((a,b)=>a.d-b.d);
+    const ranked=points.map(light=>({light,d:light.position.distanceToSquared(p)})).sort((a,b)=>a.d-b.d);
     const count=Math.min(points.length,stats.limit);
     for(let i=0;i<ranked.length;i++)ranked[i].light.visible=i<count;
     stats.active=count;

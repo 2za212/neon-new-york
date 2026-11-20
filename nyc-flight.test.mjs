@@ -4,6 +4,7 @@ import * as T from 'three';
 import {createFreeFlight} from './nyc-flight.js';
 import {createMotor} from './nyc-motor.js';
 import {createPlayableArea} from './nyc-regions.js';
+import {mapPlan,getDistrict} from './nyc-map-plan.js';
 
 const makeWorld=(colliders=[])=>({bounds:{minX:-146,maxX:144,minZ:-180,maxZ:160},colliders});
 function fly(world,origin=[0,5,0],direction=[0,0,-1]){const f=createFreeFlight(world);f.activate(new T.Vector3(...origin),new T.Vector3(...direction));return f;}
@@ -39,7 +40,7 @@ test('flight activation inside a podium falls back to the character safe view',(
   const character=new T.Vector3(-21,.18,-176);f.activate(new T.Vector3(-21,.64,-168.039),new T.Vector3(0,0,1),character);
   assert.ok(f.active);assert.deepEqual(f.position.toArray(),[-21,1.53,-176]);run(f,{moveY:1});assert.ok(f.position.y>10);assert.deepEqual(character.toArray(),[-21,.18,-176]);
 });
-const outline=[[-64,-180],[84,-180],[84,-52],[144,-52],[144,96],[84,96],[84,160],[-64,160],[-64,52],[-146,52],[-146,-52],[-64,-52]];
+const outline=mapPlan.currentOutline;
 test('district union opens the built north, south and east seams while rejecting genuine concave voids',()=>{
   const inside=createPlayableArea(outline);assert.ok(inside(0,-52,.31));assert.ok(inside(83,-100,.31));assert.ok(inside(-130,0,.31));
   assert.ok(inside(60,0,.31));assert.ok(inside(0,70,.31));assert.ok(inside(132,84,.31));assert.ok(inside(83.6,95.6,.31));
@@ -50,4 +51,14 @@ test('actual walking motor crosses the north seam but stops at the district side
   for(let i=0;i<180;i++)m.update(1/60,{moveX:0,moveZ:1,sprint:true},0);assert.ok(m.position.z<-67);
   const edge=createMotor(world,new T.Vector3(-62,.18,-100));for(let i=0;i<180;i++)edge.update(1/60,{moveX:-1,moveZ:0,sprint:true},0);
   assert.ok(edge.position.x>=-63.691&&edge.position.x<-63.5);
+});
+test('the two old exchange exits connect the core roads on map and on foot',()=>{
+  const world={bounds:mapPlan.currentBounds,colliders:[],isPlayable:createPlayableArea(outline),baseHeight:.18};
+  for(const x of [-36,58]){
+    assert.equal(mapPlan.frontierExits.some(exit=>Math.abs(exit.position[0]-x)<1&&Math.abs(exit.position[1]+180)<2),false);
+    const m=createMotor(world,new T.Vector3(x,.18,-176));
+    for(let i=0;i<120;i++)m.update(1/60,{moveX:0,moveZ:1,sprint:true},0);
+    assert.ok(m.position.z < -185);
+    assert.equal(getDistrict(m.position.x,m.position.z),'核心区');
+  }
 });

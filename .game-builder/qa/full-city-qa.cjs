@@ -31,6 +31,11 @@ async function main(){
   const west=createMotor(world,new T.Vector3(0,.18,84));
   for(const[name,x,z]of [['soho_west_cross84',-48,84],['soho_west_avenue_to_loop150',-48,150],['soho_west_loop_to_axis',0,150],['soho_axis_to_cross128',0,128],['soho_west_cross128',-48,128],['soho_west_avenue_return84',-48,84],['soho_west_loop_return_axis',0,84]])if(!travel(west,name,x,z))break;
 
+  route('civic_link_underpass',[[0,.18,-23],[0,.18,-28.6],[0,.18,-35]]);
+  route('civic_link_greenway_below_service_gallery',[[-7,6.51,-28.6],[0,6.51,-28.6],[7,6.51,-28.6]]);
+  route('exchange_recess_walk_in_and_out',[[-11.15,.36,-137],[-11.15,.36,-145],[-11.15,.36,-149.45],[-11.15,.36,-137]]);
+  route('wetland_stepped_bank_walk_in_and_out',[[111.8,.36,42.9],[111.8,.185,47.1],[111.8,.36,42.9]]);
+
   // District author metadata is intentionally required rather than inferred
   // from footprints: this catches a declared entry that the final world blocks.
   if(world.soho.entries?.length!==2)throw Error('Expected two author-declared public SoHo rooms');
@@ -59,6 +64,16 @@ async function main(){
   const wetland=parkPaths.wetland;
   if(!wetland?.pond?.allowed||!wetland.shallowProbe||!wetland.bankApproach)throw Error('Final shallow pond entry/exit metadata is missing');
   route('park_shallow_pond_safe_bottom_and_bank_exit',[wetland.bankApproach,wetland.shallowProbe,wetland.bankApproach]);
+  route('old_town_depot_steps_return_to_road',[[-4.8,.18,-3.2],[-4.8,.82,-12.8],[-4.8,.18,-3.2]]);
+  route('soho_market_kerbside_aisle',[[-3.72,.35,98.5],[-3.72,.35,110.4]]);
+  route('soho_market_shopfront_aisle',[[-7.48,.36,98.5],[-7.48,.36,110.4]]);
+  route('record_shop_reclaimed_parking_walk',[[-5.12,.36,20],[-5.12,.36,40]]);
+  route('soho_studio_frontage_walk',[[5.18,.36,94],[5.18,.36,116]]);
+  for(const side of [-1,1]){
+    route('exchange_approach_footway_'+side,[[side*5.45,.36,-93],[side*5.45,.36,-111]]);
+    route('freight_warehouse_footway_'+side,[[-79.3,.36,side*5.25],[-95,.36,side*5.25]]);
+  }
+  route('exchange_forecourt_crossing_and_return',[[0,.18,-108],[0,.385,-127.5],[0,.18,-108]]);
   const pavilion=parkPaths.pavilion,headPoint=P(pavilion.headProbe),roofBox=world.colliders.find(q=>q.userData?.eastPark==='pavilion-roof');
   if(!roofBox)throw Error('Physical pavilion roof collider is missing');
   const pavilionHead=createMotor(world,new T.Vector3(...headPoint));pavilionHead.position.y=roofBox.min.y-1.75-.16;let pavilionMaxHead=pavilionHead.position.y+1.75;for(let i=0;i<55;i++){pavilionHead.update(1/120,{...still,jump:i===0},0);pavilionMaxHead=Math.max(pavilionMaxHead,pavilionHead.position.y+1.75);}
@@ -82,10 +97,8 @@ async function main(){
   const actorIDs=new Set(world.crowd.actors.map(a=>a.def.id));record('original_people_survive_and_all_authorized_new_routes_validate',originalIDs.every(id=>actorIDs.has(id))&&world.crowd.stats.people===world.crowd.stats.requestedPeople&&world.crowd.stats.routeValidation.every(r=>r.valid),{requested:world.crowd.stats.requestedPeople,actual:world.crowd.stats.people,routes:world.crowd.stats.routeValidation});
   createCityWeather(scene,world);const rain=scene.getObjectByName('NYC / sheltered fine drizzle'),image=rain.material.uniforms.uRoof.value.image,w=world.bounds.maxX-world.bounds.minX,d=world.bounds.maxZ-world.bounds.minZ;
   const roof=(x,z)=>image.data[Math.min(image.height-1,Math.max(0,Math.floor((z-world.bounds.minZ)/d*image.height)))*image.width+Math.min(image.width-1,Math.max(0,Math.floor((x-world.bounds.minX)/w*image.width)))];
-  // The new oak cornice is a real y3.90 +/- .06 horizontal component. The
-  // conservative rain grid covers its edge at the old near-wall probe; an
-  // additional outer-awning probe separately checks the unchanged visor.
-  const roofChecks=[{id:'books_actual_cornice',x:-10.1,z:95.82,expected:3.96},{id:'books_extended_awning',x:-9.67,z:95.82,expected:3.62},{id:'books_open_sidewalk',x:-7.3,z:95.82,expected:0},{id:'pavilion_actual_roof',x:headPoint[0],z:headPoint[2],expected:pavilion.roof.maxY},{id:'tram_actual_canopy',x:125,z:6.8,expected:3.965},{id:'park_open_avenue',x:58,z:24,expected:0}].map(p=>({...p,actual:roof(p.x,p.z)}));record('new_district_roofs_use_real_float_metadata',image.data instanceof Float32Array&&roofChecks.every(p=>p.expected===0?p.actual===0:Math.abs(p.actual-p.expected)<.025),{roofChecks,textureSize:[image.width,image.height]});
+  // Walk from the workroom sill across both awning courses to the open kerb.
+  const roofChecks=[{id:'books_workroom_sill',x:-10.1,z:95.82,expected:5.195},{id:'books_awning_at_wall',x:-9.85,z:95.82,expected:4.32},{id:'books_awning_at_kerb',x:-7.3,z:95.82,expected:4.0},{id:'books_open_sidewalk',x:-6.58,z:95.82,expected:0},{id:'pavilion_actual_roof',x:headPoint[0],z:headPoint[2],expected:pavilion.roof.maxY},{id:'tram_actual_canopy',x:125,z:6.8,expected:3.965},{id:'park_open_avenue',x:58,z:24,expected:0}].map(p=>({...p,actual:roof(p.x,p.z)}));record('new_district_roofs_use_real_float_metadata',image.data instanceof Float32Array&&roofChecks.every(p=>p.expected===0?p.actual===0:Math.abs(p.actual-p.expected)<.025),{roofChecks,textureSize:[image.width,image.height]});
   for(const[fileName,reportName,expectedCount,label]of [['spawn-sample-qa.cjs','spawn-sample-result.json',23,'original_40m_sample_physics'],['integrated-navigation.cjs','integrated-navigation-result.json',23,'first_district_bridge_pier_physics']]){const run=spawnSync(process.execPath,[path.join(__dirname,fileName)],{cwd:root,encoding:'utf8',maxBuffer:3*1024*1024});let report;try{report=JSON.parse(fs.readFileSync(path.join(__dirname,reportName),'utf8'));}catch{}record(label,run.status===0&&report?.passed&&report.tests.length===expectedCount,{exit:run.status,count:report?.tests.length,failed:report?.tests.filter(t=>!t.passed).map(t=>t.name),...(!report?.passed?{output:run.stdout.slice(-4000),error:run.stderr.slice(-2000)}:{})});}
   const report={timestamp:new Date().toISOString(),scope:'Actual full-city world/motor/freeflight and author-confirmed destinations, plus unchanged old geometry regressions; no browser',passed:tests.every(t=>t.passed),tests,stats:{triangles:world.stats.triangles,colliders:world.colliders.length,surfaces:world.walkSurfaces.length,soho:world.soho.stats,eastPark:world.eastPark.stats,crowd:world.crowd.stats},canvas:canvas.summary()};
   fs.writeFileSync(path.join(__dirname,'full-city-result.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({passed:report.passed,count:tests.length,failed:tests.filter(t=>!t.passed).map(t=>t.name),triangles:world.stats.triangles}));if(!report.passed)process.exitCode=1;

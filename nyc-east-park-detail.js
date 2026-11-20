@@ -37,19 +37,8 @@ export function addEastParkDetail(scene,api,{treeLocations=[],terrainIslands=[]}
   }
   function point(x,y,z,color,power,reach,name){const l=new T.PointLight(color,power,reach,2);l.position.set(x,y,z);l.castShadow=false;l.name='NYC East Commons / '+name;l.userData.nightPower=power;scene.add(l);lights.push(l);}
 
-  // Adult-scale slab joints use the spawn street's two-row rhythm. Their thin
-  // caps do not change the .36m navigation surface or cover any pond/steps.
-  function slabRun(x0,x1,z0,z1,alongX=true){
-    const length=alongX?x1-x0:z1-z0,width=alongX?z1-z0:x1-x0;
-    for(let t=0;t<length-.01;t+=2.40)for(let row=0;row<2;row++){
-      const end=Math.min(t+2.365,length-.025),a=.025+row*width/2,b=(row+1)*width/2-.025;
-      const x=alongX?x0+(t+end)/2:x0+(a+b)/2,z=alongX?z0+(a+b)/2:z0+(t+end)/2;
-      B((Math.floor(t/2.4)+row)%5===0?'eastParkPaving':pale,x,.367,z,alongX?end-t:b-a,.014,alongX?b-a:end-t,shade(.045));stats.slabPieces++;
-    }
-  }
-  slabRun(72,124,22.2,25.8);slabRun(72,124,66.2,69.8);
-  slabRun(72.2,75.8,25.8,66.2,false);slabRun(120.2,123.8,25.8,66.2,false);
-  slabRun(75.8,105.8,48.7,52.3);slabRun(96.2,99.8,42.64,48.7,false);
+  // The shared 32 cm paving reaches the park paths. Keep a single wearing
+  // surface here so a second cap never intersects the raised block ends.
   // Recessed drainage is kept to the outside edge. These have no false curb
   // collider, and individual slots stop short of the public paving centre.
   for(const [x,z,rot]of [[76.2,27.1,0],[119.6,27.1,0],[76.2,64.7,0],[119.6,64.7,0],[104.9,51.9,Math.PI/2]]){
@@ -60,7 +49,7 @@ export function addEastParkDetail(scene,api,{treeLocations=[],terrainIslands=[]}
   // Copper bollards live in planting, at least 1.2m from the three NPC axes.
   // Their split lenses are visible fixtures, not floating light particles.
   const bollards=[[76.8,27.1],[76.8,46],[76.8,64.7],[88,64.7],[101.5,64.7],[118.9,64.7],
-    [119.2,27.1],[119.2,42],[103.7,47.3],[106,54.6],[117.4,62.2],
+    [119.2,27.1],[119.2,40.5],[103.7,47.3],[106,54.6],[117.4,62.2],
     [77.2,-23.7],[88,-23.6],[102,-23.6],[118,-23.6]];
   for(let i=0;i<bollards.length;i++){
     const [x,z]=bollards[i],glow=i%4===0?cyan:warm;
@@ -86,11 +75,22 @@ export function addEastParkDetail(scene,api,{treeLocations=[],terrainIslands=[]}
     for(const y of [.68,1.14,1.62])B(copper,84,y,z,.32,.07,.32);
     L(copper,[84,2.40,z],[84,2.89,z<45?43.67:47.63],.14,.14);
   }
+  // Pair each signal brick with a half-depth latch. The solid stepped ring
+  // is machined from both sides and the visible corner is a real return.
+  for(let row=-6;row<=6;row++)for(let col=-6;col<=6;col++){
+    const edge=Math.hypot(row,col);
+    if(edge<5.36||edge>6.55)continue;
+    const y=art.y+row*.32,z=art.z+col*.32;
+    const latch=Math.abs(row)===Math.abs(col)||Math.abs(row+col)%4===0;
+    B(latch?copper:metal,84,y,z,latch?.48:.32,.32,.32,latch?0xc9b498:0xb4c4bb);
+    if(latch)continue;
+    for(const side of [-1,1])B(row>0?cyan:rose,84+side*.16,y+.04,z,.16,.16,.16);
+  }
   for(let i=0;i<8;i++){
-    const a=i*Math.PI/4+Math.PI/8,b=(i+1)*Math.PI/4+Math.PI/8,r=2.0;
-    const p=[84,art.y+Math.sin(a)*r,art.z+Math.cos(a)*r],q=[84,art.y+Math.sin(b)*r,art.z+Math.cos(b)*r];
-    L(metal,p,q,.14,.22);C(84,(p[1]+q[1])/2,(p[2]+q[2])/2,.22,Math.abs(q[1]-p[1])+.14,Math.abs(q[2]-p[2])+.14,'eco-link-frame');const d=new T.Vector3(...q).sub(new T.Vector3(...p));
-    for(let j=0;j<4;j++){const v=new T.Vector3(...p).addScaledVector(d,.10+j*.20),w=v.clone().addScaledVector(d,.11);L(i===2||i===3?rose:cyan,v.toArray(),w.toArray(),.045,.05);}
+    const a=(i+.5)*Math.PI/4,b=(i+1.5)*Math.PI/4;
+    const y=art.y+Math.sin(a)*2,z=art.z+Math.cos(a)*2;
+    const yy=art.y+Math.sin(b)*2,zz=art.z+Math.cos(b)*2;
+    C(84,(y+yy)/2,(z+zz)/2,.22,Math.abs(yy-y)+.14,Math.abs(zz-z)+.14,'eco-link-frame');
   }
   B(charcoal,84,.84,45.65,1.03,.60,1.00);C(84,.84,45.65,1.03,.60,1.00,'eco-link-projector');
   B(copper,83.985,1.18,45.65,1.10,.09,1.07);B(cyan,84,1.25,45.65,.44,.045,.44);
@@ -150,7 +150,7 @@ export function addEastParkDetail(scene,api,{treeLocations=[],terrainIslands=[]}
   // Step edge inlays are on the actual treads, below any extra walk height.
   for(let i=0;i<4;i++)for(const side of [-1,1])B(cyan,98+side*1.34,.548+i*.18,42.62-i*.66,.25,.014,.028);
   // Bench end-grain slats, armrests and fixing bolts share the sample's scale.
-  const benchDefs=[[83,64.5,0,.36],[111,64.5,0,.36],[77,36,Math.PI/2,.36],[119,37,-Math.PI/2,.36],
+  const benchDefs=[[83,64.5,0,.36],[111,65.38,0,.36],[77,36,Math.PI/2,.36],[119,37,-Math.PI/2,.36],
     [86,-16,0,.36],[111,-16,0,.36],[95,35.5,Math.PI/2,1.08],[101,35.5,-Math.PI/2,1.08]];
   for(const [x,z,rot,level]of benchDefs){const co=Math.cos(rot),si=Math.sin(rot),P=(u,y,v)=>[x+u*co+v*si,y,z-u*si+v*co];
     for(const e of [-1,1]){
@@ -203,7 +203,7 @@ export function addEastParkDetail(scene,api,{treeLocations=[],terrainIslands=[]}
   // Wild planting grows in a few composed beds. Tall pieces stay out of every
   // slab strip, grass-terrace test approach and the wetland's true shallow path.
   const beds=[[80.0,31.0,1.3,3.1],[88.4,38.7,1.05,3.3],[108.1,30.0,3.0,1.0],[112.7,37.4,3.2,.8],
-    [80,62,2.8,1.1],[106.5,64.3,2.0,1.0],[116.8,62.8,1.7,1.0],
+    [80,62,2.8,1.1],[105.45,64.3,1.37,1.0],[119.40,64.55,1.19,1.0],
     [77.4,-31,2.4,1.2],[115,-31,3.6,1.1],[86,-36.7,2.3,1.1],[102,-38.1,4.2,1.25]];
   for(let bi=0;bi<beds.length;bi++){
     const [x,z,w,d]=beds[bi];stats.plantingClusters++;

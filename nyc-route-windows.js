@@ -54,7 +54,7 @@ export function createRouteWindows(materials){
         a.fillStyle='#756b62';for(let y=15;y<43;y+=6)a.fillRect(10,y,108,2);}
       a.restore();
     }
-    const map=new T.CanvasTexture(atlas);map.colorSpace=T.SRGBColorSpace;map.magFilter=T.NearestFilter;
+    const map=new T.CanvasTexture(atlas);map.colorSpace=T.SRGBColorSpace;map.anisotropy=4;
     const m=materials.warmWindow.clone();m.name='NYC / '+key;m.map=m.emissiveMap=map;
     m.emissive.set('#fff1d7');m.emissiveIntensity=key==='routeBlinds'?.22:.63;m.userData.unitUV=true;m.userData.roomAtlas=true;
     materials[key]=m;

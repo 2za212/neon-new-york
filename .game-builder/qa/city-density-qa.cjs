@@ -15,7 +15,15 @@ async function main(){
     const checks=detail.fixtures.map(f=>{const v=f.bounds||f;return{id:f.id,present:world.colliders.some(b=>b.userData?.[tag]===f.id&&same(b.min.toArray(),v.min)&&same(b.max.toArray(),v.max))};});
     record(id+'_declared_occupation_is_real_collision',checks.length>0&&checks.every(c=>c.present),{count:checks.length,failed:checks.filter(c=>!c.present)});
   }
-  const infillBuildings=soho.buildings.map(d=>({id:d.id,bounds:d.bounds,physicalUpper:world.colliders.some(b=>b.userData?.districtKit===d.id+'/upper'&&Math.abs(b.min.y-4.1)<.00001&&b.max.y>12),physicalRoof:world.colliders.some(b=>b.userData?.districtKit===d.id+'/roof'),insideMap:[[d.bounds.minX,d.bounds.minZ],[d.bounds.maxX,d.bounds.maxZ]].every(([x,z])=>world.isPlayable(x,z,.0))}));
+  const infillBuildings=soho.buildings.map(d=>{
+    const tagged=part=>world.colliders.find(b=>b.userData?.districtKit===d.id+'/'+part);
+    const upper=tagged('upper'),workroom=tagged('workroom-core');
+    const base=workroom?.max.y??4.1;
+    const coreFromFirstFloor=!workroom||Math.abs(workroom.min.y-4.1)<.00001;
+    const physicalUpper=!!upper&&coreFromFirstFloor&&Math.abs(upper.min.y-base)<.00001&&Math.abs(upper.max.y-d.top)<.00001;
+    const insideMap=[[d.bounds.minX,d.bounds.minZ],[d.bounds.maxX,d.bounds.maxZ]].every(([x,z])=>world.isPlayable(x,z,.0));
+    return {id:d.id,bounds:d.bounds,physicalUpper,physicalRoof:!!tagged('roof'),insideMap};
+  });
   record('eight_added_street_buildings_have_real_cores_and_roofs',infillBuildings.length===8&&world.soho.stats.buildings===20&&infillBuildings.every(b=>b.physicalUpper&&b.physicalRoof&&b.insideMap),{buildings:infillBuildings});
   function leg(m,target){const start=m.position.toArray(),distance=Math.hypot(target[0]-start[0],target[2]-start[2]),limit=distance/3.1+7;let t=0,reached=false,best=Infinity,stall=0,embedded=[];
     while(t<limit){const dx=target[0]-m.position.x,dz=target[2]-m.position.z,d=Math.hypot(dx,dz);if(d<.075){reached=true;break;}if(d<best-.02){best=d;stall=0;}else stall++;if(stall>240)break;const power=Math.min(1,Math.max(.14,d/.60));m.update(1/60,{...still,moveX:dx/d*power,moveZ:-dz/d*power},0);t+=1/60;if(embedded.length<3){const hits=blocked(m.position);if(hits.length)embedded.push({position:m.position.toArray(),hits});}}
@@ -31,7 +39,7 @@ async function main(){
   let maxHead=-Infinity;if(roof){const m=createMotor(world,new T.Vector3(...deep));m.position.y=roof.min.y-1.75-.16;for(let i=0;i<55;i++){m.update(1/120,{...still,jump:i===0},0);maxHead=Math.max(maxHead,m.position.y+1.75);}}
   record('greenhouse_glass_roof_stops_actual_head_motion',!!roof&&maxHead<=roof.min.y+.006&&maxHead>roof.min.y-.10,{ceilingMin:roof?.min.y,maxHead});
   const trees=park.trees.map(t=>({x:t.x,z:t.z,id:t.colliderId,physical:world.colliders.some(b=>b.userData?.parkDensity===t.colliderId&&b.min.x<=t.x&&b.max.x>=t.x&&b.min.z<=t.z&&b.max.z>=t.z)}));
-  record('twenty_grouped_canopies_keep_real_trunks_and_fourteen_hedge_beds',trees.length===20&&trees.every(t=>t.physical)&&park.stats.shrubBeds===14&&park.beds.length===14&&park.stats.canopyCubes>=2000,{trees,shrubBeds:park.beds.length,canopyCubes:park.stats.canopyCubes});
+  record('thirty_grouped_canopies_keep_real_trunks_and_fourteen_hedge_beds',trees.length===30&&new Set(trees.map(t=>t.id)).size===30&&trees.every(t=>t.physical)&&park.stats.shrubBeds===14&&park.beds.length===14&&park.stats.canopyCubes>=2000,{trees,shrubBeds:park.beds.length,canopyCubes:park.stats.canopyCubes});
   const vehicleChecks=occupation.vehicles.map(v=>{const van=v.kind==='delivery-van',width=van?2.03:1.88,length=van?4.90:4.08,c=Math.abs(Math.cos(v.rotation)),s=Math.abs(Math.sin(v.rotation)),expectedX=c*(width+.34)+s*(length+.178),expectedZ=s*(width+.34)+c*(length+.178),b=world.colliders.find(b=>b.userData?.cityOccupation===v.id&&same(b.min.toArray(),v.min)&&same(b.max.toArray(),v.max));return{id:v.id,kind:v.kind,collider:!!b,coversMirrors:v.max[0]-v.min[0]>=expectedX-.0001&&v.max[2]-v.min[2]>=expectedZ-.0001,grounded:Math.abs(world.ground(v.x,v.z,.30)-.18)<.001};});
   const vehicles=occupation.vehicles.map(v=>world.colliders.find(b=>b.userData?.cityOccupation===v.id)),overlaps=[];
   for(let i=0;i<vehicles.length;i++)for(let j=i+1;j<vehicles.length;j++)if(vehicles[i].intersectsBox(vehicles[j]))overlaps.push([occupation.vehicles[i].id,occupation.vehicles[j].id]);

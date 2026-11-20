@@ -1,5 +1,53 @@
 import * as T from 'three';
 
+// A store's lamp also illuminates the garment pieces of people working or
+// walking near it. Selection is done once per route. Attenuation and incidence
+// are evaluated at the actual animated sleeve, torso and trouser positions.
+function dressWorkLight(scene,mesh,items){
+  const lamps=[];
+  scene.traverse(o=>{if(o.isPointLight&&o.userData.workLamp)lamps.push(o);});
+  if(!lamps.length)return;
+  const choices=new Map(),sources=new Float32Array(items.length*4),colors=new Float32Array(items.length*3);
+  for(const item of items){
+    const {actor,index}=item;
+    if(!choices.has(actor)){
+      const {a,b}=actor.route,dx=b[0]-a[0],dz=b[1]-a[1],d2=dx*dx+dz*dz;
+      let chosen=null,nearest=Infinity;
+      for(const lamp of lamps){
+        const p=lamp.position,reach=lamp.distance+6;
+        const along=d2?T.MathUtils.clamp(((p.x-a[0])*dx+(p.z-a[1])*dz)/d2,0,1):0;
+        const gap=Math.hypot(a[0]+dx*along-p.x,a[1]+dz*along-p.z,p.y-actor.route.y-1.2);
+        if(gap<reach&&gap<nearest){chosen=lamp;nearest=gap;}
+      }
+      choices.set(actor,chosen);
+    }
+    const lamp=choices.get(actor);
+    if(!lamp)continue;
+    sources.set([lamp.position.x,lamp.position.y,lamp.position.z,lamp.distance+6],index*4);
+    const {r,g,b}=lamp.color,Y=.2126*r+.7152*g+.0722*b;
+    colors.set([.63*r+.37*Y,.63*g+.37*Y,.63*b+.37*Y],index*3);
+  }
+  mesh.geometry=mesh.geometry.clone();
+  mesh.geometry.setAttribute('workLampPosition',new T.InstancedBufferAttribute(sources,4));
+  mesh.geometry.setAttribute('workLampColor',new T.InstancedBufferAttribute(colors,3));
+  mesh.material.onBeforeCompile=shader=>{
+    shader.vertexShader='attribute vec4 workLampPosition; attribute vec3 workLampColor; varying vec3 workReturn;\n'+shader.vertexShader;
+    shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>',`
+      #include <project_vertex>
+      workReturn=vec3(0.);
+      if(workLampPosition.w>0.){
+        vec3 toLamp=(viewMatrix*vec4(workLampPosition.xyz,1.)).xyz-mvPosition.xyz;
+        float distanceToLamp=length(toLamp);
+        float pool=1.-smoothstep(workLampPosition.w*.24,workLampPosition.w,distanceToLamp);
+        float face=max(0.,dot(normalize(transformedNormal),toLamp/max(.01,distanceToLamp)));
+        workReturn=workLampColor*pool*(.24+.94*face);
+      }`);
+    shader.fragmentShader='varying vec3 workReturn;\n'+shader.fragmentShader;
+    shader.fragmentShader=shader.fragmentShader.replace('#include <opaque_fragment>',
+      'outgoingLight+=workReturn*(diffuseColor.rgb*.92+.016);\n#include <opaque_fragment>');
+  };
+}
+
 /** Original adult commuters, all boxes batched into six instanced draws.
  * Navigation is sampled once against the actual completed world. Crowds add no
  * physical blockers: the player's route is never narrowed by an NPC collider.
@@ -10,11 +58,11 @@ export function createCityCrowd(scene,{materials,bounds,isPlayable,colliders=[],
   const definitions=[
     {id:'core_west_rainwalker',a:[-8.85,21],b:[-8.85,33.6],level:.36,look:0,umbrella:true,speed:.74},
     {id:'core_east_commuter',a:[8.85,22.2],b:[8.85,33.4],level:.36,look:2,speed:.84},
-    {id:'core_west_underpass',a:[-7.4,-36],b:[-7.4,-22],level:.36,look:1,speed:.90},
+    {id:'core_west_underpass',a:[-7.4,-36],b:[-7.4,-24.4],level:.36,look:1,speed:.90},
     {id:'core_east_underpass',a:[7.4,-36],b:[7.4,-22],level:.36,look:3,speed:.80},
     {id:'subway_waiter',a:[-8.8,16.25],level:.36,look:2,heading:1.25,phone:true},
     {id:'food_cart_customer',a:[8.8,20.0],level:.36,look:1,heading:Math.PI/2},
-    {id:'plaza_rainwalker',a:[-12.5,-137.6],b:[-12.5,-129],level:.36,look:3,umbrella:true,speed:.68},
+    {id:'plaza_rainwalker',a:[-11.75,-137.6],b:[-11.75,-129],level:.36,look:3,umbrella:true,speed:.68},
     {id:'plaza_evening_commuter',a:[18,-139],b:[18,-129.3],level:.36,look:0,speed:.79},
     {id:'plaza_bench_reader',a:[-14,-124.5],level:.36,look:2,heading:0,seated:true,phone:true},
     {id:'delivery_rider_rest',a:[-20,-71.8],level:.36,look:1,heading:Math.PI,phone:true},
@@ -140,6 +188,7 @@ export function createCityCrowd(scene,{materials,bounds,isPlayable,colliders=[],
       P('fabric',torso,.115,.085,.436,.09,.06,.012,0xc8c3ae);
     }
     if(def.phone){P('shoes',actor.arms[1].elbow,0,-.27,.065,.075,.115,.015,0x31494c);P('glow',actor.arms[1].elbow,0,-.27,.075,.05,.073,.008,0x8fb9b0);}
+    def.shiftDress?.(actor,P);
     if(def.umbrella){
       P('shoes',actor.root,.235,1.65,.26,.022,.97,.022,0x758c8e);P('shoes',actor.root,.22,1.19,.24,.065,.045,.07,0x4b565a);
       for(let a=-4;a<=4;a++)for(let b=-4;b<=4;b++){
@@ -158,31 +207,105 @@ export function createCityCrowd(scene,{materials,bounds,isPlayable,colliders=[],
     const material=bucketMaterials[name];material.name=`NYC city crowd / ${name}`;
     const mesh=new T.InstancedMesh(boxGeometry,material,items.length);mesh.name=`NYC adult commuters / ${name}`;mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);mesh.castShadow=name==='fabric'||name==='umbrella';mesh.receiveShadow=true;mesh.frustumCulled=false;
     for(const item of items){color.set(item.color);mesh.setColorAt(item.index,color);}
+    if(name==='fabric')dressWorkLight(scene,mesh,items);
     group.add(mesh);meshes[name]=mesh;stats.drawCalls++;stats.instances+=items.length;
   }
   stats.triangles=stats.instances*12;
   let elapsed=0,accumulator=0,quality='high',disposed=false;
-  function pose(actor,t,dt){
-    const{def,route}=actor;let progress=0,walking=false,direction=1;
-    if(def.b){const travel=route.length/actor.speed,pause=1.05,cycle=travel*2+pause*2,q=(t+actor.offset)%cycle;
-      if(q<pause)progress=0;else if(q<pause+travel){progress=(q-pause)/travel;walking=true;}else if(q<pause*2+travel){progress=1;direction=-1;}else{progress=1-(q-pause*2-travel)/travel;walking=true;direction=-1;}
+  function pose(actor,t,dt,animate=true){
+    const{def,route}=actor;let progress=0,walking=false,direction=1,stop=0;
+    if(def.b){const travel=route.length/actor.speed,pause=def.shiftWait??1.05,cycle=travel*2+pause*2,q=(t+actor.offset)%cycle;
+      if(q<pause)stop=q/pause;
+      else if(q<pause+travel){progress=(q-pause)/travel;walking=true;}
+      else if(q<pause*2+travel){progress=1;direction=-1;stop=(q-pause-travel)/pause;}
+      else{progress=1-(q-pause*2-travel)/travel;walking=true;direction=-1;}
     }
     const x=T.MathUtils.lerp(route.a[0],route.b[0],progress),z=T.MathUtils.lerp(route.a[1],route.b[1],progress),y=ground?ground(x,z,def.level+.30):route.y;
     actor.root.position.set(x,y,z);
-    const target=def.b?Math.atan2((route.b[0]-route.a[0])*direction,(route.b[1]-route.a[1])*direction):def.heading||0;
+    if(!animate)return;
+    const stopHeading=!walking&&def.stopHeading?def.stopHeading[progress>.5?1:0]:undefined;
+    const target=stopHeading??(def.b?Math.atan2((route.b[0]-route.a[0])*direction,(route.b[1]-route.a[1])*direction):def.heading||0);
     actor.heading+=Math.atan2(Math.sin(target-actor.heading),Math.cos(target-actor.heading))*(dt?1-Math.exp(-dt*4):1);actor.root.rotation.y=actor.heading;
     const phase=t*(3.1+actor.speed*2.1)+actor.phase,gait=walking?Math.sin(phase):0;
     actor.hips.position.y=(def.seated?actor.seatHip:.91)+(walking?Math.abs(Math.cos(phase))*.010:Math.sin(t*1.6+actor.phase)*.003);
     actor.torso.rotation.y=gait*.025;actor.head.rotation.y=Math.sin(t*.45+actor.phase)*.04;
     for(const leg of actor.legs){const s=gait*-leg.side;leg.thigh.rotation.x=def.seated?-Math.PI/2+actor.seatBend:-s*.34;leg.knee.rotation.x=def.seated?Math.PI/2-actor.seatBend:Math.max(0,s)*.46;leg.ankle.rotation.x=def.seated?0:-Math.max(0,-s)*.08;}
     for(const arm of actor.arms){const held=arm.side>0&&(def.umbrella||def.phone),s=gait*-arm.side;arm.shoulder.rotation.x=held?-.62:s*.24;arm.shoulder.rotation.z=-arm.side*.055;arm.elbow.rotation.x=held?-.78:-.10;if(def.carryParcel){arm.shoulder.rotation.x=-.43;arm.elbow.rotation.x=-1.14;arm.shoulder.rotation.z=arm.side*.045;}}
+    def.shiftPose?.(actor,t,walking,direction,progress,stop);
     actor.root.updateMatrixWorld(true);
   }
-  function writeMatrices(){for(const [name,items]of Object.entries(buckets)){const mesh=meshes[name];if(!mesh)continue;for(const item of items){matrix.multiplyMatrices(item.bone.matrixWorld,item.local);mesh.setMatrixAt(item.index,matrix);}mesh.instanceMatrix.needsUpdate=true;}}
-  function update(dt=0,time){if(disposed)return;dt=Number.isFinite(dt)?Math.max(0,Math.min(dt,.1)):0;elapsed=Number.isFinite(time)?time:elapsed+dt;accumulator+=dt;if(accumulator<1/stats.updateHz)return;const poseDt=accumulator;accumulator=0;for(const actor of actors)pose(actor,elapsed,poseDt);writeMatrices();}
+  // Compact the six shared meshes around the walking camera. Keep simulation
+  // positions for distant commuters so traffic can yield outside the view.
+  const visibleParts={},sources={};
+  for(const [name,items] of Object.entries(buckets)){
+    const mesh=meshes[name];
+    if(!mesh)continue;
+    visibleParts[name]=items;
+    const attrs=[mesh.instanceColor,mesh.geometry.getAttribute('workLampPosition'),mesh.geometry.getAttribute('workLampColor')].filter(Boolean);
+    sources[name]=attrs.map(attr=>({attr,original:attr.array.slice()}));
+  }
+  let lastEye=new T.Vector3(Infinity,Infinity,Infinity),allVisible=true,lastFar=-Infinity;
+  function selectPeople(camera){
+    const eye=camera?.position;
+    if(!eye&&allVisible)return;
+    if(eye&&!allVisible&&lastEye.distanceToSquared(eye)<16)return;
+    allVisible=!eye;
+    if(eye)lastEye.copy(eye);
+    const radius=quality==='low'?78:quality==='high'?160:113;
+    let changed=false,people=0;
+    for(const a of actors){
+      const {a:start,b:end}=a.route;
+      const dx=eye?Math.max(0,Math.min(start[0],end[0])-eye.x,eye.x-Math.max(start[0],end[0])):0;
+      const dz=eye?Math.max(0,Math.min(start[1],end[1])-eye.z,eye.z-Math.max(start[1],end[1])):0;
+      const dy=eye?eye.y-a.route.y:0;
+      const nearby=!eye||dx*dx+dz*dz+dy*dy<(radius+(a.inRange?5:0))**2;
+      if(a.inRange!==nearby)changed=true;
+      a.inRange=nearby;if(nearby)people++;
+    }
+    if(!changed)return;
+    stats.visiblePeople=people;stats.visibleInstances=0;
+    for(const [name,allParts] of Object.entries(buckets)){
+      const mesh=meshes[name];if(!mesh)continue;
+      const active=allParts.filter(p=>p.actor.inRange);
+      visibleParts[name]=active;mesh.count=active.length;stats.visibleInstances+=active.length;
+      for(const {attr,original} of sources[name]){
+        const size=attr.itemSize;
+        for(let i=0;i<active.length;i++){
+          const src=active[i].index*size;
+          for(let k=0;k<size;k++)attr.array[i*size+k]=original[src+k];
+        }
+        attr.needsUpdate=true;
+      }
+    }
+  }
+  function writeMatrices(){
+    for(const [name,items]of Object.entries(visibleParts)){
+      const mesh=meshes[name];
+      for(let i=0;i<items.length;i++){
+        const item=items[i];
+        matrix.multiplyMatrices(item.bone.matrixWorld,item.local);mesh.setMatrixAt(i,matrix);
+      }
+      mesh.instanceMatrix.needsUpdate=true;
+    }
+  }
+  function update(dt=0,time,camera){
+    if(disposed)return;
+    dt=Number.isFinite(dt)?Math.max(0,Math.min(dt,.1)):0;
+    elapsed=Number.isFinite(time)?time:elapsed+dt;accumulator+=dt;
+    if(accumulator<1/stats.updateHz)return;
+    const poseDt=accumulator;accumulator=0;
+    selectPeople(camera);
+    const farDue=elapsed-lastFar>=.4||elapsed<lastFar;
+    for(const actor of actors){
+      if(allVisible||actor.inRange)pose(actor,elapsed,poseDt);
+      else if(farDue)pose(actor,elapsed,poseDt,false);
+    }
+    if(farDue)lastFar=elapsed;
+    writeMatrices();
+  }
   function setNight(night){bucketMaterials.glow.emissiveIntensity=night?.48:.12;}
-  function setQuality(value){quality=value||'high';stats.updateHz=quality==='low'?12:quality==='high'?30:20;for(const name of ['fabric','umbrella'])if(meshes[name])meshes[name].castShadow=quality!=='low';}
-  function dispose(){if(disposed)return;disposed=true;group.removeFromParent();boxGeometry.dispose();Object.values(bucketMaterials).forEach(m=>m.dispose());}
+  function setQuality(value){quality=value||'high';lastEye.set(Infinity,Infinity,Infinity);stats.updateHz=quality==='low'?12:quality==='high'?30:20;for(const name of ['fabric','umbrella'])if(meshes[name])meshes[name].castShadow=quality!=='low';}
+  function dispose(){if(disposed)return;disposed=true;group.removeFromParent();if(meshes.fabric?.geometry!==boxGeometry)meshes.fabric?.geometry.dispose();boxGeometry.dispose();Object.values(bucketMaterials).forEach(m=>m.dispose());}
   for(const actor of actors)pose(actor,0,0);writeMatrices();setNight(true);
   return{stats,update,setNight,setQuality,dispose,group,actors};
 }

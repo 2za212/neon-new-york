@@ -1,4 +1,5 @@
 import * as T from 'three';
+import {upperStreetKit,buildOldCityAirRights} from './nyc-tenement-air-rights.js';
 
 /** The spawn sample's ground and secondary service space, in metres.
  * Add to the shared architectural batch before finish(); no independent mesh.
@@ -18,11 +19,11 @@ export function addSampleStreet(scene,{box,beam,materials,colliders,surface,sign
     if(meters)m.userData.textureMeters=meters;
     materials[name]=m;return name;
   }
-  const slab=material('sampleStreetSlab','concrete',{color:new T.Color(0xa2aaa2),roughness:.96,metalness:0},3.8);
-  const slabAlt=material('sampleStreetSlabAlt','concrete',{color:new T.Color(0x929e99),roughness:.94,metalness:0},3.8);
+  const slab=material('sampleStreetSlab','paver',{color:new T.Color(0xa2aaa2),roughness:.96,metalness:0},2.56);
+  const slabAlt=material('sampleStreetSlabAlt','paver',{color:new T.Color(0x929e99),roughness:.94,metalness:0},2.56);
   const basalt=material('sampleStreetBasalt','stone',{color:new T.Color(0x4a6068),roughness:.84,metalness:.025},1.8);
   const mortar=material('sampleStreetMortar','concrete',{color:new T.Color(0x536469),roughness:.98,metalness:0},2);
-  const paver=material('sampleStreetCourtPaver','paver',{color:new T.Color(0x9d9f8e),roughness:.96,metalness:0},3.4);
+  const paver=material('sampleStreetCourtPaver','paver',{color:new T.Color(0x9d9f8e),roughness:.96,metalness:0},2.56);
   const zinc=material('sampleStreetZinc','metal',{color:new T.Color(0x7f9691),roughness:.79,metalness:.35});
   const rust=material('sampleStreetRust','metal',{color:new T.Color(0x85725b),roughness:.96,metalness:.08});
   const paper=material('sampleStreetPaper','white',{color:new T.Color(0xd0c7aa),roughness:.98,metalness:0});
@@ -36,19 +37,32 @@ export function addSampleStreet(scene,{box,beam,materials,colliders,surface,sign
   materials[oil].userData.unitUV=true;materials[oil].userData.castShadow=false;
   const shade=(spread=.10)=>new T.Color().setScalar(1-spread/2+rand()*spread);
 
-  // The coherent NY sidewalk is two adult-scale slab rows, with a dark shop
-  // edge rather than random furniture scattered through the movement lane.
+  // Bluestone flags between the subway and the shops. Narrow courses run
+  // along the kerb; broad flags mark the pedestrian lane and shop thresholds.
+  const flag=material('sampleStreetBluestone','trim',{map:bluestoneGrain(),color:new T.Color(0xb1c3c3),roughness:.82},5.12);
+  materials[flag].userData.worldPavingUV=true;
+  const flagTones=[0xc0cacc,0xd3d4c9,0xbac9cb,0xd2d8d0,0xbec5c3,0xc7c9c0];
   const cart={minX:9,maxX:11.33,minZ:17.9,maxZ:22.5};
   function intersects(a,b){return a.minX<b.maxX&&a.maxX>b.minX&&a.minZ<b.maxZ&&a.maxZ>b.minZ;}
   function treePit(a,x,z){const px=Math.max(a.minX,Math.min(a.maxX,x)),pz=Math.max(a.minZ,Math.min(a.maxZ,z));return (px-x)**2+(pz-z)**2<1.04**2;}
   for(const side of [-1,1]){
     const minX=side<0?-10.6:6.7,maxX=side<0?-6.7:10.6;
-    B(mortar,(minX+maxX)/2,.3675,26.5,3.9,.015,25);
-    for(let row=0;row<2;row++)for(let z0=14;z0<39;z0+=2.38){
-      const x0=minX+.035+row*1.94,x1=Math.min(x0+1.90,maxX-.035),z1=Math.min(z0+2.345,39);
-      const tile={minX:x0,maxX:x1,minZ:z0+.025,maxZ:z1};
-      if((side>0&&intersects(tile,cart))||treePit(tile,side*8.2,18)||treePit(tile,side*8.2,39))continue;
-      B((row+Math.floor(z0))%4===0?slabAlt:slab,(x0+x1)/2,.375,(tile.minZ+tile.maxZ)/2,x1-x0,.010,tile.maxZ-tile.minZ,shade(.055));stats.sidewalkSlabs++;
+    B(mortar,(minX+maxX)/2,.361,26.5,3.9,.012,25);
+    let fromKerb=6.72;
+    for(const [row,width] of [.32,.64,.64,.64,.64,.64].entries()){
+      const x=side*(fromKerb+width/2);
+      fromKerb+=width;
+      const pitch=row===0?.32:.64,offset=row%2?.32:0;
+      for(let j=0;14-offset+j*pitch<39;j++){
+        const start=Math.max(14,14-offset+j*pitch),end=Math.min(39,14-offset+(j+1)*pitch);
+        if(end-start<.08)continue;
+        const tile={minX:x-width/2,maxX:x+width/2,minZ:start,maxZ:end};
+        if((side>0&&intersects(tile,cart))||treePit(tile,side*8.2,18)||treePit(tile,side*8.2,39))continue;
+        const threshold=(side<0&&start>=31.6&&end<=33.7)||(side>0&&start>=27.6&&end<=29.7);
+        const tone=flagTones[(j*7+row*3+Math.floor(j/3))%flagTones.length];
+        B(flag,x,.370,(start+end)/2,width-.024,.020,end-start-.024,
+          row===0?0xa6b5b5:threshold?0xe0d2b5:tone);stats.sidewalkSlabs++;
+      }
     }
     // Narrow apron at the shop wall stays well outside x=+/-8.85 +/- .48.
     const edgeX=side*10.43;
@@ -103,19 +117,18 @@ export function addSampleStreet(scene,{box,beam,materials,colliders,surface,sign
   }
   if(sign){sign(13.8,2.74,26.01,1.42,.36,'LAUNDRY / 2F','SERVICE COURT','#b8c3ad',Math.PI);stats.signs++;}
 
-  // End-of-court service door and returns are all beyond x=19.2; the walking
-  // target at 18.75 remains free. The back-wall belongs to the shell module.
-  B(basalt,19.79,.43,24.4,.52,.08,1.98);
-  B('metal',19.65,1.84,24.4,.14,2.90,1.72,0x76908d);
-  B(servicePaint,19.56,1.83,24.4,.035,2.62,1.47);
-  for(const z of [23.48,25.32])B(basalt,19.80,1.87,z,.58,3.02,.20,0xa8b19e);
-  B(basalt,19.8,3.37,24.4,.58,.18,2.04);
-  B('rubber',19.534,1.28,24.91,.030,.095,.28,0xb3c0ad);
-  B('metal',19.515,1.29,24.92,.022,.07,.18,0xc1c8ae);
-  for(let i=0;i<6;i++)B('rubber',19.535,2.45+i*.055,24.4,.024,.022,.95,0x90aaa3);
-  C(19.65,1.84,24.4,.26,2.90,1.92);
-  // One small downlit service hood reveals the closed end from the street.
-  // It mounts ahead of the x=19.52 door face, above all character headroom.
+  // The original door is pinned open into the yard; the two masonry leaves
+  // and returned steel track still show where the old laundry passage ended.
+  B(basalt,19.79,.38,24.4,.52,.04,3.42);
+  for(const z of [22.86,25.90]){
+    B(basalt,19.80,1.87,z,.58,3.02,.32,0xa8b19e);
+    C(19.80,1.87,z,.58,3.02,.32);
+  }
+  B(basalt,19.8,3.53,24.38,.58,.32,3.48);
+  C(19.8,3.53,24.38,.58,.32,3.48);
+  B(servicePaint,20.63,1.82,25.89,1.68,2.86,.14,0xb2b9a7);
+  C(20.63,1.82,25.89,1.68,2.86,.14);
+  for(let i=0;i<4;i++)B('metal',20.60,2.57+i*.10,25.79,1.18,.045,.12,0x72918c);
   B('metal',19.66,3.02,24.4,.08,.30,.28,0x8e9e92);
   B(zinc,19.43,3.11,24.4,.33,.12,.54);
   for(const z of [24.14,24.66])B(zinc,19.43,3.04,z,.35,.16,.045);
@@ -160,6 +173,18 @@ export function addSampleStreet(scene,{box,beam,materials,colliders,surface,sign
   // Low, low-contrast asphalt layer stays under the original paint height.
   // Repairs and stains never cross either the double-yellow or x=+/-5.8 marks.
   B(road,0,.182,26.5,12.8,.006,25);
+  // Relayed granite setts in the parking lane. Staggered ends expose the
+  // transition into asphalt and keep the moving lane and road paint clear.
+  for(const side of [-1,1])for(let row=0;row<5;row++){
+    const x=side*(3.96+row*.32);
+    for(let j=0;j<34;j++){
+      const z=15.6+j*.64+(row%2)*.32;
+      if(j<Math.abs(2-row)||j>32-Math.abs(2-row))continue;
+      if(side<0&&z+.32>18.88)continue; // The raised shop apron occupies this lane.
+      const tone=flagTones[(j*3+row+Math.floor(j/4))%flagTones.length];
+      B(basalt,x,.184,z,.30,.022,.604,tone);
+    }
+  }
   for(const side of [-1,1])for(const [a,b]of [[14.2,20.9],[26.3,32.9],[38.0,38.8]]){
     B(wet,side*5.43,.190,(a+b)/2,.42,.008,b-a,0xb5c0bc);
   }
@@ -169,17 +194,36 @@ export function addSampleStreet(scene,{box,beam,materials,colliders,surface,sign
   for(const [x,z,w,d]of [[3.45,28.8,1.40,2.20],[-3.85,20.4,1.1,1.7]])B(oil,x,.196,z,w,.004,d,0xffffff);
 
   const paths={
-    alley:{bounds:{minX:10.65,maxX:19.8,minZ:22.65,maxZ:26.1},groundY:.39,
-      clear:{minX:10.65,maxX:18.6,minZ:23.4,maxZ:25.3,minHeight:3.4},
-      waypoints:[[8.85,.38,24.4],[11.2,.39,24.4],[15.8,.39,24.4],[18.75,.39,24.4]],
-      returnPoint:[8.85,.38,24.4],firstEndObstacleX:19.17},
+    alley:{bounds:{minX:10.65,maxX:21.45,minZ:22.65,maxZ:26.1},groundY:.39,
+      clear:{minX:10.65,maxX:21.45,minZ:23.40,maxZ:25.30,minHeight:2.94},
+      waypoints:[[8.85,.38,24.4],[11.2,.39,24.4],[15.8,.39,24.4],[18.75,.39,24.4],[24.4,.39,24.4],[26,.39,24.4]],
+      returnPoint:[8.85,.38,24.4]},
     sidewalks:[{x:8.85,minZ:14,maxZ:39,groundY:.38,halfClearance:.48},
       {x:-8.85,minZ:14,maxZ:39,groundY:.38,halfClearance:.48}],
   };
+  buildOldCityAirRights(upperStreetKit(scene,materials,B,C,lights));
+  stats.lights=stats.pointLights=lights.length;
   stats.triangles=(stats.boxes+stats.beams)*12;
   function setNight(night){for(const light of lights)light.intensity=light.userData.nightPower*(night?1:.16);materials[serviceGlow].emissiveIntensity=night?.32:.16;}
   setNight(true);
   return {stats,paths,lights,setNight};
+}
+
+// One texel covers a 16 cm cell. The small, low-contrast mineral groups
+// continue across flag joints in world space and mip away down the street.
+function bluestoneGrain(){
+  const size=32,data=new Uint8Array(size*size*4);
+  for(let z=0;z<size;z++)for(let x=0;x<size;x++){
+    const group=Math.floor(x/3)*13+Math.floor(z/2)*7;
+    const chip=(x*17+z*23+x*z*3)%11;
+    const value=209+group%4*5+chip*2;
+    data.set([value,value+2,value+3,255],(x+size*z)*4);
+  }
+  const map=new T.DataTexture(data,size,size);
+  map.colorSpace=T.SRGBColorSpace;map.wrapS=map.wrapT=T.RepeatWrapping;
+  map.magFilter=T.NearestFilter;map.minFilter=T.LinearMipmapLinearFilter;
+  map.generateMipmaps=true;map.needsUpdate=true;
+  return map;
 }
 
 function createRoadTexture(rand){

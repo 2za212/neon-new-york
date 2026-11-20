@@ -1,11 +1,14 @@
 // World-space drainage patterns span adjacent paving meshes without UV seams.
 // Moisture changes the roughness and darkens aggregate under the same lights.
 export function rainFilm(material, strength, cover) {
-  material.onBeforeCompile=shader=>{
+  const previous=material.onBeforeCompile,key=material.customProgramCacheKey();
+  material.userData.citySurfaceBounce=true;
+  material.onBeforeCompile=function(shader,renderer){
+    previous.call(this,shader,renderer);
     shader.uniforms.cityCover={value:cover.map};
     shader.uniforms.cityCoverBounds={value:cover.bounds};
     shader.vertexShader='varying vec2 rainGroundXZ;\n'+shader.vertexShader.replace('#include <worldpos_vertex>',
-      '#include <worldpos_vertex>\nrainGroundXZ=(modelMatrix*vec4(transformed,1.)).xz;');
+      '#include <worldpos_vertex>\nvec4 rainP=vec4(transformed,1.);\n#ifdef USE_INSTANCING\nrainP=instanceMatrix*rainP;\n#endif\nrainGroundXZ=(modelMatrix*rainP).xz;');
     shader.fragmentShader=`
 varying vec2 rainGroundXZ;
 uniform sampler2D cityCover;uniform vec4 cityCoverBounds;
@@ -32,7 +35,11 @@ vec2 coverUV=(rainGroundXZ-cityCoverBounds.xy)/cityCoverBounds.zw;
 float coverAmount=texture2D(cityCover,coverUV).r;
 reflectedLight.indirectDiffuse*=1.-.48*coverAmount;
 reflectedLight.indirectSpecular*=1.-.52*coverAmount;
+// The same low-level aggregate response spans old asphalt, crossing tiles and
+// the new station street. It recedes under overhangs and on vertical faces.
+float floorUp=max(0.,inverseTransformDirection(normalize(vNormal),viewMatrix).y);
+reflectedLight.indirectDiffuse+=sqrt(max(diffuseColor.rgb,vec3(0.)))*vec3(.029,.034,.043)*floorUp*(1.-.58*coverAmount);
 `);
   };
-  material.customProgramCacheKey=()=>'street-rain-film-'+strength;
+  material.customProgramCacheKey=()=>key+'/street-rain-film-'+strength;
 }
