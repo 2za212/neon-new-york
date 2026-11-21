@@ -215,6 +215,19 @@ export function addEastPark(scene,api) {
     l.position.set(x,y,z);l.userData.nightPower=power;scene.add(l);lights.push(l);
   }},treeLocations);
   for(let i=0;i<treeLocations.length;i++)smallTree(...treeLocations[i],.83+(i%4)*.065);
+  // A continuous pollarded crown along the road, with wide interruptions
+  // opposite the wetland and at the garden entrances. The pond stays open.
+  for(const [x,z] of [[67,18],[75,18],[83,18],[93,19],[105,18],[115,18],[124,19],
+    [126,27],[125,36],[126,57],[125,66],[122,77],[111,77],[99,77],[84,77],[70,76],
+    [67,-7],[78,-8],[91,-8],[107,-7],[120,-8],[68,-26],[82,-27],[102,-25],[119,-25]]){
+    const spread=3.20+(Math.abs(x+z)%3)*.32,top=5.76+(Math.abs(x)%3)*.48;
+    B('bark',x,top*.49,z,.64,top,.80,0xb4b399);C(x,top*.49,z,.64,top,.80,'park-alley-trunk');
+    for(const side of [-1,1]){
+      L('bark',[x,top*.62,z],[x+side*spread*.72,top-.32,z+side*.64],.40,.48,0xb4b399);
+      const lobes=[[-1.12,0,.16,1.76,.80,1.45],[.64,.32,-.64,1.92,.96,1.60],[.96,.80,.80,1.36,.88,1.28]];
+      voxelCrown({box:B,panel:api.panel},canopyLight,[x+side*spread*.62,top,z+side*.8],lobes,x+z+side,[0x89a291,0xa3b997,0xb9c99f,0xd6d3a5,0xbccfb5]);
+    }
+  }
   function smallTree(x,z,scale){
     stats.authoredTrees++;
     B(soil,x,.41,z,1.5,.10,1.5,0x9caa8c);

@@ -153,7 +153,6 @@ export function bakeCityRadiance(scene,world,avatar,sky,maxDimension){
   for(const m of materials){
     const previous=m.onBeforeCompile,key=m.customProgramCacheKey();
     const reflective=m.isMeshStandardMaterial&&(m.roughness<.65||m.metalness>.12||m.userData.citySurfaceBounce);
-    const officeGlass=m===world.materials.glass||m===world.materials.midtownCurtain;
     m.onBeforeCompile=function(shader,renderer){
       previous.call(this,shader,renderer);
       shader.uniforms.cityRadiance=rgb;shader.uniforms.cityIncident=dir;shader.uniforms.cityVolumeBounds=params;
@@ -195,35 +194,12 @@ export function bakeCityRadiance(scene,world,avatar,sky,maxDimension){
           outgoingLight*=mix(vec3(1.),vec3(.82,.60,.66),activeRift);
           outgoingLight+=vec3(.91,.027,.047)*activeRift*face*(.18+1.75*band)*(.09+cityBase);
         }
-        ${officeGlass?`
-          if(cityP.y>7. && abs(cityN.y)<.45){
-            // Read an occupied floor through the smoked glazing. The jambs
-            // stay at the facade; the lights and benches sit a metre behind
-            // them, so moving across the street reveals different interiors.
-            vec2 tangent=normalize(vec2(cityN.z,-cityN.x));
-            vec2 facade=vec2(dot(tangent,vPoweredWorld.xz),vPoweredWorld.y);
-            vec2 metres=vec2(3.2,3.84);
-            vec2 cell=floor(facade/metres),front=fract(facade/metres);
-            vec3 eyeDir=normalize(cameraPosition-vPoweredWorld);
-            vec2 back=front-vec2(dot(eyeDir.xz,tangent),eyeDir.y)*
-              (.96/max(.24,dot(cityN,eyeDir)))/metres;
-            vec2 aa=clamp(fwidth(facade/metres),vec2(.012),vec2(.14));
-            vec2 aperture=smoothstep(vec2(.035,.13)-aa,vec2(.035,.13)+aa,min(front,1.-front));
-            vec2 wall=smoothstep(vec2(-.06,-.08),vec2(.10,.12),min(back,1.-back));
-            float circuit=fract(sin(dot(vec2(floor(cell.x/3.),cell.y),vec2(12.19,53.23)))*635.34);
-            float work=step(.52,circuit),warm=step(.83,circuit);
-            vec3 colour=mix(vec3(.12,.58,.66),vec3(.95,.38,.16),warm);
-            float desk=step(.24,back.y)*step(back.y,.37)*step(.19,back.x)*step(back.x,.74);
-            float lightBox=1.-smoothstep(.045,.045+aa.y,abs(back.y-.725));
-            float room=.18*wall.x*wall.y*(1.-.84*desk)+.38*lightBox*wall.x+.025;
-            outgoingLight+=colour*room*work*aperture.x*aperture.y*smoothstep(7.,12.,cityP.y);
-          }`:''}
         ${reflective?`vec3 cityView=normalize(cameraPosition-cityP);
           float cityGloss=max(0.,dot(reflect(-normalize(cityL+vec3(.0001)),cityN),cityView));
           outgoingLight+=cityFlux*pow(cityGloss,11.)*(1.-roughnessFactor)*.20;`:''}
         #include <opaque_fragment>`);
     };
-    m.customProgramCacheKey=()=>key+'/night-city-volume-3/'+(reflective?'gloss':'matte')+(officeGlass?'/offices':'');m.needsUpdate=true;
+    m.customProgramCacheKey=()=>key+'/night-city-volume-3/'+(reflective?'gloss':'matte');m.needsUpdate=true;
   }
   return {emitters:sources.length,materials:materials.size,storeys:heights.length};
 }

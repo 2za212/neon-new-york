@@ -2,6 +2,8 @@ import * as T from 'three';
 import {createStreetAdAtlas} from './nyc-street-ad-atlas.js';
 import {legacyAdSites} from './nyc-street-ad-sites.js';
 import {coreAdSites} from './nyc-street-ad-core.js';
+import {projectorAdSites} from './nyc-projector-campaigns.js';
+import {streetProjectors} from './nyc-street-projectors.js';
 import {addNeonCrown} from './nyc-street-neon.js';
 import {mountTradeModel} from './nyc-street-trade-models.js';
 import {stencils} from './nyc-street-ad-district.js';
@@ -90,8 +92,9 @@ function screenMaterial(texture,clock,rift){
 export function addStreetAdvertising(scene,renderer,buildings,localLights,options){
   const {tiles,texture}=createStreetAdAtlas(renderer),clock={value:0};
   const fixedMedia=globalThis.matchMedia?.('(prefers-reduced-motion: reduce)');
+  const campaigns=projectorAdSites(buildings),projectors=streetProjectors(scene,clock);
   const signs=[...legacyAdSites,...coreAdSites(buildings),...refitTenants(scene,tiles),
-    ...sideWallSites,...northernTenants(buildings),...streetKiosks(options)];
+    ...sideWallSites,...northernTenants(buildings),...streetKiosks(options),...campaigns];
   const metal=new T.MeshLambertMaterial();
   const neon=new T.MeshBasicMaterial({toneMapped:false,vertexColors:true});
   const art=screenMaterial(texture,clock,options.rift);
@@ -129,6 +132,7 @@ export function addStreetAdvertising(scene,renderer,buildings,localLights,option
     const box=(color,u,v,n,sx,sy,sz)=>block('metal',color,u,v,n,sx,sy,sz);
     mountTradeModel(site,projectingTrades,options.ground,options.colliders,block);
     const tube=(u,v,n,sx,sy,sz)=>block('neon',tile.glow,u,v,n,sx,sy,sz);
+    if(site.cast)projectors.mount(site,point,box,tube);
     // Keep the front and reverse copies outside the metal and in the correct
     // reading order. Only the paid gallery slot cycles through other tenants.
     const alt=tiles[site.alternate]||(site.id==='battery'&&site.y>12?tiles.signal:null);
@@ -267,6 +271,7 @@ export function addStreetAdvertising(scene,renderer,buildings,localLights,option
   }
   stats.artworks=usedArt.size;
   stats.projectingTrades=projectingTrades.length;
+  stats.campaignBoards=campaigns.length;stats.holograms=projectors.count;
   for(const [key,cell] of cells){
     const root=new T.Group();root.name='沿街店招 '+key;scene.add(root);
     for(const [layer,material] of [['metal',metal],['neon',neon]]){
@@ -285,6 +290,6 @@ export function addStreetAdvertising(scene,renderer,buildings,localLights,option
     }
     geo.setIndex(cell.indices);geo.computeBoundingSphere();root.add(new T.Mesh(geo,art));
   }
-  return {sites:signs,stats,update(time){clock.value=fixedMedia?.matches?5.5:time;},
+  return {sites:signs,stats,update(time){clock.value=fixedMedia?.matches?5.5:time;projectors.update(clock.value);},
     setNight(night){art.color.setScalar(night?1:.82);neon.color.setScalar(night?1:.74);}};
 }

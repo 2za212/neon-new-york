@@ -31,6 +31,27 @@ export function buildSkylineProperty(box,x,z,w,d,height,variant,quarterTurn=fals
     }
   }
   const podium=Math.min(8,height*.24);
+  if(x< -245){
+    // River-facing freight halls keep an inhabited low plinth under paired
+    // hoist towers. Leave the water and the holes in the cranes visible.
+    const hall=height*(kind===0?.34:.47);
+    deck(0,0,width,depth,0,hall,'basaltShell',true);
+    for(const side of [-1,1]){
+      const u=side*width*.30,rise=(height-hall)*(side===hand?.95:.61);
+      deck(u,depth*.08,width*.18,depth*.42,hall,rise,'titaniumSkin',false);
+      place('titaniumSkin',u+hand*width*.08,hall+rise,depth*.08,width*.34,1.28,depth*.45,0xc8aa81,true);
+      place('lamp',u,hall+rise+.94,depth*.08,.96,.64,.96,0xe7b178);
+    }
+    return;
+  }
+  if(z< -310){
+    for(let level=0;level<3;level++){
+      const h=height/3,u=hand*level*width*.045;
+      deck(u,0,width*(.96-level*.18),depth*(.96-level*.16),level*h,h,level===1?'basaltShell':finish,true);
+      place('ceramicShell',u-hand*width*(.46-level*.09),level*h+h*.48,0,.96,h*.95,depth*.48,0xb2c4cd,true);
+    }
+    return;
+  }
   if(kind===0){
     // Split communications tower. Sky remains visible between the shafts
     // below the cross-floor as well as through the offset fork in the crown.

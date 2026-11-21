@@ -272,8 +272,8 @@ export function addCityDetail(scene,{box,beam,materials,colliders,sign,rand=Math
   // Background blocks fill the side streets and northern skyline, beyond the
   // playable polygon. They have four-sided windows, setbacks and grounded bases.
   const backgrounds=[
-    [-77,-89,14,14,26,0],[-92,-112,14,18,42,1],[-76,-146,14,20,33,2],[-92,-176,14,18,58,3],
-    [96,-106,14,18,28,2],[115,-130,16,17,47,0],[96,-158,14,20,36,3],[116,-177,16,16,64,1],
+    [-112,-105,14,14,26,0],[-92,-112,14,18,42,1],[-76,-146,14,20,33,2],[-92,-176,14,18,58,3],
+    [98,-123,14,18,28,2],[115,-130,16,17,47,0],[96,-158,14,20,36,3],[116,-177,16,16,64,1],
     [16,-214,22,22,54,2],[-15,-243,26,24,76,1],[52,-221,24,22,67,0],[-48,-216,23.2,20,39.3,3,midtownWorksTower],
     // Lower second-row blocks close the east-to-north diagonal sightlines from
     // the cafe and southern avenue, behind the taller first-row silhouettes.

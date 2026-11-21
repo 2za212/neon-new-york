@@ -109,7 +109,7 @@ export function addSoHo(scene,api){
     {id:'soho_sullivan',x:7.85,z:98.7,width:12,depth:13.8,floors:3,rot:-Math.PI/2,title:'七街沸社',subtitle:'鲜切肉铺 / 夜班开放',brick:'stone',accent:'warm',open:true,furniture:'grocer'},
     {id:'soho_wooster',x:-10.65,z:112,width:12,depth:13.2,floors:3,rot:Math.PI/2,title:'WOOSTER / ARCHIVE',subtitle:'PRINT / EDITIONS',brick:'stone',accent:'warm'},
     {id:'soho_spring',x:8.17,z:112,width:12,depth:14.2,floors:5,rot:-Math.PI/2,title:'SPRING / STUDIO',subtitle:'AUDIO / AFTER HOURS',brick:'brick',accent:'cool'},
-    {id:'soho_residential',x:-10.65,z:139.2,width:6,depth:11.6,floors:4,rot:Math.PI/2,title:'',subtitle:'',brick:'brickBrown',accent:'warm'},
+    {id:'soho_residential',x:-10.65,z:139.2,width:6,depth:11.6,floors:4,rot:Math.PI/2,title:'运河里公寓',subtitle:'长租住宅 / 街坊热水站',brick:'brickBrown',accent:'warm'},
     {id:'soho_canal',x:10.65,z:139.2,width:6,depth:12,floors:4,rot:-Math.PI/2,title:'CANAL / WORKS',subtitle:'LOCAL / REPAIR',brick:'brickBrown',accent:'warm'},
     {id:'soho_press',x:-39.6,z:107.7,width:20,depth:9.6,floors:3,rot:-Math.PI/2,title:'SOHO / PRESS',subtitle:'LOADING / LOCAL EDITIONS',brick:'brickBrown',accent:'warm'},
     {id:'soho_crosby',x:66.8,z:108,width:20,depth:15,floors:4,rot:-Math.PI/2,title:'CROSBY / LOFTS',subtitle:'STUDIOS / EAST BLOCK',brick:'brick',accent:'cool'}

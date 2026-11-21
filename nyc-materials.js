@@ -79,18 +79,8 @@ export function createNYCMaterials(renderer) {
     g.fillStyle=lit?'rgba(202,182,133,.18)':'rgba(124,155,161,.09)';g.fillRect(20,18,23,104);g.fillRect(88,18,15,104);
     for(let y=30;y<112;y+=12){g.fillStyle='rgba(5,15,18,.19)';g.fillRect(14,y,100,2);}
     if(lit){
-      // Lit rooms have a ceiling, pendant, shelving and a dark sill.
-      // All panes still share one small atlas per colour temperature.
-      g.fillStyle=cool?'#647e86':'#ba895d';g.fillRect(17,21,92,75);
-      g.fillStyle=cool?'#acc8c3':'#f0bd80';g.fillRect(19,21,87,3);
-      g.fillStyle='#514d49';g.fillRect(69,21,2,17);
-      g.fillStyle=cool?'#c6dfd9':'#ffdc99';g.fillRect(65,38,11,3);g.fillRect(60,41,21,4);
-      g.fillStyle=cool?'#39474f':'#6c5041';g.fillRect(20,74,38,3);g.fillRect(85,63,22,2);
-      for(let j=0;j<8;j++){
-        const h=5+(j*7)%12;g.fillStyle=['#7c675a','#494c50','#9f7961'][j%3];
-        g.fillRect(21+j*4,74-h,3,h);
-      }
-      g.fillStyle='#41474a';g.fillRect(70,85,33,3);g.fillRect(74,88,3,13);g.fillRect(98,88,3,13);
+      // Narrow lenses use plain glass. Furnished bays select a room in the batch.
+      g.fillStyle=cool?'#9bb9b8':'#dfb783';g.fillRect(10,19,108,89);
     }
     g.fillStyle='rgba(7,16,19,.45)';g.fillRect(0,117,128,11);
     return texture(c);

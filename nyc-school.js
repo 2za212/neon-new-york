@@ -4,7 +4,7 @@ export const schoolCourt={x:123,z:-86};
 export const schoolMeterZ=schoolCourt.z-1.92;
 const yaw=-Math.PI/2;
 
-export function buildSchool({box:B,collider:C,surface,sign},scene,localLights){
+export function buildSchool({box:B,collider:C,surface,sign,registerProperty},scene,localLights){
   const teal=0x538e87,clay=0xb27e68,cream=0xdbcfad,iron=0x526b75;
   function mass(mat,x,y,z,w,h,d,tint){
     B(mat,x,y,z,w,h,d,tint);C(x,y,z,w,h,d);
@@ -24,7 +24,11 @@ export function buildSchool({box:B,collider:C,surface,sign},scene,localLights){
   mass('titaniumSkin',88.2,5.84,-86,3.52,1.28,13.44,teal);
   sign(86.36,5.91,-86,9.92,1.06,'东衡中学','旧交易所街区   /   西门','#efd8ae',yaw);
   // Perimeter at the three outer edges of the school parcel.
-  for(const z of [-109.68,-62.32])mass('brickBrown',112,1.44,z,56,2.24,.64,clay);
+  mass('brickBrown',112,1.44,-109.68,56,2.24,.64,clay);
+  for(const [left,right] of [[84,112.6],[117.4,140]])mass('brickBrown',(left+right)/2,1.44,-62.32,right-left,2.24,.64,clay);
+  for(const x of [112.4,117.6])mass('ceramicShell',x,1.94,-62.32,.64,3.24,.96,teal);
+  B('metal',115,3.76,-62.32,6,.48,.96,iron);
+  sign(115,3.78,-61.81,4.64,.48,'东衡中学 · 南门','步行通道','#a6e5d8',0);
   mass('brickBrown',139.68,1.44,-86,.64,2.24,46.72,clay);
   for(let z=-107;z<-63;z+=4.16)B('ceramicShell',139.68,2.18,z,.96,3.52,.96,cream);
 
@@ -33,21 +37,23 @@ export function buildSchool({box:B,collider:C,surface,sign},scene,localLights){
   const x=101.6;
   for(const s of [-1,1]){
     const z=-86+s*11.84;
-    mass('brickBrown',x,6.88,z,11.52,5.76,16.64,clay);
+    registerProperty?.('school-wing-'+s,s<0?'理科楼 · 物理实验室':'南教学楼 · 二年一班','东衡中学',x,z+8.32,11.52,16.64,0);
+    const storeys=s<0?2:3,upperHeight=(storeys-1)*2.88;
+    mass('brickBrown',x,4.0+upperHeight/2,z,11.52,upperHeight,16.64,clay);
     mass('brickBrown',x,2.16,-86+s*19.84,11.52,3.68,.64,clay);
     for(const side of [-1,1])mass('brickBrown',x+side*5.44,2.16,z,.64,3.68,16.00,clay);
     for(const part of [-1,1])mass('brickBrown',x+part*3.84,2.16,-86+s*3.84,3.84,3.68,.64,clay);
     for(const side of [-1,1]){
-      for(let row=0;row<3;row++)for(let col=0;col<4;col++){
+      for(let row=0;row<storeys;row++)for(let col=0;col<4;col++){
         const zz=z+(col-1.5)*3.84,xx=x+side*5.83,y=2.22+row*2.80;
         B('metal',xx,y,zz,.32,1.92,3.36,iron);
-        B((row+col)%3?'warmWindow':'glass',xx+side*.21,y,zz,.16,1.44,2.96,cream);
+        B(s<0?'roomLab':'roomClass',xx+side*.21,y,zz,.16,1.44,2.96,cream);
         B('titaniumSkin',xx+side*.38,y,zz,.16,1.60,.16,teal);
         B('ceramicShell',xx+side*.36,y-.98,zz,.96,.32,3.68,cream);
       }
       B('titaniumSkin',x+side*6.20,4.08,z,1.44,.48,17.28,teal);
     }
-    for(let i=0;i<3;i++)B('ceramicShell',x,9.84+i*.32,z,12.80-i*.64,.32,17.28-i*.64,i===1?teal:cream);
+    for(let i=0;i<3;i++)B('ceramicShell',x,4.08+upperHeight+i*.32,z,12.80-i*.64,.32,17.28-i*.64,i===1?teal:cream);
     for(const dx of [-2.8,1.2])for(let j=0;j<3;j++){
       const zz=-86+s*(7.36+j*3.36);
       mass('wood',x+dx,1.20,zz,1.76,.16,.96,0xb69268);
@@ -61,6 +67,7 @@ export function buildSchool({box:B,collider:C,surface,sign},scene,localLights){
   mass('titaniumSkin',x,4.86,-86,12.16,1.12,7.20,teal);
   for(let i=0;i<5;i++)B('lamp',96.8+i*2.40,4.23,-86,.64,.12,2.56,cream);
   // A stepped clock tower identifies the school from beyond the street gate.
+  mass('brickBrown',101.6,8.30,-99.5,5.76,2.94,5.12,clay);
   mass('brickBrown',101.6,11.92,-99.5,5.76,4.32,5.12,clay);
   for(let i=0;i<3;i++)B('ceramicShell',101.6,14.24+i*.32,-99.5,6.72-i*.64,.32,6.08-i*.64,cream);
   B('titaniumSkin',98.61,11.96,-99.5,.28,3.20,3.20,teal);
@@ -85,6 +92,23 @@ export function buildSchool({box:B,collider:C,surface,sign},scene,localLights){
     B(paint,123,.456,post-s*4.48,4.96,.032,.16,cream);
   }
   for(let i=0;i<3;i++)mass('wood',135.2+i*.80,.70+i*.30,-86,.80,.52+i*.60,11.52,i===1?teal:0x9b8165);
+  // The grandstand roof faces the court from the far touchline. Its stepped
+  // ends frame the open playing surface when approached from either gate.
+  for(let bay=-2;bay<=2;bay++){
+    const z=-86+bay*3.84;
+    mass('titaniumSkin',138.24,3.40,z,.48,6.08,.48,teal);
+    for(let j=0;j<4;j++){
+      B('ceramicShell',138.24-j*1.12,6.48+j*.32,z,1.28,.32,3.86,cream);
+      B('titaniumSkin',138.24-j*1.12,6.21+j*.32,z,1.28,.22,.48,teal);
+    }
+    B('lamp',134.72,7.20,z,.24,.12,2.72,0xe5ddac);
+  }
+  // The south-gate walk follows the classroom wing before opening onto the court.
+  for(let z=-79.6;z<=-63.6;z+=3.84){
+    mass('titaniumSkin',112.96,2.03,z,.32,3.42,.48,teal);
+    B('ceramicShell',111.84,3.88,z,3.52,.32,3.94,cream);
+    B('titaniumSkin',113.52,3.62,z,.32,.24,3.90,teal);
+  }
   for(let i=0;i<24;i++){
     const a=i*Math.PI/12;
     B(paint,123+3.12*Math.cos(a),.48,-86+3.12*Math.sin(a),.64,.024,.16,cream,Math.PI/2-a);

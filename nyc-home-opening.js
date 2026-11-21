@@ -10,8 +10,9 @@ import {createUEBedPose} from './nyc-home-bed-pose.js';
 import {extractHomeDoor} from './nyc-home-door.js';
 import {fitApartmentRadio} from './nyc-home-rail-radio.js';
 import {fitRoomJoinery} from './nyc-home-joinery.js';
+import {reflectionGrid} from './nyc-voxel-reflections.js';
 
-export async function createHomeOpening(renderer, avatar, inputs, renderCity, leave, rift) {
+export async function createHomeOpening(renderer, avatar, inputs, renderCity, leave, rift, rays, maxDimension) {
   const root=document.getElementById('home-opening'), action=root.querySelector('.home-action');
   const rest=root.querySelector('.home-rest');
   const page=root.querySelector('.home-paper'), next=page.querySelector('button');
@@ -25,6 +26,7 @@ export async function createHomeOpening(renderer, avatar, inputs, renderCity, le
   home.updateMatrixWorld(true);
   const slidingDoor=extractHomeDoor(home);
   const finishAtlases=new Map();
+  const deckMaterials=new Set();
   const trainLight={value:new T.Vector2()};
   scene.updateWorldMatrix(true,false);
   const roomFromWorld={value:scene.matrixWorld.clone().invert()};
@@ -81,6 +83,9 @@ export async function createHomeOpening(renderer, avatar, inputs, renderCity, le
       return finish;
     };
     node.material=Array.isArray(node.material)?node.material.map(baked):baked(node.material);
+    if(/Deck/.test(sourceName)||/Deck/.test(node.parent?.name)){
+      for(const mat of [].concat(node.material))deckMaterials.add(mat);
+    }
   });
   slidingDoor?.mountReveal(scene);
   const socket=name=>home.getObjectByName(name).getWorldPosition(new T.Vector3());
@@ -184,6 +189,16 @@ export async function createHomeOpening(renderer, avatar, inputs, renderCity, le
     [-5.5,-5, -4.5, rearWall+1],[4.5,-5, 5.5,rearWall+1],
     [-5.5,-5,5.5,-3.99],[-5.5,rearWall,5.5,rearWall+1]
   ].map(([x0,z0,x1,z1])=>new T.Box3(new T.Vector3(x0,-1,z0),new T.Vector3(x1,8,z1)))];
+  if(rays){
+    const bounds=new T.Box3(new T.Vector3(-5.8,-1,-5),new T.Vector3(5.8,7,rearWall+1)).applyMatrix4(scene.matrixWorld);
+    const grid=reflectionGrid(bounds,.15,maxDimension,rays);
+    grid.blockers(realmStops.map(b=>b.clone().applyMatrix4(scene.matrixWorld)));
+    const pane=scene.localToWorld(new T.Vector3(-1.75,2.5,-3.82));
+    grid.box(pane.x,pane.y,pane.z,5.66,3.52,.1,windowRim.color,scene.rotation.y);
+    const lamp=deskLamp.getWorldPosition(new T.Vector3());
+    grid.box(lamp.x,lamp.y,lamp.z,.44,.22,.35,deskLamp.color);
+    for(const mat of deckMaterials)grid.surface(mat,'.12');
+  }
   const boomOrigin=new T.Vector3(),boomDirection=new T.Vector3();
   function stopAtFurniture(point){
     boomDirection.subVectors(point,boomOrigin);

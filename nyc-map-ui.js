@@ -16,7 +16,7 @@ export function createMapUI(world,{onOpen,onClose,onSelect}={}){
   compass.innerHTML='<span class="north">N</span>';
   compass.setAttribute('role','button');compass.setAttribute('tabindex','0');compass.setAttribute('aria-label','打开区域地图');
   const panel=document.createElement('section');panel.id='city-map';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-labelledby','map-heading');
-  panel.innerHTML=`<div class="city-map-card"><header><div><p class="eyebrow">NEW YORK / AFTER THE RAIN</p><h2 id="map-heading">纽约城区地图</h2><p>放大街区可查看穿楼小巷、架空街与货场入口。</p></div><button class="map-close" aria-label="关闭地图">×</button></header><div class="city-map-surface"></div><div class="map-legend"><span><i class="map-road"></i>街道</span><span><i style="background:#f1b86c"></i>街坊通道</span><span><i class="map-greenway"></i>架空步道</span><span><i class="map-stair"></i>楼梯</span><span><i style="background:#d9b77e"></i>城市边界</span><span>◇ 地标</span></div><nav class="map-places" aria-label="选择导航地标"></nav><footer>北侧两处街口连通核心区与旧交易所街<span><kbd>M</kbd> 地图 · <kbd>Esc</kbd> 返回</span></footer></div>`;
+  panel.innerHTML=`<div class="city-map-card"><header><div><p class="eyebrow">NEW YORK / AFTER THE RAIN</p><h2 id="map-heading">纽约城区地图</h2><p>点选建筑占地可查看名称与用途。</p></div><button class="map-close" aria-label="关闭地图">×</button></header><div class="city-map-surface"></div><div class="map-legend"><span><i class="map-road"></i>街道</span><span><i style="background:#f1b86c"></i>街坊通道</span><span><i class="map-greenway"></i>架空步道</span><span><i class="map-stair"></i>楼梯</span><span><i style="background:#d9b77e"></i>城市边界</span><span>◇ 地标</span></div><nav class="map-places" aria-label="选择导航地标"></nav><footer>北侧两处街口连通核心区与旧交易所街<span><kbd>M</kbd> 地图 · <kbd>Esc</kbd> 返回</span></footer></div>`;
   document.body.append(panel);
 
   const b=world.bounds||mapPlan.currentBounds;
@@ -29,6 +29,9 @@ export function createMapUI(world,{onOpen,onClose,onSelect}={}){
   const fullView=`${b.minX-5} ${b.minZ-7} ${b.maxX-b.minX+10} ${b.maxZ-b.minZ+14}`;
   const serial=++mapSerial;
   const mapSurface=panel.querySelector('.city-map-surface');
+  const caption=panel.querySelector('header h2 + p'),defaultCaption=caption.textContent;
+  caption.setAttribute('aria-live','polite');
+  const selectPremise=f=>{caption.textContent=f.name+'　·　'+f.service;};
   const scopeButton=document.createElement('button');
   scopeButton.type='button';scopeButton.className='map-scope';scopeButton.textContent='放大所在街区';
   scopeButton.setAttribute('aria-pressed','false');mapSurface.append(scopeButton);
@@ -96,6 +99,13 @@ export function createMapUI(world,{onOpen,onClose,onSelect}={}){
       const north=svgNode('text',{x:b.maxX-9,y:b.minZ+11,fill:'#dedcc1','font-size':4,'text-anchor':'middle'},contents);north.textContent='N ↑';
     }
     const pins=new Map();
+    if(!mini){
+      for(const f of features.filter(f=>f.service)){
+        const hit=drawShape(f.shape,{fill:'transparent',cursor:'pointer'},contents);
+        svgNode('title',{},hit).textContent=f.name+' · '+f.service;
+        hit.onclick=()=>selectPremise(f);
+      }
+    }
     for(const landmark of landmarks){
       const p=landmark.position,g=svgNode('g',{transform:`translate(${p.x} ${p.z})`,'data-id':landmark.id},contents);
       svgNode('path',{d:'M0,-2.1 1.7,0 0,2.1 -1.7,0Z',fill:'#e8c99a',stroke:'#233f45','stroke-width':.5},g);pins.set(landmark.id,g);
@@ -120,7 +130,7 @@ export function createMapUI(world,{onOpen,onClose,onSelect}={}){
     panel.querySelector('.map-places').append(btn);buttons.set(landmark.id,btn);
   }
   let returnFocus;
-  function open(){if(!panel.hidden)return;returnFocus=document.activeElement;onOpen?.();updateScope();panel.hidden=false;panel.querySelector('.map-close').focus();}
+  function open(){if(!panel.hidden)return;returnFocus=document.activeElement;caption.textContent=defaultCaption;onOpen?.();updateScope();panel.hidden=false;panel.querySelector('.map-close').focus();}
   function close(){if(panel.hidden)return;panel.hidden=true;const restoreFocus=onClose?.();if(restoreFocus!==false)returnFocus?.focus?.({preventScroll:true});}
   panel.querySelector('.map-close').onclick=close;panel.onclick=e=>{if(e.target===panel)close();};
   panel.addEventListener('keydown',e=>{if(e.key!=='Tab')return;const focusables=[...panel.querySelectorAll('button')],first=focusables[0],last=focusables.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}});

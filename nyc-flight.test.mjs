@@ -44,12 +44,13 @@ const outline=mapPlan.currentOutline;
 test('district union opens the built north, south and east seams while rejecting genuine concave voids',()=>{
   const inside=createPlayableArea(outline);assert.ok(inside(0,-52,.31));assert.ok(inside(83,-100,.31));assert.ok(inside(-130,0,.31));
   assert.ok(inside(60,0,.31));assert.ok(inside(0,70,.31));assert.ok(inside(132,84,.31));assert.ok(inside(83.6,95.6,.31));
-  assert.equal(inside(-100,-100,.31),false);assert.equal(inside(-100,100,.31),false);assert.equal(inside(100,120,.31),false);assert.equal(inside(-64.1,-52.1,.31),false);assert.equal(inside(84.2,95.8,.31),false);
+  assert.equal(inside(-100,-100,.31),false);assert.equal(inside(-100,100,.31),false);assert.equal(inside(100,120,.31),false);assert.ok(inside(-64.1,-52.1,.31));assert.equal(inside(-125,-75,.31),false);
+  for(const p of [[-85,-77],[-82,75],[115,-56]])assert.ok(inside(...p,.31));assert.equal(inside(84.2,95.8,.31),false);
 });
 test('actual walking motor crosses the north seam but stops at the district side',()=>{
   const world={...makeWorld(),isPlayable:createPlayableArea(outline),baseHeight:.18};const m=createMotor(world,new T.Vector3(0,.18,-49));
   for(let i=0;i<180;i++)m.update(1/60,{moveX:0,moveZ:1,sprint:true},0);assert.ok(m.position.z<-67);
-  const edge=createMotor(world,new T.Vector3(-62,.18,-100));for(let i=0;i<180;i++)edge.update(1/60,{moveX:-1,moveZ:0,sprint:true},0);
+  const edge=createMotor(world,new T.Vector3(-62,.18,-118));for(let i=0;i<180;i++)edge.update(1/60,{moveX:-1,moveZ:0,sprint:true},0);
   assert.ok(edge.position.x>=-63.691&&edge.position.x<-63.5);
 });
 test('the two old exchange exits connect the core roads on map and on foot',()=>{

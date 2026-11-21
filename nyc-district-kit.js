@@ -77,6 +77,7 @@ export function createDistrictKit(scene,api){
 
   function building({id,x,z,width,depth,floors=3,rot=0,title='',subtitle='NEW YORK / AFTER HOURS',brick='brickBrown',accent='warm',open=false,furniture='generic',frontage=null}){
     stats.buildings++;stats.rooms++;
+    api.registerProperty?.(id,title||'运河里住宅',subtitle==='NEW YORK / AFTER HOURS'?'沿街住商楼':subtitle,x,z,width,depth,rot);
     const c=Math.cos(rot),s=Math.sin(rot),P=(u,y,v)=>[x+u*c+v*s,y,z-u*s+v*c];
     const F=(m,u,y,v,w,h,d,col=0xffffff)=>B(m,...P(u,y,v),w,h,d,col,rot);
     const bond=housingBond(materials,F,api.panel,P);

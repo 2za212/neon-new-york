@@ -272,6 +272,18 @@ export function openGreenway(scene, { box, beam, materials, colliders, surface, 
   }
   const eastStair = stairs(-41, -42, -30.8, 'east');
   const westStair = stairs(-127, -44, -31, 'west');
+  // Former rail catenary now carries planting trays and guide lamps. Preserve
+  // sky above the centre and the lateral gaps at both stair landings.
+  for(let x=-129,i=0;x<42;x+=12.8,i++){
+    if(Math.abs(x+41)<5||Math.abs(x+127)<3)continue;
+    const side=i%3===0?1:-1,z=Z+side*1.95;
+    B('metal',x,FLOOR+2.28,z,.40,4.56,.32,0x83998e);C(x,FLOOR+2.28,z,.40,4.56,.32);
+    for(let j=0;j<3;j++)B('trim',x,FLOOR+4.32+j*.32,z-side*j*.48,.64,.40,.96,0x91a496);
+    B('metal',x,FLOOR+5.12,Z-side*.22,.48,.32,3.52,0x7a9288);
+    B('cyan',x,FLOOR+4.92,Z-side*.62,.16,.08,.96,0x99d5ac);
+    B('wood',x+2.08,FLOOR+.83,z,3.84,.48,.64,0x879971);
+    for(let j=0;j<4;j++)B('leaf',x+.80+j*.80,FLOOR+1.15+(j%2)*.16,z,.96,.48,.80,0x9bb882);
+  }
   label(-47.5, FLOOR + 1.65, -27.0, 2.4, .40, 'HUDSON  →', 'GREENWAY / OPEN ACCESS', '#99d4c6', Math.PI);
   B('metal', -48.65, FLOOR + .8, -27.03, .09, 1.6, .09, 0x849d8b);
   C(-48.65, FLOOR + .8, -27.03, .09, 1.6, .09);

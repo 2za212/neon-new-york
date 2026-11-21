@@ -32,6 +32,13 @@ export function buildCatchmentHorizon({B,L,C,light,label},trees){
       B(i===1||i===4?iron:shell,xx,top+i*.64,z,7.68+i*.64,.64,depth+i*.64,0xacb7a6);
     }
     const xx=x+offset*1.28;
+    // An exterior gauge ties the road-level pump gallery to the head tank.
+    for(let i=0;i<6;i++){
+      const yy=3.84+i*(top-3.84)/6;
+      B(iron,x-3.84,yy,z,1.28,.48,3.20);
+      B(lamp,x-4.52,yy+.32,z,.16,.48,i%2?1.28:2.56,cool);
+    }
+    B(bronze,x-3.84,top*.52,z+.96,.64,top*.88,.64,warm);
     B('basaltShell',xx,top+4.8,z,6.72,4.48,depth-1.28,0x93a7b1);
     for(const e of [-1,1]){
       const end=z+e*(depth/2-.48);
@@ -63,7 +70,7 @@ export function buildCatchmentHorizon({B,L,C,light,label},trees){
   B(lamp,nx,3.23,nz,6.40,2.60,3.84,0x789f95);
   for(let i=0;i<5;i++){
     const x=nx+(i-2)*1.28;
-    B(lamp,x,3.04,nz+1.98,1.20,2.24,.16,i%2?0xaac7aa:0x96bcad);
+    B('roomLab',x,3.04,nz+1.98,1.20,2.24,.16,i%2?0xaac7aa:0x96bcad);
     B(iron,x-.54,3.14,nz+2.14,.24,2.56,.32);
     const leaves=1+(3*i)%4;
     for(let j=0;j<leaves;j++)
@@ -71,7 +78,7 @@ export function buildCatchmentHorizon({B,L,C,light,label},trees){
   }
   for(const side of [-1,1])for(let k=0;k<3;k++){
     const z=nz+(k-1)*1.28;
-    B(lamp,nx+side*3.27,3.15,z,.16,2.30,1.24,k===2?0xc5b08f:0xa3c5af);
+    B('roomLab',nx+side*3.27,3.15,z,.16,2.30,1.24,k===2?0xc5b08f:0xa3c5af);
     B(iron,nx+side*3.43,3.10,z+.49,.32,2.56,.24);
     B(bronze,nx+side*3.52,2.48,z,.32,.24,1.28);
   }

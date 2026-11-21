@@ -6,8 +6,18 @@ function residence({box:B},x,z,w,d,height,variant){
   const block=(m,u,y,v,wide,rise,deep,tint=0xffffff)=>
     B(m,x+u,y,z+v,wide,rise,deep,tint,0,null,true);
   const alloy='titaniumSkin',ceramic='ceramicShell',carbon='basaltShell';
-  const opal='coolWindow',amber='warmWindow',shellTint=[0xc9d9d0,0xb2becb,0xb6c5b9][variant%3];
+  const opal='roomHome',amber='roomKitchen',shellTint=[0xc9d9d0,0xb2becb,0xb6c5b9][variant%3];
   const serviceX=hand*w*.22,serviceZ=-d*.14;
+  // The supply risers ascend from the occupied arcade into the sky gardens.
+  for(const side of [-1,1]){
+    const xx=-w*.48,v=side*d*.34,top=height*(side===hand?.68:.48);
+    block(alloy,xx,top/2,v,.96,top,.96,0x88aaa3);
+    for(let y=3.84;y<top;y+=4.48){
+      block(carbon,xx,y,v,1.60,.64,1.60);
+      block('harborBeacon',xx-.83,y,v,.16,.32,.80,0x8ec0b0);
+    }
+    block(alloy,xx+1.60,top,v,4.16,.96,.96,0x88aaa3);
+  }
   const low=height*(variant===2?.4:.49),cut=5.12+variant%2*1.28,high=height-low-cut;
   block(carbon,serviceX,height/2,serviceZ,w*.32,height,d*.45,0x9db6bf);
   block(alloy,serviceX-hand*w*.14,height*.51,serviceZ-d*.18,w*.16,height*.98,d*.12,0x90aeb4);
@@ -23,7 +33,7 @@ function residence({box:B},x,z,w,d,height,variant){
   for(let bay=0;bay<steps;bay++){
     const v=(bay-(steps-1)/2)*pitch;
     block(alloy,porch+2.72,2.25,v,.64,4.48,pitch+.02,0xaabdc0);
-    block('harborBeacon',porch+2.36,2.50,v,.14,2.56,pitch-.32,
+    block('roomOffice',porch+2.36,2.50,v,.14,2.56,pitch-.32,
       bay===1?0xd08b5d:bay===2?0xe1b589:0x76b4ac);
     block(carbon,porch+2.20,1.85,v+pitch*.32,.32,2.88,.28,0x9aa9ab);
     block(ceramic,porch+1.12,4.49,v,3.84,.56,pitch-.08,shellTint);

@@ -29,11 +29,14 @@ import {createMapUI} from './nyc-map-ui.js';
 import {createFreeFlight} from './nyc-flight.js';
 import {streetLightPatches} from './nyc-street-light-patches.js';
 import {rainFilm} from './nyc-ground-film.js';
+import {cityReflectionGrid,reflectionSettings} from './nyc-voxel-reflections.js';
 import {createHeightHaze} from './nyc-height-haze.js';
 import {createCityWeather} from './nyc-weather.js';
 import {createLightBudget} from './nyc-light-budget.js';
 import {createCombat,hasCombatClips} from './nyc-combat.js';
 import {createCombatEffects} from './nyc-combat-effects.js';
+import {buildPumpStation,sewerHatch} from './nyc-sewer.js';
+import {atEscapeLadder,collectorLocation,escapeHatch} from './nyc-sewer-collector.js';
 
 async function start(){
   const mobilePreview=new URLSearchParams(location.search).get('mobilePreview')==='1'||matchMedia('(pointer: coarse)').matches;
@@ -54,14 +57,21 @@ async function start(){
   await new Promise(resolve=>requestAnimationFrame(resolve));
   const world=await createNYCScene(scene,renderer,sky.rift);
   document.querySelector('#load-detail').textContent='正在加载漫游角色…';
-  const avatar=await loadPlayerAvatar(scene),motor=createMotor(world,world.spawn,avatar.walkingSpeed);
+  const avatar=await loadPlayerAvatar(scene),streetMotor=createMotor(world,world.spawn,avatar.walkingSpeed);
+  let motor=streetMotor,station=null,underground=false;
   const lift=createFultonLift(scene,world.materials);
   let ride=null,opening=null;
   const flight=createFreeFlight(world),flightDirection=new T.Vector3(),shadowFocus=new T.Vector3();
   const weather=createCityWeather(scene,world);
+  const rays=reflectionSettings(),maxVoxels=renderer.getContext().getParameter(renderer.getContext().MAX_3D_TEXTURE_SIZE);
+  const streetRays=cityReflectionGrid(world,maxVoxels,rays);
   for(const name of ['asphalt','paver','coreAsphalt','corePaver','concrete','districtSlab','districtSlabAlt','sampleStreetSlab','sampleStreetSlabAlt','sampleStreetBluestone','sampleStreetDryAsphalt','sampleStreetWetCurb','sampleStreetBasalt']){
     const roadway=name==='asphalt'||name==='coreAsphalt';
-    if(world.materials[name])rainFilm(world.materials[name],roadway?.93:.62,weather.groundCover);
+    const mat=world.materials[name];
+    if(mat){
+      rainFilm(mat,roadway?.93:.62,weather.groundCover);
+      streetRays.surface(mat,'groundFilm*.64');
+    }
   }
   const coreLight=lightCoreStreets(scene,world.futureCore.buildings);
   const gl=renderer.getContext();
@@ -74,7 +84,8 @@ async function start(){
   avatar.group.position.copy(motor.position);
   const punchEnabled=hasCombatClips(avatar);
   const effects=punchEnabled?createCombatEffects(scene):null;
-  const combat=effects?createCombat({scene,world,motor,avatar,effects}):null;
+  const streetCombat=effects?createCombat({scene,world,motor,avatar,effects}):null;
+  let combat=streetCombat;
   const attackLabel=avatar.group.userData.avatar?.source==='original'?'发掌':null;
   const inputs=createInputs(renderer.domElement,{attackLabel,punchEnabled,combatEnabled:!!combat}),composer=new EffectComposer(renderer);
   const combatPanel=document.querySelector('#combat-hud');
@@ -116,11 +127,12 @@ async function start(){
   const realmSite=world.landmarks.find(l=>l.id==='midtown_civic_plaza');
   const realm=createRealmSystem({avatar,inputs,landmark:realmSite,
     context:()=>opening.active?opening.realmContext():{root:scene,camera,position:motor.position,indoor:false,solids:(a,b)=>world.cameraColliders||world.cameraSolidsBetween(a,b)},
-    canOpen:()=>opening&&(opening.active?opening.walking():!ride&&!paused&&!photo&&!flight.active&&motor.grounded&&!combat?.getState().role),
+    canOpen:()=>!underground&&opening&&(opening.active?opening.walking():!ride&&!paused&&!photo&&!flight.active&&motor.grounded&&!combat?.getState().role),
     onTrack:id=>{selectedLandmarkId=id;hudTime=1;updateHUD(0);}
   });
   const walkControls=document.querySelector('.controls').innerHTML;
   function setFlight(value){
+    if(underground)return;
     if(value){if(combat?.getState().role)return;camera.getWorldDirection(flightDirection);if(!flight.activate(camera.position,flightDirection,motor.position))return;motor.velocity.x=motor.velocity.z=0;avatar.group.visible=true;}
     else{flight.deactivate();positionCamera(0,true);}
     inputs.setFlightMode(value);document.body.classList.toggle('free-flying',value);
@@ -131,7 +143,7 @@ async function start(){
     document.querySelector('.controls').innerHTML=value?'<kbd>W A S D</kbd> 飞行 <i></i><kbd>Q / E</kbd> 升降 <i></i><kbd>拖动</kbd> 观察 <i></i><kbd>滚轮</kbd> 速度 <i></i><kbd>Shift</kbd> 加速 <i></i><kbd>F</kbd> 返回':walkControls;
     document.querySelector('#roam-status').hidden=!value;hudTime=1;updateHUD(0);setPaused(false);
   }
-  function reset(){if(flight.active)setFlight(false);motor.reset();combat?.reset();yaw=initialView.yaw;pitch=initialView.pitch;zoom=initialView.zoom;cameraDistance=zoom;currentTarget.copy(motor.position).y+=1.25;positionCamera(0,true);hudTime=1;updateHUD(0);setPaused(false);}
+  function reset(){if(underground){leaveStation();setPaused(false);return;}if(flight.active)setFlight(false);motor.reset();combat?.reset();yaw=initialView.yaw;pitch=initialView.pitch;zoom=initialView.zoom;cameraDistance=zoom;currentTarget.copy(motor.position).y+=1.25;positionCamera(0,true);hudTime=1;updateHUD(0);setPaused(false);}
   function lighting(){
     // The weather can change while the powered infrastructure stays on.
     coreLight.setNight(true);world.setNight(true);wetReflection.setNight(true);
@@ -150,8 +162,12 @@ async function start(){
     labelToggle.setAttribute('aria-pressed',String(!hidden));
   };
   const quality=document.querySelector('#quality');if(mobilePreview||matchMedia('(pointer:coarse)').matches)quality.value='low';
+  const reflectionToggle=document.querySelector('#ray-reflections');
+  reflectionToggle.value=rays.enabled?'on':'off';
+  reflectionToggle.onchange=()=>rays.setEnabled(reflectionToggle.value==='on');
   function resize(){
     const level=quality.value,post=level!=='low';
+    rays.setQuality(level);
     const cap=level==='high'?1.8:post?1.35:1;
     const simulator=window.frameElement?.hasAttribute('data-nyc-simulator');
     const displayScale=simulator?window.frameElement.getBoundingClientRect().width/innerWidth:1;
@@ -172,7 +188,7 @@ async function start(){
   }
   document.querySelector('#menu').onclick=()=>setPaused(!paused);document.querySelector('#resume').onclick=()=>setPaused(false);document.querySelector('#reset').onclick=reset;document.querySelector('#photo').onclick=()=>setPhoto(!photo);document.querySelector('#exit-photo').onclick=()=>setPhoto(false);document.querySelector('#light').onclick=()=>{night=!night;lighting();};quality.onchange=resize;
   document.querySelector('#roam').onclick=()=>setFlight(!flight.active);document.querySelector('#roam-menu').onclick=()=>setFlight(!flight.active);
-  document.querySelector('#combat-reset').onclick=reset;
+  document.querySelector('#combat-reset').onclick=()=>underground?restartStation():reset();
   addEventListener('resize',resize);
   addEventListener('nyc-preview-resize',resize);
   addEventListener('keydown',e=>{
@@ -180,7 +196,7 @@ async function start(){
     if(opening?.active||e.ctrlKey||e.metaKey||e.altKey||e.repeat||e.target?.matches?.('select,input,textarea'))return;
     if(e.key==='Escape'){e.preventDefault();if(mapUI.isOpen)mapUI.close();else if(photo)setPhoto(false);else setPaused(!paused);}
     const key=e.key.toLowerCase();
-    if(key==='m'&&!photo){e.preventDefault();mapUI.toggle();}
+    if(key==='m'&&!photo&&!underground){e.preventDefault();mapUI.toggle();}
     if(key==='h'&&!mapUI.isOpen)setPhoto(!photo);
     if(key==='f'&&!mapUI.isOpen&&!paused&&!photo){
       e.preventDefault();
@@ -190,7 +206,7 @@ async function start(){
   addEventListener('blur',()=>{inputs.clear();flight.stop();lastTime=0;});document.addEventListener('visibilitychange',()=>{inputs.clear();flight.stop();lastTime=0;});
   function positionCamera(dt,snap=false){
     const p=motor.position;
-    const hall=Math.abs(p.y-fulton.street[1])<.48||Math.abs(p.y-fulton.landing[1])<.48
+    const hall=!underground&&(Math.abs(p.y-fulton.street[1])<.48||Math.abs(p.y-fulton.landing[1])<.48)
       ? T.MathUtils.smoothstep(p.z,74.75,75.22)*(1-T.MathUtils.smoothstep(p.z,77.92,78.22))*
         T.MathUtils.smoothstep(p.x,-22.7,-22.12)*(1-T.MathUtils.smoothstep(p.x,-10.85,-9.3)) : 0;
     target.copy(p);target.y+=1.25+.10*hall;
@@ -199,9 +215,9 @@ async function start(){
     if(snap)currentTarget.copy(target);else currentTarget.lerp(target,1-Math.exp(-dt*18));
     orbitDirection.set(Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),Math.cos(yaw)*Math.cos(pitch));
     desired.copy(currentTarget).addScaledVector(orbitDirection,T.MathUtils.lerp(zoom,Math.min(zoom,2.90),hall)*(innerWidth<innerHeight?1.12:1));
-    if(!hall&&adjustTrafficShoulder(currentTarget,desired,dt,snap))
+    if(!underground&&!hall&&adjustTrafficShoulder(currentTarget,desired,dt,snap))
       orbitDirection.subVectors(desired,currentTarget).normalize();
-    let cameraSolids=world.cameraColliders||world.cameraSolidsBetween(currentTarget,desired);
+    let cameraSolids=underground?station.colliders:world.cameraColliders||world.cameraSolidsBetween(currentTarget,desired);
     let allowed=cameraClearance(currentTarget,desired,cameraSolids);
     // Along the lobby's south wall the straight boom runs out of space.
     // Slide the shoulder down the length of the room as that wall approaches.
@@ -241,10 +257,16 @@ async function start(){
   function updateCombatHUD(){
     if(!combat)return;
     const state=combat.getState();
+    combatHUD.dummy.max=state.maxNpcHP;
     combatHUD.player.value=state.playerHP;combatHUD.dummy.value=state.npcHP;
     combatHUD.playerText.textContent=`${state.playerHP} / ${state.maxPlayerHP}`;
     combatHUD.dummyText.textContent=`${state.npcHP} / ${state.maxNpcHP}`;
     combatHUD.reset.hidden=state.playerHP>0&&state.npcHP>0;
+    if(underground){
+      combatHUD.hint.textContent=!state.playerHP?'已倒下 · 可从井梯重新进入战斗':!state.npcHP?'泵房已清理 · 东线检修门已解锁':
+        state.npcPhase==='windup'?'巡检机抬臂 · 向侧面闪避':state.feedback||'靠近泵房巡检机，迎击或闪避';
+      return;
+    }
     const meditation=state.role?.startsWith('meditate-');
     combatHUD.hint.textContent=!state.playerHP?'角色倒下 · 重置演练可再试'
       :meditation?(state.reversed?'正在结束打坐':'打坐中 · F 结束')
@@ -256,6 +278,15 @@ async function start(){
   function updateHUD(dt){
     if(toastTimer>0){toastTimer-=dt;if(toastTimer<=0)document.querySelector('#toast').hidden=true;}hudTime+=dt;if(hudTime<.2)return;hudTime=0;
     updateCombatHUD();
+    if(underground){
+      const [area,route,section]=collectorLocation(motor.position);
+      document.querySelector('#area').textContent=area;
+      const done=combat.getState().npcHP===0;
+      combatPanel.hidden=done&&section>0;
+      document.querySelector('.route p').textContent=done?'东线撤离':'泵房清障';
+      document.querySelector('#destination').textContent=done?route:'进入泵房，击停失控巡检机';
+      document.querySelector('#progress').textContent=done?section+' / 4':'0 / 1';return;
+    }
     const observer=flight.active?flight.position:motor.position;
     if(flight.active){
       for(const{marker}of markers)marker.visible=false;
@@ -297,7 +328,7 @@ async function start(){
     if(firstExit)selectedLandmarkId=school.learned?'hudson_pier':'east-school';
     updateHUD(0);
     renderer.domElement.focus({preventScroll:true});
-  },sky.rift);
+  },sky.rift,rays,maxVoxels);
   function drawStreet(view=camera){
     // The low preset has no post effects. Draw into the antialiased canvas
     // directly so thin edges keep MSAA coverage during a pan.
@@ -307,21 +338,65 @@ async function start(){
   }
   const buildingAction=document.querySelector('#building-action'),liftOverlay=document.querySelector('#lift-ride');
   const school=createSchoolAwakening(scene,world.landmarks,id=>{selectedLandmarkId=id;hudTime=1;});
-  function sense(){if(!paused&&!photo&&!flight.active&&!realm.active&&!opening.active&&!ride)school.sense(motor.position,seen);}
+  function sense(){if(!underground&&!paused&&!photo&&!flight.active&&!realm.active&&!opening.active&&!ride)school.sense(motor.position,seen);}
   school.button.onclick=sense;
   addEventListener('keydown',e=>{if(e.code==='KeyV'&&!e.repeat&&!e.ctrlKey&&!e.altKey&&!e.metaKey)sense();});
   function nearbyDoor(){
     if(paused||photo||flight.active||opening.active||ride||combat?.getState().role)return '';
     const p=motor.position,up=Math.abs(p.y-fulton.landing[1])<.35;
+    if(underground){
+      if(atEscapeLadder(p))return 'eastExit';
+      return p.z>13.1&&Math.abs(p.x)<1.8?'climb':'';
+    }
+    if(motor.grounded&&Math.abs(p.y-sewerHatch.y)<.42&&Math.hypot(p.x-sewerHatch.x,p.z-sewerHatch.z)<2.0)return 'descend';
     if(school.needsAwakening(p))return 'awaken';
     if(up&&Math.hypot(p.x-fulton.landing[0],p.z-fulton.landing[2])<1.2)return 'enter';
     if((up||Math.abs(p.y-fulton.street[1])<.35)&&Math.hypot(p.x-fulton.liftX,p.z-fulton.liftZ)<1.35)return up?'down':'up';
     return '';
   }
-  const doorLabels={awaken:'触碰观测线圈 · E',enter:'回到 3B 公寓',up:'乘电梯到三楼',down:'乘电梯到一楼'};
+  const doorLabels={descend:'下井 · 三号泵房',climb:'爬井梯回街面',eastExit:'爬井梯到旧交易所西街',awaken:'触碰观测线圈 · E',enter:'回到 3B 公寓',up:'乘电梯到三楼',down:'乘电梯到一楼'};
+  function stationHUD(active){
+    document.body.classList.toggle('in-sewer',active);
+    document.querySelector('label[for="dummy-hp"]').textContent=active?'巡检机':'练习傀儡';
+    combatHUD.reset.textContent=active?'重新挑战':'重置演练';
+    combatPanel.hidden=!combat;
+    combatPanel.setAttribute('aria-label',active?'泵房战斗':'战斗演练');
+    document.querySelector('.route p').textContent=active?'泵房清障':'沿街探索';
+    document.querySelector('#mode-name').textContent=active?'地下检修层':'城市漫游者';
+    document.querySelector('.bottom-hud span').textContent=active?'西仓排水 · 地下一层':night?'纽约 · 雨后长夜':'纽约 · 长夜细雨';
+    document.querySelector('#toast').hidden=true;toastTimer=0;buildingAction.hidden=true;
+  }
+  function restartStation(){
+    station.collector.reset();combat.reset();arrive(...station.spawn.toArray(),0);zoom=4.6;positionCamera(0,true);updateHUD(0);
+    renderer.domElement.focus({preventScroll:true});
+  }
+  function enterStation(){
+    if(!station){
+      station=buildPumpStation(rays,maxVoxels);
+      station.motor=createMotor(station,station.spawn,avatar.walkingSpeed);
+      // The optional palm avatar uses its native attack animation. Supply a
+      // strike clock so a build without the extra action clips is still playable.
+      const fighter=punchEnabled?avatar:{...avatar,getActionDuration:()=>.70,playAction:()=>true};
+      station.combat=createCombat({scene:station.scene,world:station,motor:station.motor,avatar:fighter,
+        effects:createCombatEffects(station.scene),patrolHome:new T.Vector3(.85,0,-4.8)});
+    }
+    underground=true;motor=station.motor;combat=station.combat;
+    station.scene.add(avatar.group);stationHUD(true);restartStation();
+    document.querySelector('#school-notice').hidden=true;
+  }
+  function leaveStation(east=false){
+    avatar.clearAction();underground=false;motor=streetMotor;combat=streetCombat;
+    scene.add(avatar.group);stationHUD(false);
+    if(east)arrive(escapeHatch.x,world.ground(escapeHatch.x,escapeHatch.z,.9),escapeHatch.z,0);
+    else arrive(-100.5,.18,-57.7,-.49);
+    updateHUD(0);renderer.domElement.focus({preventScroll:true});
+  }
   function useBuilding(){
     const key=nearbyDoor();if(!key)return;
     buildingAction.hidden=true;inputs.clear();
+    if(key==='descend'){enterStation();return;}
+    if(key==='climb'){leaveStation();return;}
+    if(key==='eastExit'){leaveStation(true);return;}
     if(key==='awaken'){school.awaken(motor.position);return;}
     if(key==='enter'){opening.enter();return;}
     ride={up:key==='up'};
@@ -331,9 +406,26 @@ async function start(){
   }
   buildingAction.onclick=useBuilding;
   addEventListener('keydown',e=>{if(e.code==='KeyE'&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&nearbyDoor()){e.preventDefault();useBuilding();}});
-  document.querySelector('#replay-home').onclick=()=>{if(flight.active)setFlight(false);setPaused(false);combat?.reset();inputs.clear();opening.start();};
+  document.querySelector('#replay-home').onclick=()=>{if(underground)leaveStation();if(flight.active)setFlight(false);setPaused(false);combat?.reset();inputs.clear();opening.start();};
   function frame(t){
     requestAnimationFrame(frame);const dt=lastTime?Math.min((t-lastTime)/1000,.05):1/60;lastTime=t;if(document.hidden){frameProfile.last=0;return;}
+    if(underground){
+      if(!paused){
+        station.updateWater(dt);
+        const impulse=inputs.consume();
+        yaw-=impulse.lookX*.0038;pitch=T.MathUtils.clamp(pitch+impulse.lookY*.0032,-.65,.92);
+        zoom=T.MathUtils.clamp(zoom+impulse.zoom*.004,2.7,10);
+        if(!punchEnabled&&impulse.attack)impulse.punch=true;
+        const state=motor.update(dt,combat.beforeMove(dt,inputs.state,photo?{}:impulse,yaw),yaw);
+        state.heading=combat.update(dt,state,!photo);avatar.group.position.copy(motor.position);
+        station.collector.update(dt,combat.getState().npcHP===0,motor.position);
+        avatar.update({...state,dt,attack:!photo&&impulse.attack,verticalSpeed:motor.velocity.y});positionCamera(dt);
+        updateHUD(dt);
+      }else inputs.clear();
+      const door=nearbyDoor();buildingAction.hidden=!door;
+      if(door)buildingAction.textContent=doorLabels[door];
+      renderer.info.reset();renderer.render(station.scene,camera);return;
+    }
     if(!paused)updateBloodRift(dt);
     if(!paused&&!realm.active&&!opening.active)school.update(dt);
     subjectBounce.setEnabled(!opening.active);
@@ -366,7 +458,11 @@ async function start(){
       avatar.group.position.copy(motor.position);avatar.update({...state,dt,attack:!flight.active && impulse.attack,verticalSpeed:motor.velocity.y});world.update?.(dt,elapsed,camera,motor.position);lightBudget.update(dt,camera);weather.update(dt,elapsed);wetReflection.update(elapsed);shadowFocus.copy(flight.active?flight.position:motor.position);shadowFocus.y=Math.min(shadowFocus.y,25);lightRig.update(dt,elapsed,shadowFocus);
       for(const{landmark:l,marker}of markers){marker.rotation.y+=dt*.9;marker.position.y=l.position.y+2.15+Math.sin(elapsed*1.8)*.07;}updateHUD(dt);
     }else inputs.clear();
-    const atDoor=nearbyDoor();buildingAction.hidden=!atDoor;
+    const atDoor=nearbyDoor();
+    if(atDoor==='descend'&&Math.hypot(motor.position.x-sewerHatch.x,motor.position.z-sewerHatch.z)<.78){
+      enterStation();renderer.render(station.scene,camera);return;
+    }
+    buildingAction.hidden=!atDoor;
     if(atDoor&&buildingAction.textContent!==doorLabels[atDoor])buildingAction.textContent=doorLabels[atDoor];
     frameNumber++;
     if(frameNumber%(quality.value==='low'?12:4)===0)renderer.shadowMap.needsUpdate=true;
@@ -379,7 +475,11 @@ async function start(){
   }
   const entry=new URLSearchParams(location.search);
   const streetEntries=new Map([
-    ['school',[78,-86,-Math.PI/2,.045]],
+    ['projector-row',[-92.16,66.77,3.065,-.35]],
+    ['tailor-window',[-94.9,70.2,2.69,.016]],
+    ['sewer-entry',[-100.5,-57,-.12,.16]],
+    ['weigh-road',[-100.5,-57,-.49,.025]],['cloth-road',[-94.5,68.3,-2.13,.04]],
+    ['school-south',[115,-54.8,0,.035]],['school',[78,-86,-Math.PI/2,.045]],
     ['blood-sky',[-136,48,2.50,-.56]],
     ['boiler-market',[26.56,52.4,Math.PI,.04]],['produce-hall',[-55.5,8,Math.PI,.04]],
     ['repair-lane',[-17,-8.0,0,.04]],['tea-exchange',[49.28,-169.6,Math.PI,.04]],
@@ -423,7 +523,7 @@ async function start(){
   const{meshes,...counts}=world.stats;
   console.info('[NYC] ready',JSON.stringify({scene:counts,spawn:motor.position.toArray(),camera:camera.position.toArray(),avatar:avatar.group.userData.avatar}));
   // This opt-in snapshot reports simulation state, independent of the DOM.
-  if(new URLSearchParams(location.search).has('qa'))globalThis.__NYC_QA__={opening,scene,world,motor,camera,inputs,renderer,flight,getState:()=>({position:motor.position.toArray(),camera:camera.position.toArray(),grounded:motor.grounded,motion:avatar.group.userData.motion,combat:combat?.getState(),paused,freeFlight:flight.active,yaw,pitch,cameraDistance,seen:[...seen],calls:renderer.info.render.calls,triangles:renderer.info.render.triangles})};
+  if(new URLSearchParams(location.search).has('qa'))globalThis.__NYC_QA__={opening,scene,world,get motor(){return motor;},camera,inputs,renderer,flight,getState:()=>({underground,position:motor.position.toArray(),camera:camera.position.toArray(),grounded:motor.grounded,motion:avatar.group.userData.motion,combat:combat?.getState(),paused,freeFlight:flight.active,yaw,pitch,cameraDistance,seen:[...seen],calls:renderer.info.render.calls,triangles:renderer.info.render.triangles})};
   requestAnimationFrame(frame);
 }
 start().catch(error=>{console.error(error);document.querySelector('#load-detail').textContent='街区暂时未能载入，请刷新后重试。';});

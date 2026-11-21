@@ -1,4 +1,5 @@
 import * as T from 'three';
+import {roomCode} from './nyc-inhabited-windows.js';
 import {applyBlockFinish,blockFamily} from './nyc-block-finish.js';
 import {sculptBatch} from './nyc-block-shell.js';
 import {bondBuilding} from './nyc-bonded-massing.js';
@@ -18,6 +19,7 @@ export function createArchitectureBatch(scene, materials, tileSize = 32) {
   const streetOcclusion=createStreetOcclusion(),streetMeshes=[],temporarilyHidden=[];
   let streetView=false;
   const roofOccluders=[];
+  const reflectionPanes=[];
   const detailMeshes=[],lod={detailTriangles:0,detailMeshes:0,visibleDetailMeshes:0,distance:68};
   let boxes = 0, triangles = 0;
   const vertices = [
@@ -35,7 +37,12 @@ export function createArchitectureBatch(scene, materials, tileSize = 32) {
   let lastCamera;
   function box(material, x,y,z, sx,sy,sz, tint=0xffffff, rotation=0, quaternion=null, dressed=false) {
     if(sx<=0 || sy<=0 || sz<=0)return;
-    const mat=typeof material==='string'?materials[material]:material;
+    const room=materials.occupiedRooms&&!quaternion?roomCode(material,x,y,z,sx,sy,sz):0;
+    if(room&&room<=128&&y<46){
+      const kind=(room-1)%16,cool=[1,6,7,10,11].includes(kind);
+      reflectionPanes.push([x,y,z,sx,sy,sz,cool?0x79b5c4:0xffad66,rotation]);
+    }
+    const mat=room?materials.occupiedRooms:typeof material==='string'?materials[material]:material;
     if(!mat)throw new Error('Unknown NYC material '+material);
     if(!familyCache.has(mat))familyCache.set(mat,blockFamily(mat));
     const family=familyCache.get(mat);
@@ -106,7 +113,12 @@ export function createArchitectureBatch(scene, materials, tileSize = 32) {
         if(quaternion)v.applyQuaternion(quaternion);
         else{const vx=v.x;v.x=vx*ct+v.z*st;v.z=-vx*st+v.z*ct;}
         b.p.push(v.x+x,v.y+y,v.z+z);b.n.push(n.x,n.y,n.z);
-        if(mat.userData.assemblyUV&&!quaternion){
+        if(room){
+          const broad=sx>=sz?f===4||f===5:f===0||f===1;
+          const u=f===4?corner[0]:f===5?-corner[0]:f===0?-corner[2]:corner[2];
+          const aspect=Math.max(2,Math.min(512,Math.round(4*Math.max(sx,sz)/sy)));
+          b.uv.push((broad?room:0)+.5+u*.998,aspect+.5+corner[1]*.998);
+        }else if(mat.userData.assemblyUV&&!quaternion){
           // Metre-based panel joints stay aligned across adjoining pieces.
           // Project onto the rotated wall so diagonal sightlines keep square units.
           const ux=x*ct-z*st+corner[0]*sx,uz=x*st+z*ct+corner[2]*sz;
@@ -331,7 +343,7 @@ export function createArchitectureBatch(scene, materials, tileSize = 32) {
     for(const mesh of temporarilyHidden)mesh.visible=true;
     temporarilyHidden.length=0;streetView=false;
   }
-  return {box,beam,panel,castColumn,registerPaving:paving.register,finish,roofOccluders,setQuality,updateVisibility,prepareStreetView,finishStreetView};
+  return {box,beam,panel,castColumn,registerPaving:paving.register,finish,roofOccluders,reflectionPanes,setQuality,updateVisibility,prepareStreetView,finishStreetView};
 }
 
 export function randomSource(seed=701) {

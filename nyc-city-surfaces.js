@@ -4,7 +4,8 @@ import {finishPavement} from './nyc-pavement-finish.js';
 const interiors=['records','repair','deli','flowers'];
 export function shopInterior(title,variant=0){
   if(/RECORD|AUDIO|BOOK|MUSIC|ARCHIVE/i.test(title))return 'display-records';
-  if(/FIX|TECH|REPAIR|ELECTRIC|CLINIC/i.test(title))return 'display-repair';
+  if(/CLINIC|诊所/i.test(title))return 'roomClinic';
+  if(/FIX|TECH|REPAIR|ELECTRIC/i.test(title))return 'display-repair';
   if(/DELI|COFFEE|KITCHEN|GROCER|FOOD|NOODLE/i.test(title))return 'display-deli';
   return 'display-'+interiors[Math.abs(Math.round(variant))%interiors.length];
 }

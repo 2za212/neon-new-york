@@ -1,5 +1,6 @@
 import * as T from 'three';
 import {paintDistrictAtlas} from './nyc-street-ad-district.js';
+import {paintCampaigns} from './nyc-projector-campaigns.js';
 
 // Coordinates are backing-store pixels. Gutters keep unrelated lit signs
 // apart through the first mip levels, including on a double-sided blade.
@@ -187,7 +188,7 @@ function poster(g,id){
 
 export function createStreetAdAtlas(renderer){
   const canvas=document.createElement('canvas');
-  canvas.width=1024;canvas.height=2048;
+  canvas.width=1536;canvas.height=2048;
   const g=canvas.getContext('2d',{alpha:false});
   rect(g,0,0,1024,2048,'#1c2b32');
   const tiles={};
@@ -206,6 +207,8 @@ export function createStreetAdAtlas(renderer){
     tiles[id]={title,glow,aspect:w/h,u0:(x+.5)/1024,u1:(x+w-.5)/1024,v0:1-(y+h-.5)/2048,v1:1-(y+.5)/2048};
   }
   paintDistrictAtlas(g,tiles);
+  for(const tile of Object.values(tiles)){tile.u0*=1024/canvas.width;tile.u1*=1024/canvas.width;}
+  paintCampaigns(g,tiles);
   const texture=new T.CanvasTexture(canvas);
   texture.name='街头广告 / 店招与电子灯片';texture.colorSpace=T.SRGBColorSpace;
   texture.anisotropy=Math.min(4,renderer?.capabilities?.getMaxAnisotropy?.()||1);

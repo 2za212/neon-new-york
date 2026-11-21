@@ -2,7 +2,7 @@ import * as T from 'three';
 
 // Add service lights along actual pedestrian edges between occupied premises.
 // The old lamp posts, shop lights and work bays are considered first.
-export function connectStreetPower({routes,box,collider,colliders,ground,isPlayable,posts,sites,scene,materials}){
+export function connectStreetPower({routes,box,collider,colliders,ground,isPlayable,posts,sites,scene,materials,entrances=[]}){
   const sources=posts.slice();
   const occupied=[...sources,...sites];
   scene.traverse(o=>{
@@ -38,11 +38,12 @@ export function connectStreetPower({routes,box,collider,colliders,ground,isPlaya
         const t=carried/len,centerX=ax+t*dx,centerZ=az+t*dz;
         serial++;
         for(const side of [serial%2?1:-1,serial%2?-1:1]){
-          const inset=walk?road.width/2-.37:road.width/2+.87;
+          const narrowWalk=walk&&!high&&road.width<=4;
+          const inset=narrowWalk?road.width/2+.55:walk?road.width/2-.37:road.width/2+.87;
           const x=centerX+nx*side*inset,z=centerZ+nz*side*inset;
           const y=ground(x,z,high?6.60:1.05);
           if(Math.abs(y-(high?6.51:.36))>.38||!isPlayable(x,z,.42))continue;
-          if(crossesRoad(x,z,y,road))continue;
+          if(crossesRoad(x,z,y,road)||entrances.some(([ex,ez])=>Math.hypot(x-ex,z-ez)<1.65))continue;
           const spacing=high?9:walk?12:15;
           if(occupied.some(o=>Math.abs(o.y-y)<(high?3.1:9)&&Math.hypot(o.x-x,o.z-z)<spacing))continue;
           if(colliders.some(b=>b.max.y>y+.09&&b.min.y<y+2.9&&x>b.min.x-.46&&x<b.max.x+.46&&z>b.min.z-.46&&z<b.max.z+.46))continue;

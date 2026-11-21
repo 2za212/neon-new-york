@@ -13,7 +13,7 @@ import * as T from 'three';
 /** Midtown's walkable city fabric and six fully modelled tower masses.
  * Add to the shared architectural batch. All coordinates / collider sizes are m.
  */
-export function addMidtown(scene,{box,beam,materials,colliders,surface,sign,tree,lamp,bench,planter,rand=Math.random}) {
+export function addMidtown(scene,{registerProperty,box,beam,materials,colliders,surface,sign,tree,lamp,bench,planter,rand=Math.random}) {
   const ROAD=.18,SIDE=.36;
   const bounds={minX:-64,maxX:84,minZ:-180,maxZ:-52};
   const stats={towers:0,podiums:0,boxes:0,beams:0,trees:0,treeBoxes:0,colliders:0,surfaces:0,signs:0,pointLights:0,independentDrawCalls:0,triangles:0};
@@ -28,32 +28,12 @@ export function addMidtown(scene,{box,beam,materials,colliders,surface,sign,tree
   material('midtownLimestone',materials.ceramicShell,{color:new T.Color(0xc1c9c5),roughness:.49});
   material('midtownBronze',materials.metal,{color:new T.Color(0x847e62),roughness:.57,metalness:.62});
   material('midtownSteel',materials.titaniumSkin,{color:new T.Color(0xa5bac1),roughness:.42,metalness:.54});
-  // One shared physical-scale curtain-wall map. Stepped masses, deep ribs and
-  // spandrel ledges are real geometry; the map supplies only the pane interiors.
-  const canvas=document.createElement('canvas');canvas.width=canvas.height=512;const g=canvas.getContext('2d');
-  g.fillStyle='#182a35';g.fillRect(0,0,512,512);
-  for(let row=0;row<2;row++)for(let col=0;col<4;col++){
-    const x=col*128,y=row*256,t=(row*3+col*7)%5;
-    g.fillStyle=['#2c4550','#253e4b','#354f58','#29434f','#314b56'][t];g.fillRect(x+7,y+18,114,208);
-    g.fillStyle='rgba(137,164,169,.12)';g.fillRect(x+12,y+22,13,197);
-    g.fillStyle='rgba(7,17,24,.58)';g.fillRect(x+7,y+18,114,16);g.fillRect(x+7,y+210,114,16);
-    // Recessed office floors read as occupied even when viewed from the side.
-    if(t%2===0){
-      g.fillStyle=t===4?'#a79473':'#748d91';g.fillRect(x+16,y+68,96,112);
-      g.fillStyle='#404b50';g.fillRect(x+20,y+140,88,8);
-      g.fillRect(x+29,y+128,22,12);g.fillRect(x+69,y+123,17,16);
-      g.fillStyle='#b7aea2';g.fillRect(x+24,y+75,58,3);
-      for(let k=0;k<4;k++){g.fillStyle='rgba(16,28,34,.34)';g.fillRect(x+8+k*27,y+20,5,200);}
-    }
-    g.fillStyle='#50656b';g.fillRect(x,y,3,256);g.fillRect(x,y+235,128,3);
-  }
-  const facadeMap=new T.CanvasTexture(canvas);facadeMap.colorSpace=T.SRGBColorSpace;facadeMap.wrapS=facadeMap.wrapT=T.RepeatWrapping;facadeMap.anisotropy=4;facadeMap.magFilter=T.LinearFilter;
-  const curtain=material('midtownCurtain',materials.glass,{map:facadeMap,color:new T.Color(0xffffff),roughness:.32,metalness:.38,envMapIntensity:.55});curtain.userData.textureMeters=6.4;curtain.userData.unitUV=false;
+  materials.midtownCurtain=materials.officeCurtain;
 
   B('asphalt',10,.01,-116,148,.34,128);
   // Only designed streets / terraces are declared walkable. Building shells
   // retain explicit collisions rather than a single district-sized blocker.
-  const xRoads=[{z:-64,x1:-36,x2:58,w:10.4},{z:-86,x1:-64,x2:84,w:11.2},{z:-118,x1:-64,x2:84,w:11.2},{z:-175,x1:-36,x2:58,w:8}];
+  const xRoads=[{z:-64,x1:-36,x2:0,w:10.4},{z:-86,x1:-64,x2:84,w:11.2},{z:-118,x1:-64,x2:84,w:11.2},{z:-175,x1:-36,x2:58,w:8}];
   const zRoads=[{x:0,z1:-124,z2:-52,w:12.8,s:3.8},{x:-36,z1:-180,z2:-52,w:9.6,s:2.8},{x:58,z1:-180,z2:-58.8,w:9.6,s:2.8}];
   function segments(a,b,cuts){let cursor=a;const out=[];for(const [lo,hi]of cuts.sort((p,q)=>p[0]-q[0])){if(hi<=cursor||lo>=b)continue;if(lo>cursor)out.push([cursor,Math.min(lo,b)]);cursor=Math.max(cursor,hi);}if(cursor<b)out.push([cursor,b]);return out;}
   for(const r of zRoads){
@@ -138,7 +118,7 @@ export function addMidtown(scene,{box,beam,materials,colliders,surface,sign,tree
         const u=-side.width/2+pitch*(i+.5);
         if(entrance&&Math.abs(u)-pitch/2<hall.width/2)continue;
         side.B('metal',u,2.35,.14,pitch-.24,3.9,.20,0x6f8583);
-        side.B(i%4===1?'warmWindow':'glass',u,2.35,.27,pitch-.45,3.60,.05,0xa8b8b1);
+        side.B(i%4===1?'roomBoard':'roomOffice',u,2.35,.27,pitch-.45,3.60,.05,0xa8b8b1);
         side.B('metal',u,2.35,.315,.075,3.64,.045,0x98aaa0);
         side.B('metal',u,3.27,.315,pitch-.4,.08,.045,0x98aaa0);
         if(i%3!==2){
@@ -179,6 +159,8 @@ export function addMidtown(scene,{box,beam,materials,colliders,surface,sign,tree
   function tower(id,x,z,w,d,base,height,seed,warm=false){
     const f=structureAt(x,z);
     stats.towers++;
+    const titles={civic_hero:'都会交易塔',west_terracotta:'西坊工商业大楼',west_slim:'西口交换机房',east_exchange:'东侧交易大楼',east_sentinel:'东街值守塔',plaza_east:'旧票厅与茶市'};
+    registerProperty?.(id,titles[id]||id,'旧交易所街区',x,z+d/2,w,d,0);
     towerFootprints.push({id,x,z,minX:x-w/2,maxX:x+w/2,minZ:z-d/2,maxZ:z+d/2,height:base+height});
     const apron=base===0?7.68:0, bottom=SIDE+base+apron, h=height-apron;
     if(apron)splitConcourse(f,w,d,SIDE,apron,id==='west_slim'?3:seed,warm);

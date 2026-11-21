@@ -14,8 +14,8 @@ export const gridStations=[
 // Occupied buildings on the landward side of street termini. Different rear
 // setbacks leave the canal and the open approach to the quay visible.
 const outerPremises=[
-  {type:'dispatch',x:-104,z:-74,yaw:0,c:0x83c4bd,h:19},
-  {type:'dispatch',x:-82,z:77,yaw:Math.PI,c:0xe7b780,h:26},
+  {type:'dispatch',x:-142,z:-81,yaw:0,c:0x83c4bd,h:19},
+  {type:'dispatch',x:-116,z:108,yaw:Math.PI,c:0xe7b780,h:26},
   {type:'exchange',x:-127,z:86,yaw:Math.PI,c:0xd4976f,h:19},
   {type:'exchange',x:-92,z:-213,yaw:Math.PI*.5,c:0x98b8d2,h:37},
   {type:'exchange',x:10,z:192,yaw:Math.PI,c:0xbf829d,h:32},

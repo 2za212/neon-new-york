@@ -50,9 +50,7 @@ export function addDistrictFrontiers(scene,{box,beam,materials,colliders,sign}) 
       stats.signs++;
     }
   }
-  // Map and physical fence placement share a single list. The old north fence
-  // at (0,-50.9) is removed; both western service streets stay closed at z=-52
-  // because their x coordinates sit outside Midtown's west edge of -64.
+  // Only terminal streets get barriers. Both service lanes now join the old freight and cloth wards.
   for(const exit of mapPlan.frontierExits) {
     barrier(exit.position[0],exit.position[1],exit.width,exit.rotation||0,exit.title||'',exit.subtitle||'');
   }

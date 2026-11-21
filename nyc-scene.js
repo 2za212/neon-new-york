@@ -4,7 +4,8 @@ import {buildGreenwayBlocks} from './nyc-greenway-blocks.js';
 import * as T from 'three';
 import {finishVoxelBays} from './nyc-fulton-modules.js';
 import {buildRadioStation} from './nyc-radio-station.js';
-import {routeWindow,createRouteWindows} from './nyc-route-windows.js';
+import {routeWindow} from './nyc-route-windows.js';
+import {installInhabitedWindows} from './nyc-inhabited-windows.js';
 import {buildHabitatStack,buildExchangeApron} from './nyc-habitat-stacks.js';
 import {housingBond} from './nyc-housing-bond.js';
 import {applyCitySurfaces,shopInterior} from './nyc-city-surfaces.js';
@@ -24,6 +25,9 @@ import {addStreetAdvertising} from './nyc-street-advertising.js';
 import {buildFutureCoreStreets} from './nyc-future-core-streets.js';
 import {freightWell} from './nyc-future-core-layout.js';
 import {buildTramPower} from './nyc-tram-power.js';
+import {buildStreetWalls} from './nyc-street-walls.js';
+import {buildStreetFloor} from './nyc-street-floor.js';
+import {markSewerHatch,sewerHatch} from './nyc-sewer.js';
 import {buildStreetSections} from './nyc-street-sections.js';
 import {createAtmosphere} from './nyc-atmosphere.js';
 import {addWaterfront,onDryQuay} from './nyc-waterfront.js';
@@ -42,6 +46,8 @@ import {buildRepairQuarter,repairPortalWidth} from './nyc-repair-quarter.js';
 import {addCityOccupation} from './nyc-city-occupation.js';
 import {addSoHo} from './nyc-soho.js';
 import {addEastPark} from './nyc-east-park.js';
+import {buildLowerBlocks} from './nyc-lower-blocks.js';
+import {lotPoint,premises} from './nyc-lower-block-plan.js';
 import {buildSchool} from './nyc-school.js';
 import {flushDistrictRoads} from './nyc-district-kit.js';
 
@@ -54,11 +60,17 @@ import {flushDistrictRoads} from './nyc-district-kit.js';
 export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}) {
   const materials=createNYCMaterials(renderer);
   await applyCitySurfaces(materials,renderer);
-  createRouteWindows(materials);
+  await installInhabitedWindows(materials,renderer);
   const batch=createArchitectureBatch(scene,materials,64);
   const {box,beam}=batch, rand=randomSource(20261112);
   const colliders=[],walkSurfaces=[],signMeshes=[],moving=[],localLights=[];
-  const lampPosts=[];
+  const lampPosts=[],propertyFeatures=[];
+  function registerProperty(id,name,service,x,z,width,depth,yaw){
+    const corners=[[-width/2,0],[width/2,0],[width/2,-depth],[-width/2,-depth]];
+    const c=Math.cos(yaw),s=Math.sin(yaw);
+    propertyFeatures.push({id,name,service,fill:'#758987',shape:{type:'polygon',
+      points:corners.map(([u,v])=>[x+c*u+s*v,z-s*u+c*v])}});
+  }
   let floorCells=null;
   let buildings=0,trees=0,fireEscapes=0,waterTanks=0;
   const ROAD=.18,SIDE=.36;
@@ -167,6 +179,8 @@ export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}
     const brick=variant%4===0?'titaniumSkin':'basaltShell';
     const refit=SAMPLE_FRONTAGES.find(f=>Math.abs(f.x-x)<.01&&Math.abs(f.z-z)<.01&&Math.abs(f.rot-rot)<.01);
     const passage=repairPortalWidth(x,z);
+    const tenant=refit?.id==='west_records'?'门罗唱片店':refit?.id==='east_corner'?'熟食店与街角维修铺':passage?'桥下夜修里':oldTenants[variant]||store;
+    registerProperty('old-front-'+variant,tenant,'首层营业 / 楼上住户',x,z,width,depth,rot);
     const c=Math.cos(rot),s=Math.sin(rot);
     const world=(u,v,out)=>[x+u*c+out*s,v,z-u*s+out*c];
     const B=(mat,u,v,out,w,h,d,col=0xffffff)=>{
@@ -263,7 +277,7 @@ export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}
       }
     }
     if(variant===3||variant===13)waterTower(...world(-width*.22,height+.64,-depth*.60),1.35);
-    if(store&&!refit&&!passage){const p=world(0,3.04,.54-setback);sign(...p,Math.min(width-1.2,7.1),.63,store,'NEIGHBORHOOD / EST. 2086',variant%2?'#f2bc81':'#62d9df',rot);}
+    if(store&&!refit&&!passage){const p=world(0,3.04,.54-setback);sign(...p,Math.min(width-1.2,7.1),.63,tenant,'首层营业 / 楼上住户',variant%2?'#f2bc81':'#62d9df',rot);}
     // A few vertical displays give future technology a legible local accent.
     if(variant%3===0){const p=world(-width/2+1.2,9.9,.5);sign(...p,1.20,5.5,'NEXUS','LINK / 24H','#ef69b4',rot,true);}
     if(variant%4===1){const p=world(width/2-.9,7.8,.43);sign(...p,.9,4.1,'SYNC','NY / 6G','#5bdce4',rot,true);}
@@ -290,6 +304,9 @@ export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}
   }
 
   // Continuous fronts make a New York street wall, rather than a tower park.
+  const oldTenants=['河岸熟食铺','桥头音响行','旧件回收站','夜班电讯所','街坊诊所','东巷咖啡',
+    '早市食堂','黑胶寄售铺','电机维修部','夜间寄递所','社区药房','门罗唱片店','七号洗衣房','',
+    '轨旁电器行','值班茶室','楼下杂货','冷柜维修'];
   const names=['HUDSON DELI','MONROE RECORDS','ORBIT REPAIR','NORTHLINE','LUMEN CLINIC','EASTSIDE COFFEE'];
   let index=0;
   for(const x of [-37,-27,-17,17,27,37]){
@@ -461,7 +478,7 @@ export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}
   }
   taxi(4.6,17,Math.PI);taxi(-4.6,-19);taxi(27,-4.7,Math.PI/2);
   function equipment(x,z,rot=0){
-    box('metal',x,1.28,z,.9,1.84,.65,0x758d85,rot);box('glass',x,1.5,z+.34,.65,1.13,.035,0xa3c0b5,rot);
+    box('metal',x,1.28,z,.9,1.84,.65,0x758d85,rot);box('equipmentGlass',x,1.5,z+.34,.65,1.13,.035,0xa3c0b5,rot);
     box('cyan',x,1.7,z+.38,.4,.07,.025);box('cyan',x,1.4,z+.38,.4,.07,.025);
     box('rubber',x,.68,z+.36,.45,.23,.04);box('metal',x,.52,z+.42,.65,.12,.2,0xb0b9a7,rot);
   }
@@ -513,7 +530,7 @@ export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}
       }
       box('stone',x,yy+4,z,2,8,2,0x9fadb1);box('lamp',x,yy+9.3,z,.32,4.6,.32,0xc9b373);
     }else{
-      box('glass',x,height/2+10,z,w,height,d,0x8aadb4);
+      box('officeCurtain',x,height/2+10,z,w,height,d,0x8aadb4);
       for(let u=-w/2;u<=w/2;u+=1.7)box('metal',x+u,height/2+10,z+d/2+.08,.13,height,.15,0xb8c4ba);
       for(let y=13;y<height+10;y+=3.6)box('metal',x,y,z+d/2+.12,w,.11,.18,0x9bb5b5);
       for(let row=0;row<height/4;row++)for(let col=0;col<w/2;col++)if(rand()>.73)box(windowMaterial(),x-w/2+1+col*2,13+row*4,z+d/2+.2,.78,1.5,.03,0x98aeb0);
@@ -544,9 +561,9 @@ export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}
     box('metal',x,.75,z,.16,.78,.16,0x849c87);box('lamp',x,1.14,z,.21,.20,.21);
   }
   const cyber=addCyberLayer(scene,{box,beam,materials,colliders,sign,rand});
-  const waterfront=addWaterfront(scene,{box,beam,panel:batch.panel,materials,colliders,surface,sign,tree,lamp,bench,planter,rand});
+  const waterfront=addWaterfront(scene,{registerProperty,box,beam,panel:batch.panel,materials,colliders,surface,sign,tree,lamp,bench,planter,rand});
   const greenway=openGreenway(scene,{box,beam,materials,colliders,surface,sign,tree,bench,planter,rand});
-  const midtown=addMidtown(scene,{box,beam,materials,colliders,surface,sign,tree,lamp,bench,planter,rand});
+  const midtown=addMidtown(scene,{registerProperty,box,beam,materials,colliders,surface,sign,tree,lamp,bench,planter,rand});
   const midtownCyber=addMidtownCyber(scene,{box,beam,materials,colliders,sign,rand});
   const streetLife=addStreetLife(scene,{box,beam,materials,colliders,surface,sign,rand});
   const cityDetail=addCityDetail(scene,{box,beam,materials,colliders,sign,rand});
@@ -555,9 +572,10 @@ export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}
   const repairQuarter=buildRepairQuarter(scene,{box,beam,materials,surface,collider,sign,localLights});
   const sample={bounds:{minX:-20,maxX:20,minZ:2,maxZ:42},area:1600,frontages:sampleFrontages,street:sampleStreet,entries:sampleFrontages.entries};
   const roadRegistry=[];
-  const districtApi={box,beam,panel:batch.panel,castColumn:batch.castColumn,registerPaving:batch.registerPaving,materials,colliders,collider,surface,sign,tree,lamp,bench,planter,roadRegistry};
+  const districtApi={registerProperty,box,beam,panel:batch.panel,castColumn:batch.castColumn,registerPaving:batch.registerPaving,materials,colliders,collider,surface,sign,tree,lamp,bench,planter,roadRegistry};
   const soho=addSoHo(scene,{...districtApi,rand:randomSource(611203)});
   const eastPark=addEastPark(scene,{...districtApi,rand:randomSource(611204)});
+  buildLowerBlocks(districtApi);
   const schoolLandmark=buildSchool(districtApi,scene,localLights);
   const coreStreets=buildFutureCoreStreets(scene,districtApi);
   const futureCore=addFutureCore(scene,districtApi);
@@ -581,7 +599,7 @@ export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}
     [168,9,22,22,57,1],[178,77,25,24,49,2],[179,109,21,24,64,1],
     [171,146,24,27,49,0],[202,166,30,23,69,1],
     [185,-164,24,23,64,0],[188,-102,25,24,52,1],[207,-83,22,18,66,2],
-    [-82,-88,24,24,46,2],[-85,-148,27,26,68,1]
+    [-124,-100,24,24,46,2],[-85,-148,27,26,68,1]
   ];
   // The skyline kit already supplies the end headers and stepped shoulders.
   // Keep its bonded surface shell, skip a second run of sub-metre cornice
@@ -639,10 +657,18 @@ export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}
   const streetAds=addStreetAdvertising(scene,renderer,futureCore.buildings,localLights,{ground,collider,colliders,isPlayable,signMeshes,rift});
   moving.push((dt,time)=>streetAds.update(time));
   const streetPower=connectStreetPower({routes:mapPlan.roads,box,collider,colliders,ground,isPlayable,
-    posts:lampPosts,sites:streetAds.sites,scene,materials});
+    posts:lampPosts,sites:streetAds.sites,scene,materials,entrances:premises.map(p=>lotPoint(p,0,p.depth/2+.8))});
   buildRegionalGrid(scene);
   moving.push(buildOldNightPost({scene,box,collider,sign,lights:localLights}));
+  const frontageAccess=[[-9.55,76.12],[-5.8,12.8],[0,22],[123,-86]];
+  for(const e of [...soho.entries,...sample.entries])frontageAccess.push([e.street[0],e.street[2]]);
+  for(const p of premises)frontageAccess.push(lotPoint(p,0,p.depth/2+.9));
+  const streetWalls=buildStreetWalls(districtApi,frontageAccess,scene,localLights,moving);
+  const streetFloor=buildStreetFloor({roads:mapPlan.roads,box,ground,colliders,isPlayable,entrances:frontageAccess});
+  markSewerHatch({box,sign});
   const stats=batch.finish();
+  stats.streetWalls=streetWalls;
+  stats.streetFloor=streetFloor;
   floorCells=new Map();
   for(const s of walkSurfaces){
     for(let ix=Math.floor(s.minX/6);ix<=Math.floor(s.maxX/6);ix++)
@@ -669,10 +695,11 @@ export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}
   stats.sample={bounds:sample.bounds,area:sample.area,frontages:sampleFrontages.stats,street:sampleStreet.stats};
   stats.soho=soho.stats;stats.eastPark=eastPark.stats;stats.districtRoads=districtRoadStats;stats.playableArea=mapPlan.currentArea;
   stats.occupation=occupation.stats;
-  stats.futureCore=futureCore.stats;stats.buildings+=futureCore.stats.buildings;
+  stats.futureCore=futureCore.stats;stats.buildings+=futureCore.stats.buildings+premises.length+streetWalls.courtBuildings;
   stats.streetAds=streetAds.stats;
   stats.drawCalls+=cyber.stats.independentDrawCalls+atmosphere.stats.drawCalls+waterfront.stats.independentDrawCalls+midtownCyber.stats.independentDrawCalls+crowd.stats.drawCalls+(soho.stats.independentDrawCalls||0)+(eastPark.stats.independentDrawCalls||0);
   const landmarks=[
+    {id:'sewer-hatch',title:'西仓排水检修井',position:sewerHatch.clone()},
     schoolLandmark,
     {id:'subway',title:'地铁街角',position:new T.Vector3(-5.8,ROAD,12.8)},
     {id:'neon',title:'霓虹街区',position:new T.Vector3(6.0,ROAD,-5.7)},
@@ -720,9 +747,9 @@ export async function createNYCScene(scene,renderer,rift={value:new T.Vector3()}
     return traffic.withCameraBodies(cameraSet,a,b);
   }
   return {colliders,solidsNear,cameraSolidsBetween,walkSurfaces,spawn:new T.Vector3(0,ROAD,22),bounds,landmarks,ground,isPlayable,stats,
-    prepareStreetView:batch.prepareStreetView,finishStreetView:batch.finishStreetView,
+    prepareStreetView:batch.prepareStreetView,finishStreetView:batch.finishStreetView,reflectionPanes:batch.reflectionPanes,
     materials,signMeshes,greenway,midtown,crowd,sample,soho,eastPark,futureCore,streetAds,streetPower,occupation,nightShifts,traffic,weatherOccluders:batch.roofOccluders,mapOutline:mapPlan.currentOutline,
-    mapFeatures:[...mapPlan.features,...(eastPark.mapFeatures||[]),
+    mapFeatures:[...mapPlan.features,...propertyFeatures,...(eastPark.mapFeatures||[]),
       {id:'soho-market-court',name:'街坊市集',fill:'#7e8772',shape:{type:'polygon',points:[[-40.8,56],[-26,56],[-26,76.2],[-40.8,76.2]]}},
       {id:'soho-canal-court',name:'运河街庭院',fill:'#788278',shape:{type:'polygon',points:[[24,135.9],[48.5,135.9],[48.5,142.8],[24,142.8]]}}],
     setQuality(level){lowDetail=level==="low";batch.setQuality(level);crowd.setQuality(level);sampleFrontages.setQuality?.(level);sampleStreet.setQuality?.(level);soho.setQuality?.(level);eastPark.setQuality?.(level);},

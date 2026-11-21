@@ -12,6 +12,21 @@ export function mooredTender(B,L,label){
   const F=(m,u,y,v,w,h,d,tint)=>B(m,...vesselPoint(u,y,v),w,h,d,tint,yaw);
   const rod=(m,a,b,w,d=w,tint)=>L(m,vesselPoint(...a),vesselPoint(...b),w,d,tint);
   const half=beam/2;
+  // Paired cargo shears straddle the working well; the hull and quay cranes
+  // remain visible through the raised frame when seen from the warehouse street.
+  for(const v of [-5.8,8.8]){
+    for(const side of [-1,1]){
+      const u=side*3.84;
+      F('harborHullBlue',u,deck+.48,v,1.28,.96,1.60,0xc1cbc4);
+      rod('harborOchre',[u,deck+.68,v],[side*1.85,10.88,v-.64],.48,.64,0xeaba86);
+      F('harborEnamel',side*1.92,10.58,v-.64,1.28,.64,1.28);
+    }
+    F('harborOchre',0,11.04,v-.64,4.80,.64,1.28);
+    F('lamp',0,10.62,v-.48,1.60,.16,.64,0xffc588);
+  }
+  rod('harborPlate',[0,11.2,-6.44],[0,11.2,8.16],.48,.64);
+  F('harborPlate',0,8.6,4.48,.16,4.48,.16);
+  F('harborOchre',0,6.40,4.48,1.92,.48,.64);
 
   const segment=length/27;
   for(let i=0;i<27;i++){
@@ -46,12 +61,12 @@ export function mooredTender(B,L,label){
   F('harborHullBlue',.28,6.81,-13.20,7.93,.39,7.07,0xc6c9b5);
   for(const v of [-15.57,-14.10,-12.62,-11.15]){
     F('harborHullBlue',4.03,5.73,v,.27,1.31,1.26,0xaec0b8);
-    F('coolWindow',4.175,5.75,v,.075,1.03,1.07,0xa7bbc2);
+    F('equipmentGlass',4.175,5.75,v,.075,1.03,1.07,0xa7bbc2);
     F('harborOchre',4.19,5.14,v,.13,.12,1.27,0xc4bda0);
   }
   for(const u of [-2.40,-.72,.96,2.64]){
     F('harborHullBlue',u,5.73,-9.89,1.43,1.30,.25,0xaebeb4);
-    F('coolWindow',u,5.72,-9.75,1.24,1.01,.07,0x9db7bd);
+    F('equipmentGlass',u,5.72,-9.75,1.24,1.01,.07,0x9db7bd);
   }
   F('harborHullBlue',-.96,7.25,-14.70,3.38,.60,2.12,0xb8c6b4);
   F('harborOchre',-1.35,8.18,-14.65,.33,1.56,.41,0xc2b692);

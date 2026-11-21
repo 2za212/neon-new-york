@@ -40,7 +40,7 @@ export function buildLowerExchange({box, solid, surface, sign}) {
       mass(trade==='food'?'wood':steel,-.64,.92,-.80,width-2.24,1.12,.96,0xc5ad99);
       B(brass,-.64,1.53,-.80,width-2.08,.16,1.12);
       B(iron,0,2.00,-depth+.40,width-.80,2.72,.32);
-      B(clinic?'coolWindow':'warmWindow',0,2.04,-depth+.59,width-1.28,1.92,.16);
+      B(clinic?'roomClinic':trade==='food'?'roomKitchen':'roomRepair',0,2.04,-depth+.59,width-1.28,1.92,.16);
       for(const u of [-1.28,0,1.28]){
         B(steel,u,2.75,-depth+.80,.16,.32,.80);
         B(clinic?'cyan':'lamp',u,2.52,-depth+.56,.80,.16,.32);
@@ -83,6 +83,18 @@ export function buildLowerExchange({box, solid, surface, sign}) {
       B('basaltShell',u,3.50,.08,pitch,.32,1.44,0x8194a0);
       B(skin,u,3.26,reach-.12,pitch-.04,.32,reach,wall);
       if(occupied)B(clinic?'cyan':'lamp',u,3.05,reach+.20,.80,.08,.16);
+    }
+    // Shared timber dealing galleries give each corner a deep overhung edge.
+    // Shutters, food and clinic counters remain independent tenants below it.
+    if(occupied&&!clinic){
+      B(steel,0,5.72,1.16,width+.32,.48,2.08,0x83938a);
+      for(let bay=0;bay<bays;bay++){
+        const xx=(bay+.5)*pitch-front;
+        B('wood',xx,6.30,2.06,pitch-.12,.72,.32,0xa57a59);
+        B(brass,xx-pitch*.45,6.96,2.06,.24,2.24,.32);
+      }
+      B(steel,0,8.04,1.12,width+.64,.48,2.40,0x83938a);
+      B('lamp',0,5.43,1.82,width*.68,.12,.24,0xffcb87);
     }
     const u=-front+1.20;
     mass(skin,u,top+.92,-depth*.46,1.28,1.28,1.28,wall);

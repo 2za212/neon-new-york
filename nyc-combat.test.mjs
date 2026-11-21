@@ -13,7 +13,7 @@ const durations = {
   'meditate-enter': 1.7, 'meditate-rise': 2.6, 'meditate-idle': 3.333,
 };
 
-function setup(colliders = []) {
+function setup(colliders = [], patrolHome) {
   const scene = new Scene();
   const world = {
     spawn: new Vector3(),
@@ -44,7 +44,7 @@ function setup(colliders = []) {
     update() {},
     clear() { visuals.length = 0; },
   };
-  const combat = createCombat({scene, world, motor, avatar, effects});
+  const combat = createCombat({scene, world, motor, avatar, effects, patrolHome});
 
   function step(impulse = {}, {input = still, yaw = 0, npc = false} = {}) {
     const movement = combat.beforeMove(dt, input, impulse, yaw);
@@ -68,6 +68,21 @@ function setup(colliders = []) {
 
   return {combat, motor, played, visuals, step, advance, until};
 }
+
+test('pump patrol stays at its post beyond sight, approaches from range and resets at that post', () => {
+  const post=new Vector3(0,0,-12);
+  const {combat,motor,advance}=setup([],post);
+  advance(.8,{npc:true});
+  assert.deepEqual(combat.getState().npcPosition,post.toArray());
+  motor.position.z=-6;
+  advance(.8,{npc:true});
+  assert.ok(combat.getState().npcPosition[2]>post.z+.5);
+  combat.reset();
+  assert.deepEqual(combat.getState().npcPosition,post.toArray());
+  assert.equal(combat.getState().npcHP,96);
+  motor.position.fromArray(combat.getState().zone);
+  assert.equal(combat.meditate(),false);
+});
 
 test('each dodge moves once in the requested camera-relative direction', () => {
   for (const [dodge, axis, expectedSign] of [

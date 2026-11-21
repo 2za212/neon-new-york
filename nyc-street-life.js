@@ -71,7 +71,7 @@ export function addStreetLife(scene,{box,beam,materials,colliders,surface,sign,r
     }
     f.B('metal',1.25,1.39,.40,.16,.30,.16,0xa3b3a1);f.B('metal',1.25,1.57,.40,.20,.05,.20,0xb8bba6);
     // Side/back menu windows, serving frame and fine corner supports.
-    f.B('glass',0,1.94,-.59,2.73,1.17,.05,0x97b2a6);
+    f.B('equipmentGlass',0,1.94,-.59,2.73,1.17,.05,0x97b2a6);
     for(const u of [-1.43,1.43])for(const v of [-.58,.65])f.B('metal',u,1.52,v,.075,2.52,.075,0xa0b2a1);
     f.B('metal',0,2.51,.65,2.96,.13,.11,0x9cae9d);
     f.B('lifeCanvas',0,2.69,.08,3.25,.17,1.73,variant?0xaba899:0xb2c2ac);
@@ -83,7 +83,7 @@ export function addStreetLife(scene,{box,beam,materials,colliders,surface,sign,r
     }
     f.B('metal',1.03,2.92,-.31,.27,.49,.30,0x91a193);f.B('metal',1.03,3.19,-.31,.40,.09,.40,0x9bab9b);
     f.sign(0,2.10,.75,2.30,.53,variant?'FRESH / SOUP':'SIDEWALK DELI',variant?'COFFEE  /  OPEN LATE':'HOT FOOD  /  24 H','#e3bd87');
-    f.B('glass',-1.51,1.79,.03,.035,.70,.87,0x91ad9e);
+    f.B('equipmentGlass',-1.51,1.79,.03,.035,.70,.87,0x91ad9e);
     for(let j=0;j<5;j++)f.B('lifeCream',-1.536,1.53+j*.10,.03,.012,.025,.58,0xacae93);
     crate(f,-1.95,.05,.58,.61);cardboard(f,1.98,-.1,.48,.39,.51,2);
     f.B('metal',1.62,.87,-.45,.13,1.54,.13,0x96ad9c);f.B('metal',1.62,1.66,-.45,.42,.12,.42,0x84998b);
@@ -209,7 +209,7 @@ export function addStreetLife(scene,{box,beam,materials,colliders,surface,sign,r
   for(let i=0;i<3;i++)bridge.B('wood',0,.65+i*.13,-.22,2.03,.09,.07,0xa99e7d);
   bridge.C(0,.54,0,2.05,1.0,.44,'bridge-bench');
   const drinks=front(-94.7,-26.78,Math.PI,6.51);
-  drinks.B('metal',0,.92,0,.74,1.80,.38,0x88a38d);drinks.B('glass',-.08,1.11,.205,.48,.90,.025,0xb6c7b0);
+  drinks.B('metal',0,.92,0,.74,1.80,.38,0x88a38d);drinks.B('equipmentGlass',-.08,1.11,.205,.48,.90,.025,0xb6c7b0);
   for(let row=0;row<3;row++)for(let col=0;col<3;col++){
     drinks.B(col===1?'lifeWarmEmitter':'cyan',-.22+col*.135,.79+row*.24,.23,.075,.15,.055,col===1?0x787f58:0x668c7b);
     drinks.B('metal',-.22+col*.135,.885+row*.24,.23,.045,.035,.055,0xa1b29a);

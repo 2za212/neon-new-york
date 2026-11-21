@@ -1,5 +1,6 @@
 import {coreOutline,coreRoutes,freightWell} from './nyc-future-core-layout.js';
 import {createPlayableArea} from './nyc-regions.js';
+import {clothEdge,freightEdge,schoolEdge,lowerBlocks,lowerLanes,exchangeLane,premiseFeatures} from './nyc-lower-block-plan.js';
 import {lowerPassages} from './nyc-lower-passages.js';
 
 // Compact, fictionalised Manhattan in metres. Map north is world -Z.
@@ -13,8 +14,8 @@ const coreShape = {type:'polygon',points:coreOutline};
 const inNorthernCore = createPlayableArea(coreShape);
 // The new district shares its southern seam with the existing exchange streets.
 const currentOutline = { type: 'polygon', points: [
-  ...coreOutline,[84,-110],[140,-110],[140,-62],[84,-62],[84,-52],[144,-52],[144,96],[84,96],
-  [84,160],[-64,160],[-64,52],[-146,52],[-146,-52],[-64,-52],
+  ...coreOutline,[84,-110],[140,-110],...schoolEdge,[144,-52],[144,96],[84,96],
+  [84,160],[-64,160],...clothEdge,[-146,52],[-146,-52],...freightEdge,
 ] };
 function boundsOf(points){
   const xs=points.map(p=>p[0]),zs=points.map(p=>p[1]);
@@ -25,7 +26,9 @@ const area=Math.abs(currentOutline.points.reduce((sum,[x,z],i,points)=>{
   const [nextX,nextZ]=points[(i+1)%points.length];return sum+x*nextZ-nextX*z;
 },0))/2;
 
+const addedAreas=lowerBlocks.map(block=>createPlayableArea({points:block.points}));
 const regions = [
+  ...lowerBlocks.map(({id,name,points,labelAt})=>({id,name,labelAt,shape:{type:'polygon',points},layer:'ground',batchId:'lower-blocks',status:'complete'})),
   {id:'east-school',name:'东衡中学',batchId:'school',status:'complete',layer:'ground',
     labelAt:[110,-70],shape:rectangle(84,140,-110,-62)},
   { id: 'core', name: '老城霓虹街', batchId: 'batch-1', status: 'baseline',
@@ -48,6 +51,7 @@ const regions = [
 ];
 
 const roads = [
+  ...lowerLanes,exchangeLane,
   {id:'school-walk',name:'东衡中学校道',batchId:'school',status:'complete',kind:'promenade',width:4.8,shape:line([84,-86],[123,-86])},
   { id: 'core-avenue', name: '老城大道', batchId: 'batch-1', status: 'baseline',
     kind: 'avenue', width: 12.8, elevation: .18, shape: line([0, -52], [0, 52]) },
@@ -75,7 +79,7 @@ const roads = [
   { id: 'midtown-side-east', name: '中城东侧街', batchId: 'batch-2', status: 'complete',
     kind: 'street', width: 9.6, elevation: .18, shape: line([58, -180], [58, -58.8]) },
   { id: 'midtown-loop-south', name: '中城南回路', batchId: 'batch-2', status: 'complete',
-    kind: 'street', width: 10.4, elevation: .18, shape: line([-36, -64], [58, -64]) },
+    kind: 'street', width: 10.4, elevation: .18, shape: line([-36, -64], [0, -64]) },
   { id: 'midtown-loop-north', name: '中城北环路', batchId: 'batch-2', status: 'complete',
     kind: 'street', width: 8, elevation: .18, shape: line([-36, -175], [58, -175]) },
   { id: 'soho-avenue', name: '市集大道', batchId: 'batch-3', status: 'complete',
@@ -104,7 +108,14 @@ const roads = [
     status:'complete',kind:'street',elevation:.18,shape:line(...points)})),
 ];
 
+const streetSeams=[
+  ['weigh-house','west-link',-100.5,-52],['weigh-house','west-link',-73,-52],['weigh-house','midtown',-64,-86],
+  ['cloth-yard','west-link',-100.5,52],['cloth-yard','west-link',-73,52],['cloth-yard','soho',-64,84],
+  ['school-row','east-school',115,-62],['school-row','east-park',118,-52],['school-row','midtown',84,-58],
+].map(([from,to,x,z])=>({id:from+'-'+to+'-'+x,name:lowerBlocks.find(b=>b.id===from).name+'街口',
+  kind:'street',status:'complete',batchId:'lower-blocks',regionIds:[from,to],position:[x,.18,z]}));
 const connections = [
+  ...streetSeams,
   {id:'school-west-gate',name:'东衡中学西门',batchId:'school',status:'complete',kind:'street',regionIds:['midtown','east-school'],position:[84,.32,-86]},
   { id: 'core-west', name: '核心西口', batchId: 'batch-1', status: 'complete',
     kind: 'street', regionIds: ['core', 'west-link'], position: [-44, .18, 0] },
@@ -141,16 +152,16 @@ const boundaries = [
     shape: line([-138.05, 5.1], [-138.05, 52]) },
   { id: 'west-north-frontier', name: '仓储街北侧边界', scope: 'current', status: 'complete',
     kind: 'closed-frontier', blocksMovement: true,
-    shape: line([-146, -52], [-64, -52]) },
+    shape: line([-146,-52],...freightEdge) },
   { id: 'north-frontier', name: '旧交易所与核心区接缝', scope: 'current', status: 'complete',
     kind: 'district-connection', blocksMovement: false,
     shape: line([-64, -180], [84, -180]) },
   { id: 'midtown-west-frontier', name: '中城西侧施工边界', scope: 'current', status: 'complete',
     kind: 'closed-frontier', blocksMovement: true,
-    shape: line([-64, -180], [-64, -52]) },
+    shape: line([-64,-180],[-64,-109]) },
   { id: 'midtown-east-frontier', name: '中城东侧施工边界', scope: 'current', status: 'complete',
     kind: 'closed-frontier', blocksMovement: true,
-    shape: line([84,-180],[84,-110],[140,-110],[140,-62],[84,-62],[84,-52]) },
+    shape: line([84,-180],[84,-110],[140,-110],...schoolEdge) },
   { id: 'south-frontier', name: '老城市集接缝', scope: 'current', status: 'complete',
     kind: 'district-connection', blocksMovement: false,
     shape: line([-44,52],[44,52]) },
@@ -158,13 +169,13 @@ const boundaries = [
     kind: 'district-connection', blocksMovement: false,
     shape: line([44, -52], [44, 52]) },
   { id:'soho-outer',name:'南部城市边界',scope:'current',status: 'complete',kind:'closed-frontier',blocksMovement:true,
-    shape:line([-64,52],[-64,160],[84,160],[84,96],[144,96],[144,-52],[84,-52]) },
+    shape:line(...[...clothEdge].reverse(),[-64,160],[84,160],[84,96],[144,96],[144,-52],[131,-52]) },
   { id: 'future-outline', name: '整图轮廓', scope: 'full', status: 'complete',
     kind: 'world-limit', blocksMovement: true, shape: currentOutline },
 ];
 
 export const mapPlan = {
-  version: 4,
+  version: 5,
   title: '纽约 · 雨后霓虹',
   adaptation: '压缩改编曼哈顿，不按真实城市 1:1 复刻',
   coordinateSystem: { units: 'metres', north: '-Z', east: '+X', mapDown: '+Z' },
@@ -174,11 +185,13 @@ export const mapPlan = {
   spawn: [0, .18, 22],
   regions, roads, passages:lowerPassages, connections, boundaries,
   features: [
+    ...premiseFeatures,
+    {id:'fulton-home',name:'富尔顿七号公寓',service:'三楼 3B / 主角住处',fill:'#977c77',shape:rectangle(-28,-10.65,64.93,78.12)},
     {id:'school-court',name:'东衡中学球场',fill:'#527b70',shape:rectangle(110.2,135.8,-102,-70)},
     { id: 'riverwalk-paving', name: '滨水步道', fill: '#657d78', shape: rectangle(-138, -128, -52, 52) },
     { id: 'hudson-pier', name: '哈德逊码头', fill: '#849183', shape: rectangle(-145.9, -136.9, -4.75, 4.75) },
     { id: 'street-garden', name: '街心花园', fill: '#3e6a58', shape: rectangle(32, 44, 11, 50) },
-    { id: 'warehouse-garden', name: '仓储街公园', fill: '#345d51', shape: rectangle(-127.5, -67.36, 32, 50.2) },
+    { id: 'warehouse-garden', name: '港务街坊与树院', fill: '#345d51', shape: rectangle(-127.5, -67.36, 32, 50.2) },
     { id: 'produce-return-yard', name: '倒筐合作社', fill: '#676d62', shape: rectangle(-67.36,-46.3,31.68,52) },
     { id: 'midtown-plaza', name: '旧交易所夜市', fill: '#566d70', shape: rectangle(-20, 28, -145, -121) },
     { id:'core-freight-well',name:'下沉货运街',fill:'#1c2a35',
@@ -187,14 +200,11 @@ export const mapPlan = {
   // Physical fence mouths only. The outline above handles the concave perimeter.
   // Old x=0,z=-50.9 is deliberately absent: that avenue now leads into Midtown.
   frontierExits: [
-    ...[-50.9, 50.9].flatMap(z => [[-73, 10.2], [-100.5, 8.8], [-133, 10.3]].map(([x, width]) => ({
-      id: `west-${x}-${z}`, position: [x, z], width, rotation: z < 0 ? 0 : Math.PI,
-    }))),
-    { id: 'midtown-west-south', position: [-62.9, -86], width: 18.4, rotation: Math.PI/2, title: 'WEST LINK', subtitle: 'WORK ZONE' },
+    ...[-50.9,50.9].map(z=>({id:`west--133-${z}`,position:[-133,z],width:10.3,rotation:z<0?0:Math.PI})),
     { id: 'midtown-west-north', position: [-62.9, -118], width: 18.4, rotation: Math.PI/2 },
     { id: 'midtown-east-north', position: [82.9, -118], width: 18.4, rotation: -Math.PI/2 },
     ...[-48,0,58].map(x=>({id:'soho-south-'+x,position:[x,158.9],width:x===0?21.4:15.8,rotation:Math.PI,title:x===0?'DOWNTOWN / CITY EDGE':'',subtitle:'CITY MAINTENANCE'})),
-    ...[84,128].map(z=>({id:'soho-west-'+z,position:[-62.9,z],width:17,rotation:Math.PI/2,title:z===84?'WEST WORKS':'',subtitle:'CITY EDGE'})),
+    {id:'soho-west-128',position:[-62.9,128],width:17,rotation:Math.PI/2},
     {id:'soho-east',position:[82.9,128],width:17,rotation:-Math.PI/2,title:'EAST WORKS',subtitle:'CITY EDGE'},
     {id:'park-east',position:[142.9,0],width:20,rotation:-Math.PI/2,title:'EAST TRANSIT',subtitle:'CITY EDGE'},
   ],
@@ -207,6 +217,7 @@ export const mapPlan = {
     { id: 'greenway', name: '街心花园', batchId: 'batch-1',
       status: 'complete', layer: 'ground', position: [35.1, .36, 23] }],
   batches: [
+    {id:'lower-blocks',name:'下城街坊',status:'complete',regions:lowerBlocks.map(b=>b.id),roads:lowerLanes.map(r=>r.id),bounds:boundsOf(lowerBlocks.flatMap(b=>b.points)),connections:streetSeams.map(s=>s.id),boundaries:['current-limit']},
     {id:'school',name:'东衡中学',status:'complete',bounds:{minX:84,maxX:140,minZ:-110,maxZ:-62},regions:['east-school'],roads:['school-walk'],connections:['school-west-gate'],boundaries:['midtown-east-frontier']},
     { id: 'batch-1', name: '老城核心、哈德逊滨水与高架绿廊', status: 'complete',
       bounds: firstBatchBounds, regions: ['core', 'west-link', 'hudson', 'greenway'],
@@ -234,6 +245,8 @@ export const mapPlan = {
 /** User-facing name only. Planned districts are named, never marked complete. */
 export function getDistrict(x, z, y = 0) {
   if (![x, z, y].every(Number.isFinite)) return '城市边界';
+  const added=addedAreas.findIndex(contains=>contains(x,z));
+  if(added!==-1)return lowerBlocks[added].name;
   if(x>84&&x<=140&&z>=-110&&z<=-62)return '下城区 · 东衡中学';
   if (y >= 5.7 && y <= 9 && x >= -135 && x <= 44 && z >= -30.9 && z <= -26.3) return '高架绿廊';
   if (x >= -146 && x < -110 && z >= -52 && z <= 52) return '哈德逊滨水';

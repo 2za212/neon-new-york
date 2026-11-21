@@ -15,7 +15,6 @@ const dodges = {
 const skills = ['skill-1', 'skill-2', 'skill-3'];
 const meditation = ['meditate-enter', 'meditate-rise', 'meditate-idle'];
 const maxPlayerHP = 100;
-const maxNpcHP = 200;
 const npcDamage = 16;
 const comboWindow = .55;
 // In A_Attack2 the pushing foot and punching arm release together here.
@@ -26,9 +25,9 @@ export function hasCombatClips(avatar) {
     ...meditation, 'hurt', 'death'].every(role => avatar.getActionDuration(role) > 0);
 }
 
-function createDummy(scene) {
+function createDummy(scene, patrol) {
   const group = new T.Group();
-  group.name = '练习傀儡';
+  group.name = patrol ? '失控巡检机' : '练习傀儡';
   const rig = new T.Group();
   group.add(rig);
   const box = new T.BoxGeometry(1, 1, 1);
@@ -47,6 +46,12 @@ function createDummy(scene) {
   part(rig, armor, 0, .85, 0, .56, .095, .28);
   part(rig, wood, 0, 1.48, 0, .39, .35, .34);
   part(rig, armor, 0, 1.64, 0, .43, .09, .37);
+  if(patrol){
+    wood.color.setHex(0x506c70);cloth.color.setHex(0xbd8248);
+    part(rig,armor,0,1.18,-.22,.68,.66,.28);
+    part(rig,eyes,0,1.53,.197,.34,.08,.045);
+    for(const side of [-1,1])part(rig,cloth,side*.34,1.28,0,.30,.22,.41);
+  }
   const limbs = [];
   for (const side of [-1, 1]) {
     part(rig, eyes, side * .085, 1.51, .173, .075, .046, .008);
@@ -69,10 +74,11 @@ function travel(action, dt, from, to, meters) {
   return meters * (phase(action.elapsed + dt) - phase(action.elapsed));
 }
 
-export function createCombat({scene, world, motor, avatar, effects}) {
-  const home = world.spawn.clone().add(new T.Vector3(0, 0, -3.6));
+export function createCombat({scene, world, motor, avatar, effects, patrolHome}) {
+  const home = patrolHome || world.spawn.clone().add(new T.Vector3(0, 0, -3.6));
+  const maxNpcHP=patrolHome?96:200, enemyName=patrolHome?'巡检机':'傀儡';
   const npcMotor = createMotor(world, home, 2.25);
-  const npc = createDummy(scene);
+  const npc = createDummy(scene,!!patrolHome);
   const zone = world.spawn.clone().add(new T.Vector3(-2.8, 0, 2.6));
   zone.y = motor.groundAt(zone.x, zone.z, world.spawn.y + .45);
   const zoneRadius = 1.25;
@@ -85,6 +91,7 @@ export function createCombat({scene, world, motor, avatar, effects}) {
   circle.position.copy(zone).y += .028;
   circle.userData.excludeFromAO = true;
   scene.add(circle);
+  circle.visible=!patrolHome;
   const rayFrom = new T.Vector3(), rayTo = new T.Vector3();
   const wallColliders = world.cameraColliders || world.colliders;
   let action, time, playerHP, npcHP, npcPhase, npcTimer, npcAggro, npcHitTimer, npcFall;
@@ -114,7 +121,7 @@ export function createCombat({scene, world, motor, avatar, effects}) {
   }
 
   function canMeditate() {
-    return zoneDistance() <= zoneRadius && motor.grounded && Math.abs(motor.position.y - zone.y) < .3;
+    return !patrolHome && zoneDistance() <= zoneRadius && motor.grounded && Math.abs(motor.position.y - zone.y) < .3;
   }
 
   function begin(role, options = {}) {
@@ -165,12 +172,13 @@ export function createCombat({scene, world, motor, avatar, effects}) {
   function hitPlayer() {
     if (!playerHP || (action?.role.startsWith('dodge-') && action.elapsed / action.duration < .76)) return;
     if (skills.includes(action?.role) && !action.hit) effects.clear();
-    playerHP = Math.max(0, playerHP - npcDamage);
+    const damage=patrolHome?10:npcDamage;
+    playerHP = Math.max(0, playerHP - damage);
     comboUntil = 0;
     queuedCombo = false;
     heading = Math.atan2(npcMotor.position.x - motor.position.x, npcMotor.position.z - motor.position.z);
     begin(playerHP ? 'hurt' : 'death', {hold: !playerHP});
-    setDamage(playerHP ? `受到 ${npcDamage} 点伤害` : '角色倒下');
+    setDamage(playerHP ? `受到 ${damage} 点伤害` : '角色倒下');
   }
 
   function strike(spec) {
@@ -189,7 +197,7 @@ export function createCombat({scene, world, motor, avatar, effects}) {
     npcHitTimer = .25;
     npcPhase = npcHP ? 'recover' : 'dead';
     npcTimer = npcHP ? (spec === attacks.punch ? .86 : .32) : 0;
-    setDamage(npcHP ? `傀儡受到 ${spec.damage} 点伤害` : `傀儡已击倒 · ${spec.damage} 点伤害`);
+    setDamage(npcHP ? `${enemyName}受到 ${spec.damage} 点伤害` : `${enemyName}已击倒 · ${spec.damage} 点伤害`);
   }
 
   function attack(role) {
@@ -276,19 +284,19 @@ export function createCombat({scene, world, motor, avatar, effects}) {
     npcHitTimer = Math.max(0, npcHitTimer - dt);
     let speed = 0;
     if (active && npcHP && playerHP) {
-      if (distance < 2 && height < 1 && clearSight(position, motor.position)) npcAggro = true;
+      if (distance < (patrolHome?7:2) && height < 1 && clearSight(position, motor.position)) npcAggro = true;
       if (distance > 10 || position.distanceTo(home) > 9) npcAggro = false;
       npcTimer -= dt;
       if (npcPhase === 'windup' && npcTimer <= 0) {
         if (distance <= 1.85 && height < 1.05 && clearSight(position, motor.position)) hitPlayer();
         npcPhase = 'recover';
-        npcTimer = .86;
+        npcTimer = patrolHome?1.45:.86;
       } else if (npcPhase === 'recover' && npcTimer <= 0) {
         npcPhase = 'idle';
       } else if (npcPhase === 'idle') {
         if (npcAggro && distance <= 1.65 && height < 1.05 && clearSight(position, motor.position)) {
           npcPhase = 'windup';
-          npcTimer = .48;
+          npcTimer = patrolHome?1.0:.48;
         } else {
           const destination = npcAggro ? motor.position : home;
           const x = destination.x - position.x, z = destination.z - position.z;

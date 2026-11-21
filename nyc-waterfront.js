@@ -27,7 +27,7 @@ export function onDryQuay(x,z,radius=0){
 /** First westward district: old Hudson warehouses, yards, promenade and pier.
  * Add before the parent architecture batch is finished. No runtime network IO.
  */
-export function addWaterfront(scene,{box,beam,panel,materials,colliders,surface,sign,tree,lamp,bench,planter,rand=Math.random}) {
+export function addWaterfront(scene,{registerProperty,box,beam,panel,materials,colliders,surface,sign,tree,lamp,bench,planter,rand=Math.random}) {
   const ROAD=.18,SIDE=.36,bounds={minX:-146,maxX:-44,minZ:-52,maxZ:52};
   const stats={warehouses:0,trees:0,treeBoxes:0,boxes:0,beams:0,colliders:0,surfaces:0,signs:0,independentDrawCalls:1,pointLights:0,triangles:0};
   const initialColliders=colliders.length,lights=[];
@@ -181,6 +181,8 @@ export function addWaterfront(scene,{box,beam,panel,materials,colliders,surface,
   function warehouse(x,z,w,d,height,rotation,index,title){
     stats.warehouses++;
     const facing=Math.round(Math.cos(rotation));
+    const uses=['港务配电所','河港机械厂','港务供给仓','','夜班转运仓','河岸仓库市集'];
+    registerProperty?.('harbor-depot-'+index,uses[index],'西岸港务 / 夜班作业',x,z,w,d,rotation);
     const point=(u,y,v)=>[x+u*facing,y,z+v*facing];
     const F=(mat,u,y,v,width,rise,depth,tint=0xffffff)=>
       B(mat,...point(u,y,v),width,rise,depth,tint,rotation,null,true);
@@ -194,17 +196,33 @@ export function addWaterfront(scene,{box,beam,panel,materials,colliders,surface,
     // Power terminal stays on the occupied corner. The other front corner
     // belongs to the new open delivery arcade and connects to the side lane.
     const hand=index===1||index===4?1:-1;
+    // A loading shed reads by its raised sawlights and suspended transfer rail.
+    // The roof steps down towards the open river mouth.
+    const bays=Math.max(2,Math.round(w/4.48)),pitch=w/bays;
+    for(let j=0;j<bays;j++){
+      const u=(j+.5)*pitch-w/2;
+      for(let k=0;k<3;k++){
+        const y=height+.32+k*.48;
+        F('harborPlate',u+(k-1)*pitch/3,y,-d*.12,pitch/3,.48,d*.67,0xa4b2ae);
+      }
+      F('equipmentGlass',u+pitch*.42,height+.72,-d*.12,.22,.88,d*.61,0x8faeb6);
+    }
+    for(const end of [-1,1]){
+      F('harborOchre',end*w*.38,4.64,d*.37,.64,.80,2.88,0xe3b680);
+      F('harborPlate',end*w*.38,5.28,d*.28,.80,.64,1.92,0xb5bab4);
+    }
+    F('harborOchre',0,4.88,d*.37+1.44,w*.84,.48,.48,0xe3b680);
     fitFreightCorners(F,w,index,[hand]);
     C(...point(hand*(w/2+.56),3.48,-2.40),1.60,5.12,3.84);
     buildDepot({F,block,light,panel:berthPanel?(mat,corners,tint)=>berthPanel(mat,corners.map(p=>point(...p)),tint):null,label:banner},w,d,height,index,title);
   }
   warehouse(-59,-10.65,18,12.8,10.4,0,0,'');
   warehouse(-87,-7.95,18,12.6,13.6,0,1,'RIVERWORKS');
-  warehouse(-114,-10.65,18,12.2,10.6,0,2,'HUDSON SUPPLY');
+  warehouse(-114,-12.90,16,12.2,8.68,0,2,'HUDSON SUPPLY');
   buildProduceHall({B,C,S,label,lights:berthLights});
   stats.warehouses++;
   warehouse(-87,7.55,18,15.6,10.6,Math.PI,4,'NIGHT FREIGHT');
-  warehouse(-114,8.65,18,14.2,11.0,Math.PI,5,'RIVERSIDE MARKET');
+  warehouse(-114,11.40,16,14.2,9.08,Math.PI,5,'RIVERSIDE MARKET');
 
   // Reclaimed kerbs meet the existing pavement at |z|=6.5. The loading
   // sidewalk follows the narrowing, then stops before the open riverwalk.
@@ -258,7 +276,7 @@ export function addWaterfront(scene,{box,beam,panel,materials,colliders,surface,
   B('metal',-113,4.2,-37.2,.045,2.3,.045,0xa6b2a2);B('metal',-113,3.13,-37.2,.33,.16,.25,0xa2ae9a);
   C(-119,2.9,-37.2,.4,5.1,.5);C(-109,2.9,-37.2,.4,5.1,.5);
 
-  // Southern pocket park: paths break it into planted rooms and preserve alleys.
+  // Two retained tree courts separate the occupied port-service frontages.
   const parkWest=-127.5,returnYardEdge=-67.36,parkWidth=returnYardEdge-parkWest,parkCenter=(returnYardEdge+parkWest)/2;
   B('grass',parkCenter,.28,41.1,parkWidth,.16,18.2);S(parkWest,returnYardEdge,32,50.2);
   B('paver',parkCenter,.365,35.3,parkWidth,.03,3.0);S(parkWest,returnYardEdge,33.8,36.8);
@@ -278,7 +296,7 @@ export function addWaterfront(scene,{box,beam,panel,materials,colliders,surface,
       if(rand()>.75)B('darkLeaf',x+u+.07,.98+hh,z+v+.05,.16,.16,.16,tint(.18));
     }
   }
-  for(const x of [-81,-92,-108,-119]){shrub(x,38,3.1,1.1);shrub(x,43.5,2.6,1.05);}
+  for(const x of [-86,-114])shrub(x,43.5,2.2,.82);
   for(const z of [-43,-32,-11,13,31,46])shrub(-129,z,1.4,2.2);
   // River-facing benches and street-scale lamps are spaced into readable groups.
   if(bench)for(const z of [-40,-15,16,39.5])bench(-135.1,z,-Math.PI/2);

@@ -10,32 +10,6 @@ import {buildStaffGalleries} from './nyc-district-frontages.js';
 import {buildCoreLifts} from './nyc-sky-lift.js';
 import {buildCoreGridworks,buildExchangeRelayPodium,headquartersDispatch,receiverFinish} from './nyc-civic-gridworks.js';
 
-// The skin repeats in metres on each local face, including rotated buildings.
-// Stepped crowns, window returns, balcony ends and viaduct brackets are solids.
-function facadeAtlas(){
-  const canvas=document.createElement('canvas');canvas.width=canvas.height=256;
-  const g=canvas.getContext('2d');
-  // Occupied room strips sit between the structural rings. Recessed desks,
-  // warm working rooms and the dark returns read at the scale of the bay.
-  const glazing=['#314d5c','#718b8f','#2f4652','#927e65'];
-  g.fillStyle='#314552';g.fillRect(0,0,256,256);
-  for(let row=0;row<4;row++){
-    const y=row*64,offset=row%2?24:-30;
-    g.fillStyle=row%2?'#45626e':'#637b83';g.fillRect(0,y+4,256,12);
-    g.fillStyle='#162a36';g.fillRect(0,y+18,256,34);
-    for(let i=-1;i<5;i++){
-      const x=offset+i*80,live=(i+5+row*3)%4;
-      g.fillStyle=glazing[live];g.fillRect(x+2,y+22,75,25);
-      g.fillStyle=live%2?'#a5b4ac':'#536b72';g.fillRect(x+5,y+22,64,3);
-      g.fillStyle='#243b47';g.fillRect(x+30,y+35,26,12);
-      g.fillStyle='#58717c';g.fillRect(x+55,y+30,6,12);
-    }
-    g.fillStyle='#78888b';g.fillRect(0,y+54,256,3);
-  }
-  const texture=new T.CanvasTexture(canvas);texture.colorSpace=T.SRGBColorSpace;
-  texture.wrapS=texture.wrapT=T.RepeatWrapping;texture.anisotropy=4;return texture;
-}
-
 // A backlit vertical transit instrument. Its split rotor and two-digit station
 // number have large silhouettes and survive the approach across the junction.
 function transitDisplay(scene,x,y,z,yaw){
@@ -78,15 +52,7 @@ function kit(scene,colliders,shellMaterials){
       float kiln=fract(dot(mod(blockId,vec2(7.,11.)),vec2(.31,.57)))-.5;
       diffuseColor.rgb*=1.+read*(-.24*joint+.11*lip+.105*kiln);`);
   };
-  const atlas=facadeAtlas();
-  const pane=new T.MeshStandardMaterial({map:atlas,emissiveMap:atlas,emissive:0xa7c4df,emissiveIntensity:.29,roughness:.47,metalness:.15});
-  pane.onBeforeCompile=shader=>{
-    shader.vertexShader=shader.vertexShader.replace('#include <uv_vertex>',`#include <uv_vertex>
-      vec3 metres=vec3(length(instanceMatrix[0].xyz),length(instanceMatrix[1].xyz),length(instanceMatrix[2].xyz));
-      vec2 faceMetres=abs(normal.x)>.5?metres.zy:(abs(normal.y)>.5?metres.xz:metres.xy);
-      vMapUv=uv*max(vec2(.25),floor(faceMetres/3.2+.5)/vec2(4.0));
-      vEmissiveMapUv=vMapUv;`);
-  };
+  const pane=shellMaterials.officeCurtain;
   const light=new T.MeshBasicMaterial({color:0xffffff});
   // Indirect lighting at the far wall of a display alcove. The real shelf,
   // counter, partition and returns occlude this wall as the player walks past.
@@ -116,12 +82,13 @@ function kit(scene,colliders,shellMaterials){
     mat.customProgramCacheKey=()=> 'core-engineered-shell-'+source.name;
     return mat;
   }
-  const materials={hull,pane,light,wash,course:hull,receiver:receiverFinish(hull),
+  const materials={hull,pane,homePane:shellMaterials.homeCurtain,recess:shellMaterials.occupiedRecess,light,wash,course:hull,receiver:receiverFinish(hull),
     ceramic:scaledShell(shellMaterials.ceramicShell),alloy:scaledShell(shellMaterials.titaniumSkin),
     composite:scaledShell(shellMaterials.basaltShell)},cells=new Map(),unit=new T.BoxGeometry(1,1,1);
   const nearCells=[],joined=civicCellShell(scene);
   const transform=new T.Object3D(),tint=new T.Color(),stats={buildings:0,boxes:0,colliders:0,draws:0,triangles:0};
   function block(material,color,x,y,z,w,h,d,angle,parent){
+    if(material==='wash'&&h>=.64&&Math.max(w,d)>=.65&&Math.min(w,d)<=.64)material='recess';
     if(joined.add(material,color,x,y,z,w,h,d,angle,parent)){stats.boxes++;return;}
     const size=material==='course'?28:60;
     const cell=parent===scene?Math.floor(x/size)+'/'+Math.floor(z/size):parent.name;
@@ -169,7 +136,7 @@ function kit(scene,colliders,shellMaterials){
     for(const {material,parent,boxes} of cells.values()){
       const mesh=new T.InstancedMesh(unit,materials[material],boxes.length);
       mesh.name='Future core / '+material;mesh.receiveShadow=material!=='light'&&material!=='wash';
-      mesh.castShadow=mesh.receiveShadow&&material!=='pane';
+      mesh.castShadow=mesh.receiveShadow&&material!=='pane'&&material!=='homePane';
       boxes.forEach(([x,y,z,w,h,d,color,angle],i)=>{
         transform.position.set(x,y,z);transform.rotation.set(0,angle,0);transform.scale.set(w,h,d);transform.updateMatrix();
         mesh.setMatrixAt(i,transform.matrix);tint.setHex(color);
@@ -368,11 +335,11 @@ function residentialStack(frame,u,v,w,d,base,h,seed){
   for(let i=0;i<count;i++){
     const y=base+i*segment,lip=y+cutH;
     // The back and the end wall are a single smaller occupied building volume.
-    B('pane',0xd4c1a5,u-side*endInset/2,y+cutH/2,v-inset/2,w-endInset,cutH,d-inset);
+    B('homePane',0xd4c1a5,u-side*endInset/2,y+cutH/2,v-inset/2,w-endInset,cutH,d-inset);
     const occupied=segment-cutH;
     B('composite',0xc0c9cd,u,lip+occupied/2,v,w,occupied,d);
     for(const face of [-1,1]){
-      B('pane',0xd3c7b5,u,lip+occupied*.51,v+face*(d/2+.04),w-.64,occupied*.43,.10);
+      B('homePane',0xd3c7b5,u,lip+occupied*.51,v+face*(d/2+.04),w-.64,occupied*.43,.10);
       const fw=w*.46,fx=u+face*side*(w-fw)*.5;
       B('ceramic',0xd2c7b6,fx,lip+occupied*.70,v+face*(d/2+.22),fw,occupied*.40,.64);
       B('alloy',0x92a7a2,fx+side*.32,lip+occupied*.41,v+face*(d/2+.38),fw-.64,occupied*.16,.96);
@@ -418,7 +385,7 @@ function upper(frame,u,v,w,d,base,h,kind,seed){
   const trim=0xaeb9ab;
   const terrace=h>=10&&w>8;
   if(terrace)residentialStack(frame,u,v,w,d,base,h,seed);
-  else B('pane',0xe2d7ca,u,base+h/2,v,w,h,d);
+  else B('homePane',0xe2d7ca,u,base+h/2,v,w,h,d);
   C(u,base+h/2,v,w,h,d);
   for(let y=base+3.2;y<base+h-.8;y+=4.8){
     if(terrace&&((y-base)%(h/(h>=24?2:1)))<Math.min(4.80,h*.27)+.48)continue;
@@ -600,7 +567,10 @@ function headquarters(kit,api,scene,lights){
     }
     B('hull',stone,x,y+height-.32,2.24,width+.64,.64,9.6);
   }
-  B('hull',stone,.48,161,-1.2,21.12,4.48,14.4);
+  for(const [x,width] of [[-6.5,7.68],[8.2,6.40]]){
+    B('hull',stone,x,161,-1.2,width,4.48,14.4);
+    B('light',0xe089ff,x,159,6.52,width-.96,1.28,.96);
+  }
   for(let i=0;i<3;i++)B('hull',stone,8.2+i*.32,171+i*1.6,-1.2,6.72-i*1.28,1.6,14.4-i*2.56);
   B('hull',steel,8.2,176.56,-1.2,.64,6.88,.64);
   for(let j=0;j<8;j++)for(const [edge,direction] of [[-3.0,1],[5.31,-1]]){
@@ -608,7 +578,17 @@ function headquarters(kit,api,scene,lights){
     B('light',0xe089ff,edge-direction*1.12,y,6.40,1.60+offset,3.52,.80);
     B('light',0xbc6cf3,edge+direction*.32,y,4.80,.96,3.52,3.84);
   }
-  B('light',0xe089ff,1.12,159.0,6.52,10.88,1.28,.96);
+  // A suspended flywheel marks the public dispatch hall from the plaza.
+  // The double rim has a real opening with stepped spokes and a rear axle.
+  for(let v of [9.28,10.88]){
+    for(let i=-4;i<=4;i++)for(let j=-4;j<=4;j++){
+      const r=i*i+j*j;
+      if(r>=12&&r<=21)B('hull',j>1?ivory:steel,i*.64,6.96+j*.64,v,.64,.64,.64);
+      else if(r>1&&r<12&&(i===j||i===-j))B('light',0x94d7da,i*.64,6.96+j*.64,v,.64,.64,.48);
+    }
+  }
+  B('hull',steel,0,6.96,9.92,1.60,1.60,3.52);
+  for(const side of [-1,1])B('hull',steel,side*1.60,9.20,10.08,.64,1.60,2.24);
   const [lx,lz]=point(0,11.2);api.sign(lx,8.8,lz,12.8,1.0,'衡光联合','HELIX / CIVIC EXCHANGE','#9cdded',angle);
   const [doorX,doorZ]=point(0,8);
   return {id:'future-crown',title:'衡光总部大厅',position:new T.Vector3(doorX,.30,doorZ)};
@@ -811,6 +791,55 @@ function southernGate(k,api){
   }
   const [sx,sz]=bridge.point(span*.5,1.55);
   api.sign(sx,10.85,sz,6.4,1.22,'折光北埠','NORTH / TRANSIT','#99ccd8',yaw);
+  // Frame the south threshold from both directions. The luminous intrados
+  // carries the same reveal as the public hall, down to pedestrian height.
+  const threshold=k.frame(58,-181.6,0);
+  for(const hand of [-1,1]){
+    const u=hand*7.68;
+    threshold.B('ceramic',ivory,u,4.64,0,1.60,9.12,2.56);
+    threshold.C(u,4.64,0,1.60,9.12,2.56);
+    for(let i=0;i<5;i++){
+      const x=u-hand*i*.56,y=8.96+i*.64;
+      threshold.B('ceramic',ivory,x,y,0,2.56,.80,2.88);
+      for(const face of [-1,1])threshold.B('light',0xc3e8ef,x,y,face*1.47,1.92,.32,.12);
+    }
+    for(const face of [-1,1])threshold.B('light',0xbfdeee,u-hand*.38,4.88,face*1.32,.32,7.68,.12);
+  }
+  threshold.B('alloy',steel,0,12.12,0,11.52,.96,2.88);
+  threshold.B('light',0xc3e8ef,0,11.59,0,10.88,.12,2.24);
+}
+
+// Recess the exchange frontage behind a covered public floor. The long
+// luminous ceiling and repeated portal reveals read from either approach.
+function exchangeArrival(k){
+  const {B,C}=k.frame(60,-214,-.838);
+  for(const u of [-8.64,0,8.64]){
+    for(const side of [-1,1]){
+      const v=side*2.72;
+      B('ceramic',ivory,u,3.52,v,1.12,6.72,1.28);
+      C(u,3.52,v,1.12,6.72,1.28);
+      for(let i=0;i<4;i++){
+        B('alloy',steel,u,6.98+i*.48,v-side*i*.48,1.28+i*.32,.48,1.60);
+      }
+    }
+  }
+  for(let i=0;i<7;i++){
+    const u=(i-3)*2.88,depth=9.28+(3-Math.abs(i))*.64;
+    B('composite',ink,u,9.04,.72,2.88,.96,depth);
+    B('ceramic',ivory,u,9.65,.64,2.86,.32,depth+.48);
+    B('light',0xc1e5ee,u,8.51,.64,2.46,.12,depth-.64);
+    B('alloy',steel,u,8.24,depth/2+.32,1.92,.48,.72);
+    B('light',0xc6e8ee,u,8.39,depth/2+.74,2.48,.31,.16);
+  }
+  C(0,9.04,.72,20.16,1.12,9.28);
+  for(const side of [-1,1]){
+    const u=side*8.64;
+    for(let i=0;i<4;i++){
+      const h=10.24+i*1.92;
+      B('ceramic',i%2?stone:ivory,u+side*i*.48,9.68+h/2,-2.50-i*.48,1.28,h,1.92);
+      B('light',0xb8daeb,u+side*i*.48,9.68+h/2,-1.50-i*.48,.24,h,.12);
+    }
+  }
 }
 
 function interchangeHall(k,api){
@@ -969,6 +998,101 @@ function interchangeHall(k,api){
   }
 }
 
+const parcelStreets=coreRoutes.flatMap(road=>road.points.slice(1).map((end,i)=>({id:road.id,start:road.points[i],end})));
+function streetForParcel(p){
+  let closest,dist=Infinity;
+  for(const {id,start:[x,z],end:[xx,zz]} of parcelStreets){
+    const dx=xx-x,dz=zz-z,t=Math.max(0,Math.min(1,((p.x-x)*dx+(p.z-z)*dz)/(dx*dx+dz*dz)));
+    const d=(p.x-x-t*dx)**2+(p.z-z-t*dz)**2;
+    if(d<dist){closest=id;dist=d;}
+  }
+  return closest;
+}
+
+function workingRoadEdges(kit){
+  for(const route of coreRoutes.filter(r=>r.id!=='core-interchange-walk')){
+    for(let i=1;i<route.points.length;i++){
+      const [ax,az]=route.points[i-1],[bx,bz]=route.points[i],dx=bx-ax,dz=bz-az;
+      const length=Math.hypot(dx,dz);
+      for(let t=8,pos=0;t<length-4;t+=15.36,pos++){
+        const f=kit.frame(ax+dx*t/length,az+dz*t/length,-Math.atan2(dz,dx)),{B,C}=f;
+        const side=(i+pos)%2?-1:1,v=side*(route.width/2+1.28);
+        if(route.id==='core-east-terrace'){
+          // Hanging gardens at walking height, with a visible service cavity
+          // between each planted tray. An open sky slot separates each pair.
+          for(const u of [-2.88,2.88]){
+            B('hull',stone,u,3.28,v,.64,6.56,.96);C(u,3.28,v,.64,6.56,.96);
+          }
+          for(let j=0;j<3;j++){
+            const zz=v-side*j*.80,yy=4.48+j*.96;
+            B('hull',ivory,0,yy,zz,7.04-j*.64,.64,1.28);
+            for(let k=-2;k<=2;k++)B('hull',(j+k)%2?0x669875:0x476f62,k*1.12,yy+.64,zz,1.28,.64,1.28);
+            B('light',0xf1bd87,0,yy-.42,zz,4.48,.16,.64);
+          }
+        }else if(route.id==='core-west-loop'){
+          const span=Math.min(12.8,length-2*t+8.0);if(span<3.84)continue;
+          for(const u of [-span*.35,span*.35]){
+            B('hull',steel,u,3.36,v,.80,6.72,.96);C(u,3.36,v,.80,6.72,.96);
+            B('hull',0xa97f65,u,6.16,v-side,1.28,.80,3.20);
+          }
+          for(let k=0;k<3;k++){
+            const zz=v-side*(.48+k*.96),y=6.88+k*.32;
+            B('hull',k===1?0x926e56:steel,0,y,zz,span,.64,.64);
+            for(const u of [-span*.36,0,span*.36])B('hull',0xb49276,u,y,zz,.64,.96,.96);
+          }
+        }else{
+          // Travelling hoists cantilever towards the repair lane; leave a
+          // consistent high clearance and alternate sides around each bend.
+          B('hull',ink,0,3.52,v,1.28,7.04,1.28);C(0,3.52,v,1.28,7.04,1.28);
+          for(let j=0;j<4;j++)B('hull',0xac8751,0,5.60+.48*j,v-side*.8*j,1.28,.64,1.28);
+          B('hull',0xd9a65e,0,7.52,v-side*2.24,.96,.64,5.76);
+          B('hull',steel,0,6.72,v-side*3.84,1.28,.96,1.28);
+          B('light',0xffbc68,0,6.10,v-side*3.84,.64,.24,.64);
+        }
+      }
+    }
+  }
+}
+
+function streetElevation(B,street,w,d,base,height,seed){
+  // Wrap both long faces so a change of direction reveals the same occupation.
+  for(const s of [-1,1]){
+    const v=s*(d/2-.48),y=base+.80;
+    if(street==='core-east-terrace'){
+      for(let floor=0;floor<3&&y+floor*3.20<height;floor++){
+        const u=((floor+seed)%2?1:-1)*w*.12,level=y+floor*3.20;
+        B('hull',ivory,u,level,v,w*.68,.64,2.24);
+        for(const hand of [-1,1]){
+          B('hull',steel,u+hand*w*.23,level+.64,v+s*.64,w*.16,.64,.96);
+          B('hull',0x638977,u+hand*w*.23,level+1.28,v+s*.64,w*.13,.64,.64);
+        }
+        B('light',0xe7b186,u,level-.40,v+s*.48,w*.38,.16,.48);
+      }
+    }else if(street==='core-repair-link'){
+      const reach=w*.38;
+      for(const sign of [-1,1]){
+        B('hull',steel,sign*reach,base*.64,v,.64,base*.68,1.28);
+        B('hull',0xb78651,sign*reach,base*.85,v+s*.72,1.28,.64,2.24);
+      }
+      B('hull',0xc3975e,0,base-.32,v+s*.96,w*.85,.96,.96);
+      B('hull',ink,(seed%3-1)*w*.22,base-1.12,v+s*1.12,1.28,.80,1.28);
+    }else if(street==='core-west-loop'){
+      for(let i=0;i<3;i++){
+        const u=(i-1)*w*.25,stack=2.56+((seed+i)%3)*1.28;
+        B('hull',0x736d65,u,y+stack/2,v,1.28,stack,1.60);
+        B('hull',steel,u,y+stack,v,1.92,.64,2.24);
+        B('light',0xe8a366,u,y+.32,v+s*.83,.64,.32,.32);
+      }
+      B('hull',0x967a65,0,y,v,w*.84,.96,1.60);
+    }else{
+      for(const hand of [-1,1]){
+        B('hull',ivory,hand*w*.39,y+1.92,v,1.28,5.76,1.60);
+        B('light',blue,hand*w*.39,y+1.92,v+s*.86,.32,5.12,.24);
+      }
+    }
+  }
+}
+
 function blockBuilding(kit,p,seed,style,height){
   const f=kit.frame(p.x,p.z,p.angle),{B}=f,home=style==='residence',works=style==='works';
   const base=works?6.4:home?6.72:9.6;
@@ -977,10 +1101,13 @@ function blockBuilding(kit,p,seed,style,height){
     splitConcourse(structureFrame(f),p.w,p.d,.18,base,seed,home||works);
   else podium(f,p.w,p.d,base,home||works,seed);
   const upperWidth=p.w*(works?.78:.83),upperDepth=p.d*(home?.72:.79);
-  const first=(height-base)*.64;
+  const street=streetForParcel(p);
+  const first=(height-base)*(street==='core-east-terrace'?.47:street==='core-west-loop'?.76:.64);
+  streetElevation(B,street,p.w,p.d,base,height,seed);
   if(height>base+2.0){
     upper(f,-p.w*.03,-p.d*.05,upperWidth,upperDepth,base+.5,first,style,seed);
-    upper(f,p.w*.055,-p.d*.10,upperWidth*.78,upperDepth*.82,base+.75+first,height-base-first,style,seed+1);
+    const setBack=street==='core-east-terrace'?.17:.055;
+    upper(f,p.w*setBack,-p.d*.10,upperWidth*(setBack>.10?.60:.78),upperDepth*.82,base+.75+first,height-base-first,style,seed+1);
   }
   const top=height+1;
   if(works){
@@ -997,7 +1124,7 @@ function blockBuilding(kit,p,seed,style,height){
 
 export function addFutureCore(scene,api){
   const k=kit(scene,api.colliders,api.materials),edges=roadEdges(),buildings=[],lights=[];
-  const reserved=[lot(76,-218.5,15,49),lot(102,-205,7,32),lot(46,-195,6,5),lot(35,-210,6,5),
+  const reserved=[lot(60,-214,23.68,16.64,-.838),lot(76,-218.5,15,49),lot(102,-205,7,32),lot(46,-195,6,5),lot(35,-210,6,5),
     lot(61,-261.5,35,18),lot(68,-189.8,4.8,5.76),
     lot((trackStart[0]+trackEnd[0])/2,(trackStart[1]+trackEnd[1])/2,trackLength,8.3,trackAngle)];
   const trackFrame=k.frame(...trackStart,trackAngle);
@@ -1018,10 +1145,11 @@ export function addFutureCore(scene,api){
   const landmarks=[headquarters(k,api,scene,lights)];
   place(lot(64,-292,16,17,.3),79,'office');place(lot(108,-297,19,18,-.45),104,'residence');
   privateLink(k);
+  workingRoadEdges(k);
   const facade=k.frame(108,-297,-.45),[ax,az]=facade.point(2.56,11.12);
   facade.B('hull',steel,2.56,31.84,10.24,9.28,23.04,1.60);
   transitDisplay(scene,ax,31.84,az,-.45);
-  const rail=railAndStations(k,api,edges);eastStair(k,api);concourse(k,api);interchangeHall(k,api);southernGate(k,api);
+  const rail=railAndStations(k,api,edges);eastStair(k,api);concourse(k,api);interchangeHall(k,api);southernGate(k,api);exchangeArrival(k);
   // The long diagonal rail, hospital wards and older service yards set parcel
   // orientations. Along each bend a frontage faces its own segment.
   const anchors=[

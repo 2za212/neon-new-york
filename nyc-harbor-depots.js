@@ -48,7 +48,7 @@ export function buildDepot({F,block,panel,light,label},w,d,height,index,title){
     const u=bayX+(col-1)*bayWidth;
     if(col===podIndex){
       const nose=-well+1.24;
-      F(signal,u,2.60,-well+.12,bayWidth-.80,2.96,.16,0x77b9b4);
+      F('roomLoading',u,2.60,-well+.12,bayWidth-.80,2.96,.16,0x77b9b4);
       // Rectilinear shoulders close around a recessed core. A gap in the
       // jaw reveals the cradle and rear lamps even from across the avenue.
       for(const side of [-1,1]){
@@ -89,7 +89,7 @@ export function buildDepot({F,block,panel,light,label},w,d,height,index,title){
   F(skin,0,height-.16,back+depth/2,w,.32,depth+.32,0xc5d4cf);
   for(let bay=-1;bay<2;bay++){
     const u=bay*4.80;
-    F(signal,u,8.21,back+depth-.05,4.12,2.24,.20,bay===0?0xd3ae84:ink);
+    F(bay===0?'roomStock':'roomLoading',u,8.21,back+depth-.05,4.12,2.24,.20,bay===0?0xd3ae84:ink);
     F(carbon,u,6.88,back+depth*.42,4.30,.32,depth+.36);
     for(const end of [-1,1])
       F(alloy,u+end*1.64,8.12,back+depth*.53,.64,2.56,depth*.66+.32,0x9ebcc2);
@@ -120,7 +120,7 @@ export function buildDepot({F,block,panel,light,label},w,d,height,index,title){
     // A cold-store inspection bay has occupied depth. Let discrete heat
     // exchangers show their state inside the window, even across the street.
     const windowY=(ceil+cheek)/2,windowW=pitch-1.44;
-    F('glass',u,windowY,nose+.50,windowW,portH,.16,0x94aaac);
+    F('roomSupplies',u,windowY,nose+.50,windowW,portH,.16,0x94aaac);
     for(const side of [-1,1]){
       const xx=u+side*windowW*.24;
       F(alloy,xx,windowY,nose+.70,windowW*.39,portH*.86,.32,lining);

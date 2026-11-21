@@ -47,7 +47,7 @@ function frontage({B,C},p,x,z,axis,direction) {
         for(let i=0;i<bays;i++){
           const xx=u+(i-(bays-1)/2)*pitch;
           const lock=(i+seed+row)%4,window=lock!==0;
-          part(window?'glass':p.dark,xx,y+2.20,lip-side*.43,pitch-.64,2.40,.32,p.glass);
+          part(window?(p===utility?'roomLab':'roomLoading'):p.dark,xx,y+2.20,lip-side*.43,pitch-.64,2.40,.32,p.glass);
           if(window){
             const lampX=xx+(lock===1?-.48:.48);
             part(p.lamp,lampX,y+2.62,lip-side*.22,2.24,.96,.24,p.light[(row+i+seed)%3]);

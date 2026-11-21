@@ -53,7 +53,7 @@ export function buildHudsonBerth({box:B,beam:L,panel,collider:C,label}){
     L(ochre,[wx,11.43,z],[wx,11.91,z+1.54],.14,.16,0xd4c0a0);
   }
   B(blue,gx-2.20,12.13,16.80,2.69,2.55,3.17,0x9fb9b6);
-  B('coolWindow',gx-.819,12.57,16.80,.13,1.38,2.75,0xb9cecd);
+  B('equipmentGlass',gx-.819,12.57,16.80,.13,1.38,2.75,0xb9cecd);
   B(iron,gx-2.2,13.62,16.80,2.92,.41,3.52,0xc5c5ae);
   B('lamp',gx+1.30,10.62,13.82,1.12,.095,.32,0xdec694);
   B('lamp',gx+1.30,10.62,16.94,1.12,.095,.32,0xdec694);
@@ -93,7 +93,7 @@ export function buildHudsonBerth({box:B,beam:L,panel,collider:C,label}){
     const dx=i*.73,f=i*.21;
     B(iron,sx-1.60+dx,4.68+f,sz-2.23,1.36,.66+f,4.90,0xc3c8b3);
     B(ochre,sx-1.60+dx,5.06+f*1.5,sz-2.23,1.39,.17,4.96,0xd3c29d);
-    B('coolWindow',sx+2.43,2.90,sz-3.8+i*1.75,.10,1.67,1.42,0xacc7c5);
+    B('roomRepair',sx+2.43,2.90,sz-3.8+i*1.75,.10,1.67,1.42,0xacc7c5);
   }
   for(const z of [-23.6,-20.3,-17.0,-13.7]){
     B(ochre,sx+2.44,2.12,z,.24,3.42,.33,0xc5b99d);

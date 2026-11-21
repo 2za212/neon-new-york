@@ -505,5 +505,5 @@ export function buildSohoAirRights(api,tenancies,surface){
   perimeterWorks(F(54.25,170.1,north),24.32,3,1,true);
   perimeterWorks(F(8.32,175.2,north),28.16,3,-1,false);
   perimeterWorks(F(-36.75,168.6,north),29.44,4,1,false);
-  perimeterWorks(F(-69.6,85.4,east),17.92,2,1,true);
+  perimeterWorks(F(-68.8,102.4,east),17.92,2,1,true);
 }
