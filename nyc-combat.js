@@ -8,6 +8,27 @@ const attacks = {
   'skill-2': {damage: 32, range: 7, width: .95, hit: .56},
   'skill-3': {damage: 40, range: 6.5, width: 2.4, hit: .67},
 };
+const rapierAttacks = {
+  // Sword-tip sweeps sampled from the exported UE clips. Each window owns one
+  // hit; the target can enter it after the first frame without taking repeats.
+  'slash-1': {damage: 16, range: 2.8, width: 1.5, hits: [[.34 / 1.6, .47 / 1.6]],
+    chain: .58 / 1.6, recover: .72 / 1.6},
+  'slash-2': {damage: 20, range: 2.9, width: 1.6, hits: [[.36 / 1.566667, .48 / 1.566667]],
+    chain: .57 / 1.566667, recover: .72 / 1.566667},
+  'slash-3': {damage: 28, range: 3.0, width: 1.7, hits: [[.40 / 1.6, .51 / 1.6]],
+    recover: .76 / 1.6},
+  'skill-1': {damage: 8, range: 3.0, width: 1.8,
+    hits: [[.30 / 2.466667, .40 / 2.466667], [.72 / 2.466667, .84 / 2.466667],
+      [1.23 / 2.466667, 1.34 / 2.466667]]},
+  'skill-2': {damage: 8, range: 3.2, width: 1.9,
+    hits: [[.26 / 2.8, .35 / 2.8], [.72 / 2.8, .84 / 2.8],
+      [1.17 / 2.8, 1.27 / 2.8], [1.69 / 2.8, 1.80 / 2.8]]},
+  'skill-3': {damage: 5, range: 3.2, width: 1.5,
+    hits: [[.26 / 3.333333, .33 / 3.333333], [.53 / 3.333333, .61 / 3.333333],
+      [.86 / 3.333333, .95 / 3.333333], [1.16 / 3.333333, 1.25 / 3.333333],
+      [1.43 / 3.333333, 1.53 / 3.333333], [2.10 / 3.333333, 2.20 / 3.333333, 15]]},
+};
+const slashes = ['slash-1', 'slash-2', 'slash-3'];
 const dodges = {
   forward: [0, 1, 1.25], left: [-1, 0, 1.05],
   right: [1, 0, 1.05], back: [0, -1, 1.15],
@@ -74,7 +95,7 @@ function travel(action, dt, from, to, meters) {
   return meters * (phase(action.elapsed + dt) - phase(action.elapsed));
 }
 
-export function createCombat({scene, world, motor, avatar, effects, patrolHome}) {
+export function createCombat({scene, world, motor, avatar, effects, patrolHome, equipment}) {
   const home = patrolHome || world.spawn.clone().add(new T.Vector3(0, 0, -3.6));
   const maxNpcHP=patrolHome?96:200, enemyName=patrolHome?'巡检机':'傀儡';
   const npcMotor = createMotor(world, home, 2.25);
@@ -95,11 +116,17 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
   const rayFrom = new T.Vector3(), rayTo = new T.Vector3();
   const wallColliders = world.cameraColliders || world.colliders;
   let action, time, playerHP, npcHP, npcPhase, npcTimer, npcAggro, npcHitTimer, npcFall;
-  let comboUntil, queuedCombo, heading, lastDamage, lastDamageTimer;
+  let comboUntil, queuedCombo, comboNext, heading, lastDamage, lastDamageTimer, weaponMode;
+  let npcStrikeCount = 0;
+  const knockback = new T.Vector3();
 
   function reset() {
     action = null;
     time = comboUntil = npcTimer = npcHitTimer = npcFall = lastDamageTimer = 0;
+    weaponMode = equipment?.weapon ?? null;
+    comboNext = null;
+    npcStrikeCount = 0;
+    knockback.set(0, 0, 0);
     heading = Math.PI;
     playerHP = maxPlayerHP;
     npcHP = maxNpcHP;
@@ -116,6 +143,20 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
   }
   reset();
 
+  function syncEquipment() {
+    const next = equipment?.weapon ?? null;
+    if (next === weaponMode) return;
+    weaponMode = next;
+    comboUntil = 0;
+    comboNext = null;
+    queuedCombo = false;
+    if (!action) avatar.clearAction();
+  }
+
+  function canChangeEquipment() {
+    return playerHP > 0 && motor.grounded && !action;
+  }
+
   function zoneDistance() {
     return Math.hypot(motor.position.x - zone.x, motor.position.z - zone.z);
   }
@@ -128,8 +169,9 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
     const duration = avatar.getActionDuration(role);
     if (!duration || !avatar.playAction(role, options)) return false;
     const span = options.startFraction ?? (options.reverse ? 1 : 0);
-    action = {role, duration, elapsed: 0, end: options.reverse ? span * duration : duration,
-      reversed: Boolean(options.reverse), loop: Boolean(options.loop), hit: false};
+    const recovery = weaponMode === 'rapier' ? rapierAttacks[role]?.recover ?? 1 : 1;
+    action = {role, duration, elapsed: 0, end: options.reverse ? span * duration : duration * recovery,
+      reversed: Boolean(options.reverse), loop: Boolean(options.loop), hit: false, hitSegments: new Set()};
     return true;
   }
 
@@ -153,6 +195,7 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
     if (!canMeditate()) return false;
     if (!action) {
       comboUntil = 0;
+      comboNext = null;
       begin(meditation[0]);
     }
     return true;
@@ -169,42 +212,71 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
     return cameraClearance(rayFrom, rayTo, wallColliders, .04) >= rayFrom.distanceTo(rayTo) - .06;
   }
 
-  function hitPlayer() {
-    if (!playerHP || (action?.role.startsWith('dodge-') && action.elapsed / action.duration < .76)) return;
-    if (skills.includes(action?.role) && !action.hit) effects.clear();
-    const damage=patrolHome?10:npcDamage;
+  function receiveDamage(damage, source, {knockdown = false, impulse} = {}) {
+    syncEquipment();
+    if (!Number.isFinite(damage) || damage <= 0 || !playerHP ||
+        (action?.role.startsWith('dodge-') && action.elapsed / action.duration < .76)) return false;
+    if (weaponMode !== 'rapier' && skills.includes(action?.role) && !action.hit) effects.clear();
     playerHP = Math.max(0, playerHP - damage);
     comboUntil = 0;
+    comboNext = null;
     queuedCombo = false;
-    heading = Math.atan2(npcMotor.position.x - motor.position.x, npcMotor.position.z - motor.position.z);
-    begin(playerHP ? 'hurt' : 'death', {hold: !playerHP});
+    const attacker = source?.position ?? source;
+    if (Number.isFinite(attacker?.x) && Number.isFinite(attacker?.z)) {
+      const dx = attacker.x - motor.position.x, dz = attacker.z - motor.position.z;
+      if (Math.hypot(dx, dz) > .001) heading = Math.atan2(dx, dz);
+    }
+    if (!playerHP) {
+      knockback.set(0, 0, 0);
+      begin('death', {hold: true});
+    } else if (action?.role !== 'knockdown' && action?.role !== 'rise') {
+      if (knockdown && avatar.getActionDuration('knockdown') > 0 && avatar.getActionDuration('rise') > 0) {
+        begin('knockdown', {hold: true});
+        knockback.set(
+          Number.isFinite(impulse?.x) ? impulse.x : -Math.sin(heading) * 3.4,
+          Number.isFinite(impulse?.y) ? impulse.y : 4.2,
+          Number.isFinite(impulse?.z) ? impulse.z : -Math.cos(heading) * 3.4,
+        );
+        motor.velocity.y = Math.max(motor.velocity.y, knockback.y);
+      } else begin('hurt');
+    }
     setDamage(playerHP ? `受到 ${damage} 点伤害` : '角色倒下');
+    return true;
+  }
+
+  function hitPlayer() {
+    const heavy = weaponMode === 'rapier' && (npcStrikeCount + 1) % 3 === 0;
+    const damage = patrolHome ? 10 : npcDamage;
+    if (receiveDamage(damage, npcMotor.position, {knockdown: heavy})) npcStrikeCount++;
   }
 
   function strike(spec) {
-    if (!npcHP) return;
+    if (!npcHP) return false;
     const dx = npcMotor.position.x - motor.position.x, dz = npcMotor.position.z - motor.position.z;
     const forward = dx * Math.sin(heading) + dz * Math.cos(heading);
     const lateral = dx * Math.cos(heading) - dz * Math.sin(heading);
     const impact = action.impact;
     const inRange = impact
       ? Math.hypot(npcMotor.position.x - impact.x, npcMotor.position.z - impact.z) <= spec.width
-      : forward >= -.22 && forward <= spec.range && Math.abs(lateral) <= spec.width;
+      : forward >= -.22 && forward <= spec.range && Math.abs(lateral) <= spec.width &&
+        (weaponMode !== 'rapier' || Math.hypot(dx, dz) <= spec.range);
     if (!inRange || Math.abs(npcMotor.position.y - motor.position.y) > 1.05 ||
-        !clearSight(motor.position, npcMotor.position)) return;
+        !clearSight(motor.position, npcMotor.position)) return false;
     npcHP = Math.max(0, npcHP - spec.damage);
     npcAggro = true;
     npcHitTimer = .25;
     npcPhase = npcHP ? 'recover' : 'dead';
     npcTimer = npcHP ? (spec === attacks.punch ? .86 : .32) : 0;
     setDamage(npcHP ? `${enemyName}受到 ${spec.damage} 点伤害` : `${enemyName}已击倒 · ${spec.damage} 点伤害`);
+    return true;
   }
 
   function attack(role) {
     queuedCombo = false;
     comboUntil = 0;
+    comboNext = null;
     if (!begin(role)) return;
-    if (skills.includes(role)) {
+    if (weaponMode !== 'rapier' && skills.includes(role)) {
       const spec = attacks[role];
       let range = spec.range, effectHeading = heading;
       if (role === 'skill-3') {
@@ -227,13 +299,18 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
   }
 
   function choose(input, impulse, yaw) {
+    syncEquipment();
     if (!playerHP || !motor.grounded) return;
     if (action) {
-      if (action.role === 'punch' && impulse.punch) queuedCombo = true;
+      if (impulse.punch && (action.role === 'punch' ||
+          (weaponMode === 'rapier' && slashes.indexOf(action.role) >= 0 && action.role !== 'slash-3'))) {
+        queuedCombo = true;
+      }
       return;
     }
     if (impulse.dodge) {
       comboUntil = 0;
+      comboNext = null;
       if (begin(`dodge-${impulse.dodge}`)) {
         action.yaw = yaw;
         heading = yaw + Math.PI;
@@ -241,13 +318,18 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
     } else if (impulse.skill) {
       attack(skills[impulse.skill - 1]);
     } else if (impulse.punch) {
-      attack(comboUntil > time ? 'charged-punch' : 'punch');
-    } else if (input.moveX || input.moveZ || impulse.jump) comboUntil = 0;
+      const next = comboUntil > time ? comboNext : null;
+      attack(next || (weaponMode === 'rapier' ? 'slash-1' : 'punch'));
+    } else if (input.moveX || input.moveZ || impulse.jump) {
+      comboUntil = 0;
+      comboNext = null;
+    }
   }
 
   function beforeMove(dt, input, impulse, yaw) {
     choose(input, impulse, yaw);
-    if (!action) return {...input, jump: impulse.jump};
+    if (!action) return {...input, jump: impulse.jump,
+      ...(weaponMode === 'rapier' ? {facing: yaw + Math.PI} : {})};
     const dodge = action.role.startsWith('dodge-') ? dodges[action.role.slice(6)] : null;
     let x = 0, z = 0;
     if (dodge) {
@@ -257,6 +339,10 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
       const angle = action.yaw;
       x = distance * (Math.cos(angle) * dodge[0] - Math.sin(angle) * dodge[1]);
       z = distance * (-Math.sin(angle) * dodge[0] - Math.cos(angle) * dodge[1]);
+    } else if (action.role === 'knockdown') {
+      const decay = Math.exp(-action.elapsed * 5);
+      x = knockback.x * decay * dt;
+      z = knockback.z * decay * dt;
     } else if (action.role === 'hurt') {
       const distance = travel(action, dt, .04, .56, .55);
       x = -Math.sin(heading) * distance;
@@ -273,7 +359,7 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
       x = sin * step;
       z = cos * step;
     }
-    return {actionMove: {x, z, heading}};
+    return {actionMove: {x, z, heading, airborne: action.role === 'knockdown'}};
   }
 
   function updateNPC(dt, active) {
@@ -321,30 +407,53 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
   }
 
   function update(dt, moving, active = true) {
+    syncEquipment();
     time += dt;
     lastDamageTimer = Math.max(0, lastDamageTimer - dt);
     if (!action) heading = moving.heading;
     if (action && action.role !== 'death') {
+      const previousElapsed = action.elapsed;
       action.elapsed += dt;
-      const spec = attacks[action.role];
-      if (spec && !action.hit && action.elapsed >= action.duration * spec.hit) {
+      const spec = weaponMode === 'rapier' ? rapierAttacks[action.role] ?? attacks[action.role] : attacks[action.role];
+      if (spec?.hits) {
+        spec.hits.forEach(([start, end, damage = spec.damage], index) => {
+          if (!action.hitSegments.has(index) && action.elapsed >= action.duration * start &&
+              previousElapsed <= action.duration * end && strike({...spec, damage})) {
+            action.hitSegments.add(index);
+          }
+        });
+      } else if (spec && !action.hit && action.elapsed >= action.duration * spec.hit) {
         action.hit = true;
         strike(spec);
       }
-      if (!action.loop && action.elapsed >= action.end) {
+      const chainReady = queuedCombo && spec?.chain && action.elapsed >= action.duration * spec.chain;
+      if (!action.loop && (chainReady || action.elapsed >= action.end)) {
         const {role, reversed} = action;
-        const stage = meditation.indexOf(role);
-        if (stage !== -1) {
-          const next = stage + (reversed ? -1 : 1);
-          if (!meditation[next]) endAction();
-          else begin(meditation[next], {reverse: reversed, loop: !reversed && next === 2});
-        } else if (role === 'punch' && queuedCombo) {
-          attack('charged-punch');
-          // The mixer advances the newly queued clip later in this same frame.
-          action.elapsed = dt;
+        if (role === 'knockdown') {
+          if (motor.grounded) {
+            knockback.set(0, 0, 0);
+            begin('rise');
+          }
         } else {
-          if (role === 'punch') comboUntil = time + comboWindow;
-          endAction();
+          const stage = meditation.indexOf(role);
+          if (stage !== -1) {
+            const next = stage + (reversed ? -1 : 1);
+            if (!meditation[next]) endAction();
+            else begin(meditation[next], {reverse: reversed, loop: !reversed && next === 2});
+          } else if (queuedCombo && (role === 'punch' || (slashes.includes(role) && role !== 'slash-3'))) {
+            attack(role === 'punch' ? 'charged-punch' : slashes[slashes.indexOf(role) + 1]);
+            // The mixer advances the newly queued clip later in this same frame.
+            action.elapsed = dt;
+          } else {
+            if (role === 'punch' || (slashes.includes(role) && role !== 'slash-3')) {
+              comboUntil = time + comboWindow;
+              comboNext = role === 'punch' ? 'charged-punch' : slashes[slashes.indexOf(role) + 1];
+            } else {
+              comboUntil = 0;
+              comboNext = null;
+            }
+            endAction();
+          }
         }
       }
     }
@@ -360,10 +469,15 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
       playerHP, maxPlayerHP, npcHP, maxNpcHP,
       npcPhase, npcPosition: npcMotor.position.toArray(),
       heading, zone: zone.toArray(), zoneDistance: zoneDistance(), canMeditate: canMeditate(),
-      comboReady: action?.role === 'punch' || comboUntil > time,
+      weapon: weaponMode,
+      comboReady: action?.role === 'punch' ||
+        (slashes.includes(action?.role) && action.role !== 'slash-3') || comboUntil > time,
+      comboNext: action?.role === 'punch' ? 'charged-punch' :
+        slashes.includes(action?.role) ? slashes[slashes.indexOf(action.role) + 1] ?? null : comboNext,
+      npcHeavyAttack: npcPhase === 'windup' && weaponMode === 'rapier' && (npcStrikeCount + 1) % 3 === 0,
       feedback: lastDamageTimer > 0 ? lastDamage : '',
     };
   }
 
-  return {beforeMove, update, meditate, reset, getState};
+  return {beforeMove, update, meditate, reset, getState, canChangeEquipment, receiveDamage};
 }

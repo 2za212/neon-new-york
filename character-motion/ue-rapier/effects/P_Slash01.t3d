@@ -1,0 +1,1188 @@
+Begin Object Class=/Script/Engine.ParticleSystem Name="P_Slash01" ExportPath="/Script/Engine.ParticleSystem'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01'"
+   Begin Object Class=/Script/Engine.ParticleModuleColor Name="ParticleModuleColor_0" ExportPath="/Script/Engine.ParticleModuleColor'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionStartAlpha" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_0.DistributionStartAlpha'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionStartColor" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_0.DistributionStartColor'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleColor Name="ParticleModuleColor_1" ExportPath="/Script/Engine.ParticleModuleColor'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_1'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionStartAlpha" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_1.DistributionStartAlpha'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionStartColor" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_1.DistributionStartColor'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLight Name="ParticleModuleLight_0" ExportPath="/Script/Engine.ParticleModuleLight'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionBrightnessOverLife" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_0.DistributionBrightnessOverLife'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionLightExponent" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_0.DistributionLightExponent'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionRadiusScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_0.DistributionRadiusScale'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionColorScaleOverLife" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_0.DistributionColorScaleOverLife'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLight Name="ParticleModuleLight_1" ExportPath="/Script/Engine.ParticleModuleLight'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_1'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionBrightnessOverLife" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_1.DistributionBrightnessOverLife'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionLightExponent" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_1.DistributionLightExponent'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionRadiusScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_1.DistributionRadiusScale'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionColorScaleOverLife" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_1.DistributionColorScaleOverLife'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLight Name="ParticleModuleLight_2" ExportPath="/Script/Engine.ParticleModuleLight'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_2'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionBrightnessOverLife" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_2.DistributionBrightnessOverLife'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionLightExponent" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_2.DistributionLightExponent'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionRadiusScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_2.DistributionRadiusScale'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionColorScaleOverLife" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_2.DistributionColorScaleOverLife'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLocationPrimitiveCylinder Name="ParticleModuleLocationPrimitiveCylinder_0" ExportPath="/Script/Engine.ParticleModuleLocationPrimitiveCylinder'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionStartHeight" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_0.DistributionStartHeight'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionStartRadius" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_0.DistributionStartRadius'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionFloatUniform_1" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_0.DistributionFloatUniform_1'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionStartLocation" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_0.DistributionStartLocation'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLocationPrimitiveCylinder Name="ParticleModuleLocationPrimitiveCylinder_1" ExportPath="/Script/Engine.ParticleModuleLocationPrimitiveCylinder'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_1'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionStartHeight" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_1.DistributionStartHeight'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionStartRadius" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_1.DistributionStartRadius'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionFloatUniform_1" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_1.DistributionFloatUniform_1'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionStartLocation" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_1.DistributionStartLocation'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLocationPrimitiveSphere Name="ParticleModuleLocationPrimitiveSphere_0" ExportPath="/Script/Engine.ParticleModuleLocationPrimitiveSphere'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveSphere_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionStartRadius" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveSphere_0.DistributionStartRadius'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionVelocityScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveSphere_0.DistributionVelocityScale'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionStartLocation" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveSphere_0.DistributionStartLocation'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleParameterDynamic Name="ParticleModuleParameterDynamic_0" ExportPath="/Script/Engine.ParticleModuleParameterDynamic'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionParam2" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_0.DistributionParam2'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionParam3" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_0.DistributionParam3'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionParam4" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_0.DistributionParam4'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstantCurve Name="DistributionFloatConstantCurve_1" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_0.DistributionFloatConstantCurve_1'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleParameterDynamic Name="ParticleModuleParameterDynamic_1" ExportPath="/Script/Engine.ParticleModuleParameterDynamic'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_1'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionParam2" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_1.DistributionParam2'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionParam3" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_1.DistributionParam3'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionParam4" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_1.DistributionParam4'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstantCurve Name="DistributionFloatConstantCurve_1" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_1.DistributionFloatConstantCurve_1'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleRequired Name="ParticleModuleRequired_0" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_0.RequiredDistributionSpawnRate'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleRequired Name="ParticleModuleRequired_1" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_1'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_1.RequiredDistributionSpawnRate'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleRequired Name="ParticleModuleRequired_2" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_2'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_2.RequiredDistributionSpawnRate'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleRequired Name="ParticleModuleRequired_3" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_3'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_3.RequiredDistributionSpawnRate'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleRequired Name="ParticleModuleRequired_4" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_4'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_4.RequiredDistributionSpawnRate'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSpawn Name="ParticleModuleSpawn_0" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_0.BurstScaleDistribution'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="DistributionFloatConstant_2" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_0.DistributionFloatConstant_2'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_0.RequiredDistributionSpawnRateScale'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSpawn Name="ParticleModuleSpawn_1" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_1'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_1.BurstScaleDistribution'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_1.RequiredDistributionSpawnRate'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_1.RequiredDistributionSpawnRateScale'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSpawn Name="ParticleModuleSpawn_2" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_2'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_2.BurstScaleDistribution'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_2.RequiredDistributionSpawnRate'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_2.RequiredDistributionSpawnRateScale'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSpawn Name="ParticleModuleSpawn_3" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_3'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_3.BurstScaleDistribution'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_3.RequiredDistributionSpawnRate'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_3.RequiredDistributionSpawnRateScale'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSpawn Name="ParticleModuleSpawn_4" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_4'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_4.BurstScaleDistribution'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_4.RequiredDistributionSpawnRate'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_4.RequiredDistributionSpawnRateScale'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleColorOverLife Name="ParticleModuleColorOverLife_0" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstantCurve Name="DistributionFloatConstantCurve_0" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_0.DistributionFloatConstantCurve_0'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstantCurve Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_0.DistributionColorOverLife'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleColorOverLife Name="ParticleModuleColorOverLife_1" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_1'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstantCurve Name="DistributionFloatConstantCurve_2" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_1.DistributionFloatConstantCurve_2'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstantCurve Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_1.DistributionColorOverLife'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleColorOverLife Name="ParticleModuleColorOverLife_2" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_2'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstantCurve Name="DistributionFloatConstantCurve_3" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_2.DistributionFloatConstantCurve_3'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstantCurve Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_2.DistributionColorOverLife'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleColorOverLife Name="ParticleModuleColorOverLife_3" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_3'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstantCurve Name="DistributionFloatConstantCurve_3" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_3.DistributionFloatConstantCurve_3'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstantCurve Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_3.DistributionColorOverLife'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleColorOverLife Name="ParticleModuleColorOverLife_4" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_4'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstantCurve Name="DistributionFloatConstantCurve_0" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_4.DistributionFloatConstantCurve_0'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstantCurve Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_4.DistributionColorOverLife'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleAccelerationDrag Name="ParticleModuleAccelerationDrag_0" ExportPath="/Script/Engine.ParticleModuleAccelerationDrag'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationDrag_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionFloatUniform_0" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationDrag_0.DistributionFloatUniform_0'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleAccelerationDrag Name="ParticleModuleAccelerationDrag_1" ExportPath="/Script/Engine.ParticleModuleAccelerationDrag'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationDrag_1'"
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionFloatUniform_0" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationDrag_1.DistributionFloatUniform_0'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLifetime Name="ParticleModuleLifetime_0" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_0.DistributionLifetime'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLifetime Name="ParticleModuleLifetime_1" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_1'"
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_1.DistributionLifetime'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLifetime Name="ParticleModuleLifetime_2" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_2'"
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_2.DistributionLifetime'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLifetime Name="ParticleModuleLifetime_3" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_3'"
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_3.DistributionLifetime'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLifetime Name="ParticleModuleLifetime_4" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_4'"
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_4.DistributionLifetime'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleVelocity Name="ParticleModuleVelocity_1" ExportPath="/Script/Engine.ParticleModuleVelocity'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_1'"
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionStartVelocityRadial" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_1.DistributionStartVelocityRadial'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionStartVelocity" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_1.DistributionStartVelocity'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleVelocity Name="ParticleModuleVelocity_2" ExportPath="/Script/Engine.ParticleModuleVelocity'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_2'"
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionStartVelocityRadial" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_2.DistributionStartVelocityRadial'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionVectorConstant_1" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_2.DistributionVectorConstant_1'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleVelocity Name="ParticleModuleVelocity_3" ExportPath="/Script/Engine.ParticleModuleVelocity'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_3'"
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionStartVelocityRadial" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_3.DistributionStartVelocityRadial'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionVectorConstant_1" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_3.DistributionVectorConstant_1'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleAcceleration Name="ParticleModuleAcceleration_0" ExportPath="/Script/Engine.ParticleModuleAcceleration'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAcceleration_0'"
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionVectorConstant_0" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAcceleration_0.DistributionVectorConstant_0'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleMeshRotation Name="ParticleModuleMeshRotation_0" ExportPath="/Script/Engine.ParticleModuleMeshRotation'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleMeshRotation_0'"
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionVectorConstant_3" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleMeshRotation_0.DistributionVectorConstant_3'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleTypeDataMesh Name="ParticleModuleTypeDataMesh_0" ExportPath="/Script/Engine.ParticleModuleTypeDataMesh'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleTypeDataMesh_0'"
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionVectorConstant_2" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleTypeDataMesh_0.DistributionVectorConstant_2'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleTypeDataMesh Name="ParticleModuleTypeDataMesh_1" ExportPath="/Script/Engine.ParticleModuleTypeDataMesh'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleTypeDataMesh_1'"
+      Begin Object Class=/Script/Engine.DistributionVectorConstant Name="DistributionVectorConstant_2" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleTypeDataMesh_1.DistributionVectorConstant_2'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleOrbit Name="ParticleModuleOrbit_0" ExportPath="/Script/Engine.ParticleModuleOrbit'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_0'"
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionOffsetAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_0.DistributionOffsetAmount'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionRotationAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_0.DistributionRotationAmount'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionRotationRateAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_0.DistributionRotationRateAmount'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleOrbit Name="ParticleModuleOrbit_1" ExportPath="/Script/Engine.ParticleModuleOrbit'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_1'"
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionOffsetAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_1.DistributionOffsetAmount'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionRotationAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_1.DistributionRotationAmount'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionRotationRateAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_1.DistributionRotationRateAmount'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSize Name="ParticleModuleSize_0" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_0'"
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_0.DistributionStartSize'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSize Name="ParticleModuleSize_1" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_1'"
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_1.DistributionStartSize'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSize Name="ParticleModuleSize_2" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_2'"
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_2.DistributionStartSize'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSize Name="ParticleModuleSize_3" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_3'"
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_3.DistributionStartSize'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSize Name="ParticleModuleSize_4" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_4'"
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_4.DistributionStartSize'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.InterpCurveEdSetup Name="InterpCurveEdSetup_0" ExportPath="/Script/Engine.InterpCurveEdSetup'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:InterpCurveEdSetup_0'"
+   End Object
+   Begin Object Class=/Script/Engine.ParticleSpriteEmitter Name="ParticleSpriteEmitter_0" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_0'"
+      Begin Object Class=/Script/Engine.ParticleLODLevel Name="ParticleLODLevel_0" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_0.ParticleLODLevel_0'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleSpriteEmitter Name="ParticleSpriteEmitter_1" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_1'"
+      Begin Object Class=/Script/Engine.ParticleLODLevel Name="ParticleLODLevel_1" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_1.ParticleLODLevel_1'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleSpriteEmitter Name="ParticleSpriteEmitter_2" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_2'"
+      Begin Object Class=/Script/Engine.ParticleLODLevel Name="ParticleLODLevel_2" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_2.ParticleLODLevel_2'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleSpriteEmitter Name="ParticleSpriteEmitter_3" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_3'"
+      Begin Object Class=/Script/Engine.ParticleLODLevel Name="ParticleLODLevel_3" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_3.ParticleLODLevel_3'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleSpriteEmitter Name="ParticleSpriteEmitter_4" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_4'"
+      Begin Object Class=/Script/Engine.ParticleLODLevel Name="ParticleLODLevel_4" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_4.ParticleLODLevel_4'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleAccelerationConstant Name="ParticleModuleAccelerationConstant_0" ExportPath="/Script/Engine.ParticleModuleAccelerationConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationConstant_0'"
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleAccelerationConstant Name="ParticleModuleAccelerationConstant_1" ExportPath="/Script/Engine.ParticleModuleAccelerationConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationConstant_1'"
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSizeScaleBySpeed Name="ParticleModuleSizeScaleBySpeed_0" ExportPath="/Script/Engine.ParticleModuleSizeScaleBySpeed'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSizeScaleBySpeed_0'"
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleTypeDataGpu Name="ParticleModuleTypeDataGpu_0" ExportPath="/Script/Engine.ParticleModuleTypeDataGpu'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleTypeDataGpu_0'"
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleVectorFieldLocal Name="ParticleModuleVectorFieldLocal_0" ExportPath="/Script/Engine.ParticleModuleVectorFieldLocal'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVectorFieldLocal_0'"
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleVectorFieldRotationRate Name="ParticleModuleVectorFieldRotationRate_0" ExportPath="/Script/Engine.ParticleModuleVectorFieldRotationRate'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVectorFieldRotationRate_0'"
+   End Object
+   Begin Object Name="ParticleModuleColor_0" ExportPath="/Script/Engine.ParticleModuleColor'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_0'"
+      Begin Object Name="DistributionStartAlpha" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_0.DistributionStartAlpha'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionStartColor" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_0.DistributionStartColor'"
+         Constant=(X=9.651473,Y=26.398415,Z=30.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartColor=(MinValue=9.651473,MaxValue=30.000000,MinValueVec=(X=9.651473,Y=26.398415,Z=30.000000),MaxValueVec=(X=9.651473,Y=26.398415,Z=30.000000),Distribution="/Script/Engine.DistributionVectorConstant'DistributionStartColor'",Table=(Values=(9.651473,26.398415,30.000000),Op=1,EntryCount=1,EntryStride=3))
+      StartAlpha=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionStartAlpha'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=173,R=171,A=255)
+   End Object
+   Begin Object Name="ParticleModuleColor_1" ExportPath="/Script/Engine.ParticleModuleColor'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_1'"
+      Begin Object Name="DistributionStartAlpha" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_1.DistributionStartAlpha'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionStartColor" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColor_1.DistributionStartColor'"
+         Constant=(X=9.651473,Y=26.398415,Z=30.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartColor=(MinValue=9.651473,MaxValue=30.000000,MinValueVec=(X=9.651473,Y=26.398415,Z=30.000000),MaxValueVec=(X=9.651473,Y=26.398415,Z=30.000000),Distribution="/Script/Engine.DistributionVectorConstant'DistributionStartColor'",Table=(Values=(9.651473,26.398415,30.000000),Op=1,EntryCount=1,EntryStride=3))
+      StartAlpha=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionStartAlpha'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=202,R=132,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLight_0" ExportPath="/Script/Engine.ParticleModuleLight'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_0'"
+      Begin Object Name="DistributionBrightnessOverLife" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_0.DistributionBrightnessOverLife'"
+         Constant=8.723567
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionLightExponent" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_0.DistributionLightExponent'"
+         Constant=16.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionRadiusScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_0.DistributionRadiusScale'"
+         Constant=6.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionColorScaleOverLife" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_0.DistributionColorScaleOverLife'"
+         Constant=(X=1.000000,Y=1.000000,Z=10.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      SpawnFraction=0.076190
+      ColorScaleOverLife=(MinValue=1.000000,MaxValue=10.000000,MinValueVec=(X=1.000000,Y=1.000000,Z=10.000000),MaxValueVec=(X=1.000000,Y=1.000000,Z=10.000000),Distribution="/Script/Engine.DistributionVectorConstant'DistributionColorScaleOverLife'",Table=(Values=(1.000000,1.000000,10.000000),Op=1,EntryCount=1,EntryStride=3))
+      BrightnessOverLife=(MinValue=8.723567,MaxValue=8.723567,Distribution="/Script/Engine.DistributionFloatConstant'DistributionBrightnessOverLife'",Table=(Values=(8.723567),Op=1,EntryCount=1,EntryStride=1))
+      RadiusScale=(MinValue=6.000000,MaxValue=6.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionRadiusScale'",Table=(Values=(6.000000),Op=1,EntryCount=1,EntryStride=1))
+      LightExponent=(MinValue=16.000000,MaxValue=16.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionLightExponent'",Table=(Values=(16.000000),Op=1,EntryCount=1,EntryStride=1))
+      VolumetricScatteringIntensity=0.250000
+      LODValidity=1
+      ModuleEditorColor=(B=220,G=0,R=95,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLight_1" ExportPath="/Script/Engine.ParticleModuleLight'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_1'"
+      Begin Object Name="DistributionBrightnessOverLife" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_1.DistributionBrightnessOverLife'"
+         Constant=30.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionLightExponent" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_1.DistributionLightExponent'"
+         Constant=16.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionRadiusScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_1.DistributionRadiusScale'"
+         Constant=1600.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionColorScaleOverLife" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_1.DistributionColorScaleOverLife'"
+         Constant=(X=1.000000,Y=1.000000,Z=1.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      bAffectsTranslucency=True
+      ColorScaleOverLife=(MinValue=1.000000,MaxValue=1.000000,MinValueVec=(X=1.000000,Y=1.000000,Z=1.000000),MaxValueVec=(X=1.000000,Y=1.000000,Z=1.000000),Distribution="/Script/Engine.DistributionVectorConstant'DistributionColorScaleOverLife'",Table=(Values=(1.000000,1.000000,1.000000),Op=1,EntryCount=1,EntryStride=3))
+      BrightnessOverLife=(MinValue=30.000000,MaxValue=30.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionBrightnessOverLife'",Table=(Values=(30.000000),Op=1,EntryCount=1,EntryStride=1))
+      RadiusScale=(MinValue=1600.000000,MaxValue=1600.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionRadiusScale'",Table=(Values=(1600.000000),Op=1,EntryCount=1,EntryStride=1))
+      LightExponent=(MinValue=16.000000,MaxValue=16.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionLightExponent'",Table=(Values=(16.000000),Op=1,EntryCount=1,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=113,G=0,R=212,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLight_2" ExportPath="/Script/Engine.ParticleModuleLight'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_2'"
+      Begin Object Name="DistributionBrightnessOverLife" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_2.DistributionBrightnessOverLife'"
+         Constant=32.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionLightExponent" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_2.DistributionLightExponent'"
+         Constant=16.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionRadiusScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_2.DistributionRadiusScale'"
+         Constant=15.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionColorScaleOverLife" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLight_2.DistributionColorScaleOverLife'"
+         Constant=(X=1.000000,Y=1.000000,Z=10.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      SpawnFraction=0.070000
+      ColorScaleOverLife=(MinValue=1.000000,MaxValue=10.000000,MinValueVec=(X=1.000000,Y=1.000000,Z=10.000000),MaxValueVec=(X=1.000000,Y=1.000000,Z=10.000000),Distribution="/Script/Engine.DistributionVectorConstant'DistributionColorScaleOverLife'",Table=(Values=(1.000000,1.000000,10.000000),Op=1,EntryCount=1,EntryStride=3))
+      BrightnessOverLife=(MinValue=32.000000,MaxValue=32.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionBrightnessOverLife'",Table=(Values=(32.000000),Op=1,EntryCount=1,EntryStride=1))
+      RadiusScale=(MinValue=15.000000,MaxValue=15.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionRadiusScale'",Table=(Values=(15.000000),Op=1,EntryCount=1,EntryStride=1))
+      LightExponent=(MinValue=16.000000,MaxValue=16.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionLightExponent'",Table=(Values=(16.000000),Op=1,EntryCount=1,EntryStride=1))
+      VolumetricScatteringIntensity=0.250000
+      LODValidity=1
+      ModuleEditorColor=(B=173,G=171,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLocationPrimitiveCylinder_0" ExportPath="/Script/Engine.ParticleModuleLocationPrimitiveCylinder'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_0'"
+      Begin Object Name="DistributionStartHeight" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_0.DistributionStartHeight'"
+         Constant=0.500000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionStartRadius" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_0.DistributionStartRadius'"
+         Constant=110.816391
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionFloatUniform_1" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_0.DistributionFloatUniform_1'"
+         Max=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionStartLocation" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_0.DistributionStartLocation'"
+         Constant=(X=0.000000,Y=0.000000,Z=42.225693)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartRadius=(MinValue=110.816391,MaxValue=110.816391,Distribution="/Script/Engine.DistributionFloatConstant'DistributionStartRadius'",Table=(Values=(110.816391),Op=1,EntryCount=1,EntryStride=1))
+      StartHeight=(MinValue=0.500000,MaxValue=0.500000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionStartHeight'",Table=(Values=(0.500000),Op=1,EntryCount=1,EntryStride=1))
+      Velocity=True
+      VelocityScale=(MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatUniform'DistributionFloatUniform_1'",Table=(Values=(0.000000,1.000000),Op=2,EntryCount=1,EntryStride=2,SubEntryStride=1))
+      StartLocation=(MaxValue=42.225693,MinValueVec=(X=0.000000,Y=0.000000,Z=42.225693),MaxValueVec=(X=0.000000,Y=0.000000,Z=42.225693),Distribution="/Script/Engine.DistributionVectorConstant'DistributionStartLocation'",Table=(Values=(0.000000,0.000000,42.225693),Op=1,EntryCount=1,EntryStride=3))
+      b3DDrawMode=True
+      LODValidity=1
+      ModuleEditorColor=(B=110,G=0,R=214,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLocationPrimitiveCylinder_1" ExportPath="/Script/Engine.ParticleModuleLocationPrimitiveCylinder'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_1'"
+      Begin Object Name="DistributionStartHeight" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_1.DistributionStartHeight'"
+         Constant=0.500000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionStartRadius" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_1.DistributionStartRadius'"
+         Constant=110.816391
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionFloatUniform_1" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_1.DistributionFloatUniform_1'"
+         Max=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionStartLocation" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveCylinder_1.DistributionStartLocation'"
+         Constant=(X=0.000000,Y=0.000000,Z=42.225693)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartRadius=(MinValue=110.816391,MaxValue=110.816391,Distribution="/Script/Engine.DistributionFloatConstant'DistributionStartRadius'",Table=(Values=(110.816391),Op=1,EntryCount=1,EntryStride=1))
+      StartHeight=(MinValue=0.500000,MaxValue=0.500000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionStartHeight'",Table=(Values=(0.500000),Op=1,EntryCount=1,EntryStride=1))
+      SurfaceOnly=True
+      Velocity=True
+      VelocityScale=(MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatUniform'DistributionFloatUniform_1'",Table=(Values=(0.000000,1.000000),Op=2,EntryCount=1,EntryStride=2,SubEntryStride=1))
+      StartLocation=(MaxValue=42.225693,MinValueVec=(X=0.000000,Y=0.000000,Z=42.225693),MaxValueVec=(X=0.000000,Y=0.000000,Z=42.225693),Distribution="/Script/Engine.DistributionVectorConstant'DistributionStartLocation'",Table=(Values=(0.000000,0.000000,42.225693),Op=1,EntryCount=1,EntryStride=3))
+      b3DDrawMode=True
+      LODValidity=1
+      ModuleEditorColor=(B=62,G=0,R=228,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLocationPrimitiveSphere_0" ExportPath="/Script/Engine.ParticleModuleLocationPrimitiveSphere'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveSphere_0'"
+      Begin Object Name="DistributionStartRadius" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveSphere_0.DistributionStartRadius'"
+         Constant=150.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionVelocityScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveSphere_0.DistributionVelocityScale'"
+         Constant=1.000000
+      End Object
+      Begin Object Name="DistributionStartLocation" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLocationPrimitiveSphere_0.DistributionStartLocation'"
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartRadius=(MinValue=150.000000,MaxValue=150.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionStartRadius'",Table=(Values=(150.000000),Op=1,EntryCount=1,EntryStride=1))
+      Positive_Z=False
+      VelocityScale=(Distribution="/Script/Engine.DistributionFloatConstant'DistributionVelocityScale'")
+      StartLocation=(Distribution="/Script/Engine.DistributionVectorConstant'DistributionStartLocation'",Table=(Values=(0.000000,0.000000,0.000000),Op=1,EntryCount=1,EntryStride=3))
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=124,R=206,A=255)
+   End Object
+   Begin Object Name="ParticleModuleParameterDynamic_0" ExportPath="/Script/Engine.ParticleModuleParameterDynamic'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_0'"
+      Begin Object Name="DistributionParam2" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_0.DistributionParam2'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionParam3" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_0.DistributionParam3'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionParam4" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_0.DistributionParam4'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionFloatConstantCurve_1" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_0.DistributionFloatConstantCurve_1'"
+         bBakedDataSuccesfully=True
+      End Object
+      DynamicParams(0)=(ParamValue=(Distribution="/Script/Engine.DistributionFloatConstantCurve'DistributionFloatConstantCurve_1'",Table=(Values=(0.000000),Op=1,EntryCount=1,EntryStride=1)))
+      DynamicParams(1)=(ParamValue=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionParam2'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1)))
+      DynamicParams(2)=(ParamValue=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionParam3'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1)))
+      DynamicParams(3)=(ParamValue=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionParam4'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1)))
+      UpdateFlags=15
+      LODValidity=1
+      ModuleEditorColor=(B=150,G=0,R=191,A=255)
+   End Object
+   Begin Object Name="ParticleModuleParameterDynamic_1" ExportPath="/Script/Engine.ParticleModuleParameterDynamic'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_1'"
+      Begin Object Name="DistributionParam2" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_1.DistributionParam2'"
+         Constant=3.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionParam3" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_1.DistributionParam3'"
+         Constant=3.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionParam4" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_1.DistributionParam4'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionFloatConstantCurve_1" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleParameterDynamic_1.DistributionFloatConstantCurve_1'"
+         bBakedDataSuccesfully=True
+      End Object
+      DynamicParams(0)=(ParamValue=(Distribution="/Script/Engine.DistributionFloatConstantCurve'DistributionFloatConstantCurve_1'",Table=(Values=(0.000000),Op=1,EntryCount=1,EntryStride=1)))
+      DynamicParams(1)=(ParamValue=(MinValue=3.000000,MaxValue=3.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionParam2'",Table=(Values=(3.000000),Op=1,EntryCount=1,EntryStride=1)))
+      DynamicParams(2)=(ParamValue=(MinValue=3.000000,MaxValue=3.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionParam3'",Table=(Values=(3.000000),Op=1,EntryCount=1,EntryStride=1)))
+      DynamicParams(3)=(ParamValue=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionParam4'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1)))
+      UpdateFlags=15
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=231,R=47,A=255)
+   End Object
+   Begin Object Name="ParticleModuleRequired_0" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_0'"
+      Begin Object Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_0.RequiredDistributionSpawnRate'"
+      End Object
+      Material="/Script/Engine.Material'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M'"
+      EmitterOrigin=(X=0.000000,Y=0.000000,Z=50.000000)
+      EmitterRotation=(Pitch=0.000000,Yaw=180.000000,Roll=0.000000)
+      bUseLocalSpace=True
+      bUseLegacyEmitterTime=False
+      SpawnRate=(Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRate'")
+      RandomImageTime=1.000000
+      EmitterLoops=1
+      MaxDrawCount=1
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=218,R=99,A=255)
+   End Object
+   Begin Object Name="ParticleModuleRequired_1" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_1'"
+      Begin Object Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_1.RequiredDistributionSpawnRate'"
+      End Object
+      Material="/Script/Engine.Material'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M'"
+      ScreenAlignment=PSA_Velocity
+      bUseLegacyEmitterTime=False
+      SpawnRate=(Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRate'")
+      RandomImageTime=1.000000
+      LODValidity=1
+      ModuleEditorColor=(B=175,G=0,R=169,A=255)
+   End Object
+   Begin Object Name="ParticleModuleRequired_2" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_2'"
+      Begin Object Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_2.RequiredDistributionSpawnRate'"
+      End Object
+      Material="/Script/Engine.Material'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M'"
+      ScreenAlignment=PSA_Velocity
+      bUseLegacyEmitterTime=False
+      SpawnRate=(Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRate'")
+      RandomImageTime=1.000000
+      LODValidity=1
+      ModuleEditorColor=(B=162,G=0,R=182,A=255)
+   End Object
+   Begin Object Name="ParticleModuleRequired_3" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_3'"
+      Begin Object Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_3.RequiredDistributionSpawnRate'"
+      End Object
+      Material="/Script/Engine.Material'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M'"
+      ScreenAlignment=PSA_Velocity
+      bUseLegacyEmitterTime=False
+      SpawnRate=(Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRate'")
+      RandomImageTime=1.000000
+      LODValidity=1
+      ModuleEditorColor=(B=132,G=202,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleRequired_4" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_4'"
+      Begin Object Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleRequired_4.RequiredDistributionSpawnRate'"
+      End Object
+      Material="/Script/Engine.Material'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M'"
+      EmitterOrigin=(X=0.000000,Y=0.000000,Z=50.000000)
+      EmitterRotation=(Pitch=0.000000,Yaw=50.000000,Roll=0.000000)
+      bUseLocalSpace=True
+      bUseLegacyEmitterTime=False
+      SpawnRate=(Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRate'")
+      RandomImageTime=1.000000
+      EmitterLoops=1
+      LODValidity=1
+      ModuleEditorColor=(B=210,G=0,R=119,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSpawn_0" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_0'"
+      Begin Object Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_0.BurstScaleDistribution'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionFloatConstant_2" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_0.DistributionFloatConstant_2'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_0.RequiredDistributionSpawnRateScale'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Rate=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'DistributionFloatConstant_2'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      RateScale=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRateScale'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      BurstList(0)=(Count=1)
+      BurstScale=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'BurstScaleDistribution'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=174,G=0,R=171,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSpawn_1" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_1'"
+      Begin Object Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_1.BurstScaleDistribution'"
+         Constant=1.000000
+      End Object
+      Begin Object Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_1.RequiredDistributionSpawnRate'"
+         Constant=100.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_1.RequiredDistributionSpawnRateScale'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Rate=(MinValue=100.000000,MaxValue=100.000000,Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRate'",Table=(Values=(100.000000),Op=1,EntryCount=1,EntryStride=1))
+      RateScale=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRateScale'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      BurstScale=(Distribution="/Script/Engine.DistributionFloatConstant'BurstScaleDistribution'")
+      LODValidity=1
+      ModuleEditorColor=(B=107,G=0,R=215,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSpawn_2" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_2'"
+      Begin Object Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_2.BurstScaleDistribution'"
+         Constant=1.000000
+      End Object
+      Begin Object Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_2.RequiredDistributionSpawnRate'"
+         Constant=200.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_2.RequiredDistributionSpawnRateScale'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Rate=(MinValue=200.000000,MaxValue=200.000000,Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRate'",Table=(Values=(200.000000),Op=1,EntryCount=1,EntryStride=1))
+      RateScale=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRateScale'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      BurstScale=(Distribution="/Script/Engine.DistributionFloatConstant'BurstScaleDistribution'")
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=155,R=187,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSpawn_3" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_3'"
+      Begin Object Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_3.BurstScaleDistribution'"
+         Constant=1.000000
+      End Object
+      Begin Object Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_3.RequiredDistributionSpawnRate'"
+         Constant=20.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_3.RequiredDistributionSpawnRateScale'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Rate=(MinValue=20.000000,MaxValue=20.000000,Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRate'",Table=(Values=(20.000000),Op=1,EntryCount=1,EntryStride=1))
+      RateScale=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRateScale'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      BurstScale=(Distribution="/Script/Engine.DistributionFloatConstant'BurstScaleDistribution'")
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=130,R=204,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSpawn_4" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_4'"
+      Begin Object Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_4.BurstScaleDistribution'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_4.RequiredDistributionSpawnRate'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSpawn_4.RequiredDistributionSpawnRateScale'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Rate=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRate'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      RateScale=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRateScale'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      BurstList(0)=(Count=1)
+      BurstScale=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'BurstScaleDistribution'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=167,G=176,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleColorOverLife_0" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_0'"
+      Begin Object Name="DistributionFloatConstantCurve_0" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_0.DistributionFloatConstantCurve_0'"
+         ConstantCurve=(Points=((OutVal=1.000000,ArriveTangent=-1.000000,LeaveTangent=-1.000000),(InVal=1.000000)))
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_0.DistributionColorOverLife'"
+         ConstantCurve=(Points=((OutVal=(X=0.000000,Y=19.993923,Z=30.000000)),(InVal=0.500000,OutVal=(X=0.829101,Y=23.740396,Z=30.000000))))
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      ColorOverLife=(MaxValue=30.000000,MinValueVec=(X=0.000000,Y=19.993923,Z=30.000000),MaxValueVec=(X=0.829101,Y=23.740396,Z=30.000000),Distribution="/Script/Engine.DistributionVectorConstantCurve'DistributionColorOverLife'",Table=(TimeScale=2.000000,Values=(0.000000,19.993923,30.000000,0.829101,23.740396,30.000000),Op=1,EntryCount=2,EntryStride=3))
+      AlphaOverLife=(MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstantCurve'DistributionFloatConstantCurve_0'",Table=(TimeScale=1.000000,Values=(1.000000,0.000000),Op=1,EntryCount=2,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=216,G=103,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleColorOverLife_1" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_1'"
+      Begin Object Name="DistributionFloatConstantCurve_2" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_1.DistributionFloatConstantCurve_2'"
+         ConstantCurve=(Points=((OutVal=1.000000,ArriveTangent=-1.000000,LeaveTangent=-1.000000),(InVal=1.000000)))
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_1.DistributionColorOverLife'"
+         ConstantCurve=(Points=((OutVal=(X=10.551216,Y=17.789570,Z=20.000000)),(InVal=1.000000,OutVal=(X=30.000000,Y=25.000000,Z=5.000000))))
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      ColorOverLife=(MinValue=5.000000,MaxValue=30.000000,MinValueVec=(X=10.551216,Y=17.789570,Z=5.000000),MaxValueVec=(X=30.000000,Y=25.000000,Z=20.000000),Distribution="/Script/Engine.DistributionVectorConstantCurve'DistributionColorOverLife'",Table=(TimeScale=1.000000,Values=(10.551216,17.789570,20.000000,30.000000,25.000000,5.000000),Op=1,EntryCount=2,EntryStride=3))
+      AlphaOverLife=(MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstantCurve'DistributionFloatConstantCurve_2'",Table=(TimeScale=1.000000,Values=(1.000000,0.000000),Op=1,EntryCount=2,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=202,G=132,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleColorOverLife_2" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_2'"
+      Begin Object Name="DistributionFloatConstantCurve_3" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_2.DistributionFloatConstantCurve_3'"
+         ConstantCurve=(Points=((OutVal=1.000000,ArriveTangent=-1.000000,LeaveTangent=-1.000000),(InVal=1.000000)))
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_2.DistributionColorOverLife'"
+         ConstantCurve=(Points=((OutVal=(X=0.702000,Y=7.000000,Z=19.999994)),(InVal=1.000000,OutVal=(X=1.000000,Y=1.000000,Z=1.000000))))
+         bBakedDataSuccesfully=True
+      End Object
+      ColorOverLife=(MinValue=1.000000,MaxValue=1.000000,MinValueVec=(X=1.000000,Y=1.000000,Z=1.000000),MaxValueVec=(X=1.000000,Y=1.000000,Z=1.000000),Distribution="/Script/Engine.DistributionVectorConstantCurve'DistributionColorOverLife'",Table=(Values=(1.000000,1.000000,1.000000),Op=1,EntryCount=1,EntryStride=3))
+      AlphaOverLife=(MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstantCurve'DistributionFloatConstantCurve_3'",Table=(TimeScale=1.000000,Values=(1.000000,0.000000),Op=1,EntryCount=2,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=107,G=0,R=215,A=255)
+   End Object
+   Begin Object Name="ParticleModuleColorOverLife_3" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_3'"
+      Begin Object Name="DistributionFloatConstantCurve_3" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_3.DistributionFloatConstantCurve_3'"
+         ConstantCurve=(Points=((OutVal=1.000000,ArriveTangent=-1.000000,LeaveTangent=-1.000000),(InVal=1.000000)))
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_3.DistributionColorOverLife'"
+         ConstantCurve=(Points=((OutVal=(X=0.702000,Y=7.000000,Z=19.999994)),(InVal=1.000000,OutVal=(X=1.000000,Y=1.000000,Z=1.000000))))
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      ColorOverLife=(MinValue=0.702000,MaxValue=19.999994,MinValueVec=(X=0.702000,Y=1.000000,Z=1.000000),MaxValueVec=(X=1.000000,Y=7.000000,Z=19.999994),Distribution="/Script/Engine.DistributionVectorConstantCurve'DistributionColorOverLife'",Table=(TimeScale=1.000000,Values=(0.702000,7.000000,19.999994,1.000000,1.000000,1.000000),Op=1,EntryCount=2,EntryStride=3))
+      AlphaOverLife=(MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstantCurve'DistributionFloatConstantCurve_3'",Table=(TimeScale=1.000000,Values=(1.000000,0.000000),Op=1,EntryCount=2,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=224,G=0,R=83,A=255)
+   End Object
+   Begin Object Name="ParticleModuleColorOverLife_4" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_4'"
+      Begin Object Name="DistributionFloatConstantCurve_0" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_4.DistributionFloatConstantCurve_0'"
+         ConstantCurve=(Points=((OutVal=1.000000,ArriveTangent=-1.000000,LeaveTangent=-1.000000),(InVal=1.000000)))
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleColorOverLife_4.DistributionColorOverLife'"
+         ConstantCurve=(Points=((OutVal=(X=30.000000,Y=2.627429,Z=4.359491)),(InVal=0.600000,OutVal=(X=5.118331,Y=11.465360,Z=30.000000))))
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      ColorOverLife=(MinValue=2.627429,MaxValue=30.000000,MinValueVec=(X=5.118331,Y=2.627429,Z=4.359491),MaxValueVec=(X=30.000000,Y=11.465360,Z=30.000000),Distribution="/Script/Engine.DistributionVectorConstantCurve'DistributionColorOverLife'",Table=(TimeScale=1.666667,Values=(30.000000,2.627429,4.359491,5.118331,11.465360,30.000000),Op=1,EntryCount=2,EntryStride=3))
+      AlphaOverLife=(MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstantCurve'DistributionFloatConstantCurve_0'",Table=(TimeScale=1.000000,Values=(1.000000,0.000000),Op=1,EntryCount=2,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=130,R=204,A=255)
+   End Object
+   Begin Object Name="ParticleModuleAccelerationDrag_0" ExportPath="/Script/Engine.ParticleModuleAccelerationDrag'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationDrag_0'"
+      Begin Object Name="DistributionFloatUniform_0" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationDrag_0.DistributionFloatUniform_0'"
+         Min=1.000000
+         Max=3.000000
+      End Object
+      DragCoefficientRaw=(Distribution="/Script/Engine.DistributionFloatUniform'DistributionFloatUniform_0'")
+      bAlwaysInWorldSpace=True
+      LODValidity=1
+      ModuleEditorColor=(B=47,G=0,R=231,A=255)
+   End Object
+   Begin Object Name="ParticleModuleAccelerationDrag_1" ExportPath="/Script/Engine.ParticleModuleAccelerationDrag'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationDrag_1'"
+      Begin Object Name="DistributionFloatUniform_0" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationDrag_1.DistributionFloatUniform_0'"
+         Min=3.000000
+         Max=10.000000
+         bBakedDataSuccesfully=True
+      End Object
+      DragCoefficientRaw=(MinValue=3.000000,MaxValue=10.000000,Distribution="/Script/Engine.DistributionFloatUniform'DistributionFloatUniform_0'",Table=(Values=(3.000000,10.000000),Op=2,EntryCount=1,EntryStride=2,SubEntryStride=1))
+      bAlwaysInWorldSpace=True
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=124,R=206,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLifetime_0" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_0'"
+      Begin Object Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_0.DistributionLifetime'"
+         Min=0.400000
+         Max=0.400000
+         bBakedDataSuccesfully=True
+      End Object
+      Lifetime=(MinValue=0.400000,MaxValue=0.400000,Distribution="/Script/Engine.DistributionFloatUniform'DistributionLifetime'",Table=(Values=(0.400000),Op=1,EntryCount=1,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=220,G=92,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLifetime_1" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_1'"
+      Begin Object Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_1.DistributionLifetime'"
+         Min=0.700000
+         Max=0.700000
+         bBakedDataSuccesfully=True
+      End Object
+      Lifetime=(MinValue=0.700000,MaxValue=0.700000,Distribution="/Script/Engine.DistributionFloatUniform'DistributionLifetime'",Table=(Values=(0.700000),Op=1,EntryCount=1,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=147,G=0,R=193,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLifetime_2" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_2'"
+      Begin Object Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_2.DistributionLifetime'"
+         Min=0.500000
+         Max=0.800000
+         bBakedDataSuccesfully=True
+      End Object
+      Lifetime=(MinValue=0.500000,MaxValue=0.800000,Distribution="/Script/Engine.DistributionFloatUniform'DistributionLifetime'",Table=(Values=(0.500000,0.800000),Op=2,EntryCount=1,EntryStride=2,SubEntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=167,R=176,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLifetime_3" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_3'"
+      Begin Object Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_3.DistributionLifetime'"
+         Min=0.500000
+         Max=0.800000
+         bBakedDataSuccesfully=True
+      End Object
+      Lifetime=(MinValue=0.500000,MaxValue=0.800000,Distribution="/Script/Engine.DistributionFloatUniform'DistributionLifetime'",Table=(Values=(0.500000,0.800000),Op=2,EntryCount=1,EntryStride=2,SubEntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=209,R=119,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLifetime_4" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_4'"
+      Begin Object Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleLifetime_4.DistributionLifetime'"
+         Min=0.400000
+         Max=0.400000
+         bBakedDataSuccesfully=True
+      End Object
+      Lifetime=(MinValue=0.400000,MaxValue=0.400000,Distribution="/Script/Engine.DistributionFloatUniform'DistributionLifetime'",Table=(Values=(0.400000),Op=1,EntryCount=1,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=174,G=0,R=171,A=255)
+   End Object
+   Begin Object Name="ParticleModuleVelocity_1" ExportPath="/Script/Engine.ParticleModuleVelocity'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_1'"
+      Begin Object Name="DistributionStartVelocityRadial" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_1.DistributionStartVelocityRadial'"
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionStartVelocity" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_1.DistributionStartVelocity'"
+         Max=(X=10.000000,Y=10.000000,Z=100.000000)
+         Min=(X=-10.000000,Y=-10.000000,Z=50.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartVelocity=(MinValue=-10.000000,MaxValue=100.000000,MinValueVec=(X=-10.000000,Y=-10.000000,Z=50.000000),MaxValueVec=(X=10.000000,Y=10.000000,Z=100.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionStartVelocity'",Table=(Values=(-10.000000,-10.000000,50.000000,10.000000,10.000000,100.000000),Op=2,EntryCount=1,EntryStride=6,SubEntryStride=3))
+      StartVelocityRadial=(Distribution="/Script/Engine.DistributionFloatUniform'DistributionStartVelocityRadial'",Table=(Values=(0.000000),Op=1,EntryCount=1,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=136,G=0,R=201,A=255)
+   End Object
+   Begin Object Name="ParticleModuleVelocity_2" ExportPath="/Script/Engine.ParticleModuleVelocity'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_2'"
+      Begin Object Name="DistributionStartVelocityRadial" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_2.DistributionStartVelocityRadial'"
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionVectorConstant_1" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_2.DistributionVectorConstant_1'"
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartVelocity=(Distribution="/Script/Engine.DistributionVectorConstant'DistributionVectorConstant_1'",Table=(Values=(0.000000,0.000000,0.000000),Op=1,EntryCount=1,EntryStride=3))
+      StartVelocityRadial=(Distribution="/Script/Engine.DistributionFloatUniform'DistributionStartVelocityRadial'",Table=(Values=(0.000000),Op=1,EntryCount=1,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=116,G=211,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleVelocity_3" ExportPath="/Script/Engine.ParticleModuleVelocity'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_3'"
+      Begin Object Name="DistributionStartVelocityRadial" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_3.DistributionStartVelocityRadial'"
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionVectorConstant_1" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVelocity_3.DistributionVectorConstant_1'"
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartVelocity=(Distribution="/Script/Engine.DistributionVectorConstant'DistributionVectorConstant_1'",Table=(Values=(0.000000,0.000000,0.000000),Op=1,EntryCount=1,EntryStride=3))
+      StartVelocityRadial=(Distribution="/Script/Engine.DistributionFloatUniform'DistributionStartVelocityRadial'",Table=(Values=(0.000000),Op=1,EntryCount=1,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=140,G=198,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleAcceleration_0" ExportPath="/Script/Engine.ParticleModuleAcceleration'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAcceleration_0'"
+      Begin Object Name="DistributionVectorConstant_0" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAcceleration_0.DistributionVectorConstant_0'"
+         Constant=(X=0.000000,Y=0.000000,Z=300.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      Acceleration=(MaxValue=300.000000,MinValueVec=(X=0.000000,Y=0.000000,Z=300.000000),MaxValueVec=(X=0.000000,Y=0.000000,Z=300.000000),Distribution="/Script/Engine.DistributionVectorConstant'DistributionVectorConstant_0'",Table=(Values=(0.000000,0.000000,300.000000),Op=1,EntryCount=1,EntryStride=3))
+      bAlwaysInWorldSpace=True
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=151,R=190,A=255)
+   End Object
+   Begin Object Name="ParticleModuleMeshRotation_0" ExportPath="/Script/Engine.ParticleModuleMeshRotation'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleMeshRotation_0'"
+      Begin Object Name="DistributionVectorConstant_3" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleMeshRotation_0.DistributionVectorConstant_3'"
+         Constant=(X=0.000000,Y=0.000000,Z=80.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartRotation=(MaxValue=80.000000,MinValueVec=(X=0.000000,Y=0.000000,Z=80.000000),MaxValueVec=(X=0.000000,Y=0.000000,Z=80.000000),Distribution="/Script/Engine.DistributionVectorConstant'DistributionVectorConstant_3'",Table=(Values=(0.000000,0.000000,80.000000),Op=1,EntryCount=1,EntryStride=3))
+      LODValidity=1
+      ModuleEditorColor=(B=160,G=0,R=183,A=255)
+   End Object
+   Begin Object Name="ParticleModuleTypeDataMesh_0" ExportPath="/Script/Engine.ParticleModuleTypeDataMesh'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleTypeDataMesh_0'"
+      Begin Object Name="DistributionVectorConstant_2" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleTypeDataMesh_0.DistributionVectorConstant_2'"
+         Constant=(X=80.000000,Y=180.000000,Z=0.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      Mesh="/Script/Engine.StaticMesh'/Game/Rapier_AnimSet/mesh/circle_slash.circle_slash'"
+      bOverrideMaterial=True
+      bOverrideDefaultMotionBlurSettings=True
+      bEnableMotionBlur=True
+      RollPitchYawRange=(MaxValue=180.000000,MinValueVec=(X=80.000000,Y=180.000000,Z=0.000000),MaxValueVec=(X=80.000000,Y=180.000000,Z=0.000000),Distribution="/Script/Engine.DistributionVectorConstant'DistributionVectorConstant_2'",Table=(Values=(80.000000,180.000000,0.000000),Op=1,EntryCount=1,EntryStride=3))
+      CameraFacingOption=XAxisFacing_ZUp
+      bApplyParticleRotationAsSpin=True
+      bCollisionsConsiderPartilceSize=False
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=198,R=140,A=255)
+   End Object
+   Begin Object Name="ParticleModuleTypeDataMesh_1" ExportPath="/Script/Engine.ParticleModuleTypeDataMesh'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleTypeDataMesh_1'"
+      Begin Object Name="DistributionVectorConstant_2" ExportPath="/Script/Engine.DistributionVectorConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleTypeDataMesh_1.DistributionVectorConstant_2'"
+         Constant=(X=80.000000,Y=180.000000,Z=0.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      Mesh="/Script/Engine.StaticMesh'/Game/Rapier_AnimSet/mesh/circle_slash.circle_slash'"
+      RollPitchYawRange=(MaxValue=180.000000,MinValueVec=(X=80.000000,Y=180.000000,Z=0.000000),MaxValueVec=(X=80.000000,Y=180.000000,Z=0.000000),Distribution="/Script/Engine.DistributionVectorConstant'DistributionVectorConstant_2'",Table=(Values=(80.000000,180.000000,0.000000),Op=1,EntryCount=1,EntryStride=3))
+      LODValidity=1
+      ModuleEditorColor=(B=200,G=0,R=137,A=255)
+   End Object
+   Begin Object Name="ParticleModuleOrbit_0" ExportPath="/Script/Engine.ParticleModuleOrbit'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_0'"
+      Begin Object Name="DistributionOffsetAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_0.DistributionOffsetAmount'"
+         Max=(X=0.000000,Y=50.000000,Z=0.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionRotationAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_0.DistributionRotationAmount'"
+         Max=(X=1.000000,Y=1.000000,Z=1.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionRotationRateAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_0.DistributionRotationRateAmount'"
+         Max=(X=1.000000,Y=1.000000,Z=1.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      OffsetAmount=(MaxValue=50.000000,MaxValueVec=(X=0.000000,Y=50.000000,Z=0.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionOffsetAmount'",Table=(Values=(0.000000,0.000000,0.000000,0.000000,50.000000,0.000000),Op=2,EntryCount=1,EntryStride=6,SubEntryStride=3))
+      RotationAmount=(MaxValue=1.000000,MaxValueVec=(X=1.000000,Y=1.000000,Z=1.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionRotationAmount'",Table=(Values=(0.000000,0.000000,0.000000,1.000000,1.000000,1.000000),Op=2,EntryCount=1,EntryStride=6,SubEntryStride=3))
+      RotationRateAmount=(MaxValue=1.000000,MaxValueVec=(X=1.000000,Y=1.000000,Z=1.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionRotationRateAmount'",Table=(Values=(0.000000,0.000000,0.000000,1.000000,1.000000,1.000000),Op=2,EntryCount=1,EntryStride=6,SubEntryStride=3))
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=178,R=165,A=255)
+   End Object
+   Begin Object Name="ParticleModuleOrbit_1" ExportPath="/Script/Engine.ParticleModuleOrbit'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_1'"
+      Begin Object Name="DistributionOffsetAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_1.DistributionOffsetAmount'"
+         Max=(X=0.000000,Y=50.000000,Z=0.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionRotationAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_1.DistributionRotationAmount'"
+         Max=(X=1.000000,Y=1.000000,Z=1.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionRotationRateAmount" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleOrbit_1.DistributionRotationRateAmount'"
+         Max=(X=1.000000,Y=1.000000,Z=1.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      OffsetAmount=(MaxValue=50.000000,MaxValueVec=(X=0.000000,Y=50.000000,Z=0.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionOffsetAmount'",Table=(Values=(0.000000,0.000000,0.000000,0.000000,50.000000,0.000000),Op=2,EntryCount=1,EntryStride=6,SubEntryStride=3))
+      RotationAmount=(MaxValue=1.000000,MaxValueVec=(X=1.000000,Y=1.000000,Z=1.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionRotationAmount'",Table=(Values=(0.000000,0.000000,0.000000,1.000000,1.000000,1.000000),Op=2,EntryCount=1,EntryStride=6,SubEntryStride=3))
+      RotationRateAmount=(MaxValue=1.000000,MaxValueVec=(X=1.000000,Y=1.000000,Z=1.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionRotationRateAmount'",Table=(Values=(0.000000,0.000000,0.000000,1.000000,1.000000,1.000000),Op=2,EntryCount=1,EntryStride=6,SubEntryStride=3))
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=218,R=99,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSize_0" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_0'"
+      Begin Object Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_0.DistributionStartSize'"
+         Max=(X=2.000000,Y=2.000000,Z=2.000000)
+         Min=(X=2.000000,Y=2.000000,Z=2.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartSize=(MinValue=2.000000,MaxValue=2.000000,MinValueVec=(X=2.000000,Y=2.000000,Z=2.000000),MaxValueVec=(X=2.000000,Y=2.000000,Z=2.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionStartSize'",Table=(Values=(2.000000,2.000000,2.000000),Op=1,EntryCount=1,EntryStride=3))
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=198,R=140,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSize_1" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_1'"
+      Begin Object Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_1.DistributionStartSize'"
+         Max=(X=5.000000,Y=5.000000,Z=10.000000)
+         Min=(X=3.000000,Y=3.000000,Z=5.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartSize=(MinValue=3.000000,MaxValue=10.000000,MinValueVec=(X=3.000000,Y=3.000000,Z=5.000000),MaxValueVec=(X=5.000000,Y=5.000000,Z=10.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionStartSize'",Table=(Values=(3.000000,3.000000,5.000000,5.000000,5.000000,10.000000),Op=2,EntryCount=1,EntryStride=6,SubEntryStride=3))
+      LODValidity=1
+      ModuleEditorColor=(B=170,G=0,R=175,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSize_2" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_2'"
+      Begin Object Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_2.DistributionStartSize'"
+         Max=(X=5.000000,Y=10.000000,Z=25.000000)
+         Min=(X=2.000000,Y=6.000000,Z=25.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartSize=(MinValue=2.000000,MaxValue=25.000000,MinValueVec=(X=2.000000,Y=6.000000,Z=25.000000),MaxValueVec=(X=5.000000,Y=10.000000,Z=25.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionStartSize'",Table=(Values=(2.000000,6.000000,25.000000,5.000000,10.000000,25.000000),Op=2,EntryCount=1,EntryStride=6,SubEntryStride=3))
+      LODValidity=1
+      ModuleEditorColor=(B=107,G=0,R=215,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSize_3" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_3'"
+      Begin Object Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_3.DistributionStartSize'"
+         Max=(X=5.000000,Y=10.000000,Z=25.000000)
+         Min=(X=2.000000,Y=6.000000,Z=25.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartSize=(MinValue=2.000000,MaxValue=25.000000,MinValueVec=(X=2.000000,Y=6.000000,Z=25.000000),MaxValueVec=(X=5.000000,Y=10.000000,Z=25.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionStartSize'",Table=(Values=(2.000000,6.000000,25.000000,5.000000,10.000000,25.000000),Op=2,EntryCount=1,EntryStride=6,SubEntryStride=3))
+      LODValidity=1
+      ModuleEditorColor=(B=87,G=222,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSize_4" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_4'"
+      Begin Object Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSize_4.DistributionStartSize'"
+         Max=(X=2.000000,Y=2.000000,Z=2.000000)
+         Min=(X=2.000000,Y=2.000000,Z=2.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartSize=(MinValue=2.000000,MaxValue=2.000000,MinValueVec=(X=2.000000,Y=2.000000,Z=2.000000),MaxValueVec=(X=2.000000,Y=2.000000,Z=2.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionStartSize'",Table=(Values=(2.000000,2.000000,2.000000),Op=1,EntryCount=1,EntryStride=3))
+      LODValidity=1
+      ModuleEditorColor=(B=125,G=0,R=206,A=255)
+   End Object
+   Begin Object Name="InterpCurveEdSetup_0" ExportPath="/Script/Engine.InterpCurveEdSetup'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:InterpCurveEdSetup_0'"
+   End Object
+   Begin Object Name="ParticleSpriteEmitter_0" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_0'"
+      Begin Object Name="ParticleLODLevel_0" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_0.ParticleLODLevel_0'"
+         RequiredModule="/Script/Engine.ParticleModuleRequired'P_Slash01:ParticleModuleRequired_0'"
+         Modules(0)="/Script/Engine.ParticleModuleLifetime'P_Slash01:ParticleModuleLifetime_0'"
+         Modules(1)="/Script/Engine.ParticleModuleSize'P_Slash01:ParticleModuleSize_0'"
+         Modules(2)="/Script/Engine.ParticleModuleColor'P_Slash01:ParticleModuleColor_0'"
+         Modules(3)="/Script/Engine.ParticleModuleParameterDynamic'P_Slash01:ParticleModuleParameterDynamic_0'"
+         Modules(4)="/Script/Engine.ParticleModuleColorOverLife'P_Slash01:ParticleModuleColorOverLife_0'"
+         Modules(5)="/Script/Engine.ParticleModuleLight'P_Slash01:ParticleModuleLight_2'"
+         TypeDataModule="/Script/Engine.ParticleModuleTypeDataMesh'P_Slash01:ParticleModuleTypeDataMesh_0'"
+         SpawnModule="/Script/Engine.ParticleModuleSpawn'P_Slash01:ParticleModuleSpawn_0'"
+         PeakActiveParticles=3
+      End Object
+      bUseLegacySpawningBehavior=True
+      EmitterEditorColor=(B=197,G=0,R=142,A=255)
+      LODLevels(0)="/Script/Engine.ParticleLODLevel'ParticleLODLevel_0'"
+   End Object
+   Begin Object Name="ParticleSpriteEmitter_1" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_1'"
+      Begin Object Name="ParticleLODLevel_1" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_1.ParticleLODLevel_1'"
+         RequiredModule="/Script/Engine.ParticleModuleRequired'P_Slash01:ParticleModuleRequired_1'"
+         Modules(0)="/Script/Engine.ParticleModuleLifetime'P_Slash01:ParticleModuleLifetime_1'"
+         Modules(1)="/Script/Engine.ParticleModuleSize'P_Slash01:ParticleModuleSize_1'"
+         Modules(2)="/Script/Engine.ParticleModuleVelocity'P_Slash01:ParticleModuleVelocity_1'"
+         Modules(3)="/Script/Engine.ParticleModuleColorOverLife'P_Slash01:ParticleModuleColorOverLife_1'"
+         Modules(4)="/Script/Engine.ParticleModuleSizeScaleBySpeed'P_Slash01:ParticleModuleSizeScaleBySpeed_0'"
+         Modules(5)="/Script/Engine.ParticleModuleOrbit'P_Slash01:ParticleModuleOrbit_0'"
+         Modules(6)="/Script/Engine.ParticleModuleAcceleration'P_Slash01:ParticleModuleAcceleration_0'"
+         Modules(7)="/Script/Engine.ParticleModuleLight'P_Slash01:ParticleModuleLight_0'"
+         Modules(8)="/Script/Engine.ParticleModuleLocationPrimitiveSphere'P_Slash01:ParticleModuleLocationPrimitiveSphere_0'"
+         SpawnModule="/Script/Engine.ParticleModuleSpawn'P_Slash01:ParticleModuleSpawn_1'"
+         PeakActiveParticles=77
+      End Object
+      EmitterName="sparks"
+      bUseLegacySpawningBehavior=True
+      EmitterEditorColor=(B=0,G=0,R=255,A=255)
+      LODLevels(0)="/Script/Engine.ParticleLODLevel'ParticleLODLevel_1'"
+      InitialAllocationCount=1
+   End Object
+   Begin Object Name="ParticleSpriteEmitter_2" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_2'"
+      Begin Object Name="ParticleLODLevel_2" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_2.ParticleLODLevel_2'"
+         RequiredModule="/Script/Engine.ParticleModuleRequired'P_Slash01:ParticleModuleRequired_2'"
+         Modules(0)="/Script/Engine.ParticleModuleLifetime'P_Slash01:ParticleModuleLifetime_2'"
+         Modules(1)="/Script/Engine.ParticleModuleSize'P_Slash01:ParticleModuleSize_2'"
+         Modules(2)="/Script/Engine.ParticleModuleVelocity'P_Slash01:ParticleModuleVelocity_2'"
+         Modules(3)="/Script/Engine.ParticleModuleColorOverLife'P_Slash01:ParticleModuleColorOverLife_2'"
+         Modules(4)="/Script/Engine.ParticleModuleLocationPrimitiveCylinder'P_Slash01:ParticleModuleLocationPrimitiveCylinder_0'"
+         Modules(5)="/Script/Engine.ParticleModuleAccelerationDrag'P_Slash01:ParticleModuleAccelerationDrag_0'"
+         Modules(6)="/Script/Engine.ParticleModuleVectorFieldLocal'P_Slash01:ParticleModuleVectorFieldLocal_0'"
+         Modules(7)="/Script/Engine.ParticleModuleVectorFieldRotationRate'P_Slash01:ParticleModuleVectorFieldRotationRate_0'"
+         Modules(8)="/Script/Engine.ParticleModuleAccelerationConstant'P_Slash01:ParticleModuleAccelerationConstant_0'"
+         Begin Object Name="ParticleModuleTypeDataGpu_0" ExportPath="/Script/Engine.ParticleModuleTypeDataGpu'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleTypeDataGpu_0'"
+            EmitterInfo=(RequiredModule="/Script/Engine.ParticleModuleRequired'P_Slash01:ParticleModuleRequired_2'",SpawnModule="/Script/Engine.ParticleModuleSpawn'P_Slash01:ParticleModuleSpawn_2'",SpawnModules=("/Script/Engine.ParticleModuleRequired'P_Slash01:ParticleModuleRequired_2'","/Script/Engine.ParticleModuleLifetime'P_Slash01:ParticleModuleLifetime_2'","/Script/Engine.ParticleModuleSize'P_Slash01:ParticleModuleSize_2'","/Script/Engine.ParticleModuleVelocity'P_Slash01:ParticleModuleVelocity_2'","/Script/Engine.ParticleModuleLocationPrimitiveCylinder'P_Slash01:ParticleModuleLocationPrimitiveCylinder_0'"),LocalVectorField=(Field="/Script/Engine.VectorFieldStatic'/Game/Rapier_AnimSet/Textures/VFB.VFB'",Transform=(Scale3D=(X=0.239300,Y=0.210000,Z=0.210000)),RotationRate=(Pitch=0.000000,Yaw=180.000000,Roll=0.000000),Intensity=800.000000,bUseFixDT=True),DragCoefficient=(Table=(Values=(0.000000,1.000000),Op=2,EntryStride=2,SubEntryStride=1)),ConstantAcceleration=(X=0.000000,Y=0.000000,Z=300.000000),InvMaxSize=(X=0.040000,Y=0.040000),InvRotationRateScale=1.250000,MaxLifetime=0.800000,MaxParticleCount=167,ScreenAlignment=PSA_Velocity,bUseVelocityForMotionBlur=True)
+            ResourceData=(QuantizedColorSamples=((B=255,G=255,R=0,A=255),(B=0,G=0,R=255,A=0)),ColorScale=(X=0.298000,Y=6.000000,Z=18.999994,W=1.000000),ColorBias=(X=0.702000,Y=1.000000,Z=1.000000,W=0.000000),MiscBias=(X=25.000000,Y=25.000000,Z=0.000000,W=0.000000),SimulationAttrCurveBias=(X=1.000000,Y=1.000000,Z=0.000000,W=1.000000),SubImageSize=(X=1.000000,Y=1.000000,Z=1.000000,W=1.000000),SizeBySpeed=(X=0.000000,Y=0.000000,Z=1.000000,W=1.000000),ConstantAcceleration=(X=0.000000,Y=0.000000,Z=300.000000),PerParticleVectorFieldBias=1.000000,DragCoefficientScale=2.000000,DragCoefficientBias=1.000000,CollisionRadiusScale=0.500000,CollisionRandomDistribution=1.000000,OneMinusFriction=1.000000,RotationRateScale=0.800000,ScreenAlignment=PSA_Velocity,bUseVelocityForMotionBlur=True)
+            LODValidity=1
+            ModuleEditorColor=(B=153,G=188,R=0,A=255)
+         End Object
+         TypeDataModule="/Script/Engine.ParticleModuleTypeDataGpu'P_Slash01:ParticleModuleTypeDataGpu_0'"
+         SpawnModule="/Script/Engine.ParticleModuleSpawn'P_Slash01:ParticleModuleSpawn_2'"
+         PeakActiveParticles=167
+      End Object
+      EmitterName="sparks2"
+      bUseLegacySpawningBehavior=True
+      EmitterEditorColor=(B=183,G=159,R=0,A=255)
+      LODLevels(0)="/Script/Engine.ParticleLODLevel'ParticleLODLevel_2'"
+      InitialAllocationCount=1
+   End Object
+   Begin Object Name="ParticleSpriteEmitter_3" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_3'"
+      Begin Object Name="ParticleLODLevel_3" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_3.ParticleLODLevel_3'"
+         RequiredModule="/Script/Engine.ParticleModuleRequired'P_Slash01:ParticleModuleRequired_3'"
+         Modules(0)="/Script/Engine.ParticleModuleLifetime'P_Slash01:ParticleModuleLifetime_3'"
+         Modules(1)="/Script/Engine.ParticleModuleSize'P_Slash01:ParticleModuleSize_3'"
+         Modules(2)="/Script/Engine.ParticleModuleVelocity'P_Slash01:ParticleModuleVelocity_3'"
+         Modules(3)="/Script/Engine.ParticleModuleColorOverLife'P_Slash01:ParticleModuleColorOverLife_3'"
+         Modules(4)="/Script/Engine.ParticleModuleLocationPrimitiveCylinder'P_Slash01:ParticleModuleLocationPrimitiveCylinder_1'"
+         Modules(5)="/Script/Engine.ParticleModuleAccelerationDrag'P_Slash01:ParticleModuleAccelerationDrag_1'"
+         Modules(6)="/Script/Engine.ParticleModuleAccelerationConstant'P_Slash01:ParticleModuleAccelerationConstant_1'"
+         Modules(7)="/Script/Engine.ParticleModuleOrbit'P_Slash01:ParticleModuleOrbit_1'"
+         Modules(8)="/Script/Engine.ParticleModuleLight'P_Slash01:ParticleModuleLight_1'"
+         SpawnModule="/Script/Engine.ParticleModuleSpawn'P_Slash01:ParticleModuleSpawn_3'"
+         PeakActiveParticles=18
+      End Object
+      EmitterName="sparks2"
+      bUseLegacySpawningBehavior=True
+      EmitterEditorColor=(B=0,G=153,R=188,A=255)
+      LODLevels(0)="/Script/Engine.ParticleLODLevel'ParticleLODLevel_3'"
+      InitialAllocationCount=1
+   End Object
+   Begin Object Name="ParticleSpriteEmitter_4" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_4'"
+      Begin Object Name="ParticleLODLevel_4" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleSpriteEmitter_4.ParticleLODLevel_4'"
+         RequiredModule="/Script/Engine.ParticleModuleRequired'P_Slash01:ParticleModuleRequired_4'"
+         Modules(0)="/Script/Engine.ParticleModuleLifetime'P_Slash01:ParticleModuleLifetime_4'"
+         Modules(1)="/Script/Engine.ParticleModuleSize'P_Slash01:ParticleModuleSize_4'"
+         Modules(2)="/Script/Engine.ParticleModuleColor'P_Slash01:ParticleModuleColor_1'"
+         Modules(3)="/Script/Engine.ParticleModuleParameterDynamic'P_Slash01:ParticleModuleParameterDynamic_1'"
+         Modules(4)="/Script/Engine.ParticleModuleColorOverLife'P_Slash01:ParticleModuleColorOverLife_4'"
+         Modules(5)="/Script/Engine.ParticleModuleMeshRotation'P_Slash01:ParticleModuleMeshRotation_0'"
+         TypeDataModule="/Script/Engine.ParticleModuleTypeDataMesh'P_Slash01:ParticleModuleTypeDataMesh_1'"
+         SpawnModule="/Script/Engine.ParticleModuleSpawn'P_Slash01:ParticleModuleSpawn_4'"
+         PeakActiveParticles=3
+      End Object
+      bUseLegacySpawningBehavior=True
+      EmitterEditorColor=(B=88,G=0,R=222,A=255)
+      LODLevels(0)="/Script/Engine.ParticleLODLevel'ParticleLODLevel_4'"
+   End Object
+   Begin Object Name="ParticleModuleAccelerationConstant_0" ExportPath="/Script/Engine.ParticleModuleAccelerationConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationConstant_0'"
+      Acceleration=(X=0.000000,Y=0.000000,Z=300.000000)
+      bAlwaysInWorldSpace=True
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=147,R=193,A=255)
+   End Object
+   Begin Object Name="ParticleModuleAccelerationConstant_1" ExportPath="/Script/Engine.ParticleModuleAccelerationConstant'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleAccelerationConstant_1'"
+      Acceleration=(X=0.000000,Y=0.000000,Z=300.000000)
+      bAlwaysInWorldSpace=True
+      LODValidity=1
+      ModuleEditorColor=(B=165,G=178,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSizeScaleBySpeed_0" ExportPath="/Script/Engine.ParticleModuleSizeScaleBySpeed'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleSizeScaleBySpeed_0'"
+      SpeedScale=(X=0.000000,Y=7.000000)
+      MaxScale=(X=1.000000,Y=4.000000)
+      LODValidity=1
+      ModuleEditorColor=(B=153,G=188,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleTypeDataGpu_0" ExportPath="/Script/Engine.ParticleModuleTypeDataGpu'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleTypeDataGpu_0'"
+      EmitterInfo=(RequiredModule="/Script/Engine.ParticleModuleRequired'P_Slash01:ParticleModuleRequired_2'",SpawnModule="/Script/Engine.ParticleModuleSpawn'P_Slash01:ParticleModuleSpawn_2'",SpawnModules=("/Script/Engine.ParticleModuleRequired'P_Slash01:ParticleModuleRequired_2'","/Script/Engine.ParticleModuleLifetime'P_Slash01:ParticleModuleLifetime_2'","/Script/Engine.ParticleModuleSize'P_Slash01:ParticleModuleSize_2'","/Script/Engine.ParticleModuleVelocity'P_Slash01:ParticleModuleVelocity_2'","/Script/Engine.ParticleModuleLocationPrimitiveCylinder'P_Slash01:ParticleModuleLocationPrimitiveCylinder_0'"),LocalVectorField=(Field="/Script/Engine.VectorFieldStatic'/Game/Rapier_AnimSet/Textures/VFB.VFB'",Transform=(Scale3D=(X=0.239300,Y=0.210000,Z=0.210000)),RotationRate=(Pitch=0.000000,Yaw=180.000000,Roll=0.000000),Intensity=800.000000,bUseFixDT=True),DragCoefficient=(Table=(Values=(0.000000,1.000000),Op=2,EntryStride=2,SubEntryStride=1)),ConstantAcceleration=(X=0.000000,Y=0.000000,Z=300.000000),InvMaxSize=(X=0.040000,Y=0.040000),InvRotationRateScale=1.250000,MaxLifetime=0.800000,MaxParticleCount=167,ScreenAlignment=PSA_Velocity,bUseVelocityForMotionBlur=True)
+      ResourceData=(QuantizedColorSamples=((B=255,G=255,R=0,A=255),(B=0,G=0,R=255,A=0)),ColorScale=(X=0.298000,Y=6.000000,Z=18.999994,W=1.000000),ColorBias=(X=0.702000,Y=1.000000,Z=1.000000,W=0.000000),MiscBias=(X=25.000000,Y=25.000000,Z=0.000000,W=0.000000),SimulationAttrCurveBias=(X=1.000000,Y=1.000000,Z=0.000000,W=1.000000),SubImageSize=(X=1.000000,Y=1.000000,Z=1.000000,W=1.000000),SizeBySpeed=(X=0.000000,Y=0.000000,Z=1.000000,W=1.000000),ConstantAcceleration=(X=0.000000,Y=0.000000,Z=300.000000),PerParticleVectorFieldBias=1.000000,DragCoefficientScale=2.000000,DragCoefficientBias=1.000000,CollisionRadiusScale=0.500000,CollisionRandomDistribution=1.000000,OneMinusFriction=1.000000,RotationRateScale=0.800000,ScreenAlignment=PSA_Velocity,bUseVelocityForMotionBlur=True)
+      LODValidity=1
+      ModuleEditorColor=(B=153,G=188,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleVectorFieldLocal_0" ExportPath="/Script/Engine.ParticleModuleVectorFieldLocal'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVectorFieldLocal_0'"
+      VectorField="/Script/Engine.VectorFieldStatic'/Game/Rapier_AnimSet/Textures/VFB.VFB'"
+      RelativeScale3D=(X=0.239300,Y=0.210000,Z=0.210000)
+      Intensity=800.000000
+      LODValidity=1
+      ModuleEditorColor=(B=103,G=0,R=216,A=255)
+   End Object
+   Begin Object Name="ParticleModuleVectorFieldRotationRate_0" ExportPath="/Script/Engine.ParticleModuleVectorFieldRotationRate'/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01:ParticleModuleVectorFieldRotationRate_0'"
+      RotationRate=(X=0.000000,Y=0.000000,Z=0.500000)
+      LODValidity=1
+      ModuleEditorColor=(B=230,G=0,R=55,A=255)
+   End Object
+   Emitters(0)="/Script/Engine.ParticleSpriteEmitter'ParticleSpriteEmitter_0'"
+   Emitters(1)="/Script/Engine.ParticleSpriteEmitter'ParticleSpriteEmitter_4'"
+   Emitters(2)="/Script/Engine.ParticleSpriteEmitter'ParticleSpriteEmitter_1'"
+   Emitters(3)="/Script/Engine.ParticleSpriteEmitter'ParticleSpriteEmitter_2'"
+   Emitters(4)="/Script/Engine.ParticleSpriteEmitter'ParticleSpriteEmitter_3'"
+   CurveEdSetup="/Script/Engine.InterpCurveEdSetup'InterpCurveEdSetup_0'"
+   LODDistances(0)=0.000000
+   LODSettings(0)=()
+   bShouldResetPeakCounts=True
+   CustomOcclusionBounds=(Min=(X=0.000000,Y=0.000000,Z=0.000000),Max=(X=0.000000,Y=0.000000,Z=0.000000),IsValid=True)
+End Object

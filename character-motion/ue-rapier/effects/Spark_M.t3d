@@ -1,0 +1,58 @@
+Begin Object Class=/Script/Engine.Material Name="Spark_M" ExportPath="/Script/Engine.Material'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M'"
+   Begin Object Class=/Script/Engine.MaterialEditorOnlyData Name="Spark_MEditorOnlyData" ExportPath="/Script/Engine.MaterialEditorOnlyData'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M:Spark_MEditorOnlyData'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMaterialFunctionCall Name="MaterialExpressionMaterialFunctionCall_0" ExportPath="/Script/Engine.MaterialExpressionMaterialFunctionCall'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M:MaterialExpressionMaterialFunctionCall_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_2" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M:MaterialExpressionMultiply_2'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionParticleColor Name="MaterialExpressionParticleColor_1" ExportPath="/Script/Engine.MaterialExpressionParticleColor'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M:MaterialExpressionParticleColor_1'"
+   End Object
+   Begin Object Class=/Script/UnrealEd.SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_0" ExportPath="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M:SceneThumbnailInfoWithPrimitive_0'"
+   End Object
+   Begin Object Name="Spark_MEditorOnlyData" ExportPath="/Script/Engine.MaterialEditorOnlyData'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M:Spark_MEditorOnlyData'"
+      EmissiveColor=(Expression="/Script/Engine.MaterialExpressionParticleColor'Spark_M:MaterialExpressionParticleColor_1'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      Opacity=(Expression="/Script/Engine.MaterialExpressionMultiply'Spark_M:MaterialExpressionMultiply_2'")
+      ExpressionCollection=(Expressions=("/Script/Engine.MaterialExpressionParticleColor'Spark_M:MaterialExpressionParticleColor_1'","/Script/Engine.MaterialExpressionMaterialFunctionCall'Spark_M:MaterialExpressionMaterialFunctionCall_0'","/Script/Engine.MaterialExpressionMultiply'Spark_M:MaterialExpressionMultiply_2'"))
+   End Object
+   Begin Object Name="MaterialExpressionMaterialFunctionCall_0" ExportPath="/Script/Engine.MaterialExpressionMaterialFunctionCall'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M:MaterialExpressionMaterialFunctionCall_0'"
+      MaterialFunction="/Script/Engine.MaterialFunction'/Engine/Functions/Engine_MaterialFunctions01/Gradient/RadialGradientExponential.RadialGradientExponential'"
+      FunctionInputs(0)=(ExpressionInputId=D38E6C0F499293F6CC65C0AE55AE0D4E,Input=(OutputIndex=-1,InputName="UVs"))
+      FunctionInputs(1)=(ExpressionInputId=2997555B436C735459B9D695B58F219E,Input=(OutputIndex=-1,InputName="CenterPosition"))
+      FunctionInputs(2)=(ExpressionInputId=B330351C4B254660CCDCA5923C8F3F26,Input=(OutputIndex=-1,InputName="Radius"))
+      FunctionInputs(3)=(ExpressionInputId=2B61E834449DAE3BC4D079B953B5DE0E,Input=(OutputIndex=-1,InputName="Density"))
+      FunctionInputs(4)=(ExpressionInputId=7D5AC5254448D12A92351AA36BEED90A,Input=(OutputIndex=-1,InputName="Invert Density"))
+      FunctionOutputs(0)=(ExpressionOutputId=8D0763534D7AAC86623FB1AE8CD0CC39,Output=(OutputName="RadialGradientExponential"))
+      MaterialExpressionEditorX=80
+      MaterialExpressionEditorY=240
+      MaterialExpressionGuid=6F4B2AA5428557B5ACCF559790DB5EB3
+      Material="/Script/Engine.Material'Spark_M'"
+      Outputs(0)=(OutputName="RadialGradientExponential")
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_2" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M:MaterialExpressionMultiply_2'"
+      A=(Expression="/Script/Engine.MaterialExpressionParticleColor'Spark_M:MaterialExpressionParticleColor_1'",OutputIndex=4,Mask=1,MaskA=1)
+      B=(Expression="/Script/Engine.MaterialExpressionMaterialFunctionCall'Spark_M:MaterialExpressionMaterialFunctionCall_0'")
+      MaterialExpressionEditorX=448
+      MaterialExpressionEditorY=176
+      MaterialExpressionGuid=11ACFF974CDE73125F19B5BEF6252FD2
+      Material="/Script/Engine.Material'Spark_M'"
+   End Object
+   Begin Object Name="MaterialExpressionParticleColor_1" ExportPath="/Script/Engine.MaterialExpressionParticleColor'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M:MaterialExpressionParticleColor_1'"
+      MaterialExpressionEditorX=240
+      MaterialExpressionGuid=5CDF5A22473E302807BA66BC64F928C1
+      Material="/Script/Engine.Material'Spark_M'"
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_0" ExportPath="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M:SceneThumbnailInfoWithPrimitive_0'"
+   End Object
+   BlendMode=BLEND_Translucent
+   ShadingModel=MSM_Unlit
+   ShadingModels=(ShadingModelField=1)
+   bUsedWithParticleSprites=True
+   EditorX=704
+   EditorY=-16
+   bCanMaskedBeAssumedOpaque=True
+   PixelDepthOffsetMode=PDOM_Legacy
+   StateId=9FA92D3CA01B3AF3008177843892C1E5
+   EditorOnlyData="/Script/Engine.MaterialEditorOnlyData'Spark_MEditorOnlyData'"
+   ThumbnailInfo="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'SceneThumbnailInfoWithPrimitive_0'"
+   LightingGuid=BE4C8B7442628E1E285AEDB00D59106C
+End Object

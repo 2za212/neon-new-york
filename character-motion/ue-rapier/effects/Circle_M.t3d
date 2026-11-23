@@ -1,0 +1,79 @@
+Begin Object Class=/Script/Engine.Material Name="Circle_M" ExportPath="/Script/Engine.Material'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M'"
+   Begin Object Class=/Script/Engine.MaterialEditorOnlyData Name="Circle_MEditorOnlyData" ExportPath="/Script/Engine.MaterialEditorOnlyData'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:Circle_MEditorOnlyData'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_0" ExportPath="/Script/Engine.MaterialExpressionAdd'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionAdd_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_5" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionMultiply_5'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_6" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionMultiply_6'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionParticleColor Name="MaterialExpressionParticleColor_0" ExportPath="/Script/Engine.MaterialExpressionParticleColor'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionParticleColor_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_0" ExportPath="/Script/Engine.MaterialExpressionTextureSample'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionTextureSample_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_2" ExportPath="/Script/Engine.MaterialExpressionTextureSample'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionTextureSample_2'"
+   End Object
+   Begin Object Class=/Script/UnrealEd.SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_0" ExportPath="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:SceneThumbnailInfoWithPrimitive_0'"
+   End Object
+   Begin Object Name="Circle_MEditorOnlyData" ExportPath="/Script/Engine.MaterialEditorOnlyData'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:Circle_MEditorOnlyData'"
+      EmissiveColor=(Expression="/Script/Engine.MaterialExpressionMultiply'Circle_M:MaterialExpressionMultiply_6'")
+      OpacityMask=(Expression="/Script/Engine.MaterialExpressionMultiply'Circle_M:MaterialExpressionMultiply_5'")
+      ExpressionCollection=(Expressions=("/Script/Engine.MaterialExpressionMultiply'Circle_M:MaterialExpressionMultiply_6'","/Script/Engine.MaterialExpressionMultiply'Circle_M:MaterialExpressionMultiply_5'","/Script/Engine.MaterialExpressionTextureSample'Circle_M:MaterialExpressionTextureSample_0'","/Script/Engine.MaterialExpressionParticleColor'Circle_M:MaterialExpressionParticleColor_0'","/Script/Engine.MaterialExpressionTextureSample'Circle_M:MaterialExpressionTextureSample_2'","/Script/Engine.MaterialExpressionAdd'Circle_M:MaterialExpressionAdd_0'"))
+   End Object
+   Begin Object Name="MaterialExpressionAdd_0" ExportPath="/Script/Engine.MaterialExpressionAdd'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionAdd_0'"
+      A=(Expression="/Script/Engine.MaterialExpressionTextureSample'Circle_M:MaterialExpressionTextureSample_0'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      B=(Expression="/Script/Engine.MaterialExpressionTextureSample'Circle_M:MaterialExpressionTextureSample_2'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      MaterialExpressionEditorX=-608
+      MaterialExpressionEditorY=304
+      MaterialExpressionGuid=5B8A95EF4A52F3233AB04D8AA66B9128
+      Material="/Script/Engine.Material'Circle_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_5" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionMultiply_5'"
+      A=(Expression="/Script/Engine.MaterialExpressionParticleColor'Circle_M:MaterialExpressionParticleColor_0'",OutputIndex=4,Mask=1,MaskA=1)
+      B=(Expression="/Script/Engine.MaterialExpressionAdd'Circle_M:MaterialExpressionAdd_0'")
+      MaterialExpressionEditorX=-240
+      MaterialExpressionEditorY=336
+      MaterialExpressionGuid=40ECD2FD47B34229A1458C9DA4C09218
+      Material="/Script/Engine.Material'Circle_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_6" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionMultiply_6'"
+      A=(Expression="/Script/Engine.MaterialExpressionParticleColor'Circle_M:MaterialExpressionParticleColor_0'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      B=(Expression="/Script/Engine.MaterialExpressionAdd'Circle_M:MaterialExpressionAdd_0'")
+      MaterialExpressionEditorX=-256
+      MaterialExpressionEditorY=112
+      MaterialExpressionGuid=41E726A04D6AAF65020FB7816C5B8AD1
+      Material="/Script/Engine.Material'Circle_M'"
+   End Object
+   Begin Object Name="MaterialExpressionParticleColor_0" ExportPath="/Script/Engine.MaterialExpressionParticleColor'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionParticleColor_0'"
+      MaterialExpressionEditorX=-505
+      MaterialExpressionEditorY=35
+      MaterialExpressionGuid=3BADC2554711EA18955E44A84D896D42
+      Material="/Script/Engine.Material'Circle_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_0" ExportPath="/Script/Engine.MaterialExpressionTextureSample'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionTextureSample_0'"
+      Texture="/Script/Engine.Texture2D'/Game/Rapier_AnimSet/Textures/FX_Textures/circle_purple_01_T.circle_purple_01_T'"
+      IsDefaultMeshpaintTexture=True
+      MaterialExpressionEditorX=-960
+      MaterialExpressionEditorY=256
+      MaterialExpressionGuid=A49E3D9F43E908F6847798B7B1764A32
+      Material="/Script/Engine.Material'Circle_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_2" ExportPath="/Script/Engine.MaterialExpressionTextureSample'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:MaterialExpressionTextureSample_2'"
+      Texture="/Script/Engine.Texture2D'/Game/Rapier_AnimSet/Textures/FX_Textures/circle_wind_T.circle_wind_T'"
+      MaterialExpressionEditorX=-944
+      MaterialExpressionEditorY=560
+      MaterialExpressionGuid=A49E3D9F43E908F6847798B7B1764A32
+      Material="/Script/Engine.Material'Circle_M'"
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_0" ExportPath="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M:SceneThumbnailInfoWithPrimitive_0'"
+   End Object
+   BlendMode=BLEND_Masked
+   ShadingModel=MSM_Unlit
+   ShadingModels=(ShadingModelField=1)
+   bUsedWithParticleSprites=True
+   PixelDepthOffsetMode=PDOM_Legacy
+   StateId=D26903FEA5E0CC8D3807C6A1A568B375
+   EditorOnlyData="/Script/Engine.MaterialEditorOnlyData'Circle_MEditorOnlyData'"
+   ThumbnailInfo="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'SceneThumbnailInfoWithPrimitive_0'"
+   LightingGuid=4F8615CB4D4E14FE2DDF11BCC6B4178C
+End Object

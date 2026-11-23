@@ -1,0 +1,1579 @@
+{
+  "version": 1,
+  "sourceProject": "D:/zaohua/rapier-export-ue/ZaoHua.uproject",
+  "readOnly": true,
+  "clips": {
+    "attack-1": {
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_01.A_Voxel_Rapier_attack_01",
+      "duration": 1.600000023841858,
+      "events": [
+        {
+          "index": 0,
+          "name": "P_Slash01",
+          "time": 0.313274,
+          "duration": 0.407236,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_01.A_Voxel_Rapier_attack_01:AnimNotifyState_TimedParticleEffect_7",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              108.47352755218945,
+              19.73963199246713,
+              105.05173736695278
+            ],
+            "rotation_offset": [
+              -30.322289962626936,
+              90.257027155282,
+              179.7477200101313
+            ],
+            "socket_name": "Rapier_FX_Root",
+            "destroy_at_end": false
+          },
+          "phase": 0.19579624708240856,
+          "endTime": 0.72051,
+          "endPhase": 0.4503187432897278
+        },
+        {
+          "index": 1,
+          "name": "Trail",
+          "time": 0.323096,
+          "duration": 0.098079,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_Trail",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_01.A_Voxel_Rapier_attack_01:AnimNotifyState_Trail_0",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P",
+              "class": "ParticleSystem"
+            },
+            "first_socket_name": "Trail_Start",
+            "second_socket_name": "Trail_End",
+            "width_scale_mode": "<TrailWidthMode.E_TRAIL_WIDTH_MODE_FROM_CENTRE: 0>",
+            "width_scale_curve": "None",
+            "recycle_spawned_systems": true
+          },
+          "phase": 0.20193499699093406,
+          "endTime": 0.42117499999999997,
+          "endPhase": 0.2632343710775022
+        },
+        {
+          "index": 2,
+          "name": "Sparks_P_2",
+          "time": 0.338241,
+          "duration": 0.033333,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_01.A_Voxel_Rapier_attack_01:AnimNotifyState_TimedParticleEffect_1",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              50,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              50
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.21140062184988526,
+          "endTime": 0.371574,
+          "endPhase": 0.2322337465394475
+        },
+        {
+          "index": 3,
+          "name": "Sparks_P",
+          "time": 0.386765,
+          "duration": 0.055548,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_01.A_Voxel_Rapier_attack_01:AnimNotifyState_TimedParticleEffect_0",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.2417281213979703,
+          "endTime": 0.442313,
+          "endPhase": 0.27644562088063923
+        }
+      ]
+    },
+    "attack-2": {
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_02.A_Voxel_Rapier_attack_02",
+      "duration": 1.5666667222976685,
+      "events": [
+        {
+          "index": 0,
+          "name": "Trail",
+          "time": 0.33449,
+          "duration": 0.110398,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_Trail",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_02.A_Voxel_Rapier_attack_02:AnimNotifyState_Trail_0",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P",
+              "class": "ParticleSystem"
+            },
+            "first_socket_name": "Trail_Start",
+            "second_socket_name": "Trail_End",
+            "width_scale_mode": "<TrailWidthMode.E_TRAIL_WIDTH_MODE_FROM_CENTRE: 0>",
+            "width_scale_curve": "None",
+            "recycle_spawned_systems": true
+          },
+          "phase": 0.21350424773779456,
+          "endTime": 0.444888,
+          "endPhase": 0.28397105374621645
+        },
+        {
+          "index": 1,
+          "name": "Sparks_P_2",
+          "time": 0.337786,
+          "duration": 0.051458,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_02.A_Voxel_Rapier_attack_02:AnimNotifyState_TimedParticleEffect_1",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              50,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              50
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.21560807745032337,
+          "endTime": 0.389244,
+          "endPhase": 0.2484536081989001
+        },
+        {
+          "index": 2,
+          "name": "Sparks_P",
+          "time": 0.395456,
+          "duration": 0.070378,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_02.A_Voxel_Rapier_attack_02:AnimNotifyState_TimedParticleEffect_0",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.25241871444108127,
+          "endTime": 0.46583399999999997,
+          "endPhase": 0.29734084050550924
+        }
+      ]
+    },
+    "attack-3": {
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_03.A_Voxel_Rapier_attack_03",
+      "duration": 1.600000023841858,
+      "events": [
+        {
+          "index": 0,
+          "name": "Trail",
+          "time": 0.375263,
+          "duration": 0.098079,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_Trail",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_03.A_Voxel_Rapier_attack_03:AnimNotifyState_Trail_0",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P",
+              "class": "ParticleSystem"
+            },
+            "first_socket_name": "Trail_Start",
+            "second_socket_name": "Trail_End",
+            "width_scale_mode": "<TrailWidthMode.E_TRAIL_WIDTH_MODE_FROM_CENTRE: 0>",
+            "width_scale_curve": "None",
+            "recycle_spawned_systems": true
+          },
+          "phase": 0.23453937150509102,
+          "endTime": 0.47334200000000004,
+          "endPhase": 0.2958387455916592
+        },
+        {
+          "index": 1,
+          "name": "Sparks_P_2",
+          "time": 0.390408,
+          "duration": 0.033333,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_03.A_Voxel_Rapier_attack_03:AnimNotifyState_TimedParticleEffect_1",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              50,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              50
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.24400499636404221,
+          "endTime": 0.423741,
+          "endPhase": 0.26483812105360444
+        },
+        {
+          "index": 2,
+          "name": "Sparks_P",
+          "time": 0.438932,
+          "duration": 0.055548,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_03.A_Voxel_Rapier_attack_03:AnimNotifyState_TimedParticleEffect_0",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.27433249591212727,
+          "endTime": 0.49448,
+          "endPhase": 0.30904999539479616
+        }
+      ]
+    },
+    "skill-1": {
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01",
+      "duration": 2.4666666984558105,
+      "events": [
+        {
+          "index": 0,
+          "name": "Trail",
+          "time": 0.30094,
+          "duration": 0.098079,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_Trail",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01:AnimNotifyState_Trail_0",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P",
+              "class": "ParticleSystem"
+            },
+            "first_socket_name": "Trail_Start",
+            "second_socket_name": "Trail_End",
+            "width_scale_mode": "<TrailWidthMode.E_TRAIL_WIDTH_MODE_FROM_CENTRE: 0>",
+            "width_scale_curve": "None",
+            "recycle_spawned_systems": true
+          },
+          "phase": 0.122002701130394,
+          "endTime": 0.399019,
+          "endPhase": 0.1617644573747215
+        },
+        {
+          "index": 1,
+          "name": "Sparks_P_2",
+          "time": 0.324288,
+          "duration": 0.033333,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01:AnimNotifyState_TimedParticleEffect_1",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              50,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              50
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.13146810641381412,
+          "endTime": 0.357621,
+          "endPhase": 0.14498148461803895
+        },
+        {
+          "index": 2,
+          "name": "Sparks_P",
+          "time": 0.399096,
+          "duration": 0.055548,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01:AnimNotifyState_TimedParticleEffect_0",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.16179567359053543,
+          "endTime": 0.454644,
+          "endPhase": 0.18431513275977557
+        },
+        {
+          "index": 3,
+          "name": "Trail",
+          "time": 0.721217,
+          "duration": 0.098079,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_Trail",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01:AnimNotifyState_Trail_1",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P",
+              "class": "ParticleSystem"
+            },
+            "first_socket_name": "Trail_Start",
+            "second_socket_name": "Trail_End",
+            "width_scale_mode": "<TrailWidthMode.E_TRAIL_WIDTH_MODE_FROM_CENTRE: 0>",
+            "width_scale_curve": "None",
+            "recycle_spawned_systems": true
+          },
+          "phase": 0.29238526650215785,
+          "endTime": 0.819296,
+          "endPhase": 0.33214702274648533
+        },
+        {
+          "index": 4,
+          "name": "P_Slash01",
+          "time": 0.726846,
+          "duration": 0.407236,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01:AnimNotifyState_TimedParticleEffect_7",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              111.29162005779312,
+              -9.238468896780184,
+              -8.71172391968961
+            ],
+            "rotation_offset": [
+              -20.4690485510046,
+              -90.04407523465382,
+              -0.4766096646084136
+            ],
+            "socket_name": "Rapier_FX_Root",
+            "destroy_at_end": false
+          },
+          "phase": 0.2946672934997753,
+          "endTime": 1.134082,
+          "endPhase": 0.459762967047782
+        },
+        {
+          "index": 5,
+          "name": "Sparks_P_2",
+          "time": 0.744565,
+          "duration": 0.033333,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01:AnimNotifyState_TimedParticleEffect_2",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              50,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              50
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.30185067178557795,
+          "endTime": 0.777898,
+          "endPhase": 0.3153640499898028
+        },
+        {
+          "index": 6,
+          "name": "Sparks_P",
+          "time": 0.819373,
+          "duration": 0.055548,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01:AnimNotifyState_TimedParticleEffect_3",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.33217823896229925,
+          "endTime": 0.8749210000000001,
+          "endPhase": 0.3546976981315394
+        },
+        {
+          "index": 7,
+          "name": "Trail",
+          "time": 1.195975,
+          "duration": 0.116239,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_Trail",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01:AnimNotifyState_Trail_2",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P",
+              "class": "ParticleSystem"
+            },
+            "first_socket_name": "Trail_Start",
+            "second_socket_name": "Trail_End",
+            "width_scale_mode": "<TrailWidthMode.E_TRAIL_WIDTH_MODE_FROM_CENTRE: 0>",
+            "width_scale_curve": "None",
+            "recycle_spawned_systems": true
+          },
+          "phase": 0.484854723481169,
+          "endTime": 1.312214,
+          "endPhase": 0.5319786417927788
+        },
+        {
+          "index": 8,
+          "name": "P_Slash01",
+          "time": 1.201168,
+          "duration": 0.407236,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01:AnimNotifyState_TimedParticleEffect_6",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              50.45872948380354,
+              17.48341488376827,
+              110.1468125333764
+            ],
+            "rotation_offset": [
+              -0.05284077771399316,
+              90.02611054628031,
+              179.9930108856939
+            ],
+            "socket_name": "Rapier_FX_Root",
+            "destroy_at_end": false
+          },
+          "phase": 0.4869599937243076,
+          "endTime": 1.608404,
+          "endPhase": 0.6520556672723142
+        },
+        {
+          "index": 9,
+          "name": "Sparks_P_2",
+          "time": 1.237484,
+          "duration": 0.033333,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01:AnimNotifyState_TimedParticleEffect_4",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              50,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              50
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.5016826962372716,
+          "endTime": 1.270817,
+          "endPhase": 0.5151960744414965
+        },
+        {
+          "index": 10,
+          "name": "Sparks_P",
+          "time": 1.312292,
+          "duration": 0.055548,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01:AnimNotifyState_TimedParticleEffect_5",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.5320102634139929,
+          "endTime": 1.36784,
+          "endPhase": 0.5545297225832331
+        }
+      ]
+    },
+    "skill-2": {
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02",
+      "duration": 2.799999952316284,
+      "events": [
+        {
+          "index": 0,
+          "name": "Trail",
+          "time": 0.203197,
+          "duration": 0.098079,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_Trail",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_Trail_0",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P",
+              "class": "ParticleSystem"
+            },
+            "first_socket_name": "Trail_Start",
+            "second_socket_name": "Trail_End",
+            "width_scale_mode": "<TrailWidthMode.E_TRAIL_WIDTH_MODE_FROM_CENTRE: 0>",
+            "width_scale_curve": "None",
+            "recycle_spawned_systems": true
+          },
+          "phase": 0.07257035837872297,
+          "endTime": 0.301276,
+          "endPhase": 0.10759857326096421
+        },
+        {
+          "index": 1,
+          "name": "Sparks_P_2",
+          "time": 0.229701,
+          "duration": 0.033333,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_TimedParticleEffect_1",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              50,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              50
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.08203607282563742,
+          "endTime": 0.263034,
+          "endPhase": 0.09394071588551514
+        },
+        {
+          "index": 2,
+          "name": "Sparks_P",
+          "time": 0.314618,
+          "duration": 0.055548,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_TimedParticleEffect_0",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.11236357334211168,
+          "endTime": 0.370166,
+          "endPhase": 0.13220214510853198
+        },
+        {
+          "index": 3,
+          "name": "Trail",
+          "time": 0.706773,
+          "duration": 0.098079,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_Trail",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_Trail_1",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P",
+              "class": "ParticleSystem"
+            },
+            "first_socket_name": "Trail_Start",
+            "second_socket_name": "Trail_End",
+            "width_scale_mode": "<TrailWidthMode.E_TRAIL_WIDTH_MODE_FROM_CENTRE: 0>",
+            "width_scale_curve": "None",
+            "recycle_spawned_systems": true
+          },
+          "phase": 0.25241893287009737,
+          "endTime": 0.804852,
+          "endPhase": 0.2874471477523386
+        },
+        {
+          "index": 4,
+          "name": "Sparks_P_2",
+          "time": 0.733277,
+          "duration": 0.033333,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_TimedParticleEffect_2",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              50,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              50
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.26188464731701183,
+          "endTime": 0.76661,
+          "endPhase": 0.27378929037688954
+        },
+        {
+          "index": 5,
+          "name": "Sparks_P",
+          "time": 0.818194,
+          "duration": 0.055548,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_TimedParticleEffect_3",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.2922121478334861,
+          "endTime": 0.873742,
+          "endPhase": 0.3120507195999064
+        },
+        {
+          "index": 6,
+          "name": "Trail",
+          "time": 1.169121,
+          "duration": 0.098079,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_Trail",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_Trail_2",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P",
+              "class": "ParticleSystem"
+            },
+            "first_socket_name": "Trail_Start",
+            "second_socket_name": "Trail_End",
+            "width_scale_mode": "<TrailWidthMode.E_TRAIL_WIDTH_MODE_FROM_CENTRE: 0>",
+            "width_scale_curve": "None",
+            "recycle_spawned_systems": true
+          },
+          "phase": 0.417543221396433,
+          "endTime": 1.2672,
+          "endPhase": 0.45257143627867424
+        },
+        {
+          "index": 7,
+          "name": "Sparks_P_2",
+          "time": 1.195624,
+          "duration": 0.033333,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_TimedParticleEffect_4",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              50,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              50
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.4270085787004842,
+          "endTime": 1.228957,
+          "endPhase": 0.43891322176036196
+        },
+        {
+          "index": 8,
+          "name": "Sparks_P",
+          "time": 1.280541,
+          "duration": 0.055548,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_TimedParticleEffect_5",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.4573360792169584,
+          "endTime": 1.3360889999999999,
+          "endPhase": 0.4771746509833787
+        },
+        {
+          "index": 9,
+          "name": "P_Slash01",
+          "time": 1.692642,
+          "duration": 0.407236,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_TimedParticleEffect_8",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              91.59933683916198,
+              15.051480706086,
+              18.584790407233232
+            ],
+            "rotation_offset": [
+              0.48212393528734004,
+              -89.9148372388594,
+              -0.3502226517465958
+            ],
+            "socket_name": "Rapier_FX_Root",
+            "destroy_at_end": false
+          },
+          "phase": 0.6045150102948292,
+          "endTime": 2.099878,
+          "endPhase": 0.7499564413431106
+        },
+        {
+          "index": 10,
+          "name": "Trail",
+          "time": 1.693311,
+          "duration": 0.098079,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_Trail",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_Trail_3",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P",
+              "class": "ParticleSystem"
+            },
+            "first_socket_name": "Trail_Start",
+            "second_socket_name": "Trail_End",
+            "width_scale_mode": "<TrailWidthMode.E_TRAIL_WIDTH_MODE_FROM_CENTRE: 0>",
+            "width_scale_curve": "None",
+            "recycle_spawned_systems": true
+          },
+          "phase": 0.6047539388703268,
+          "endTime": 1.79139,
+          "endPhase": 0.639782153752568
+        },
+        {
+          "index": 11,
+          "name": "Sparks_P_2",
+          "time": 1.719814,
+          "duration": 0.033333,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_TimedParticleEffect_6",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              50,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              50
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.614219296174378,
+          "endTime": 1.753147,
+          "endPhase": 0.6261239392342557
+        },
+        {
+          "index": 12,
+          "name": "Sparks_P",
+          "time": 1.804731,
+          "duration": 0.055548,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02:AnimNotifyState_TimedParticleEffect_7",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              0,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.6445467966908522,
+          "endTime": 1.860279,
+          "endPhase": 0.6643853684572726
+        }
+      ]
+    },
+    "skill-3": {
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_03.A_Voxel_Rapier_combo_03",
+      "duration": 3.3333332538604736,
+      "events": [
+        {
+          "index": 0,
+          "name": "Sparks_P_2",
+          "time": 0.273453,
+          "duration": 0.069515,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_03.A_Voxel_Rapier_combo_03:AnimNotifyState_TimedParticleEffect_1",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              -70,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.08203590195588832,
+          "endTime": 0.342968,
+          "endPhase": 0.10289040245309836
+        },
+        {
+          "index": 1,
+          "name": "Sparks_P_2",
+          "time": 0.54218,
+          "duration": 0.079943,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_03.A_Voxel_Rapier_combo_03:AnimNotifyState_TimedParticleEffect_6",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              -70,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.16265400387797366,
+          "endTime": 0.622123,
+          "endPhase": 0.18663690444977055
+        },
+        {
+          "index": 2,
+          "name": "Sparks_P_2",
+          "time": 0.84987,
+          "duration": 0.082424,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_03.A_Voxel_Rapier_combo_03:AnimNotifyState_TimedParticleEffect_7",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              -70,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.25496100607874406,
+          "endTime": 0.932294,
+          "endPhase": 0.2796882066682865
+        },
+        {
+          "index": 3,
+          "name": "Sparks_P_2",
+          "time": 1.167486,
+          "duration": 0.158498,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_03.A_Voxel_Rapier_combo_03:AnimNotifyState_TimedParticleEffect_8",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              -70,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.3502458083505108,
+          "endTime": 1.325984,
+          "endPhase": 0.3977952094841769
+        },
+        {
+          "index": 4,
+          "name": "Sparks_P_2",
+          "time": 1.4454,
+          "duration": 0.153764,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_03.A_Voxel_Rapier_combo_03:AnimNotifyState_TimedParticleEffect_9",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              -70,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.43362001033830666,
+          "endTime": 1.599164,
+          "endPhase": 0.47974921143811255
+        },
+        {
+          "index": 5,
+          "name": "Sparks_P_2",
+          "time": 2.140184,
+          "duration": 0.051407,
+          "track": null,
+          "triggerTimeOffset": null,
+          "notify_state_class": {
+            "class": "AnimNotifyState_TimedParticleEffect",
+            "path": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_03.A_Voxel_Rapier_combo_03:AnimNotifyState_TimedParticleEffect_10",
+            "ps_template": {
+              "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+              "class": "ParticleSystem"
+            },
+            "location_offset": [
+              0,
+              0,
+              0
+            ],
+            "rotation_offset": [
+              -70,
+              0,
+              0
+            ],
+            "socket_name": "Trail_End",
+            "destroy_at_end": false
+          },
+          "phase": 0.6420552153077892,
+          "endTime": 2.1915910000000003,
+          "endPhase": 0.6574773156754808
+        }
+      ]
+    }
+  },
+  "effects": {
+    "/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01": {
+      "class": "ParticleSystem",
+      "path": "/Game/Rapier_AnimSet/Particles/P_Slash01.P_Slash01",
+      "warmup_time": 0,
+      "warmup_tick_rate": 0,
+      "system_update_mode": "<ParticleSystemUpdateMode.EPSUM_REAL_TIME: 0>",
+      "update_time_fps": 60,
+      "fixed_relative_bounding_box": "<Struct 'Box' (0x000001CC6C26F5E0) {min: {x: -1.000000, y: -1.000000, z: -1.000000}, max: {x: 1.000000, y: 1.000000, z: 1.000000}, is_valid: True}>",
+      "delay": 0,
+      "delay_low": 0,
+      "use_delay_range": false,
+      "occlusion_bounds_method": "<ParticleSystemOcclusionBoundsMethod.EPSOBM_PARTICLE_BOUNDS: 1>",
+      "dump": "P_Slash01.t3d",
+      "emitters": []
+    },
+    "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P": {
+      "class": "ParticleSystem",
+      "path": "/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P",
+      "warmup_time": 0,
+      "warmup_tick_rate": 0,
+      "system_update_mode": "<ParticleSystemUpdateMode.EPSUM_REAL_TIME: 0>",
+      "update_time_fps": 60,
+      "fixed_relative_bounding_box": "<Struct 'Box' (0x000001CC6C08D560) {min: {x: -1.000000, y: -1.000000, z: -1.000000}, max: {x: 1.000000, y: 1.000000, z: 1.000000}, is_valid: True}>",
+      "delay": 0,
+      "delay_low": 0,
+      "use_delay_range": false,
+      "occlusion_bounds_method": "<ParticleSystemOcclusionBoundsMethod.EPSOBM_PARTICLE_BOUNDS: 1>",
+      "dump": "Trail_P.t3d",
+      "emitters": []
+    },
+    "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2": {
+      "class": "ParticleSystem",
+      "path": "/Game/Rapier_AnimSet/Particles/Sparks_P_2.Sparks_P_2",
+      "warmup_time": 0,
+      "warmup_tick_rate": 0,
+      "system_update_mode": "<ParticleSystemUpdateMode.EPSUM_REAL_TIME: 0>",
+      "update_time_fps": 60,
+      "fixed_relative_bounding_box": "<Struct 'Box' (0x000001CC6C26FAE0) {min: {x: -1.000000, y: -1.000000, z: -1.000000}, max: {x: 1.000000, y: 1.000000, z: 1.000000}, is_valid: True}>",
+      "delay": 0,
+      "delay_low": 0,
+      "use_delay_range": false,
+      "occlusion_bounds_method": "<ParticleSystemOcclusionBoundsMethod.EPSOBM_PARTICLE_BOUNDS: 1>",
+      "dump": "Sparks_P_2.t3d",
+      "emitters": []
+    },
+    "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P": {
+      "class": "ParticleSystem",
+      "path": "/Game/Rapier_AnimSet/Particles/Sparks_P.Sparks_P",
+      "warmup_time": 0,
+      "warmup_tick_rate": 0,
+      "system_update_mode": "<ParticleSystemUpdateMode.EPSUM_REAL_TIME: 0>",
+      "update_time_fps": 60,
+      "fixed_relative_bounding_box": "<Struct 'Box' (0x000001CC6C26F860) {min: {x: -1.000000, y: -1.000000, z: -1.000000}, max: {x: 1.000000, y: 1.000000, z: 1.000000}, is_valid: True}>",
+      "delay": 0,
+      "delay_low": 0,
+      "use_delay_range": false,
+      "occlusion_bounds_method": "<ParticleSystemOcclusionBoundsMethod.EPSOBM_PARTICLE_BOUNDS: 1>",
+      "dump": "Sparks_P.t3d",
+      "emitters": []
+    }
+  },
+  "assets": [
+    {
+      "class": "Texture2D",
+      "path": "/Game/Rapier_AnimSet/Textures/FX_Textures/Flow_Sword_T.Flow_Sword_T",
+      "file": "Flow_Sword_T.png",
+      "srgb": true,
+      "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+      "address_x": "<TextureAddress.TA_WRAP: 0>",
+      "address_y": "<TextureAddress.TA_WRAP: 0>"
+    },
+    {
+      "class": "Texture2D",
+      "path": "/Game/Rapier_AnimSet/Textures/FX_Textures/wave_T.wave_T",
+      "file": "wave_T.png",
+      "srgb": true,
+      "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+      "address_x": "<TextureAddress.TA_WRAP: 0>",
+      "address_y": "<TextureAddress.TA_WRAP: 0>"
+    },
+    {
+      "class": "Material",
+      "path": "/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M",
+      "dump": "slash_M.t3d",
+      "blend_mode": "<BlendMode.BLEND_MASKED: 1>",
+      "shading_model": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+      "two_sided": true,
+      "material_domain": "<MaterialDomain.MD_SURFACE: 0>"
+    },
+    {
+      "class": "StaticMesh",
+      "path": "/Game/Rapier_AnimSet/mesh/circle_slash.circle_slash",
+      "file": "circle_slash.glb"
+    },
+    {
+      "class": "Texture2D",
+      "path": "/Game/Rapier_AnimSet/Textures/FX_Textures/Spark_T.Spark_T",
+      "file": "Spark_T.png",
+      "srgb": true,
+      "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+      "address_x": "<TextureAddress.TA_WRAP: 0>",
+      "address_y": "<TextureAddress.TA_WRAP: 0>"
+    },
+    {
+      "class": "Material",
+      "path": "/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M",
+      "dump": "Spark2_M.t3d",
+      "blend_mode": "<BlendMode.BLEND_TRANSLUCENT: 2>",
+      "shading_model": "<MaterialShadingModel.MSM_UNLIT: 0>",
+      "two_sided": false,
+      "material_domain": "<MaterialDomain.MD_SURFACE: 0>"
+    },
+    {
+      "class": "Material",
+      "path": "/Game/Rapier_AnimSet/Materials/FX_Materials/Spark_M.Spark_M",
+      "dump": "Spark_M.t3d",
+      "blend_mode": "<BlendMode.BLEND_TRANSLUCENT: 2>",
+      "shading_model": "<MaterialShadingModel.MSM_UNLIT: 0>",
+      "two_sided": false,
+      "material_domain": "<MaterialDomain.MD_SURFACE: 0>"
+    },
+    {
+      "class": "Texture2D",
+      "path": "/Game/Rapier_AnimSet/Textures/FX_Textures/flow_air_T.flow_air_T",
+      "file": "flow_air_T.png",
+      "srgb": true,
+      "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+      "address_x": "<TextureAddress.TA_WRAP: 0>",
+      "address_y": "<TextureAddress.TA_WRAP: 0>"
+    },
+    {
+      "class": "Texture2D",
+      "path": "/Game/Rapier_AnimSet/Textures/FX_Textures/Tile_T.Tile_T",
+      "file": "Tile_T.png",
+      "srgb": true,
+      "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+      "address_x": "<TextureAddress.TA_WRAP: 0>",
+      "address_y": "<TextureAddress.TA_WRAP: 0>"
+    },
+    {
+      "class": "Texture2D",
+      "path": "/Game/Rapier_AnimSet/Textures/FX_Textures/Trail_T.Trail_T",
+      "file": "Trail_T.png",
+      "srgb": true,
+      "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+      "address_x": "<TextureAddress.TA_WRAP: 0>",
+      "address_y": "<TextureAddress.TA_WRAP: 0>"
+    },
+    {
+      "class": "Material",
+      "path": "/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M",
+      "dump": "Air_Trail_Dissolve_Edge_M.t3d",
+      "blend_mode": "<BlendMode.BLEND_TRANSLUCENT: 2>",
+      "shading_model": "<MaterialShadingModel.MSM_UNLIT: 0>",
+      "two_sided": true,
+      "material_domain": "<MaterialDomain.MD_SURFACE: 0>"
+    },
+    {
+      "class": "Material",
+      "path": "/Game/Rapier_AnimSet/Materials/FX_Materials/Circle_M.Circle_M",
+      "dump": "Circle_M.t3d",
+      "blend_mode": "<BlendMode.BLEND_MASKED: 1>",
+      "shading_model": "<MaterialShadingModel.MSM_UNLIT: 0>",
+      "two_sided": false,
+      "material_domain": "<MaterialDomain.MD_SURFACE: 0>"
+    },
+    {
+      "class": "Material",
+      "path": "/Game/Rapier_AnimSet/Materials/FX_Materials/Ray_M.Ray_M",
+      "dump": "Ray_M.t3d",
+      "blend_mode": "<BlendMode.BLEND_ADDITIVE: 3>",
+      "shading_model": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+      "two_sided": true,
+      "material_domain": "<MaterialDomain.MD_SURFACE: 0>"
+    },
+    {
+      "class": "StaticMesh",
+      "path": "/Game/Rapier_AnimSet/mesh/upscale__needles.upscale__needles",
+      "file": "upscale__needles.glb"
+    },
+    {
+      "class": "Texture2D",
+      "path": "/Game/Rapier_AnimSet/Textures/FX_Textures/circle01_T.circle01_T",
+      "file": "circle01_T.png",
+      "srgb": true,
+      "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+      "address_x": "<TextureAddress.TA_WRAP: 0>",
+      "address_y": "<TextureAddress.TA_WRAP: 0>"
+    },
+    {
+      "class": "Texture2D",
+      "path": "/Game/Rapier_AnimSet/Textures/FX_Textures/circle_purple_01_T.circle_purple_01_T",
+      "file": "circle_purple_01_T.png",
+      "srgb": true,
+      "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+      "address_x": "<TextureAddress.TA_WRAP: 0>",
+      "address_y": "<TextureAddress.TA_WRAP: 0>"
+    },
+    {
+      "class": "Texture2D",
+      "path": "/Game/Rapier_AnimSet/Textures/FX_Textures/circle_wind_T.circle_wind_T",
+      "file": "circle_wind_T.png",
+      "srgb": true,
+      "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+      "address_x": "<TextureAddress.TA_WRAP: 0>",
+      "address_y": "<TextureAddress.TA_WRAP: 0>"
+    },
+    {
+      "class": "Texture2D",
+      "path": "/Game/Rapier_AnimSet/Textures/FX_Textures/Mask_Gradi02_T.Mask_Gradi02_T",
+      "file": "Mask_Gradi02_T.png",
+      "srgb": true,
+      "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+      "address_x": "<TextureAddress.TA_WRAP: 0>",
+      "address_y": "<TextureAddress.TA_WRAP: 0>"
+    },
+    {
+      "class": "Texture2D",
+      "path": "/Game/Rapier_AnimSet/Textures/FX_Textures/ray01_T.ray01_T",
+      "file": "ray01_T.png",
+      "srgb": true,
+      "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+      "address_x": "<TextureAddress.TA_WRAP: 0>",
+      "address_y": "<TextureAddress.TA_WRAP: 0>"
+    }
+  ],
+  "sockets": {
+    "/Game/VoxelCharacter/SKM_Reference_UniformVoxel": {
+      "Trail_Start": {
+        "bone": "hand_r",
+        "positionCm": [
+          -1.9426291831547666,
+          3.391658024289497,
+          -26.03812069606184
+        ],
+        "quaternion": [
+          -0.8617648692849406,
+          -0.13244369335302827,
+          -0.4594978216823199,
+          0.16935681275496714
+        ],
+        "scale": [
+          0.8736514456739636,
+          0.8736514456739636,
+          0.8736514456739636
+        ]
+      },
+      "Trail_End": {
+        "bone": "hand_r",
+        "positionCm": [
+          24.62937729035189,
+          21.770350457670283,
+          -101.53593659203712
+        ],
+        "quaternion": [
+          -0.8617648692849406,
+          -0.13244369335302827,
+          -0.4594978216823199,
+          0.16935681275496714
+        ],
+        "scale": [
+          0.8736514456739636,
+          0.8736514456739636,
+          0.8736514456739636
+        ]
+      },
+      "Weapon_R": {
+        "bone": "hand_r",
+        "positionCm": [
+          -7.8099338475912425,
+          -1.3210303951476456,
+          -10.926568494041804
+        ],
+        "quaternion": [
+          0.19815747837908124,
+          0.05513869093671856,
+          -0.924081471118927,
+          0.3221285042632969
+        ],
+        "scale": [
+          0.8736514456739636,
+          0.8736514456739636,
+          0.8736514456739636
+        ]
+      },
+      "Rapier_FX_Root": {
+        "bone": "root",
+        "positionCm": [
+          0,
+          0,
+          0
+        ],
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          0.8736514456739636,
+          0.8736514456739636,
+          0.8736514456739636
+        ]
+      }
+    },
+    "/Game/Rapier_AnimSet/Animation/Skeleton/SK_Mannequin": {
+      "Trail_Start": {
+        "bone": "hand_r",
+        "positionCm": [
+          -18.573974609375,
+          5.581476211547852,
+          13.350285530090332
+        ],
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "Trail_End": {
+        "bone": "hand_r",
+        "positionCm": [
+          -76.51702880859375,
+          7.562013149261475,
+          110.67517852783203
+        ],
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "hand_rSocket": {
+        "bone": "hand_r",
+        "positionCm": [
+          -5.342518329620361,
+          2.9056334495544434,
+          -4.4817986488342285
+        ],
+        "quaternion": [
+          2.3878483043055015e-7,
+          0.9397127376641081,
+          2.387848304305501e-7,
+          0.3419648675985779
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    }
+  }
+}

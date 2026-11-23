@@ -1,0 +1,130 @@
+Begin Object Class=/Script/Engine.ParticleSystem Name="Trail_P" ExportPath="/Script/Engine.ParticleSystem'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P'"
+   Begin Object Class=/Script/Engine.ParticleModuleRequired Name="ParticleModuleRequired_0" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleRequired_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleRequired_0.RequiredDistributionSpawnRate'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSpawn Name="ParticleModuleSpawn_0" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSpawn_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSpawn_0.BurstScaleDistribution'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSpawn_0.RequiredDistributionSpawnRate'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionFloatConstant Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSpawn_0.RequiredDistributionSpawnRateScale'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleColorOverLife Name="ParticleModuleColorOverLife_0" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleColorOverLife_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatConstantCurve Name="DistributionFloatConstantCurve_0" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleColorOverLife_0.DistributionFloatConstantCurve_0'"
+      End Object
+      Begin Object Class=/Script/Engine.DistributionVectorConstantCurve Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleColorOverLife_0.DistributionColorOverLife'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleLifetime Name="ParticleModuleLifetime_0" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleLifetime_0'"
+      Begin Object Class=/Script/Engine.DistributionFloatUniform Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleLifetime_0.DistributionLifetime'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleSize Name="ParticleModuleSize_0" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSize_0'"
+      Begin Object Class=/Script/Engine.DistributionVectorUniform Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSize_0.DistributionStartSize'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.InterpCurveEdSetup Name="InterpCurveEdSetup_0" ExportPath="/Script/Engine.InterpCurveEdSetup'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:InterpCurveEdSetup_0'"
+   End Object
+   Begin Object Class=/Script/Engine.ParticleSpriteEmitter Name="ParticleSpriteEmitter_0" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleSpriteEmitter_0'"
+      Begin Object Class=/Script/Engine.ParticleLODLevel Name="ParticleLODLevel_0" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleSpriteEmitter_0.ParticleLODLevel_0'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ParticleModuleTypeDataAnimTrail Name="ParticleModuleTypeDataAnimTrail_0" ExportPath="/Script/Engine.ParticleModuleTypeDataAnimTrail'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleTypeDataAnimTrail_0'"
+   End Object
+   Begin Object Name="ParticleModuleRequired_0" ExportPath="/Script/Engine.ParticleModuleRequired'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleRequired_0'"
+      Begin Object Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleRequired_0.RequiredDistributionSpawnRate'"
+      End Object
+      Material="/Script/Engine.Material'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M'"
+      bUseLegacyEmitterTime=False
+      SpawnRate=(Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRate'")
+      RandomImageTime=1.000000
+      LODValidity=1
+      ModuleEditorColor=(B=24,G=233,R=0,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSpawn_0" ExportPath="/Script/Engine.ParticleModuleSpawn'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSpawn_0'"
+      Begin Object Name="BurstScaleDistribution" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSpawn_0.BurstScaleDistribution'"
+         Constant=1.000000
+      End Object
+      Begin Object Name="RequiredDistributionSpawnRate" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSpawn_0.RequiredDistributionSpawnRate'"
+         Constant=20.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="RequiredDistributionSpawnRateScale" ExportPath="/Script/Engine.DistributionFloatConstant'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSpawn_0.RequiredDistributionSpawnRateScale'"
+         Constant=1.000000
+         bBakedDataSuccesfully=True
+      End Object
+      Rate=(MinValue=20.000000,MaxValue=20.000000,Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRate'",Table=(Values=(20.000000),Op=1,EntryCount=1,EntryStride=1))
+      RateScale=(MinValue=1.000000,MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstant'RequiredDistributionSpawnRateScale'",Table=(Values=(1.000000),Op=1,EntryCount=1,EntryStride=1))
+      BurstScale=(Distribution="/Script/Engine.DistributionFloatConstant'BurstScaleDistribution'")
+      LODValidity=1
+      ModuleEditorColor=(B=145,G=0,R=195,A=255)
+   End Object
+   Begin Object Name="ParticleModuleColorOverLife_0" ExportPath="/Script/Engine.ParticleModuleColorOverLife'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleColorOverLife_0'"
+      Begin Object Name="DistributionFloatConstantCurve_0" ExportPath="/Script/Engine.DistributionFloatConstantCurve'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleColorOverLife_0.DistributionFloatConstantCurve_0'"
+         ConstantCurve=(Points=((OutVal=1.000000,ArriveTangent=-1.000000,LeaveTangent=-1.000000),(InVal=1.000000)))
+         bBakedDataSuccesfully=True
+      End Object
+      Begin Object Name="DistributionColorOverLife" ExportPath="/Script/Engine.DistributionVectorConstantCurve'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleColorOverLife_0.DistributionColorOverLife'"
+         ConstantCurve=(Points=((OutVal=(X=0.212882,Y=0.569807,Z=0.770833)),(InVal=1.000000,OutVal=(X=0.186262,Y=0.683346,Z=0.762500),ArriveTangent=(X=0.117099,Y=0.050347,Z=0.483333),LeaveTangent=(X=0.040253,Y=0.040967,Z=0.283333))))
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      ColorOverLife=(MinValue=0.186262,MaxValue=0.770833,MinValueVec=(X=0.186262,Y=0.569807,Z=0.762500),MaxValueVec=(X=0.212882,Y=0.683346,Z=0.770833),Distribution="/Script/Engine.DistributionVectorConstantCurve'DistributionColorOverLife'",Table=(TimeScale=1.000000,Values=(0.212882,0.569807,0.770833,0.186262,0.683346,0.762500),Op=1,EntryCount=2,EntryStride=3))
+      AlphaOverLife=(MaxValue=1.000000,Distribution="/Script/Engine.DistributionFloatConstantCurve'DistributionFloatConstantCurve_0'",Table=(TimeScale=1.000000,Values=(1.000000,0.000000),Op=1,EntryCount=2,EntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=136,G=0,R=201,A=255)
+   End Object
+   Begin Object Name="ParticleModuleLifetime_0" ExportPath="/Script/Engine.ParticleModuleLifetime'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleLifetime_0'"
+      Begin Object Name="DistributionLifetime" ExportPath="/Script/Engine.DistributionFloatUniform'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleLifetime_0.DistributionLifetime'"
+         Min=0.500000
+         Max=0.800000
+         bBakedDataSuccesfully=True
+      End Object
+      Lifetime=(MinValue=0.500000,MaxValue=0.800000,Distribution="/Script/Engine.DistributionFloatUniform'DistributionLifetime'",Table=(Values=(0.500000,0.800000),Op=2,EntryCount=1,EntryStride=2,SubEntryStride=1))
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=99,R=218,A=255)
+   End Object
+   Begin Object Name="ParticleModuleSize_0" ExportPath="/Script/Engine.ParticleModuleSize'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSize_0'"
+      Begin Object Name="DistributionStartSize" ExportPath="/Script/Engine.DistributionVectorUniform'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleSize_0.DistributionStartSize'"
+         Max=(X=25.000000,Y=25.000000,Z=25.000000)
+         Min=(X=25.000000,Y=25.000000,Z=25.000000)
+         bIsDirty=False
+         bBakedDataSuccesfully=True
+      End Object
+      StartSize=(MinValue=25.000000,MaxValue=25.000000,MinValueVec=(X=25.000000,Y=25.000000,Z=25.000000),MaxValueVec=(X=25.000000,Y=25.000000,Z=25.000000),Distribution="/Script/Engine.DistributionVectorUniform'DistributionStartSize'",Table=(Values=(25.000000,25.000000,25.000000),Op=1,EntryCount=1,EntryStride=3))
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=190,R=151,A=255)
+   End Object
+   Begin Object Name="InterpCurveEdSetup_0" ExportPath="/Script/Engine.InterpCurveEdSetup'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:InterpCurveEdSetup_0'"
+   End Object
+   Begin Object Name="ParticleSpriteEmitter_0" ExportPath="/Script/Engine.ParticleSpriteEmitter'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleSpriteEmitter_0'"
+      Begin Object Name="ParticleLODLevel_0" ExportPath="/Script/Engine.ParticleLODLevel'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleSpriteEmitter_0.ParticleLODLevel_0'"
+         RequiredModule="/Script/Engine.ParticleModuleRequired'Trail_P:ParticleModuleRequired_0'"
+         Modules(0)="/Script/Engine.ParticleModuleLifetime'Trail_P:ParticleModuleLifetime_0'"
+         Modules(1)="/Script/Engine.ParticleModuleSize'Trail_P:ParticleModuleSize_0'"
+         Modules(2)="/Script/Engine.ParticleModuleColorOverLife'Trail_P:ParticleModuleColorOverLife_0'"
+         Begin Object Name="ParticleModuleTypeDataAnimTrail_0" ExportPath="/Script/Engine.ParticleModuleTypeDataAnimTrail'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleTypeDataAnimTrail_0'"
+            LODValidity=1
+            ModuleEditorColor=(B=0,G=147,R=193,A=255)
+         End Object
+         TypeDataModule="/Script/Engine.ParticleModuleTypeDataAnimTrail'Trail_P:ParticleModuleTypeDataAnimTrail_0'"
+         SpawnModule="/Script/Engine.ParticleModuleSpawn'Trail_P:ParticleModuleSpawn_0'"
+         PeakActiveParticles=18
+      End Object
+      bUseLegacySpawningBehavior=True
+      EmitterEditorColor=(B=62,G=228,R=0,A=255)
+      LODLevels(0)="/Script/Engine.ParticleLODLevel'ParticleLODLevel_0'"
+   End Object
+   Begin Object Name="ParticleModuleTypeDataAnimTrail_0" ExportPath="/Script/Engine.ParticleModuleTypeDataAnimTrail'/Game/Rapier_AnimSet/Particles/Trail_P.Trail_P:ParticleModuleTypeDataAnimTrail_0'"
+      LODValidity=1
+      ModuleEditorColor=(B=0,G=147,R=193,A=255)
+   End Object
+   Emitters(0)="/Script/Engine.ParticleSpriteEmitter'ParticleSpriteEmitter_0'"
+   CurveEdSetup="/Script/Engine.InterpCurveEdSetup'InterpCurveEdSetup_0'"
+   LODDistances(0)=0.000000
+   LODSettings(0)=()
+   bShouldResetPeakCounts=True
+   CustomOcclusionBounds=(Min=(X=0.000000,Y=0.000000,Z=0.000000),Max=(X=0.000000,Y=0.000000,Z=0.000000),IsValid=True)
+End Object

@@ -1,0 +1,953 @@
+Begin Object Class=/Script/Engine.Material Name="Air_Trail_Dissolve_Edge_M" ExportPath="/Script/Engine.Material'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M'"
+   Begin Object Class=/Script/Engine.MaterialEditorOnlyData Name="Air_Trail_Dissolve_Edge_MEditorOnlyData" ExportPath="/Script/Engine.MaterialEditorOnlyData'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:Air_Trail_Dissolve_Edge_MEditorOnlyData'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_4" ExportPath="/Script/Engine.MaterialExpressionAdd'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_4'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_6" ExportPath="/Script/Engine.MaterialExpressionAdd'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_6'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_8" ExportPath="/Script/Engine.MaterialExpressionAdd'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_8'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAdd Name="MaterialExpressionAdd_9" ExportPath="/Script/Engine.MaterialExpressionAdd'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_9'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_10" ExportPath="/Script/Engine.MaterialExpressionAppendVector'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_10'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_4" ExportPath="/Script/Engine.MaterialExpressionAppendVector'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_4'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_5" ExportPath="/Script/Engine.MaterialExpressionAppendVector'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_5'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_8" ExportPath="/Script/Engine.MaterialExpressionAppendVector'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_8'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionAppendVector Name="MaterialExpressionAppendVector_9" ExportPath="/Script/Engine.MaterialExpressionAppendVector'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_9'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionClamp Name="MaterialExpressionClamp_11" ExportPath="/Script/Engine.MaterialExpressionClamp'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionClamp_11'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionClamp Name="MaterialExpressionClamp_12" ExportPath="/Script/Engine.MaterialExpressionClamp'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionClamp_12'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_0" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_1" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_1'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_2" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_2'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_3" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_3'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_4" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_4'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_5" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_5'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComment Name="MaterialExpressionComment_6" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_6'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_4" ExportPath="/Script/Engine.MaterialExpressionComponentMask'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComponentMask_4'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionComponentMask Name="MaterialExpressionComponentMask_6" ExportPath="/Script/Engine.MaterialExpressionComponentMask'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComponentMask_6'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_14" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_14'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_15" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_15'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_16" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_16'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_19" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_19'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_23" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_23'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionConstant Name="MaterialExpressionConstant_24" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_24'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionDynamicParameter Name="MaterialExpressionDynamicParameter_2" ExportPath="/Script/Engine.MaterialExpressionDynamicParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionDynamicParameter_2'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionIf Name="MaterialExpressionIf_12" ExportPath="/Script/Engine.MaterialExpressionIf'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_12'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionIf Name="MaterialExpressionIf_2" ExportPath="/Script/Engine.MaterialExpressionIf'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_2'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionIf Name="MaterialExpressionIf_8" ExportPath="/Script/Engine.MaterialExpressionIf'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_8'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionLinearInterpolate Name="MaterialExpressionLinearInterpolate_1" ExportPath="/Script/Engine.MaterialExpressionLinearInterpolate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionLinearInterpolate_1'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionLinearInterpolate Name="MaterialExpressionLinearInterpolate_2" ExportPath="/Script/Engine.MaterialExpressionLinearInterpolate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionLinearInterpolate_2'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMaterialFunctionCall Name="MaterialExpressionMaterialFunctionCall_0" ExportPath="/Script/Engine.MaterialExpressionMaterialFunctionCall'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMaterialFunctionCall_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_10" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_10'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_11" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_11'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_13" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_13'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_16" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_16'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_17" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_17'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_18" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_18'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_19" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_19'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_20" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_20'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_21" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_21'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_22" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_22'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_24" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_24'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_26" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_26'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_28" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_28'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_30" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_30'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_4" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_4'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_8" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_8'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_9" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_9'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionOneMinus Name="MaterialExpressionOneMinus_6" ExportPath="/Script/Engine.MaterialExpressionOneMinus'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionOneMinus_6'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionOneMinus Name="MaterialExpressionOneMinus_7" ExportPath="/Script/Engine.MaterialExpressionOneMinus'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionOneMinus_7'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionPanner Name="MaterialExpressionPanner_3" ExportPath="/Script/Engine.MaterialExpressionPanner'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionPanner_3'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionPanner Name="MaterialExpressionPanner_5" ExportPath="/Script/Engine.MaterialExpressionPanner'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionPanner_5'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionParticleColor Name="MaterialExpressionParticleColor_2" ExportPath="/Script/Engine.MaterialExpressionParticleColor'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionParticleColor_2'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionPower Name="MaterialExpressionPower_2" ExportPath="/Script/Engine.MaterialExpressionPower'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionPower_2'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionRotator Name="MaterialExpressionRotator_2" ExportPath="/Script/Engine.MaterialExpressionRotator'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionRotator_2'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_11" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_11'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_14" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_14'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_17" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_17'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_20" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_20'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_22" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_22'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_23" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_23'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_24" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_24'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_27" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_27'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_28" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_28'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_29" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_29'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_30" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_30'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_31" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_31'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_32" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_32'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_34" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_34'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_35" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_35'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_36" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_36'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_37" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_37'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_8" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_8'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionScalarParameter Name="MaterialExpressionScalarParameter_9" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_9'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureCoordinate Name="MaterialExpressionTextureCoordinate_0" ExportPath="/Script/Engine.MaterialExpressionTextureCoordinate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureCoordinate Name="MaterialExpressionTextureCoordinate_2" ExportPath="/Script/Engine.MaterialExpressionTextureCoordinate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_2'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureCoordinate Name="MaterialExpressionTextureCoordinate_4" ExportPath="/Script/Engine.MaterialExpressionTextureCoordinate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_4'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureCoordinate Name="MaterialExpressionTextureCoordinate_7" ExportPath="/Script/Engine.MaterialExpressionTextureCoordinate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_7'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureSampleParameter2D Name="MaterialExpressionTextureSampleParameter2D_4" ExportPath="/Script/Engine.MaterialExpressionTextureSampleParameter2D'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_4'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureSampleParameter2D Name="MaterialExpressionTextureSampleParameter2D_7" ExportPath="/Script/Engine.MaterialExpressionTextureSampleParameter2D'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_7'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureSampleParameter2D Name="MaterialExpressionTextureSampleParameter2D_8" ExportPath="/Script/Engine.MaterialExpressionTextureSampleParameter2D'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_8'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionVectorParameter Name="MaterialExpressionVectorParameter_4" ExportPath="/Script/Engine.MaterialExpressionVectorParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionVectorParameter_4'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionVectorParameter Name="MaterialExpressionVectorParameter_5" ExportPath="/Script/Engine.MaterialExpressionVectorParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionVectorParameter_5'"
+   End Object
+   Begin Object Class=/Script/UnrealEd.SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_0" ExportPath="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:SceneThumbnailInfoWithPrimitive_0'"
+   End Object
+   Begin Object Name="Air_Trail_Dissolve_Edge_MEditorOnlyData" ExportPath="/Script/Engine.MaterialEditorOnlyData'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:Air_Trail_Dissolve_Edge_MEditorOnlyData'"
+      EmissiveColor=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_19'")
+      Opacity=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_20'")
+      ExpressionCollection=(Expressions=("/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_19'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_20'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_13'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_18'","/Script/Engine.MaterialExpressionTextureCoordinate'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_2'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_8'","/Script/Engine.MaterialExpressionAppendVector'Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_10'","/Script/Engine.MaterialExpressionPanner'Air_Trail_Dissolve_Edge_M:MaterialExpressionPanner_3'","/Script/Engine.MaterialExpressionLinearInterpolate'Air_Trail_Dissolve_Edge_M:MaterialExpressionLinearInterpolate_1'","/Script/Engine.MaterialExpressionAppendVector'Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_4'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_11'","/Script/Engine.MaterialExpressionComponentMask'Air_Trail_Dissolve_Edge_M:MaterialExpressionComponentMask_6'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_9'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_23'","/Script/Engine.MaterialExpressionAppendVector'Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_9'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_24'","/Script/Engine.MaterialExpressionTextureSampleParameter2D'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_7'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_14'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_4'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_8'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_9'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_35'","/Script/Engine.MaterialExpressionTextureSampleParameter2D'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_4'","/Script/Engine.MaterialExpressionParticleColor'Air_Trail_Dissolve_Edge_M:MaterialExpressionParticleColor_2'","/Script/Engine.MaterialExpressionTextureSampleParameter2D'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_8'","/Script/Engine.MaterialExpressionPower'Air_Trail_Dissolve_Edge_M:MaterialExpressionPower_2'","/Script/Engine.MaterialExpressionAdd'Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_4'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_22'","/Script/Engine.MaterialExpressionTextureCoordinate'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_4'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_27'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_28'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_16'","/Script/Engine.MaterialExpressionAppendVector'Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_5'","/Script/Engine.MaterialExpressionPanner'Air_Trail_Dissolve_Edge_M:MaterialExpressionPanner_5'","/Script/Engine.MaterialExpressionRotator'Air_Trail_Dissolve_Edge_M:MaterialExpressionRotator_2'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_29'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_30'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_31'","/Script/Engine.MaterialExpressionAppendVector'Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_8'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_17'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_32'","/Script/Engine.MaterialExpressionIf'Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_2'","/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_15'","/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_19'","/Script/Engine.MaterialExpressionLinearInterpolate'Air_Trail_Dissolve_Edge_M:MaterialExpressionLinearInterpolate_2'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_36'","/Script/Engine.MaterialExpressionTextureCoordinate'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_7'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_10'","/Script/Engine.MaterialExpressionVectorParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionVectorParameter_4'","/Script/Engine.MaterialExpressionIf'Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_8'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_20'","/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_14'","/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_16'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_28'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_11'","/Script/Engine.MaterialExpressionVectorParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionVectorParameter_5'","/Script/Engine.MaterialExpressionAdd'Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_6'","/Script/Engine.MaterialExpressionMaterialFunctionCall'Air_Trail_Dissolve_Edge_M:MaterialExpressionMaterialFunctionCall_0'","/Script/Engine.MaterialExpressionOneMinus'Air_Trail_Dissolve_Edge_M:MaterialExpressionOneMinus_6'","/Script/Engine.MaterialExpressionTextureCoordinate'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_0'","/Script/Engine.MaterialExpressionOneMinus'Air_Trail_Dissolve_Edge_M:MaterialExpressionOneMinus_7'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_17'","/Script/Engine.MaterialExpressionComponentMask'Air_Trail_Dissolve_Edge_M:MaterialExpressionComponentMask_4'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_21'","/Script/Engine.MaterialExpressionAdd'Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_8'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_22'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_24'","/Script/Engine.MaterialExpressionAdd'Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_9'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_26'","/Script/Engine.MaterialExpressionIf'Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_12'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_34'","/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_23'","/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_24'","/Script/Engine.MaterialExpressionClamp'Air_Trail_Dissolve_Edge_M:MaterialExpressionClamp_11'","/Script/Engine.MaterialExpressionClamp'Air_Trail_Dissolve_Edge_M:MaterialExpressionClamp_12'","/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_30'","/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_37'","/Script/Engine.MaterialExpressionDynamicParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionDynamicParameter_2'"),EditorComments=("/Script/Engine.MaterialExpressionComment'Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_2'","/Script/Engine.MaterialExpressionComment'Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_4'","/Script/Engine.MaterialExpressionComment'Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_5'","/Script/Engine.MaterialExpressionComment'Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_0'","/Script/Engine.MaterialExpressionComment'Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_1'","/Script/Engine.MaterialExpressionComment'Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_3'","/Script/Engine.MaterialExpressionComment'Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_6'"))
+      ParameterGroupData(0)=(GroupName="Distortion")
+      ParameterGroupData(1)=(GroupName="None")
+      ParameterGroupData(2)=(GroupName="Trail")
+      ParameterGroupData(3)=(GroupName="TrailTile")
+      ParameterGroupData(4)=(GroupName="Trail_Edge")
+   End Object
+   Begin Object Name="MaterialExpressionAdd_4" ExportPath="/Script/Engine.MaterialExpressionAdd'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_4'"
+      A=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_13'")
+      B=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_17'")
+      MaterialExpressionEditorX=-1744
+      MaterialExpressionEditorY=-256
+      MaterialExpressionGuid=7F6B6CC34998B4E04DDA899ABFFCCF8A
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionAdd_6" ExportPath="/Script/Engine.MaterialExpressionAdd'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_6'"
+      A=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_11'")
+      B=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_10'")
+      MaterialExpressionEditorX=-144
+      MaterialExpressionEditorY=-736
+      MaterialExpressionGuid=BB93E0DC4F45EC422F091A9A6770C991
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionAdd_8" ExportPath="/Script/Engine.MaterialExpressionAdd'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_8'"
+      A=(Expression="/Script/Engine.MaterialExpressionIf'Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_8'")
+      B=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_18'")
+      MaterialExpressionEditorX=-798
+      MaterialExpressionEditorY=322
+      MaterialExpressionGuid=7ED7F83E4349B4187FE34D8543869DFD
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionAdd_9" ExportPath="/Script/Engine.MaterialExpressionAdd'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_9'"
+      A=(Expression="/Script/Engine.MaterialExpressionAdd'Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_6'")
+      B=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_24'")
+      MaterialExpressionEditorX=160
+      MaterialExpressionEditorY=-16
+      MaterialExpressionGuid=4A24C59B4BCE7393AE525DAC6C36C0D8
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_10" ExportPath="/Script/Engine.MaterialExpressionAppendVector'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_10'"
+      A=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_8'")
+      B=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_9'")
+      MaterialExpressionEditorX=-2832
+      MaterialExpressionEditorY=-96
+      MaterialExpressionGuid=525195B94EFC520C768AE4B33DCDCF27
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_4" ExportPath="/Script/Engine.MaterialExpressionAppendVector'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_4'"
+      A=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_11'")
+      B=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_14'")
+      MaterialExpressionEditorX=-4000
+      MaterialExpressionEditorY=-176
+      MaterialExpressionGuid=BAB9A70544D1870209D8C0BA680CFBCD
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_5" ExportPath="/Script/Engine.MaterialExpressionAppendVector'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_5'"
+      A=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_27'")
+      B=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_28'")
+      MaterialExpressionEditorX=-4128
+      MaterialExpressionEditorY=432
+      MaterialExpressionGuid=2DE5D3654451EA49E18ACDB5D0649CC3
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_8" ExportPath="/Script/Engine.MaterialExpressionAppendVector'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_8'"
+      A=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_29'")
+      B=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_30'")
+      MaterialExpressionEditorX=-3888
+      MaterialExpressionEditorY=464
+      MaterialExpressionGuid=F60745934CE0722BAEF5C181A1C92EC6
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionAppendVector_9" ExportPath="/Script/Engine.MaterialExpressionAppendVector'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_9'"
+      A=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_23'")
+      B=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_24'")
+      MaterialExpressionEditorX=-4112
+      MaterialExpressionEditorY=-384
+      MaterialExpressionGuid=BB2957084C1DABE7D6FBAD94E8F5151B
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionClamp_11" ExportPath="/Script/Engine.MaterialExpressionClamp'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionClamp_11'"
+      Input=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_28'")
+      MaterialExpressionEditorX=-718
+      MaterialExpressionEditorY=-366
+      MaterialExpressionGuid=CA3CAF8A425D8F00C1DFEF999C7E04AA
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionClamp_12" ExportPath="/Script/Engine.MaterialExpressionClamp'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionClamp_12'"
+      Input=(Expression="/Script/Engine.MaterialExpressionIf'Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_12'")
+      MaterialExpressionEditorX=-1248
+      MaterialExpressionEditorY=-736
+      MaterialExpressionGuid=60C624A64C79EC01D7EF58AD26CE82D3
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionComment_0" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_0'"
+      SizeX=961
+      SizeY=498
+      Text="Trail_Distortion_Control"
+      MaterialExpressionEditorX=-3266
+      MaterialExpressionEditorY=-348
+      MaterialExpressionGuid=E5FB2FDE4BF69BB26EC646B3F9B299E2
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionComment_1" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_1'"
+      SizeX=1053
+      SizeY=397
+      Text="Trail_inside_edge"
+      MaterialExpressionEditorX=-1682
+      MaterialExpressionEditorY=-834
+      MaterialExpressionGuid=120F01F14B5E6A95E599BA84ED276B0D
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionComment_2" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_2'"
+      SizeX=881
+      SizeY=584
+      Text="Distortion_Texture_control"
+      MaterialExpressionEditorX=-4320
+      MaterialExpressionEditorY=-560
+      MaterialExpressionGuid=5ACEBE4D42E5F8FEAB0C1485169AC612
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionComment_3" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_3'"
+      SizeX=1126
+      SizeY=420
+      Text="Trail_Outside_Edge"
+      MaterialExpressionEditorX=-1328
+      MaterialExpressionEditorY=-432
+      MaterialExpressionGuid=6B0D3D594FFBE6B35CD69F8B1FD28819
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionComment_4" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_4'"
+      SizeX=464
+      SizeY=176
+      Text="180=pi, 90=pi/2=3.141592/2=1.570796"
+      MaterialExpressionEditorX=-3952
+      MaterialExpressionEditorY=624
+      MaterialExpressionGuid=F87BB4C74D855DCD622830A4E69C1B55
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionComment_5" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_5'"
+      SizeX=944
+      SizeY=704
+      Text="Tiling /  panner"
+      MaterialExpressionEditorX=-4336
+      MaterialExpressionEditorY=160
+      MaterialExpressionGuid=F676A9D14F50AB1DB466C48FD9DC3EEC
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionComment_6" ExportPath="/Script/Engine.MaterialExpressionComment'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComment_6'"
+      SizeX=1078
+      SizeY=454
+      Text="Trail_Opacity_Edge"
+      MaterialExpressionEditorX=-1616
+      MaterialExpressionEditorY=160
+      MaterialExpressionGuid=12964B224BD78BD57453E2A5C293A551
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_4" ExportPath="/Script/Engine.MaterialExpressionComponentMask'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComponentMask_4'"
+      Input=(Expression="/Script/Engine.MaterialExpressionAdd'Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_4'")
+      R=True
+      MaterialExpressionEditorX=-1504
+      MaterialExpressionEditorY=-208
+      MaterialExpressionGuid=BE73CEF648612CF0B2A50DBB0EEE2CB8
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionComponentMask_6" ExportPath="/Script/Engine.MaterialExpressionComponentMask'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionComponentMask_6'"
+      Input=(Expression="/Script/Engine.MaterialExpressionTextureSampleParameter2D'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_7'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      R=True
+      G=True
+      MaterialExpressionEditorX=-3168
+      MaterialExpressionEditorY=-224
+      MaterialExpressionGuid=B2071DE64F10997ED178B2A0A3C4FB67
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionConstant_14" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_14'"
+      MaterialExpressionEditorX=-1182
+      MaterialExpressionEditorY=-190
+      MaterialExpressionGuid=A7D1B2D949D59838FB3EC0A3E12D2A15
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionConstant_15" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_15'"
+      MaterialExpressionEditorX=-1342
+      MaterialExpressionEditorY=322
+      MaterialExpressionGuid=F4587A9047BDBB7C8CA98185F4644FAC
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionConstant_16" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_16'"
+      R=1.000000
+      MaterialExpressionEditorX=-1182
+      MaterialExpressionEditorY=-126
+      MaterialExpressionGuid=51948223434686E6113403AA42A781B4
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionConstant_19" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_19'"
+      R=1.000000
+      MaterialExpressionEditorX=-1342
+      MaterialExpressionEditorY=386
+      MaterialExpressionGuid=A3EDEE0348C3A97C2A2A4EAD7E68C72A
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionConstant_23" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_23'"
+      MaterialExpressionEditorX=-1568
+      MaterialExpressionEditorY=-704
+      MaterialExpressionGuid=A7D1B2D949D59838FB3EC0A3E12D2A15
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionConstant_24" ExportPath="/Script/Engine.MaterialExpressionConstant'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_24'"
+      R=1.000000
+      MaterialExpressionEditorX=-1568
+      MaterialExpressionEditorY=-640
+      MaterialExpressionGuid=51948223434686E6113403AA42A781B4
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionDynamicParameter_2" ExportPath="/Script/Engine.MaterialExpressionDynamicParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionDynamicParameter_2'"
+      ParamNames(0)="Trail_bright"
+      ParamNames(1)="Trail_tail_bright"
+      ParamNames(2)="TextureColor_overlab"
+      DefaultValue=(R=1.000000,G=0.145795,B=0.113956,A=1.000000)
+      MaterialExpressionEditorX=-2192
+      MaterialExpressionEditorY=-736
+      MaterialExpressionGuid=1F67132C4FD14065BB3F69933067F912
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+      Outputs(0)=(OutputName="Trail_bright")
+      Outputs(1)=(OutputName="Trail_tail_bright")
+      Outputs(2)=(OutputName="TextureColor_overlab")
+      Outputs(3)=(OutputName="Param4")
+      Outputs.RemoveIndex(5)
+      Outputs.RemoveIndex(4)
+   End Object
+   Begin Object Name="MaterialExpressionIf_12" ExportPath="/Script/Engine.MaterialExpressionIf'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_12'"
+      A=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_34'")
+      B=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_26'")
+      AGreaterThanB=(Expression="/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_23'")
+      AEqualsB=(Expression="/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_24'")
+      ALessThanB=(Expression="/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_24'")
+      MaterialExpressionEditorX=-1440
+      MaterialExpressionEditorY=-736
+      MaterialExpressionGuid=F6607E9046CED2EA17E2ABA7F60062C7
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionIf_2" ExportPath="/Script/Engine.MaterialExpressionIf'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_2'"
+      A=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_17'")
+      B=(Expression="/Script/Engine.MaterialExpressionComponentMask'Air_Trail_Dissolve_Edge_M:MaterialExpressionComponentMask_4'")
+      AGreaterThanB=(Expression="/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_15'")
+      AEqualsB=(Expression="/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_15'")
+      ALessThanB=(Expression="/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_19'")
+      MaterialExpressionEditorX=-1214
+      MaterialExpressionEditorY=274
+      MaterialExpressionGuid=BD72D71D498E233685A0C28122C39378
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionIf_8" ExportPath="/Script/Engine.MaterialExpressionIf'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_8'"
+      A=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_20'")
+      B=(Expression="/Script/Engine.MaterialExpressionComponentMask'Air_Trail_Dissolve_Edge_M:MaterialExpressionComponentMask_4'")
+      AGreaterThanB=(Expression="/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_14'")
+      AEqualsB=(Expression="/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_16'")
+      ALessThanB=(Expression="/Script/Engine.MaterialExpressionConstant'Air_Trail_Dissolve_Edge_M:MaterialExpressionConstant_16'")
+      MaterialExpressionEditorX=-1086
+      MaterialExpressionEditorY=-222
+      MaterialExpressionGuid=F6607E9046CED2EA17E2ABA7F60062C7
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionLinearInterpolate_1" ExportPath="/Script/Engine.MaterialExpressionLinearInterpolate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionLinearInterpolate_1'"
+      A=(Expression="/Script/Engine.MaterialExpressionTextureCoordinate'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_7'")
+      B=(Expression="/Script/Engine.MaterialExpressionComponentMask'Air_Trail_Dissolve_Edge_M:MaterialExpressionComponentMask_6'")
+      Alpha=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_35'")
+      MaterialExpressionEditorX=-2944
+      MaterialExpressionEditorY=-256
+      MaterialExpressionGuid=442A8AEF4C9425FB73ED8DBEC254F362
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionLinearInterpolate_2" ExportPath="/Script/Engine.MaterialExpressionLinearInterpolate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionLinearInterpolate_2'"
+      A=(Expression="/Script/Engine.MaterialExpressionRotator'Air_Trail_Dissolve_Edge_M:MaterialExpressionRotator_2'")
+      B=(Expression="/Script/Engine.MaterialExpressionComponentMask'Air_Trail_Dissolve_Edge_M:MaterialExpressionComponentMask_6'")
+      Alpha=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_36'")
+      MaterialExpressionEditorX=-2992
+      MaterialExpressionEditorY=288
+      MaterialExpressionGuid=442A8AEF4C9425FB73ED8DBEC254F362
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMaterialFunctionCall_0" ExportPath="/Script/Engine.MaterialExpressionMaterialFunctionCall'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMaterialFunctionCall_0'"
+      MaterialFunction="/Script/Engine.MaterialFunction'/Engine/Functions/Engine_MaterialFunctions01/Gradient/LinearGradient.LinearGradient'"
+      FunctionInputs(0)=(ExpressionInputId=956846354D2549E665DAC68533EC21EC,Input=(Expression="/Script/Engine.MaterialExpressionTextureCoordinate'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_0'",InputName="UV Channel"))
+      FunctionOutputs(0)=(ExpressionOutputId=0F11154B443B1137CC9914998FC01F5E,Output=(OutputName="UGradient"))
+      FunctionOutputs(1)=(ExpressionOutputId=D0E9AADC4F9EEDBBFD95F9B3A5165013,Output=(OutputName="VGradient"))
+      MaterialExpressionEditorX=-3040
+      MaterialExpressionEditorY=496
+      MaterialExpressionGuid=6A196DA74C6848D7C10BDEA0C48A9ACE
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+      Outputs(0)=(OutputName="UGradient")
+      Outputs(1)=(OutputName="VGradient")
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_10" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_10'"
+      A=(Expression="/Script/Engine.MaterialExpressionClamp'Air_Trail_Dissolve_Edge_M:MaterialExpressionClamp_11'")
+      B=(Expression="/Script/Engine.MaterialExpressionVectorParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionVectorParameter_4'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      MaterialExpressionEditorX=-350
+      MaterialExpressionEditorY=-366
+      MaterialExpressionGuid=E3FC628740755B7F7EC503BAE1BA8C58
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_11" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_11'"
+      A=(Expression="/Script/Engine.MaterialExpressionClamp'Air_Trail_Dissolve_Edge_M:MaterialExpressionClamp_12'")
+      B=(Expression="/Script/Engine.MaterialExpressionVectorParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionVectorParameter_5'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      MaterialExpressionEditorX=-768
+      MaterialExpressionEditorY=-736
+      MaterialExpressionGuid=E3FC628740755B7F7EC503BAE1BA8C58
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_13" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_13'"
+      A=(Expression="/Script/Engine.MaterialExpressionTextureSampleParameter2D'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_4'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      B=(Expression="/Script/Engine.MaterialExpressionDynamicParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionDynamicParameter_2'",Mask=1,MaskR=1)
+      MaterialExpressionEditorX=-1904
+      MaterialExpressionEditorY=-256
+      MaterialExpressionGuid=5ED5080843BE9D67FC547D83DB28246F
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_16" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_16'"
+      A=(Expression="/Script/Engine.MaterialExpressionTextureCoordinate'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_4'")
+      B=(Expression="/Script/Engine.MaterialExpressionAppendVector'Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_5'")
+      MaterialExpressionEditorX=-4016
+      MaterialExpressionEditorY=288
+      MaterialExpressionGuid=66708D914274A8A0E1291C8124D32CEB
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_17" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_17'"
+      A=(Expression="/Script/Engine.MaterialExpressionPower'Air_Trail_Dissolve_Edge_M:MaterialExpressionPower_2'")
+      B=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_32'")
+      MaterialExpressionEditorX=-2176
+      MaterialExpressionEditorY=288
+      MaterialExpressionGuid=9C215AB543463CD3627BACA176E99CAB
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_18" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_18'"
+      A=(Expression="/Script/Engine.MaterialExpressionIf'Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_2'")
+      B=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_22'")
+      MaterialExpressionEditorX=-942
+      MaterialExpressionEditorY=466
+      MaterialExpressionGuid=53B6C9164319409299F876AFAAEE6561
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_19" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_19'"
+      A=(Expression="/Script/Engine.MaterialExpressionAdd'Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_9'")
+      B=(Expression="/Script/Engine.MaterialExpressionParticleColor'Air_Trail_Dissolve_Edge_M:MaterialExpressionParticleColor_2'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      MaterialExpressionEditorX=352
+      MaterialExpressionEditorY=64
+      MaterialExpressionGuid=6B2D99B5482051582723C3A4C6CEFAC0
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_20" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_20'"
+      A=(Expression="/Script/Engine.MaterialExpressionParticleColor'Air_Trail_Dissolve_Edge_M:MaterialExpressionParticleColor_2'",OutputIndex=4,Mask=1,MaskA=1)
+      B=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_21'")
+      MaterialExpressionEditorX=352
+      MaterialExpressionEditorY=160
+      MaterialExpressionGuid=09145ADC4D488D6D879B13BD037E5042
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_21" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_21'"
+      A=(Expression="/Script/Engine.MaterialExpressionAdd'Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_8'")
+      B=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_18'")
+      MaterialExpressionEditorX=-686
+      MaterialExpressionEditorY=434
+      MaterialExpressionGuid=0FF26F9745CE27D3739346B5676FD04C
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_22" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_22'"
+      A=(Expression="/Script/Engine.MaterialExpressionDynamicParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionDynamicParameter_2'",Mask=1,MaskR=1)
+      B=(Expression="/Script/Engine.MaterialExpressionTextureSampleParameter2D'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_4'",OutputIndex=4,Mask=1,MaskA=1)
+      MaterialExpressionEditorX=-1568
+      MaterialExpressionEditorY=496
+      MaterialExpressionGuid=8D25371A4CB0CC3E7F17E48C30466463
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_24" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_24'"
+      A=(Expression="/Script/Engine.MaterialExpressionAdd'Air_Trail_Dissolve_Edge_M:MaterialExpressionAdd_4'")
+      B=(Expression="/Script/Engine.MaterialExpressionDynamicParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionDynamicParameter_2'",OutputIndex=2,Mask=1,MaskB=1)
+      ConstB=5.000000
+      MaterialExpressionEditorX=-1504
+      MaterialExpressionGuid=63E24E614C7A49A8D06C1095BEA3B006
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_26" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_26'"
+      A=(Expression="/Script/Engine.MaterialExpressionTextureSampleParameter2D'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_4'",OutputIndex=1,Mask=1,MaskR=1)
+      B=(Expression="/Script/Engine.MaterialExpressionDynamicParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionDynamicParameter_2'",Mask=1,MaskR=1)
+      MaterialExpressionEditorX=-1904
+      MaterialExpressionEditorY=-416
+      MaterialExpressionGuid=C355DC9D496DA794B2EBFAB5454A406D
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_28" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_28'"
+      A=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_30'")
+      B=(Expression="/Script/Engine.MaterialExpressionIf'Air_Trail_Dissolve_Edge_M:MaterialExpressionIf_8'")
+      MaterialExpressionEditorX=-926
+      MaterialExpressionEditorY=-366
+      MaterialExpressionGuid=7D42E659473AA6BE9412A08B4165745C
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_30" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_30'"
+      A=(Expression="/Script/Engine.MaterialExpressionDynamicParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionDynamicParameter_2'",OutputIndex=1,Mask=1,MaskG=1)
+      B=(Expression="/Script/Engine.MaterialExpressionOneMinus'Air_Trail_Dissolve_Edge_M:MaterialExpressionOneMinus_6'")
+      ConstB=10.000000
+      MaterialExpressionEditorX=-1118
+      MaterialExpressionEditorY=-366
+      MaterialExpressionGuid=92E9FFEF4E88A81283FE869058BAF23E
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_4" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_4'"
+      A=(Expression="/Script/Engine.MaterialExpressionTextureSampleParameter2D'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_8'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      B=(Expression="/Script/Engine.MaterialExpressionOneMinus'Air_Trail_Dissolve_Edge_M:MaterialExpressionOneMinus_7'")
+      ConstB=2.000000
+      MaterialExpressionEditorX=-2576
+      MaterialExpressionEditorY=288
+      MaterialExpressionGuid=1A583A254A679362CD3752940D522BA5
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+      bCollapsed=False
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_8" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_8'"
+      A=(Expression="/Script/Engine.MaterialExpressionLinearInterpolate'Air_Trail_Dissolve_Edge_M:MaterialExpressionLinearInterpolate_1'")
+      B=(Expression="/Script/Engine.MaterialExpressionAppendVector'Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_10'")
+      MaterialExpressionEditorX=-2704
+      MaterialExpressionEditorY=-256
+      MaterialExpressionGuid=C3462CC4409E6045B76B4B84B29E4124
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+      bCollapsed=False
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_9" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_9'"
+      A=(Expression="/Script/Engine.MaterialExpressionTextureCoordinate'Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_2'")
+      B=(Expression="/Script/Engine.MaterialExpressionAppendVector'Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_9'")
+      MaterialExpressionEditorX=-3968
+      MaterialExpressionEditorY=-432
+      MaterialExpressionGuid=04168BE94AD8533097A38DB773B4C4C9
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionOneMinus_6" ExportPath="/Script/Engine.MaterialExpressionOneMinus'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionOneMinus_6'"
+      Input=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_26'")
+      MaterialExpressionEditorX=-1712
+      MaterialExpressionEditorY=-352
+      MaterialExpressionGuid=CD0E1A9D43D0D1E0CDD45F85FF258FA2
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionOneMinus_7" ExportPath="/Script/Engine.MaterialExpressionOneMinus'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionOneMinus_7'"
+      Input=(Expression="/Script/Engine.MaterialExpressionMaterialFunctionCall'Air_Trail_Dissolve_Edge_M:MaterialExpressionMaterialFunctionCall_0'")
+      MaterialExpressionEditorX=-2816
+      MaterialExpressionEditorY=496
+      MaterialExpressionGuid=35D30DDD422492CE10AB70AECEECC11E
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionPanner_3" ExportPath="/Script/Engine.MaterialExpressionPanner'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionPanner_3'"
+      Coordinate=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_9'")
+      Speed=(Expression="/Script/Engine.MaterialExpressionAppendVector'Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_4'")
+      SpeedX=-0.500000
+      MaterialExpressionEditorX=-3824
+      MaterialExpressionEditorY=-224
+      MaterialExpressionGuid=9BCCBFA64CC3680F710D5790606C455B
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionPanner_5" ExportPath="/Script/Engine.MaterialExpressionPanner'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionPanner_5'"
+      Coordinate=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_16'")
+      Speed=(Expression="/Script/Engine.MaterialExpressionAppendVector'Air_Trail_Dissolve_Edge_M:MaterialExpressionAppendVector_8'")
+      SpeedY=-1.000000
+      MaterialExpressionEditorX=-3776
+      MaterialExpressionEditorY=288
+      MaterialExpressionGuid=720F762A4620373F1A5A0E8A2167C8DA
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionParticleColor_2" ExportPath="/Script/Engine.MaterialExpressionParticleColor'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionParticleColor_2'"
+      MaterialExpressionEditorX=-224
+      MaterialExpressionEditorY=80
+      MaterialExpressionGuid=E062BF964B141B78CE4DA48DE51E532D
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+      bCollapsed=False
+   End Object
+   Begin Object Name="MaterialExpressionPower_2" ExportPath="/Script/Engine.MaterialExpressionPower'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionPower_2'"
+      Base=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_4'")
+      Exponent=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_22'")
+      ConstExponent=4.000000
+      MaterialExpressionEditorX=-2368
+      MaterialExpressionEditorY=288
+      MaterialExpressionGuid=85939B644A90F6D52580CF85AE1B6561
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionRotator_2" ExportPath="/Script/Engine.MaterialExpressionRotator'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionRotator_2'"
+      Coordinate=(Expression="/Script/Engine.MaterialExpressionPanner'Air_Trail_Dissolve_Edge_M:MaterialExpressionPanner_5'")
+      Time=(Expression="/Script/Engine.MaterialExpressionScalarParameter'Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_31'")
+      Speed=1.570796
+      MaterialExpressionEditorX=-3584
+      MaterialExpressionEditorY=288
+      MaterialExpressionGuid=FB7FFA6749DFC52052445588C7AF7D2D
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+      Desc="90 degree"
+      bCommentBubbleVisible=True
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_11" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_11'"
+      DefaultValue=-0.500000
+      ParameterName="Distort_Flow_SpeedX"
+      ExpressionGUID=C0E3D7BB4E86934C9C652295ECD029BE
+      Group="Distortion"
+      MaterialExpressionEditorX=-4192
+      MaterialExpressionEditorY=-192
+      MaterialExpressionGuid=B0D07E1049BDF8A2FA2B83AFE8DE80C7
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_14" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_14'"
+      ParameterName="Distort_Flow_SpeedY"
+      ExpressionGUID=17809F7347FA7DAA93AEA78B072E1688
+      Group="Distortion"
+      MaterialExpressionEditorX=-4192
+      MaterialExpressionEditorY=-96
+      MaterialExpressionGuid=B0D07E1049BDF8A2FA2B83AFE8DE80C7
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_17" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_17'"
+      DefaultValue=0.100000
+      ParameterName="opacity_edge_width"
+      ExpressionGUID=92FC70564B27F80529874EB13C1585E1
+      Group="Trail_Edge"
+      MaterialExpressionEditorX=-1406
+      MaterialExpressionEditorY=210
+      MaterialExpressionGuid=D291A2CD4A84F85FC52F13B3309DBEC9
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_20" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_20'"
+      DefaultValue=0.500000
+      ParameterName="dissolve_outside"
+      ExpressionGUID=340976424F216A8ADF392B8C4C849690
+      Group="Trail_Edge"
+      MaterialExpressionEditorX=-1262
+      MaterialExpressionEditorY=-270
+      MaterialExpressionGuid=463295D14494D7C95C7E7C85E874E1E7
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_22" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_22'"
+      DefaultValue=1.000000
+      ParameterName="Tile_intensity"
+      ExpressionGUID=4115FA494DABEE2AEA1B9DBD5F2A0052
+      MaterialExpressionEditorX=-2544
+      MaterialExpressionEditorY=480
+      MaterialExpressionGuid=CB2FF7D040BD7A0E56C2DABA500C0312
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_23" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_23'"
+      DefaultValue=1.000000
+      ParameterName="Distort_ScaleX"
+      ExpressionGUID=2A823643487CE49E60D4E0826DFB5337
+      Group="Distortion"
+      MaterialExpressionEditorX=-4272
+      MaterialExpressionEditorY=-416
+      MaterialExpressionGuid=9E1F336341D8A7B5E19ACB977E5140CD
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_24" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_24'"
+      DefaultValue=1.000000
+      ParameterName="Distort_ScaleY"
+      ExpressionGUID=EADDF8324E637B735D4540A82C424C24
+      Group="Distortion"
+      MaterialExpressionEditorX=-4272
+      MaterialExpressionEditorY=-320
+      MaterialExpressionGuid=9E1F336341D8A7B5E19ACB977E5140CD
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_27" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_27'"
+      DefaultValue=1.000000
+      ParameterName="Tile_X"
+      ExpressionGUID=E9EF7A2E44A2520F14BF83AA536E6278
+      Group="TrailTile"
+      MaterialExpressionEditorX=-4272
+      MaterialExpressionEditorY=352
+      MaterialExpressionGuid=DA2E1D354F41CC779186F392540E492E
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_28" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_28'"
+      DefaultValue=1.000000
+      ParameterName="Tile_Y"
+      ExpressionGUID=918279B748E7200BD661DB8BDFB34864
+      Group="TrailTile"
+      MaterialExpressionEditorX=-4272
+      MaterialExpressionEditorY=464
+      MaterialExpressionGuid=806D34EA44813D4E8333F98A2BCA650F
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_29" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_29'"
+      DefaultValue=-1.000000
+      ParameterName="flow_speedX"
+      ExpressionGUID=589CD5F145AEAFC946AC9489C4037E50
+      Group="TrailTile"
+      MaterialExpressionEditorX=-4016
+      MaterialExpressionEditorY=416
+      MaterialExpressionGuid=4177566E45310E920C1D46A2B5A965EB
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_30" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_30'"
+      ParameterName="flow_speedY"
+      ExpressionGUID=515DB46146081C9529E31B87A040F8FF
+      Group="TrailTile"
+      MaterialExpressionEditorX=-4016
+      MaterialExpressionEditorY=512
+      MaterialExpressionGuid=B09559704A49829A1C371EA77B77A989
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_31" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_31'"
+      ParameterName="Tile_Rotate"
+      ExpressionGUID=A8C6B508440D3E72521C5D81B2BAA400
+      Group="TrailTile"
+      MaterialExpressionEditorX=-3904
+      MaterialExpressionEditorY=720
+      MaterialExpressionGuid=C13C5DBC40C2369D25B80B8D270F82E3
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+      Desc="0,1,2,3"
+      bCommentBubbleVisible=True
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_32" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_32'"
+      DefaultValue=1.000000
+      ParameterName="Tile_bright"
+      ExpressionGUID=8F416F9E44DA4289388D10A5892509C2
+      MaterialExpressionEditorX=-2368
+      MaterialExpressionEditorY=480
+      MaterialExpressionGuid=CB2FF7D040BD7A0E56C2DABA500C0312
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_34" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_34'"
+      DefaultValue=0.900000
+      ParameterName="dissolve_inside"
+      ExpressionGUID=9A6B3A9D495505B8DC83978AD5DD8AD9
+      Group="Trail_Edge"
+      MaterialExpressionEditorX=-1632
+      MaterialExpressionEditorY=-784
+      MaterialExpressionGuid=463295D14494D7C95C7E7C85E874E1E7
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_35" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_35'"
+      DefaultValue=0.200000
+      ParameterName="distortion_intensity"
+      ExpressionGUID=18AC2FEC4682D9DE2356B6B2C09A22CE
+      Group="Trail"
+      MaterialExpressionEditorX=-3213
+      MaterialExpressionEditorY=-154
+      MaterialExpressionGuid=4372A98040C54271BED4EEA24A24DD56
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_36" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_36'"
+      DefaultValue=0.100000
+      ParameterName="distortion_intensity_1"
+      ExpressionGUID=1B90C10946ECD52133D4508AA699447B
+      MaterialExpressionEditorX=-3216
+      MaterialExpressionEditorY=352
+      MaterialExpressionGuid=4372A98040C54271BED4EEA24A24DD56
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_37" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_37'"
+      DefaultValue=1.000000
+      ParameterName="Trail_tail_bright"
+      ExpressionGUID=3A24120B4859BB534407C3BDCFE25D9C
+      MaterialExpressionEditorX=-1488
+      MaterialExpressionEditorY=-384
+      MaterialExpressionGuid=A941010B42AE53AC4538AAA1FA6DB230
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_8" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_8'"
+      DefaultValue=1.000000
+      ParameterName="Distort_Flow_ScaleX"
+      ExpressionGUID=D739298E4A15785900BDBE92536E3439
+      Group="Trail"
+      MaterialExpressionEditorX=-3216
+      MaterialExpressionEditorY=-64
+      MaterialExpressionGuid=CEEF1B4C4331EA3A3F3B85AEE6580C6B
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionScalarParameter_9" ExportPath="/Script/Engine.MaterialExpressionScalarParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionScalarParameter_9'"
+      DefaultValue=1.000000
+      ParameterName="Distort_Flow_ScaleY"
+      ExpressionGUID=60B35C5B43BBA1E825CF9DB89BA09293
+      Group="Trail"
+      MaterialExpressionEditorX=-3216
+      MaterialExpressionEditorY=32
+      MaterialExpressionGuid=91B31D7443FF7971A98994A5C948B47F
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureCoordinate_0" ExportPath="/Script/Engine.MaterialExpressionTextureCoordinate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_0'"
+      MaterialExpressionEditorX=-3184
+      MaterialExpressionEditorY=496
+      MaterialExpressionGuid=EB6052144C464B8A376866B23ECB6ECB
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureCoordinate_2" ExportPath="/Script/Engine.MaterialExpressionTextureCoordinate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_2'"
+      MaterialExpressionEditorX=-4224
+      MaterialExpressionEditorY=-512
+      MaterialExpressionGuid=C10B910040D67AB11417D6AB740E0182
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureCoordinate_4" ExportPath="/Script/Engine.MaterialExpressionTextureCoordinate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_4'"
+      MaterialExpressionEditorX=-4272
+      MaterialExpressionEditorY=288
+      MaterialExpressionGuid=75FB04F244D7D06B502C71A17446985D
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+      Desc="UV 0"
+      bCommentBubbleVisible=True
+   End Object
+   Begin Object Name="MaterialExpressionTextureCoordinate_7" ExportPath="/Script/Engine.MaterialExpressionTextureCoordinate'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureCoordinate_7'"
+      UTiling=0.500000
+      VTiling=0.500000
+      MaterialExpressionEditorX=-3165
+      MaterialExpressionEditorY=-298
+      MaterialExpressionGuid=C10B910040D67AB11417D6AB740E0182
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureSampleParameter2D_4" ExportPath="/Script/Engine.MaterialExpressionTextureSampleParameter2D'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_4'"
+      ParameterName="Trail_Texture_1"
+      ExpressionGUID=12BAD5D745E2E504C85CCE8993C0BFE1
+      Coordinates=(Expression="/Script/Engine.MaterialExpressionMultiply'Air_Trail_Dissolve_Edge_M:MaterialExpressionMultiply_8'")
+      SamplerSource=SSM_Clamp_WorldGroupSettings
+      Texture="/Script/Engine.Texture2D'/Game/Rapier_AnimSet/Textures/FX_Textures/Trail_T.Trail_T'"
+      MaterialExpressionEditorX=-2496
+      MaterialExpressionEditorY=-272
+      MaterialExpressionGuid=34DD24B34BF294286E1BD98E2723E991
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureSampleParameter2D_7" ExportPath="/Script/Engine.MaterialExpressionTextureSampleParameter2D'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_7'"
+      ParameterName="Distortion_Texure"
+      ExpressionGUID=0860560147DD3A98515921AE87F980A1
+      Coordinates=(Expression="/Script/Engine.MaterialExpressionPanner'Air_Trail_Dissolve_Edge_M:MaterialExpressionPanner_3'")
+      Texture="/Script/Engine.Texture2D'/Game/Rapier_AnimSet/Textures/FX_Textures/flow_air_T.flow_air_T'"
+      MaterialExpressionEditorX=-3632
+      MaterialExpressionEditorY=-240
+      MaterialExpressionGuid=91ADECF84A773AF27B2047BCBE7A2711
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureSampleParameter2D_8" ExportPath="/Script/Engine.MaterialExpressionTextureSampleParameter2D'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionTextureSampleParameter2D_8'"
+      ParameterName="Tile_Texture_1"
+      ExpressionGUID=E04EFF954D6BA7A32384ACB6F75B8C56
+      Coordinates=(Expression="/Script/Engine.MaterialExpressionLinearInterpolate'Air_Trail_Dissolve_Edge_M:MaterialExpressionLinearInterpolate_2'")
+      SamplerSource=SSM_Wrap_WorldGroupSettings
+      Texture="/Script/Engine.Texture2D'/Game/Rapier_AnimSet/Textures/FX_Textures/Tile_T.Tile_T'"
+      MaterialExpressionEditorX=-2816
+      MaterialExpressionEditorY=272
+      MaterialExpressionGuid=34DD24B34BF294286E1BD98E2723E991
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+      bCommentBubbleVisible=True
+   End Object
+   Begin Object Name="MaterialExpressionVectorParameter_4" ExportPath="/Script/Engine.MaterialExpressionVectorParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionVectorParameter_4'"
+      DefaultValue=(R=0.027637,G=0.791347,B=1.000000,A=1.000000)
+      ParameterName="edge_color_outline"
+      ExpressionGUID=973A713D45C60413F1A3CC828F1B3E73
+      Group="Trail_Edge"
+      MaterialExpressionEditorX=-542
+      MaterialExpressionEditorY=-238
+      MaterialExpressionGuid=492C37384D30AECC80755F932613BAA3
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+      bCollapsed=True
+   End Object
+   Begin Object Name="MaterialExpressionVectorParameter_5" ExportPath="/Script/Engine.MaterialExpressionVectorParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:MaterialExpressionVectorParameter_5'"
+      DefaultValue=(R=0.042778,G=0.577904,B=0.733333,A=1.000000)
+      ParameterName="edge_color_inline"
+      ExpressionGUID=A58ABCC749C2751D04BC89BF8F8B97BA
+      Group="Trail_Edge"
+      MaterialExpressionEditorX=-992
+      MaterialExpressionEditorY=-656
+      MaterialExpressionGuid=492C37384D30AECC80755F932613BAA3
+      Material="/Script/Engine.Material'Air_Trail_Dissolve_Edge_M'"
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_0" ExportPath="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'/Game/Rapier_AnimSet/Materials/FX_Materials/Air_Trail_Dissolve_Edge_M.Air_Trail_Dissolve_Edge_M:SceneThumbnailInfoWithPrimitive_0'"
+   End Object
+   BlendMode=BLEND_Translucent
+   ShadingModel=MSM_Unlit
+   ShadingModels=(ShadingModelField=1)
+   TwoSided=True
+   bUsedWithParticleSprites=True
+   bUsedWithBeamTrails=True
+   bUsedWithStaticLighting=True
+   EditorX=515
+   EditorY=-10
+   bCanMaskedBeAssumedOpaque=True
+   PixelDepthOffsetMode=PDOM_Legacy
+   StateId=5FCD89D4A947A035694E4394B2B5E3E3
+   EditorOnlyData="/Script/Engine.MaterialEditorOnlyData'Air_Trail_Dissolve_Edge_MEditorOnlyData'"
+   ThumbnailInfo="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'SceneThumbnailInfoWithPrimitive_0'"
+   LightingGuid=D4E256354EFA1BDC3624128B0EA8ABF2
+End Object

@@ -73,7 +73,7 @@ export function createMotor(world, spawn, walkingSpeed = 3.4) {
       // Choreographed steps still use the same swept collision as walking.
       velocity.x = velocity.z = 0;
       heading = input.actionMove.heading;
-      if (grounded) horizontal(input.actionMove.x, input.actionMove.z);
+      if (grounded || input.actionMove.airborne) horizontal(input.actionMove.x, input.actionMove.z);
     } else if (grounded && input.punching) {
       velocity.x = velocity.z = 0;
     } else {
@@ -119,7 +119,10 @@ export function createMotor(world, spawn, walkingSpeed = 3.4) {
       position.y = floor; velocity.y = 0; grounded = true;
     } else grounded = false;
     speed = Math.hypot(velocity.x, velocity.z);
-    if (speed > .12) {
+    if (Number.isFinite(input.facing)) {
+      const delta = Math.atan2(Math.sin(input.facing - heading), Math.cos(input.facing - heading));
+      heading += delta * (1 - Math.exp(-dt * 15));
+    } else if (speed > .12) {
       const desired = Math.atan2(velocity.x, velocity.z);
       const delta = Math.atan2(Math.sin(desired - heading), Math.cos(desired - heading));
       heading += delta * (1 - Math.exp(-dt * 15));

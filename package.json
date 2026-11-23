@@ -10,7 +10,7 @@
     "check": "npm test && npm run build",
     "build": "node build.cjs",
     "build:legacy": "node build-legacy.cjs",
-    "test": "node --test nyc-motor.test.mjs nyc-flight.test.mjs nyc-home-window.test.mjs nyc-combat.test.mjs nyc-block-shell.test.mjs nyc-sewer-route.test.mjs"
+    "test": "node --test nyc-motor.test.mjs nyc-flight.test.mjs nyc-home-window.test.mjs nyc-combat.test.mjs nyc-block-shell.test.mjs nyc-sewer-route.test.mjs nyc-rapier-locomotion.test.mjs nyc-sword-effects.test.mjs"
   },
   "dependencies": {
     "esbuild": "^0.28.2",

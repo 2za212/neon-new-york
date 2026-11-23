@@ -1,0 +1,51 @@
+Begin Object Class=/Script/Engine.Material Name="Spark2_M" ExportPath="/Script/Engine.Material'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M'"
+   Begin Object Class=/Script/Engine.MaterialEditorOnlyData Name="Spark2_MEditorOnlyData" ExportPath="/Script/Engine.MaterialEditorOnlyData'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M:Spark2_MEditorOnlyData'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_2" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M:MaterialExpressionMultiply_2'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionParticleColor Name="MaterialExpressionParticleColor_1" ExportPath="/Script/Engine.MaterialExpressionParticleColor'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M:MaterialExpressionParticleColor_1'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_2" ExportPath="/Script/Engine.MaterialExpressionTextureSample'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M:MaterialExpressionTextureSample_2'"
+   End Object
+   Begin Object Class=/Script/UnrealEd.SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_0" ExportPath="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M:SceneThumbnailInfoWithPrimitive_0'"
+   End Object
+   Begin Object Name="Spark2_MEditorOnlyData" ExportPath="/Script/Engine.MaterialEditorOnlyData'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M:Spark2_MEditorOnlyData'"
+      EmissiveColor=(Expression="/Script/Engine.MaterialExpressionParticleColor'Spark2_M:MaterialExpressionParticleColor_1'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      Opacity=(Expression="/Script/Engine.MaterialExpressionMultiply'Spark2_M:MaterialExpressionMultiply_2'")
+      ExpressionCollection=(Expressions=("/Script/Engine.MaterialExpressionParticleColor'Spark2_M:MaterialExpressionParticleColor_1'","/Script/Engine.MaterialExpressionMultiply'Spark2_M:MaterialExpressionMultiply_2'","/Script/Engine.MaterialExpressionTextureSample'Spark2_M:MaterialExpressionTextureSample_2'"))
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_2" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M:MaterialExpressionMultiply_2'"
+      A=(Expression="/Script/Engine.MaterialExpressionParticleColor'Spark2_M:MaterialExpressionParticleColor_1'",OutputIndex=4,Mask=1,MaskA=1)
+      B=(Expression="/Script/Engine.MaterialExpressionTextureSample'Spark2_M:MaterialExpressionTextureSample_2'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      MaterialExpressionEditorX=448
+      MaterialExpressionEditorY=176
+      MaterialExpressionGuid=11ACFF974CDE73125F19B5BEF6252FD2
+      Material="/Script/Engine.Material'Spark2_M'"
+   End Object
+   Begin Object Name="MaterialExpressionParticleColor_1" ExportPath="/Script/Engine.MaterialExpressionParticleColor'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M:MaterialExpressionParticleColor_1'"
+      MaterialExpressionEditorX=240
+      MaterialExpressionGuid=5CDF5A22473E302807BA66BC64F928C1
+      Material="/Script/Engine.Material'Spark2_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_2" ExportPath="/Script/Engine.MaterialExpressionTextureSample'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M:MaterialExpressionTextureSample_2'"
+      Texture="/Script/Engine.Texture2D'/Game/Rapier_AnimSet/Textures/FX_Textures/Spark_T.Spark_T'"
+      MaterialExpressionEditorX=112
+      MaterialExpressionEditorY=224
+      MaterialExpressionGuid=C648AB58400DA89DAAD102882EFC02D5
+      Material="/Script/Engine.Material'Spark2_M'"
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_0" ExportPath="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'/Game/Rapier_AnimSet/Materials/FX_Materials/Spark2_M.Spark2_M:SceneThumbnailInfoWithPrimitive_0'"
+   End Object
+   BlendMode=BLEND_Translucent
+   ShadingModel=MSM_Unlit
+   ShadingModels=(ShadingModelField=1)
+   bUsedWithParticleSprites=True
+   EditorX=704
+   EditorY=-16
+   bCanMaskedBeAssumedOpaque=True
+   PixelDepthOffsetMode=PDOM_Legacy
+   StateId=A4D8E304A41164BF60CEEF9A19323DF5
+   EditorOnlyData="/Script/Engine.MaterialEditorOnlyData'Spark2_MEditorOnlyData'"
+   ThumbnailInfo="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'SceneThumbnailInfoWithPrimitive_0'"
+   LightingGuid=12F3728E4908CE1366C26F81C52081DC
+End Object

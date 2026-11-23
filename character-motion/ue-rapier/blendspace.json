@@ -1,0 +1,320 @@
+{
+  "version": 1,
+  "source": "/Game/VoxelCharacter/Animations/Rapier/AdvancedAsset/BlendSpace/A_Voxel_Rapier_BlendSpace.A_Voxel_Rapier_BlendSpace",
+  "axes": [
+    {
+      "name": "None",
+      "min": 0.0,
+      "max": 100.0,
+      "gridDivisions": 4,
+      "wrap": false
+    },
+    {
+      "name": "None",
+      "min": 0.0,
+      "max": 100.0,
+      "gridDivisions": 4,
+      "wrap": false
+    },
+    {
+      "name": "None",
+      "min": 0.0,
+      "max": 100.0,
+      "gridDivisions": 4,
+      "wrap": false
+    }
+  ],
+  "samples": [
+    {
+      "file": "move-run-back.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_run_back.A_Voxel_Rapier_move_run_back",
+      "duration": 0.6666666865348816,
+      "position": [
+        50.0,
+        100.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-run-back-left.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_run_backL.A_Voxel_Rapier_move_run_backL",
+      "duration": 0.6666666865348816,
+      "position": [
+        100.0,
+        100.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-run-back-right.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_run_backR.A_Voxel_Rapier_move_run_backR",
+      "duration": 0.6666666865348816,
+      "position": [
+        0.0,
+        100.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-run-front.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_run_front.A_Voxel_Rapier_move_run_front",
+      "duration": 0.6666666865348816,
+      "position": [
+        50.0,
+        0.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-run-front-left.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_run_frontL.A_Voxel_Rapier_move_run_frontL",
+      "duration": 0.6666666865348816,
+      "position": [
+        100.0,
+        0.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-run-front-right.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_run_frontR.A_Voxel_Rapier_move_run_frontR",
+      "duration": 0.6666666865348816,
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-run-left.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_run_left.A_Voxel_Rapier_move_run_left",
+      "duration": 0.6666666865348816,
+      "position": [
+        100.0,
+        50.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-run-right.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_run_right.A_Voxel_Rapier_move_run_right",
+      "duration": 0.6666666865348816,
+      "position": [
+        0.0,
+        50.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-walk-back.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_walk_back.A_Voxel_Rapier_move_walk_back",
+      "duration": 1.2000000476837158,
+      "position": [
+        50.0,
+        75.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-walk-back-left.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_walk_backL.A_Voxel_Rapier_move_walk_backL",
+      "duration": 1.2000000476837158,
+      "position": [
+        75.0,
+        75.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-walk-back-right.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_walk_backR.A_Voxel_Rapier_move_walk_backR",
+      "duration": 1.2333333492279053,
+      "position": [
+        25.0,
+        75.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-walk-front.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_walk_front.A_Voxel_Rapier_move_walk_front",
+      "duration": 1.2000000476837158,
+      "position": [
+        50.0,
+        25.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-walk-front-left.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_walk_frontL.A_Voxel_Rapier_move_walk_frontL",
+      "duration": 1.2000000476837158,
+      "position": [
+        75.0,
+        25.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-walk-front-right.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_walk_frontR.A_Voxel_Rapier_move_walk_frontR",
+      "duration": 1.2000000476837158,
+      "position": [
+        25.0,
+        25.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-walk-left.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_walk_left.A_Voxel_Rapier_move_walk_left",
+      "duration": 1.2000000476837158,
+      "position": [
+        75.0,
+        50.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "move-walk-right.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_move_walk_right.A_Voxel_Rapier_move_walk_right",
+      "duration": 1.2000000476837158,
+      "position": [
+        25.0,
+        50.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    },
+    {
+      "file": "locomotion-idle.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_idle.A_Voxel_Rapier_idle",
+      "duration": 1.7999999523162842,
+      "position": [
+        50.0,
+        50.0,
+        0.0
+      ],
+      "rateScale": 1.0
+    }
+  ],
+  "clips": {
+    "idle": {
+      "file": "idle.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_N_idle.A_Voxel_Rapier_N_idle",
+      "duration": 2.0
+    },
+    "jump": {
+      "file": "jump.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_jump1_Z1.A_Voxel_Rapier_jump1_Z1",
+      "duration": 1.0
+    },
+    "attack-1": {
+      "file": "attack-1.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_01.A_Voxel_Rapier_attack_01",
+      "duration": 1.600000023841858
+    },
+    "attack-2": {
+      "file": "attack-2.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_02.A_Voxel_Rapier_attack_02",
+      "duration": 1.5666667222976685
+    },
+    "attack-3": {
+      "file": "attack-3.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_attack_03.A_Voxel_Rapier_attack_03",
+      "duration": 1.600000023841858
+    },
+    "dodge-forward": {
+      "file": "dodge-forward.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_avoid_front.A_Voxel_Rapier_avoid_front",
+      "duration": 0.6666666865348816
+    },
+    "dodge-back": {
+      "file": "dodge-back.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_avoid_back.A_Voxel_Rapier_avoid_back",
+      "duration": 0.6666666865348816
+    },
+    "dodge-left": {
+      "file": "dodge-left.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_avoid_left.A_Voxel_Rapier_avoid_left",
+      "duration": 0.6666666865348816
+    },
+    "dodge-right": {
+      "file": "dodge-right.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_avoid_right.A_Voxel_Rapier_avoid_right",
+      "duration": 0.6666666865348816
+    },
+    "skill-1": {
+      "file": "skill-1.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_01.A_Voxel_Rapier_combo_01",
+      "duration": 2.4666666984558105
+    },
+    "skill-2": {
+      "file": "skill-2.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_02.A_Voxel_Rapier_combo_02",
+      "duration": 2.799999952316284
+    },
+    "skill-3": {
+      "file": "skill-3.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_combo_03.A_Voxel_Rapier_combo_03",
+      "duration": 3.3333332538604736
+    },
+    "hurt": {
+      "file": "hurt.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_hit_light_F_body.A_Voxel_Rapier_hit_light_F_body",
+      "duration": 0.46666666865348816
+    },
+    "death": {
+      "file": "death.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_Dead1.A_Voxel_Rapier_Dead1",
+      "duration": 1.5
+    },
+    "knockdown": {
+      "file": "knockdown.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_hit_knockdown01.A_Voxel_Rapier_hit_knockdown01",
+      "duration": 1.5
+    },
+    "rise": {
+      "file": "rise.glb",
+      "source": "/Game/VoxelCharacter/Animations/Rapier/Animation/A_Voxel_Rapier_rise1.A_Voxel_Rapier_rise1",
+      "duration": 1.2333333492279053
+    }
+  },
+  "sword": {
+    "file": "sword.glb",
+    "source": "/Game/Rapier_AnimSet/mesh/weapon.weapon",
+    "socket": "Weapon_R",
+    "bone": "hand_r",
+    "position": [
+      -0.07809933847591242,
+      -0.10926568494041805,
+      -0.013210303951476456
+    ],
+    "quaternion": [
+      -0.19815747837908124,
+      0.924081471118927,
+      -0.05513869093671856,
+      0.3221285042632969
+    ],
+    "scale": [
+      0.8736514456739636,
+      0.8736514456739636,
+      0.8736514456739636
+    ]
+  }
+}

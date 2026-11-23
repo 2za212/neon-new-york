@@ -1,5 +1,9 @@
 const combatIcons = new Map([
   ['冲拳', ['punch', '<path d="M8 18V9a2 2 0 0 1 4 0V6a2 2 0 0 1 4 0v1a2 2 0 0 1 4 0v2a2 2 0 0 1 4 0v7l1-2a2 2 0 0 1 4 2l-4 7-4 4H12z" fill="currentColor"/><path d="M12 10v4m4-6v6m4-4v4" stroke="var(--ink)" stroke-width="1.5"/><path d="M2 12h3m-4 5h4m-2 5h4"/>']],
+  ['挥剑', ['sword', '<path d="m25 3 4 1-1 4-13 14-5-5Z" fill="currentColor"/><path d="m8 16 9 9M11 22l-6 6m-2-3 5 5" stroke-width="3"/>']],
+  ['剑技一', ['sword-skill-1', '<path d="m25 3 4 1-1 4-13 14-5-5Z" fill="currentColor"/><path d="m8 16 9 9M11 22l-6 6M3 10q4-7 13-7M2 15q3-4 6-5" stroke-width="2.4"/>']],
+  ['剑技二', ['sword-skill-2', '<path d="m25 3 4 1-1 4-13 14-5-5Zm-20 0-2 4 14 16 5-5Z" fill="currentColor"/><path d="m8 16 9 9m-2-1-5 5m14-13-9 9m3-1 5 5" stroke-width="2.4"/>']],
+  ['剑技三', ['sword-skill-3', '<path d="m26 3 3 1-1 3-14 15-4-4Z" fill="currentColor"/><path d="m8 16 9 9m-6-2-6 6M2 8h12M1 13h8m8 13h12m-8-5h10" stroke-width="2.4"/>']],
   ['闪避', ['dodge', '<circle cx="22" cy="7" r="3" fill="currentColor"/><path d="m6 25 7-5 4-7 4 4 6-1M9 13l6-3 5 2m-5 8 5 2-3 6" stroke-width="3"/><path d="M2 10h5m-6 6h7"/>']],
   ['破冰', ['ice', '<path d="m10 20 2-12 6-5 3 9-7 10zm9 0 5-8 4-1-2 9-6 3z" fill="currentColor"/><path d="m12 25-5 2m10-2 2 4m3-5 6 2M7 17l-3-3"/>']],
   ['引雷', ['thunder', '<path d="M17 3h9l-9 11h7L9 30l4-13H6z" fill="currentColor" stroke="none"/>']],
@@ -135,6 +139,23 @@ export function createInputs(canvas, {attackLabel = '发掌', punchEnabled = fal
     }
     button.setAttribute('aria-label', label);
     return button;
+  }
+
+  function setWeapon(weapon) {
+    const armed = weapon === 'rapier';
+    const [name, paths] = combatIcons.get(armed ? '挥剑' : '冲拳');
+    punchButton.dataset.icon = name;
+    punchButton.title = armed ? '挥剑连击' : '踏步右冲拳';
+    punchButton.setAttribute('aria-label', punchButton.title);
+    punchButton.querySelector('svg').innerHTML = paths;
+    skillButtons.forEach((button, index) => {
+      const label = armed ? ['剑技一', '剑技二', '剑技三'][index] : ['破冰', '引雷', '落火'][index];
+      const [icon, paths] = combatIcons.get(label);
+      button.dataset.icon = icon;
+      button.querySelector('svg').innerHTML = paths;
+      button.title = label;
+      button.setAttribute('aria-label', label);
+    });
   }
 
   function listen(target, type, handler, options) {
@@ -460,5 +481,5 @@ export function createInputs(canvas, {attackLabel = '发掌', punchEnabled = fal
   }
 
   function setFlightMode(value){clear();flightMode=Boolean(value);layer.dataset.flight=String(flightMode);jumpButton.textContent=flightMode?'上升':'跳跃';jumpButton.setAttribute('aria-label',flightMode?'按住上升':'跳跃');sprintButton.textContent=flightMode?'加速':'疾跑';fallButton.hidden=!flightMode;palmButton.hidden=flightMode||!attackLabel;punchButton.hidden=flightMode||!punchEnabled;combatButtons.hidden=flightMode||!combatEnabled;}
-  return { state, consume, clear, dispose,setFlightMode };
+  return { state, consume, clear, dispose,setFlightMode,setWeapon };
 }

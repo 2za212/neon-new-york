@@ -62,6 +62,14 @@ function assertOutside(motor, solid, message) {
   assert.ok(Math.hypot(motor.position.x - x, motor.position.z - z) >= motor.radius - .001, message);
 }
 
+test('a supplied stance facing allows strafing without turning into travel', () => {
+  const motor = createMotor(makeWorld(), new Vector3());
+  const state = advance(motor, 60, {...still, moveX: 1, facing: Math.PI}, 0);
+  assert.ok(motor.position.x > 2);
+  assert.ok(Math.abs(motor.position.z) < 1e-6);
+  assert.ok(Math.abs(state.heading - Math.PI) < 1e-6);
+});
+
 test('W follows the camera yaw; D stays on its right', () => {
   const forward = createMotor(makeWorld(), new Vector3());
   advance(forward, 60, { ...still, moveZ: 1 }, 0);

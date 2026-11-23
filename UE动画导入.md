@@ -25,6 +25,39 @@
 | `hurt.glb` | `A_Hurt` | 受击时转向攻击者 |
 | `death.glb` | `A_Dead` | 血量归零时播放一次并保持末帧 |
 
+## 持剑状态与 Rapier 动画
+
+持剑功能接在刚拉取的新网页场景中。打开暂停菜单，选择「装备细剑」，恢复游戏后进入持剑状态；「卸下细剑」回到徒手。装备状态同时控制右手剑模型、动画映射和战斗逻辑。腾空、施法、攻击、受击、倒地起身和死亡时不能更换装备。街面与泵站共用同一份装备状态。
+
+持剑资源在 `character-motion/ue-rapier/`，共 34 个 GLB，包含 17 个混合空间样本、16 个状态动作和原工程的剑模型。`blendspace.json` 记录对应 UE 资产路径、时长、样本坐标、播放速率及 `Weapon_R` 插槽变换。
+
+| 网页文件 | UE Animation Sequence | 触发方式 |
+| --- | --- | --- |
+| `idle.glb` | `A_Voxel_Rapier_N_idle` | 持剑待机 |
+| `move-*.glb`、`locomotion-idle.glb` | `A_Voxel_Rapier_BlendSpace` 的 17 个样本 | WASD，Shift 奔跑 |
+| `attack-1.glb`、`attack-2.glb`、`attack-3.glb` | `A_Voxel_Rapier_attack_01/02/03` | 左键逐次接三段，暂定伤害 16／20／28 |
+| `jump.glb` | `A_Voxel_Rapier_jump1_Z1` | 空格 |
+| `dodge-forward/back/left/right.glb` | `A_Voxel_Rapier_avoid_front/back/left/right` | Ctrl + 对应方向键 |
+| `skill-1/2/3.glb` | `A_Voxel_Rapier_combo_01/02/03` | Q／E／R，3／4／6 次近战出剑，整招 24／32／40 点伤害 |
+| `hurt.glb` | `A_Voxel_Rapier_hit_light_F_body` | 受伤时面向攻击者 |
+| `death.glb` | `A_Voxel_Rapier_Dead1` | 致命伤后保持死亡末帧 |
+| `knockdown.glb` | `A_Voxel_Rapier_hit_knockdown01` | 击飞、落地 |
+| `rise.glb` | `A_Voxel_Rapier_rise1` | 击飞动画完成且落地后起身 |
+
+单击只执行一段挥剑；动作中再按可缓存下一段，第一、第二段分别在约 0.58／0.57 秒主挥剑完成后接招，跳过末尾收势。未预输入时分别在约 0.72／0.72／0.76 秒恢复操作；结束后仍有 0.55 秒接段窗口。第三段结束、移动、跳跃、闪避、施法或受击会结束当前连招。普攻距离约 2.8／2.9／3.0 米，剑技约 3.0～3.2 米，每次出剑只命中一次，墙体会阻挡判定。剑技没有冰晶、雷电、火陨或远程落点伤害。演练 NPC 对持剑角色每第三次命中造成一次击飞，便于验证倒地与起身；「重置演练」恢复体力并保留装备。
+
+`attack-events.json` 保存从 UE 动画通知导出的真实时点和挂点；`effects/` 保存原剑光模型、贴图及 Cascade 材质说明。网页根据 `Trail_Start`／`Trail_End` 挂点绘制拖尾，用原 `circle_slash` 模型和 `Flow_Sword_T`／`wave_T` 贴图播放弧光，并在原通知时点发射火花。只有原序列里存在的通知会生成视觉效果。Three.js 不运行 UE Cascade，粒子的发射和淡出由 `nyc-sword-effects.js` 重建，因此不保证逐像素一致；特效不负责伤害判定。受击、死亡、换装或切招会停止上一段特效。
+
+更新这一套动画时，在 UE 保存同名重定向序列后，在编辑器 Cmd 栏运行：
+
+```text
+py "D:/zaohua/neon-new-york-github/character-motion/export_ue_rapier.py"
+```
+
+脚本从当前打开的 UE 工程读取资源，等待动画编译完成，检查目标骨架，再导出到脚本旁的 `ue-rapier` 文件夹，并调用 `inspect_ue_rapier_events.py` 导出通知和特效依赖。换电脑后把上面的脚本位置改成实际仓库位置即可。也可通过 `UnrealEditor-Cmd <工程>.uproject -run=pythonscript -script=<脚本路径>` 执行，或用 `NYC_RAPIER_OUTPUT` 环境变量指定输出目录。随后在网页项目运行 `npm run build` 并刷新预览。新增或改名的动作需同步脚本中的 `CLIPS` 和网页 `rapierFiles` 映射；更改出剑节奏时同步调整 `nyc-combat.js` 中的 `hits` 判定窗口与 `chain` 接段点。
+
+UE BlendSpace 资源本身不能在 Three.js 里执行。本次导出实际的 17 个样本及其二维坐标，网页根据角色局部方向、步行速度和奔跑速度做三角形插值，并统一步伐周期。这里复现的是移动混合关系；装备切换、连招、命中时点和倒地起身由 `nyc-equipment.js`、`nyc-combat.js` 与 `nyc-player-avatar.js` 执行。剑按导出的右手插槽位置与旋转挂在 `hand_r` 上。
+
 ## 更新现有动作
 
 1. 在 UE 完成动画制作或 IK 重定向，保存成目标角色骨架上的 **Animation Sequence**。如果在 Sequencer 用 Control Rig 制作，先烘焙成 Animation Sequence。打开序列，确认预览网格是 `SKM_Reference_UniformVoxel`，并检查素材的朝向、跑步循环接缝和起跳、落地姿势。

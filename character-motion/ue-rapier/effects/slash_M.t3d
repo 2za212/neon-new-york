@@ -1,0 +1,154 @@
+Begin Object Class=/Script/Engine.Material Name="slash_M" ExportPath="/Script/Engine.Material'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M'"
+   Begin Object Class=/Script/Engine.MaterialEditorOnlyData Name="slash_MEditorOnlyData" ExportPath="/Script/Engine.MaterialEditorOnlyData'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:slash_MEditorOnlyData'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionDynamicParameter Name="MaterialExpressionDynamicParameter_0" ExportPath="/Script/Engine.MaterialExpressionDynamicParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionDynamicParameter_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionLinearInterpolate Name="MaterialExpressionLinearInterpolate_0" ExportPath="/Script/Engine.MaterialExpressionLinearInterpolate'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionLinearInterpolate_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionLinearInterpolate Name="MaterialExpressionLinearInterpolate_1" ExportPath="/Script/Engine.MaterialExpressionLinearInterpolate'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionLinearInterpolate_1'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_0" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionMultiply_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionMultiply Name="MaterialExpressionMultiply_1" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionMultiply_1'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionPanner Name="MaterialExpressionPanner_0" ExportPath="/Script/Engine.MaterialExpressionPanner'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionPanner_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionParticleColor Name="MaterialExpressionParticleColor_0" ExportPath="/Script/Engine.MaterialExpressionParticleColor'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionParticleColor_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionPower Name="MaterialExpressionPower_0" ExportPath="/Script/Engine.MaterialExpressionPower'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionPower_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionPower Name="MaterialExpressionPower_1" ExportPath="/Script/Engine.MaterialExpressionPower'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionPower_1'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureCoordinate Name="MaterialExpressionTextureCoordinate_0" ExportPath="/Script/Engine.MaterialExpressionTextureCoordinate'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionTextureCoordinate_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_0" ExportPath="/Script/Engine.MaterialExpressionTextureSample'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionTextureSample_0'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_1" ExportPath="/Script/Engine.MaterialExpressionTextureSample'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionTextureSample_1'"
+   End Object
+   Begin Object Class=/Script/Engine.MaterialExpressionVectorParameter Name="MaterialExpressionVectorParameter_0" ExportPath="/Script/Engine.MaterialExpressionVectorParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionVectorParameter_0'"
+   End Object
+   Begin Object Class=/Script/UnrealEd.SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_0" ExportPath="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:SceneThumbnailInfoWithPrimitive_0'"
+   End Object
+   Begin Object Name="slash_MEditorOnlyData" ExportPath="/Script/Engine.MaterialEditorOnlyData'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:slash_MEditorOnlyData'"
+      BaseColor=(Constant=(R=0.501961,G=0.501961,B=0.501961,A=1.000000),Expression="/Script/Engine.MaterialExpressionVectorParameter'slash_M:MaterialExpressionVectorParameter_0'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      EmissiveColor=(Expression="/Script/Engine.MaterialExpressionMultiply'slash_M:MaterialExpressionMultiply_0'")
+      OpacityMask=(Expression="/Script/Engine.MaterialExpressionMultiply'slash_M:MaterialExpressionMultiply_1'")
+      ExpressionCollection=(Expressions=("/Script/Engine.MaterialExpressionVectorParameter'slash_M:MaterialExpressionVectorParameter_0'","/Script/Engine.MaterialExpressionMultiply'slash_M:MaterialExpressionMultiply_0'","/Script/Engine.MaterialExpressionMultiply'slash_M:MaterialExpressionMultiply_1'","/Script/Engine.MaterialExpressionLinearInterpolate'slash_M:MaterialExpressionLinearInterpolate_0'","/Script/Engine.MaterialExpressionLinearInterpolate'slash_M:MaterialExpressionLinearInterpolate_1'","/Script/Engine.MaterialExpressionPower'slash_M:MaterialExpressionPower_0'","/Script/Engine.MaterialExpressionPower'slash_M:MaterialExpressionPower_1'","/Script/Engine.MaterialExpressionParticleColor'slash_M:MaterialExpressionParticleColor_0'","/Script/Engine.MaterialExpressionTextureSample'slash_M:MaterialExpressionTextureSample_0'","/Script/Engine.MaterialExpressionTextureSample'slash_M:MaterialExpressionTextureSample_1'","/Script/Engine.MaterialExpressionDynamicParameter'slash_M:MaterialExpressionDynamicParameter_0'","/Script/Engine.MaterialExpressionPanner'slash_M:MaterialExpressionPanner_0'","/Script/Engine.MaterialExpressionTextureCoordinate'slash_M:MaterialExpressionTextureCoordinate_0'"))
+      ParameterGroupData(0)=(GroupName="None")
+   End Object
+   Begin Object Name="MaterialExpressionDynamicParameter_0" ExportPath="/Script/Engine.MaterialExpressionDynamicParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionDynamicParameter_0'"
+      ParamNames(0)="erode_emissive"
+      ParamNames(1)="erode_black"
+      MaterialExpressionEditorX=-1435
+      MaterialExpressionEditorY=323
+      MaterialExpressionGuid=1CB282234E2831152B9E95801DA90B0E
+      Material="/Script/Engine.Material'slash_M'"
+      Outputs(0)=(OutputName="erode_emissive")
+      Outputs(1)=(OutputName="erode_black")
+      Outputs(2)=(OutputName="Param3")
+      Outputs(3)=(OutputName="Param4")
+      Outputs.RemoveIndex(5)
+      Outputs.RemoveIndex(4)
+   End Object
+   Begin Object Name="MaterialExpressionLinearInterpolate_0" ExportPath="/Script/Engine.MaterialExpressionLinearInterpolate'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionLinearInterpolate_0'"
+      B=(Expression="/Script/Engine.MaterialExpressionTextureSample'slash_M:MaterialExpressionTextureSample_0'",OutputIndex=1,Mask=1,MaskR=1)
+      Alpha=(Expression="/Script/Engine.MaterialExpressionPower'slash_M:MaterialExpressionPower_0'")
+      MaterialExpressionEditorX=-656
+      MaterialExpressionEditorY=304
+      MaterialExpressionGuid=F53EE05E4D6DA536E5028195EB6E13BF
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="MaterialExpressionLinearInterpolate_1" ExportPath="/Script/Engine.MaterialExpressionLinearInterpolate'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionLinearInterpolate_1'"
+      B=(Expression="/Script/Engine.MaterialExpressionTextureSample'slash_M:MaterialExpressionTextureSample_0'",OutputIndex=2,Mask=1,MaskG=1)
+      Alpha=(Expression="/Script/Engine.MaterialExpressionPower'slash_M:MaterialExpressionPower_1'")
+      MaterialExpressionEditorX=-480
+      MaterialExpressionEditorY=528
+      MaterialExpressionGuid=F53EE05E4D6DA536E5028195EB6E13BF
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_0" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionMultiply_0'"
+      A=(Expression="/Script/Engine.MaterialExpressionParticleColor'slash_M:MaterialExpressionParticleColor_0'",Mask=1,MaskR=1,MaskG=1,MaskB=1)
+      B=(Expression="/Script/Engine.MaterialExpressionLinearInterpolate'slash_M:MaterialExpressionLinearInterpolate_0'")
+      MaterialExpressionEditorX=-371
+      MaterialExpressionEditorY=155
+      MaterialExpressionGuid=B206F2A64AA71C7F89741D928E70A962
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="MaterialExpressionMultiply_1" ExportPath="/Script/Engine.MaterialExpressionMultiply'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionMultiply_1'"
+      A=(Expression="/Script/Engine.MaterialExpressionParticleColor'slash_M:MaterialExpressionParticleColor_0'",OutputIndex=4,Mask=1,MaskA=1)
+      B=(Expression="/Script/Engine.MaterialExpressionLinearInterpolate'slash_M:MaterialExpressionLinearInterpolate_1'")
+      MaterialExpressionEditorX=-368
+      MaterialExpressionEditorY=304
+      MaterialExpressionGuid=B206F2A64AA71C7F89741D928E70A962
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="MaterialExpressionPanner_0" ExportPath="/Script/Engine.MaterialExpressionPanner'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionPanner_0'"
+      Coordinate=(Expression="/Script/Engine.MaterialExpressionTextureCoordinate'slash_M:MaterialExpressionTextureCoordinate_0'")
+      SpeedX=-0.500000
+      MaterialExpressionEditorX=-1520
+      MaterialExpressionEditorY=640
+      MaterialExpressionGuid=F8DABDDC49A504718ABB3CA8A2145885
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="MaterialExpressionParticleColor_0" ExportPath="/Script/Engine.MaterialExpressionParticleColor'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionParticleColor_0'"
+      MaterialExpressionEditorX=-672
+      MaterialExpressionEditorY=-32
+      MaterialExpressionGuid=6B3673DD47094D151BFC8AADEEB06C6C
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="MaterialExpressionPower_0" ExportPath="/Script/Engine.MaterialExpressionPower'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionPower_0'"
+      Base=(Expression="/Script/Engine.MaterialExpressionTextureSample'slash_M:MaterialExpressionTextureSample_1'",OutputIndex=1,Mask=1,MaskR=1)
+      Exponent=(Expression="/Script/Engine.MaterialExpressionDynamicParameter'slash_M:MaterialExpressionDynamicParameter_0'",Mask=1,MaskR=1)
+      MaterialExpressionEditorX=-878
+      MaterialExpressionEditorY=515
+      MaterialExpressionGuid=93D0AAA547CF50662165988F16D26786
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="MaterialExpressionPower_1" ExportPath="/Script/Engine.MaterialExpressionPower'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionPower_1'"
+      Base=(Expression="/Script/Engine.MaterialExpressionTextureSample'slash_M:MaterialExpressionTextureSample_1'",OutputIndex=1,Mask=1,MaskR=1)
+      Exponent=(Expression="/Script/Engine.MaterialExpressionDynamicParameter'slash_M:MaterialExpressionDynamicParameter_0'",OutputIndex=1,Mask=1,MaskG=1)
+      MaterialExpressionEditorX=-848
+      MaterialExpressionEditorY=688
+      MaterialExpressionGuid=93D0AAA547CF50662165988F16D26786
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureCoordinate_0" ExportPath="/Script/Engine.MaterialExpressionTextureCoordinate'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionTextureCoordinate_0'"
+      MaterialExpressionEditorX=-1696
+      MaterialExpressionEditorY=640
+      MaterialExpressionGuid=C5BF3C9D4AD9A4E2A628C09C90190846
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_0" ExportPath="/Script/Engine.MaterialExpressionTextureSample'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionTextureSample_0'"
+      Texture="/Script/Engine.Texture2D'/Game/Rapier_AnimSet/Textures/FX_Textures/Flow_Sword_T.Flow_Sword_T'"
+      MaterialExpressionEditorX=-1040
+      MaterialExpressionEditorY=176
+      MaterialExpressionGuid=BAD63AF642201F294D618CB2E3102906
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_1" ExportPath="/Script/Engine.MaterialExpressionTextureSample'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionTextureSample_1'"
+      Coordinates=(Expression="/Script/Engine.MaterialExpressionPanner'slash_M:MaterialExpressionPanner_0'")
+      Texture="/Script/Engine.Texture2D'/Game/Rapier_AnimSet/Textures/FX_Textures/wave_T.wave_T'"
+      MaterialExpressionEditorX=-1248
+      MaterialExpressionEditorY=656
+      MaterialExpressionGuid=BAD63AF642201F294D618CB2E3102906
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="MaterialExpressionVectorParameter_0" ExportPath="/Script/Engine.MaterialExpressionVectorParameter'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:MaterialExpressionVectorParameter_0'"
+      ExpressionGUID=F9D49C2749FC01AC5516F996E8078B9A
+      MaterialExpressionEditorX=-304
+      MaterialExpressionEditorY=-96
+      MaterialExpressionGuid=6C82DF9B4958DEA28479C8AC47203E82
+      Material="/Script/Engine.Material'slash_M'"
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_0" ExportPath="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'/Game/Rapier_AnimSet/Materials/FX_Materials/slash_M.slash_M:SceneThumbnailInfoWithPrimitive_0'"
+   End Object
+   BlendMode=BLEND_Masked
+   TwoSided=True
+   bUsedWithParticleSprites=True
+   bUsedWithMeshParticles=True
+   PixelDepthOffsetMode=PDOM_Legacy
+   StateId=2EDA3154AB4F952509DA3396BF9B1E89
+   EditorOnlyData="/Script/Engine.MaterialEditorOnlyData'slash_MEditorOnlyData'"
+   ThumbnailInfo="/Script/UnrealEd.SceneThumbnailInfoWithPrimitive'SceneThumbnailInfoWithPrimitive_0'"
+   LightingGuid=EE47AFA84A1D8FA5E238AB9985FAA752
+End Object

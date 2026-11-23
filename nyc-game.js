@@ -35,6 +35,7 @@ import {createCityWeather} from './nyc-weather.js';
 import {createLightBudget} from './nyc-light-budget.js';
 import {createCombat,hasCombatClips} from './nyc-combat.js';
 import {createCombatEffects} from './nyc-combat-effects.js';
+import {createEquipment} from './nyc-equipment.js';
 import {buildPumpStation,sewerHatch} from './nyc-sewer.js';
 import {atEscapeLadder,collectorLocation,escapeHatch} from './nyc-sewer-collector.js';
 
@@ -84,8 +85,13 @@ async function start(){
   avatar.group.position.copy(motor.position);
   const punchEnabled=hasCombatClips(avatar);
   const effects=punchEnabled?createCombatEffects(scene):null;
-  const streetCombat=effects?createCombat({scene,world,motor,avatar,effects}):null;
-  let combat=streetCombat;
+  let combat=null;
+  const equipment=createEquipment({
+    canChange:()=>!!combat&&combat.canChangeEquipment()&&!flight.active&&!opening.active&&!ride&&!realm.active&&!photo,
+    apply:weapon=>avatar.setWeapon(weapon),
+  });
+  const streetCombat=effects?createCombat({scene,world,motor,avatar,effects,equipment}):null;
+  combat=streetCombat;
   const attackLabel=avatar.group.userData.avatar?.source==='original'?'发掌':null;
   const inputs=createInputs(renderer.domElement,{attackLabel,punchEnabled,combatEnabled:!!combat}),composer=new EffectComposer(renderer);
   const combatPanel=document.querySelector('#combat-hud');
@@ -95,6 +101,26 @@ async function start(){
   for(const element of document.querySelectorAll('[data-combat-control]'))element.hidden=!combat;
   combatPanel.hidden=!combat;
   if(punchEnabled)document.querySelector('#orbit-label').textContent='右键拖动';
+  const equipButton=document.createElement('button');
+  equipButton.id='weapon-equip';equipButton.type='button';
+  document.querySelector('#reset').after(equipButton);
+  function refreshEquipmentUI(){
+    const available=avatar.hasWeapon?.('rapier')===true;
+    const armed=equipment.weapon==='rapier';
+    equipButton.textContent=available?(armed?'卸下细剑':'装备细剑'):'持剑动画未就绪';
+    equipButton.disabled=!available||!equipment.canChange();
+    equipButton.title=equipButton.disabled&&available?'回到地面并完成当前动作后可更换装备':'';
+    document.querySelector('#weapon-state').hidden=!available;
+    document.querySelector('#weapon-state').textContent=armed?'持剑':'徒手';
+    for(const element of document.querySelectorAll('span[data-punch-control]')){
+      element.textContent=armed?'挥剑 / 连按接三段':'冲拳 / 再按接二段';
+    }
+    inputs.setWeapon(equipment.weapon);
+  }
+  equipButton.onclick=()=>{
+    equipment.setWeapon(equipment.weapon==='rapier'?null:'rapier');
+    inputs.clear();refreshEquipmentUI();
+  };
   composer.addPass(new RenderPass(scene,camera));
   const ao=new GTAOPass(scene,camera,1,1,undefined,{radius:.7,thickness:.5,distanceFallOff:1,samples:6},{radius:3,samples:8});ao.blendIntensity=.45;composer.addPass(ao);
   const bloom=new UnrealBloomPass(new T.Vector2(1,1),.19,.35,1.4);composer.addPass(bloom);composer.addPass(new OutputPass());
@@ -114,10 +140,11 @@ async function start(){
   // cover the subway opening with an invisible flat plane in the AO buffer.
   const nonOccluding=[];scene.traverse(o=>{if((o.isMesh||o.isLine||o.isPoints)&&(o.userData.excludeFromAO||o.material.transparent||o.material.isShaderMaterial||o.material.isMeshBasicMaterial))nonOccluding.push(o);});
   if(effects)nonOccluding.push(effects.group);
+  if(avatar.effectsGroup)nonOccluding.push(avatar.effectsGroup);
   const renderAO=ao.render.bind(ao);
   ao.render=(...args)=>{const visible=nonOccluding.map(o=>o.visible);nonOccluding.forEach(o=>o.visible=false);try{renderAO(...args);}finally{nonOccluding.forEach((o,i)=>o.visible=visible[i]);}};
   const pausePanel=document.querySelector('#pause');
-  function setPaused(value){paused=value;pausePanel.hidden=!paused;document.body.classList.toggle('is-paused',paused);inputs.clear();flight.stop();if(paused)document.querySelector('#resume').focus();else renderer.domElement.focus({preventScroll:true});lastTime=0;}
+  function setPaused(value){paused=value;pausePanel.hidden=!paused;document.body.classList.toggle('is-paused',paused);inputs.clear();flight.stop();refreshEquipmentUI();if(paused)document.querySelector('#resume').focus();else renderer.domElement.focus({preventScroll:true});lastTime=0;}
   function setPhoto(value){photo=value;document.body.classList.toggle('photo',photo);document.querySelector('#exit-photo').hidden=!photo;inputs.clear();flight.stop();if(!paused)renderer.domElement.focus({preventScroll:true});}
   const mapUI=createMapUI(world,{
     onOpen(){mapWasPaused=paused;setPaused(true);pausePanel.hidden=true;},
@@ -272,7 +299,7 @@ async function start(){
       :meditation?(state.reversed?'正在结束打坐':'打坐中 · F 结束')
       :state.canMeditate?'打坐区 · F 开始'
       :state.npcPhase==='windup'?'傀儡准备出拳 · Ctrl + 方向闪避'
-      :state.comboReady?'再次左键 · 接蓄力冲步拳'
+      :state.comboReady?(equipment.weapon==='rapier'?'再次左键 · 衔接下一次挥剑':'再次左键 · 接蓄力冲步拳')
       :state.feedback||`青色圆环为打坐区 · ${Math.round(state.zoneDistance)}m`;
   }
   function updateHUD(dt){
@@ -378,7 +405,7 @@ async function start(){
       // strike clock so a build without the extra action clips is still playable.
       const fighter=punchEnabled?avatar:{...avatar,getActionDuration:()=>.70,playAction:()=>true};
       station.combat=createCombat({scene:station.scene,world:station,motor:station.motor,avatar:fighter,
-        effects:createCombatEffects(station.scene),patrolHome:new T.Vector3(.85,0,-4.8)});
+        effects:createCombatEffects(station.scene),equipment,patrolHome:new T.Vector3(.85,0,-4.8)});
     }
     underground=true;motor=station.motor;combat=station.combat;
     station.scene.add(avatar.group);stationHUD(true);restartStation();
@@ -419,7 +446,7 @@ async function start(){
         const state=motor.update(dt,combat.beforeMove(dt,inputs.state,photo?{}:impulse,yaw),yaw);
         state.heading=combat.update(dt,state,!photo);avatar.group.position.copy(motor.position);
         station.collector.update(dt,combat.getState().npcHP===0,motor.position);
-        avatar.update({...state,dt,attack:!photo&&impulse.attack,verticalSpeed:motor.velocity.y});positionCamera(dt);
+        avatar.update({...state,dt,attack:!photo&&impulse.attack,verticalSpeed:motor.velocity.y,velocityX:motor.velocity.x,velocityZ:motor.velocity.z});positionCamera(dt);
         updateHUD(dt);
       }else inputs.clear();
       const door=nearbyDoor();buildingAction.hidden=!door;
@@ -455,7 +482,7 @@ async function start(){
         state=motor.update(dt,movement,yaw);positionCamera(dt);
       }
       if(combat)state.heading=combat.update(dt,state,!flight.active&&!photo);
-      avatar.group.position.copy(motor.position);avatar.update({...state,dt,attack:!flight.active && impulse.attack,verticalSpeed:motor.velocity.y});world.update?.(dt,elapsed,camera,motor.position);lightBudget.update(dt,camera);weather.update(dt,elapsed);wetReflection.update(elapsed);shadowFocus.copy(flight.active?flight.position:motor.position);shadowFocus.y=Math.min(shadowFocus.y,25);lightRig.update(dt,elapsed,shadowFocus);
+      avatar.group.position.copy(motor.position);avatar.update({...state,dt,attack:!flight.active && impulse.attack,verticalSpeed:motor.velocity.y,velocityX:motor.velocity.x,velocityZ:motor.velocity.z});world.update?.(dt,elapsed,camera,motor.position);lightBudget.update(dt,camera);weather.update(dt,elapsed);wetReflection.update(elapsed);shadowFocus.copy(flight.active?flight.position:motor.position);shadowFocus.y=Math.min(shadowFocus.y,25);lightRig.update(dt,elapsed,shadowFocus);
       for(const{landmark:l,marker}of markers){marker.rotation.y+=dt*.9;marker.position.y=l.position.y+2.15+Math.sin(elapsed*1.8)*.07;}updateHUD(dt);
     }else inputs.clear();
     const atDoor=nearbyDoor();
@@ -502,7 +529,7 @@ async function start(){
     motor.position.set(x,world.ground(x,z,floorHint),z);
     avatar.group.position.copy(motor.position);
   }
-  resize();lighting();subjectBounce.update(0,motor.position);positionCamera(0,true);lightBudget.update(0,camera,true);hudTime=1;updateHUD(0);
+  refreshEquipmentUI();resize();lighting();subjectBounce.update(0,motor.position);positionCamera(0,true);lightBudget.update(0,camera,true);hudTime=1;updateHUD(0);
   renderer.shadowMap.needsUpdate=true;
   if(quality.value==='low'&&entry.get('intro')!=='relay'&&(streetPreview||opening.completed())){
     // Upload street geometry and link its actual canvas programs before the
@@ -523,7 +550,7 @@ async function start(){
   const{meshes,...counts}=world.stats;
   console.info('[NYC] ready',JSON.stringify({scene:counts,spawn:motor.position.toArray(),camera:camera.position.toArray(),avatar:avatar.group.userData.avatar}));
   // This opt-in snapshot reports simulation state, independent of the DOM.
-  if(new URLSearchParams(location.search).has('qa'))globalThis.__NYC_QA__={opening,scene,world,get motor(){return motor;},camera,inputs,renderer,flight,getState:()=>({underground,position:motor.position.toArray(),camera:camera.position.toArray(),grounded:motor.grounded,motion:avatar.group.userData.motion,combat:combat?.getState(),paused,freeFlight:flight.active,yaw,pitch,cameraDistance,seen:[...seen],calls:renderer.info.render.calls,triangles:renderer.info.render.triangles})};
+  if(new URLSearchParams(location.search).has('qa'))globalThis.__NYC_QA__={opening,scene,world,get motor(){return motor;},camera,inputs,renderer,flight,get combat(){return combat;},equipment,avatar,getState:()=>({underground,position:motor.position.toArray(),camera:camera.position.toArray(),grounded:motor.grounded,motion:avatar.group.userData.motion,weapon:equipment.weapon,combat:combat?.getState(),paused,freeFlight:flight.active,yaw,pitch,cameraDistance,seen:[...seen],calls:renderer.info.render.calls,triangles:renderer.info.render.triangles})};
   requestAnimationFrame(frame);
 }
 start().catch(error=>{console.error(error);document.querySelector('#load-detail').textContent='街区暂时未能载入，请刷新后重试。';});

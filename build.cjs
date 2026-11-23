@@ -26,6 +26,16 @@ async function main(){
       fs.copyFileSync(source,target);
     }else fs.rmSync(target,{force:true});
   }
+  const rapier=path.join(__dirname,'character-motion','ue-rapier');
+  if(fs.existsSync(rapier)){
+    fs.mkdirSync(path.join(output,'ue-rapier'),{recursive:true});
+    for(const name of fs.readdirSync(rapier)){
+      if(/\.(glb|json)$/.test(name))fs.copyFileSync(path.join(rapier,name),path.join(output,'ue-rapier',name));
+    }
+    if(fs.existsSync(path.join(rapier,'effects')))fs.cpSync(path.join(rapier,'effects'),path.join(output,'ue-rapier','effects'),{
+      recursive:true,filter:source=>fs.statSync(source).isDirectory()||/\.(glb|png)$/.test(source),
+    });
+  }
   fs.cpSync(path.join(__dirname,'city-surfaces'),path.join(output,'city-surfaces'),{recursive:true});
   for(const name of ['station.glb','station-near.glb']){
     const file=path.join(output,'city-surfaces','fulton',name);
