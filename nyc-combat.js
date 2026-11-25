@@ -1,5 +1,6 @@
 import * as T from 'three';
 import {cameraClearance, createMotor} from './nyc-motor.js';
+import {createMysticSkills} from './combat-skills/runtime.js';
 
 const attacks = {
   punch: {damage: 12, range: 1.7, width: .78, hit: .43},
@@ -74,7 +75,7 @@ function travel(action, dt, from, to, meters) {
   return meters * (phase(action.elapsed + dt) - phase(action.elapsed));
 }
 
-export function createCombat({scene, world, motor, avatar, effects, patrolHome}) {
+export function createCombat({scene, world, motor, avatar, effects, patrolHome, mysticContext}) {
   const home = patrolHome || world.spawn.clone().add(new T.Vector3(0, 0, -3.6));
   const maxNpcHP=patrolHome?96:200, enemyName=patrolHome?'巡检机':'傀儡';
   const npcMotor = createMotor(world, home, 2.25);
@@ -97,7 +98,13 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
   let action, time, playerHP, npcHP, npcPhase, npcTimer, npcAggro, npcHitTimer, npcFall;
   let comboUntil, queuedCombo, heading, lastDamage, lastDamageTimer;
 
+  const mystic=mysticContext&&createMysticSkills({scene,world,motor,avatar,...mysticContext,
+    enemy:{id:'enemy',actor:npc.group,rig:npc.rig,get hp(){return npcHP;}},
+    hit:damage=>damageNPC(damage,.42),feedback:setDamage,
+  });
+
   function reset() {
+    mystic?.stop();
     action = null;
     time = comboUntil = npcTimer = npcHitTimer = npcFall = lastDamageTimer = 0;
     heading = Math.PI;
@@ -151,7 +158,7 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
       return true;
     }
     if (!canMeditate()) return false;
-    if (!action) {
+    if (!action && !mystic?.action) {
       comboUntil = 0;
       begin(meditation[0]);
     }
@@ -171,6 +178,7 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
 
   function hitPlayer() {
     if (!playerHP || (action?.role.startsWith('dodge-') && action.elapsed / action.duration < .76)) return;
+    if(mystic?.action)mystic.stop();
     if (skills.includes(action?.role) && !action.hit) effects.clear();
     const damage=patrolHome?10:npcDamage;
     playerHP = Math.max(0, playerHP - damage);
@@ -192,12 +200,17 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
       : forward >= -.22 && forward <= spec.range && Math.abs(lateral) <= spec.width;
     if (!inRange || Math.abs(npcMotor.position.y - motor.position.y) > 1.05 ||
         !clearSight(motor.position, npcMotor.position)) return;
-    npcHP = Math.max(0, npcHP - spec.damage);
-    npcAggro = true;
-    npcHitTimer = .25;
-    npcPhase = npcHP ? 'recover' : 'dead';
-    npcTimer = npcHP ? (spec === attacks.punch ? .86 : .32) : 0;
-    setDamage(npcHP ? `${enemyName}受到 ${spec.damage} 点伤害` : `${enemyName}已击倒 · ${spec.damage} 点伤害`);
+    damageNPC(spec.damage,spec===attacks.punch?.86:.32);
+  }
+
+  function damageNPC(damage,recovery){
+    if(!npcHP)return;
+    npcHP=Math.max(0,npcHP-damage);
+    npcAggro=true;
+    npcHitTimer=.25;
+    npcPhase=npcHP?'recover':'dead';
+    npcTimer=npcHP?recovery:0;
+    setDamage(npcHP?enemyName+'受到 '+damage+' 点伤害':enemyName+'已击倒 · '+damage+' 点伤害');
   }
 
   function attack(role) {
@@ -246,6 +259,9 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
   }
 
   function beforeMove(dt, input, impulse, yaw) {
+    const castMove=mystic?.beforeMove(dt,input,impulse,yaw,
+      playerHP>0&&motor.grounded&&!action&&!impulse.dodge&&!impulse.punch&&!impulse.skill&&!impulse.blockMystic);
+    if(castMove)return castMove;
     choose(input, impulse, yaw);
     if (!action) return {...input, jump: impulse.jump};
     const dodge = action.role.startsWith('dodge-') ? dodges[action.role.slice(6)] : null;
@@ -323,7 +339,8 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
   function update(dt, moving, active = true) {
     time += dt;
     lastDamageTimer = Math.max(0, lastDamageTimer - dt);
-    if (!action) heading = moving.heading;
+    mystic?.update(dt,active);
+    if (!action) heading = mystic?.action?mystic.heading:moving.heading;
     if (action && action.role !== 'death') {
       action.elapsed += dt;
       const spec = attacks[action.role];
@@ -355,7 +372,8 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
 
   function getState() {
     return {
-      role: action?.role ?? null,
+      role: action?.role ?? mystic?.action ?? null,
+      mystic: mystic?.state??null,
       reversed: action?.reversed ?? false,
       playerHP, maxPlayerHP, npcHP, maxNpcHP,
       npcPhase, npcPosition: npcMotor.position.toArray(),
@@ -365,5 +383,9 @@ export function createCombat({scene, world, motor, avatar, effects, patrolHome})
     };
   }
 
-  return {beforeMove, update, meditate, reset, getState};
+  return {beforeMove,update,meditate,reset,getState,
+    afterAvatar(yaw,active){mystic?.afterAvatar(yaw,active);},
+    interruptMystic(){mystic?.stop();},
+    get skillAiming(){return mystic?.aiming??null;},
+  };
 }

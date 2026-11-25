@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {Box3, MathUtils, Scene, Vector3} from 'three';
+import {Box3, Group, MathUtils, PerspectiveCamera, Scene, Vector3} from 'three';
 import {createCombat} from './nyc-combat.js';
 import {createMotor} from './nyc-motor.js';
 
@@ -13,7 +13,7 @@ const durations = {
   'meditate-enter': 1.7, 'meditate-rise': 2.6, 'meditate-idle': 3.333,
 };
 
-function setup(colliders = [], patrolHome) {
+function setup(colliders = [], patrolHome, mystic = false) {
   const scene = new Scene();
   const world = {
     spawn: new Vector3(),
@@ -24,6 +24,7 @@ function setup(colliders = [], patrolHome) {
   const played = [];
   let clip;
   const avatar = {
+    group:new Group(),
     getActionDuration: role => durations[role] ?? null,
     getActionProgress: role => clip?.role === role ? clip.progress : null,
     playAction(role, options) {
@@ -44,7 +45,8 @@ function setup(colliders = [], patrolHome) {
     update() {},
     clear() { visuals.length = 0; },
   };
-  const combat = createCombat({scene, world, motor, avatar, effects, patrolHome});
+  const mysticContext=mystic?{camera:new PerspectiveCamera(),assets:{}}:undefined;
+  const combat = createCombat({scene,world,motor,avatar,effects,patrolHome,mysticContext});
 
   function step(impulse = {}, {input = still, yaw = 0, npc = false} = {}) {
     const movement = combat.beforeMove(dt, input, impulse, yaw);
@@ -251,4 +253,27 @@ test('NPC damage turns the player toward the attacker, locks death and resets cl
   assert.equal(reset.feedback, '');
   assert.deepEqual(visuals, []);
   assert.deepEqual(motor.position.toArray(), [0, 0, 0]);
+});
+
+test('instant slash moves the actual player once and leaves the player at the landing', () => {
+  const {combat,motor,step,until,advance}=setup([],undefined,true);
+  const npc={npc:true};
+  step({mystic:{id:'rift',aimed:false}},npc);
+  until(state=>state.mystic.last?.id==='rift',npc);
+  assert.equal(combat.getState().npcHP,158);
+  const landing=motor.position.toArray();
+  assert.deepEqual(combat.getState().mystic.last.landing,landing);
+  assert.ok(Math.hypot(landing[0],landing[2])>3);
+  advance(.12,npc);
+  assert.deepEqual(motor.position.toArray(),landing);
+});
+
+test('a solid wall blocks the slash and keeps the player at the cast position', () => {
+  const wall=new Box3(new Vector3(-3,0,-2),new Vector3(3,2,-1.8));
+  const {combat,motor,step,advance}=setup([wall],undefined,true);
+  step({mystic:{id:'rift',aimed:false}},{npc:true});
+  advance(.8,{npc:true});
+  assert.equal(combat.getState().npcHP,200);
+  assert.equal(combat.getState().mystic.id,null);
+  assert.deepEqual(motor.position.toArray(),[0,0,0]);
 });

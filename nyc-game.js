@@ -35,6 +35,7 @@ import {createCityWeather} from './nyc-weather.js';
 import {createLightBudget} from './nyc-light-budget.js';
 import {createCombat,hasCombatClips} from './nyc-combat.js';
 import {createCombatEffects} from './nyc-combat-effects.js';
+import {prepareMysticAssets,skillBindings} from './combat-skills/runtime.js';
 import {buildPumpStation,sewerHatch} from './nyc-sewer.js';
 import {atEscapeLadder,collectorLocation,escapeHatch} from './nyc-sewer-collector.js';
 
@@ -84,10 +85,11 @@ async function start(){
   avatar.group.position.copy(motor.position);
   const punchEnabled=hasCombatClips(avatar);
   const effects=punchEnabled?createCombatEffects(scene):null;
-  const streetCombat=effects?createCombat({scene,world,motor,avatar,effects}):null;
+  const mysticContext=punchEnabled?{renderer,camera,assets:prepareMysticAssets(renderer)}:null;
+  const streetCombat=effects?createCombat({scene,world,motor,avatar,effects,mysticContext}):null;
   let combat=streetCombat;
   const attackLabel=avatar.group.userData.avatar?.source==='original'?'发掌':null;
-  const inputs=createInputs(renderer.domElement,{attackLabel,punchEnabled,combatEnabled:!!combat}),composer=new EffectComposer(renderer);
+  const inputs=createInputs(renderer.domElement,{attackLabel,punchEnabled,combatEnabled:!!combat,mysticSkills:mysticContext?skillBindings:[]}),composer=new EffectComposer(renderer);
   const combatPanel=document.querySelector('#combat-hud');
   document.querySelector('#attack-label').textContent=attackLabel || '';
   for(const element of document.querySelectorAll('[data-attack-control]'))element.hidden=!attackLabel;
@@ -102,6 +104,7 @@ async function start(){
   const initialView={yaw:2.79,pitch:.09,zoom:5.4};
   const frameProfile={warm:0,count:0,total:0,worst:0,calls:0,triangles:0,last:0,reported:false};
   let yaw=initialView.yaw,pitch=initialView.pitch,zoom=initialView.zoom,cameraDistance=zoom,frameNumber=0;
+  let aimView=0;
   let paused=false,photo=false,night=true,lastTime=0,elapsed=0,hudTime=0,toastTimer=0,selectedLandmarkId=null,mapWasPaused=false;
   const target=motor.position.clone().add(new T.Vector3(0,1.25,0)),desired=new T.Vector3(),orbitDirection=new T.Vector3(),currentTarget=target.clone(),lookTarget=target.clone();
   const lobbyShoulder=new T.Vector3();
@@ -194,7 +197,7 @@ async function start(){
   addEventListener('keydown',e=>{
     if(ride){e.preventDefault();return;}
     if(opening?.active||e.ctrlKey||e.metaKey||e.altKey||e.repeat||e.target?.matches?.('select,input,textarea'))return;
-    if(e.key==='Escape'){e.preventDefault();if(mapUI.isOpen)mapUI.close();else if(photo)setPhoto(false);else setPaused(!paused);}
+    if(e.key==='Escape'){e.preventDefault();if(inputs.cancelSkill()){inputs.setSkillAiming(false);return;}if(mapUI.isOpen)mapUI.close();else if(photo)setPhoto(false);else setPaused(!paused);}
     const key=e.key.toLowerCase();
     if(key==='m'&&!photo&&!underground){e.preventDefault();mapUI.toggle();}
     if(key==='h'&&!mapUI.isOpen)setPhoto(!photo);
@@ -213,8 +216,13 @@ async function start(){
     target.x+=.26*hall*Math.cos(yaw);target.z-=.26*hall*Math.sin(yaw);
     if(hall)target.z=T.MathUtils.lerp(target.z,T.MathUtils.clamp(target.z,75.42,77.52),hall);
     if(snap)currentTarget.copy(target);else currentTarget.lerp(target,1-Math.exp(-dt*18));
-    orbitDirection.set(Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),Math.cos(yaw)*Math.cos(pitch));
+    const aiming=!!combat?.skillAiming&&!paused&&!photo;
+    aimView=T.MathUtils.lerp(aimView,Number(aiming),1-Math.exp(-dt*12));
+    const aimPitch=pitch+aimView*.22;
+    orbitDirection.set(Math.sin(yaw)*Math.cos(aimPitch),Math.sin(aimPitch),Math.cos(yaw)*Math.cos(aimPitch));
     desired.copy(currentTarget).addScaledVector(orbitDirection,T.MathUtils.lerp(zoom,Math.min(zoom,2.90),hall)*(innerWidth<innerHeight?1.12:1));
+    desired.x+=Math.cos(yaw)*.76*aimView;desired.z-=Math.sin(yaw)*.76*aimView;
+    if(aimView>.001)orbitDirection.subVectors(desired,currentTarget).normalize();
     if(!underground&&!hall&&adjustTrafficShoulder(currentTarget,desired,dt,snap))
       orbitDirection.subVectors(desired,currentTarget).normalize();
     let cameraSolids=underground?station.colliders:world.cameraColliders||world.cameraSolidsBetween(currentTarget,desired);
@@ -247,7 +255,7 @@ async function start(){
       if(safe>=distance-.0001)break;
       camera.position.lerp(currentTarget,1-safe/Math.max(distance,.0001));cameraDistance=Math.min(cameraDistance,safe);
     }
-    lookTarget.copy(currentTarget);lookTarget.y+=Math.max(0,-pitch-.08)*3.2;camera.lookAt(lookTarget);avatar.group.visible=cameraDistance>.62;
+    lookTarget.copy(currentTarget);lookTarget.y+=Math.max(0,-pitch-.08)*3.2;lookTarget.x+=Math.cos(yaw)*.66*aimView;lookTarget.z-=Math.sin(yaw)*.66*aimView;camera.lookAt(lookTarget);avatar.group.visible=cameraDistance>.62;
   }
   const combatHUD={
     player:document.querySelector('#player-hp'), dummy:document.querySelector('#dummy-hp'),
@@ -264,7 +272,7 @@ async function start(){
     combatHUD.reset.hidden=state.playerHP>0&&state.npcHP>0;
     if(underground){
       combatHUD.hint.textContent=!state.playerHP?'已倒下 · 可从井梯重新进入战斗':!state.npcHP?'泵房已清理 · 东线检修门已解锁':
-        state.npcPhase==='windup'?'巡检机抬臂 · 向侧面闪避':state.feedback||'靠近泵房巡检机，迎击或闪避';
+        state.npcPhase==='windup'?'巡检机抬臂 · 向侧面闪避':combat.skillAiming?'滑动瞄准 · 松手释放':state.feedback||'靠近巡检机 · 1–7 施法或侧移闪避';
       return;
     }
     const meditation=state.role?.startsWith('meditate-');
@@ -367,7 +375,7 @@ async function start(){
     document.querySelector('#toast').hidden=true;toastTimer=0;buildingAction.hidden=true;
   }
   function restartStation(){
-    station.collector.reset();combat.reset();arrive(...station.spawn.toArray(),0);zoom=4.6;positionCamera(0,true);updateHUD(0);
+    inputs.clear();aimView=0;station.collector.reset();combat.reset();arrive(...station.spawn.toArray(),0);zoom=4.6;positionCamera(0,true);updateHUD(0);
     renderer.domElement.focus({preventScroll:true});
   }
   function enterStation(){
@@ -378,22 +386,26 @@ async function start(){
       // strike clock so a build without the extra action clips is still playable.
       const fighter=punchEnabled?avatar:{...avatar,getActionDuration:()=>.70,playAction:()=>true};
       station.combat=createCombat({scene:station.scene,world:station,motor:station.motor,avatar:fighter,
-        effects:createCombatEffects(station.scene),patrolHome:new T.Vector3(.85,0,-4.8)});
+        effects:createCombatEffects(station.scene),mysticContext,patrolHome:new T.Vector3(.85,0,-4.8)});
     }
     underground=true;motor=station.motor;combat=station.combat;
     station.scene.add(avatar.group);stationHUD(true);restartStation();
     document.querySelector('#school-notice').hidden=true;
   }
   function leaveStation(east=false){
-    avatar.clearAction();underground=false;motor=streetMotor;combat=streetCombat;
+    combat?.interruptMystic();inputs.clear();aimView=0;avatar.clearAction();underground=false;motor=streetMotor;combat=streetCombat;
     scene.add(avatar.group);stationHUD(false);
     if(east)arrive(escapeHatch.x,world.ground(escapeHatch.x,escapeHatch.z,.9),escapeHatch.z,0);
     else arrive(-100.5,.18,-57.7,-.49);
     updateHUD(0);renderer.domElement.focus({preventScroll:true});
   }
+  function drawCombatEffects(active){
+    inputs.setSkillAiming(active&&!!combat?.skillAiming);
+    combat?.afterAvatar(yaw,active);
+  }
   function useBuilding(){
     const key=nearbyDoor();if(!key)return;
-    buildingAction.hidden=true;inputs.clear();
+    buildingAction.hidden=true;inputs.clear();combat?.interruptMystic();
     if(key==='descend'){enterStation();return;}
     if(key==='climb'){leaveStation();return;}
     if(key==='eastExit'){leaveStation(true);return;}
@@ -416,7 +428,8 @@ async function start(){
         yaw-=impulse.lookX*.0038;pitch=T.MathUtils.clamp(pitch+impulse.lookY*.0032,-.65,.92);
         zoom=T.MathUtils.clamp(zoom+impulse.zoom*.004,2.7,10);
         if(!punchEnabled&&impulse.attack)impulse.punch=true;
-        const state=motor.update(dt,combat.beforeMove(dt,inputs.state,photo?{}:impulse,yaw),yaw);
+        if(impulse.mystic?.aimed)positionCamera(0);
+        const state=motor.update(dt,combat.beforeMove(dt,inputs.state,photo?{blockMystic:true}:impulse,yaw),yaw);
         state.heading=combat.update(dt,state,!photo);avatar.group.position.copy(motor.position);
         station.collector.update(dt,combat.getState().npcHP===0,motor.position);
         avatar.update({...state,dt,attack:!photo&&impulse.attack,verticalSpeed:motor.velocity.y});positionCamera(dt);
@@ -424,7 +437,7 @@ async function start(){
       }else inputs.clear();
       const door=nearbyDoor();buildingAction.hidden=!door;
       if(door)buildingAction.textContent=doorLabels[door];
-      renderer.info.reset();renderer.render(station.scene,camera);return;
+      drawCombatEffects(!paused&&!photo);renderer.info.reset();renderer.render(station.scene,camera);return;
     }
     if(!paused)updateBloodRift(dt);
     if(!paused&&!realm.active&&!opening.active)school.update(dt);
@@ -449,7 +462,8 @@ async function start(){
       if(flight.active){flight.update(dt,inputs.state,impulse);flight.applyCamera(camera);state=motor.update(dt,{moveX:0,moveZ:0},yaw);avatar.group.visible=true;}
       else{
         yaw-=impulse.lookX*.0038;pitch=T.MathUtils.clamp(pitch+impulse.lookY*.0032,-.65,.92);zoom=T.MathUtils.clamp(zoom+impulse.zoom*.004,2.7,10);
-        const actionInput=photo?{}:impulse;
+        if(impulse.mystic?.aimed)positionCamera(0);
+        const actionInput=photo?{blockMystic:true}:impulse;
         if(actionInput.meditate)combat?.meditate();
         const movement=combat?combat.beforeMove(dt,inputs.state,actionInput,yaw):{...inputs.state,jump:actionInput.jump};
         state=motor.update(dt,movement,yaw);positionCamera(dt);
@@ -466,7 +480,7 @@ async function start(){
     if(atDoor&&buildingAction.textContent!==doorLabels[atDoor])buildingAction.textContent=doorLabels[atDoor];
     frameNumber++;
     if(frameNumber%(quality.value==='low'?12:4)===0)renderer.shadowMap.needsUpdate=true;
-    renderer.info.reset();drawStreet();
+    drawCombatEffects(!paused&&!photo&&!ride&&!flight.active);renderer.info.reset();drawStreet();
     if(!paused&&!frameProfile.reported){
       if(frameProfile.warm++>90&&frameProfile.last){const ms=t-frameProfile.last;frameProfile.count++;frameProfile.total+=ms;frameProfile.worst=Math.max(frameProfile.worst,ms);frameProfile.calls+=renderer.info.render.calls;frameProfile.triangles+=renderer.info.render.triangles;
         if(frameProfile.count===60){scene.userData.frameProfile={quality:quality.value,frames:60,averageMs:frameProfile.total/60,worstMs:frameProfile.worst,averageCalls:frameProfile.calls/60,averageTriangles:frameProfile.triangles/60,pointLights:{...lightBudget.stats}};console.info('[NYC] frame profile',JSON.stringify(scene.userData.frameProfile));frameProfile.reported=true;}}

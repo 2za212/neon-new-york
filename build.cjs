@@ -11,6 +11,8 @@ async function main(){
   for(const file of ['index.html','mobile-preview.html','nyc.css','nyc-map.css','nyc-roam.css','nyc-interface.css'])fs.copyFileSync(path.join(__dirname,file),path.join(output,file));
   fs.copyFileSync(path.join(__dirname,'character-motion','explorer-palm.glb'),path.join(output,'explorer-palm.glb'));
   fs.copyFileSync(path.join(__dirname,'blender','relay-home.glb'),path.join(output,'relay-home.glb'));
+  fs.mkdirSync(path.join(output,'combat-skills'),{recursive:true});
+  fs.copyFileSync(path.join(__dirname,'combat-skills','sword-preview.glb'),path.join(output,'combat-skills','sword-preview.glb'));
   const clips = [
     'idle', 'walk', 'run', 'jump', 'attack', 'punch', 'charged-punch',
     'dodge-forward', 'dodge-left', 'dodge-right', 'dodge-back',
